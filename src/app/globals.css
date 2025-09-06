@@ -1,26 +1,59 @@
-@import "tailwindcss";
-
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+:root{
+  --forest:#0f2f27;
+  --ivory:#f8f6f1;
+  --ink:#11110f;
+  --accent:#e76f00; /* Hermès-like */
+  --muted:#e9e4dc;
+  --radius: 16px;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:var(--ivory);color:var(--ink)}
+body{font-family:var(--font-serif), ui-serif, Georgia, serif; line-height:1.45}
+a{color:inherit;text-decoration:none}
+img{max-width:100%;height:auto;display:block}
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
+.container{max-width:1120px;margin-inline:auto;padding:32px 20px}
+.center{display:grid;place-items:center}
+.prose{max-width:720px;margin:auto}
+.grid{display:grid;gap:24px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+.card{background:#fff;border:1px solid var(--muted);border-radius:var(--radius);padding:24px}
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+.header, .footer{background:#fff;border-bottom:1px solid var(--muted)}
+.footer{border-top:1px solid var(--muted);border-bottom:none}
+
+.btn{
+  display:inline-block;padding:12px 18px;border:1px solid var(--ink);
+  border-radius:999px; transition:transform .15s ease, background .15s ease;
 }
+.btn:hover{background:var(--ink);color:#fff;transform:translateY(-1px)}
+
+h1,h2,h3{letter-spacing:.2px; margin:0 0 .4em}
+h1{font-size:clamp(36px,5vw,56px)}
+h2{font-size:clamp(28px,3.6vw,36px)}
+h3{font-size:clamp(20px,2.6vw,24px)}
+
+main{min-height:60vh}
+.logo{
+  display:inline-block;
+  font-weight:700;
+  font-size:clamp(20px,2.6vw,26px);
+  letter-spacing:.4px;
+}
+.nav{
+  display:flex; gap:18px; justify-content:center; align-items:center;
+  margin-top:14px; flex-wrap:wrap;
+}
+.nav a{
+  position:relative; padding:8px 10px; text-transform:lowercase;
+}
+.nav a::after{
+  content:""; position:absolute; left:10px; right:10px; bottom:4px; height:1px;
+  background:currentColor; transform:scaleX(0); transform-origin:left; transition:transform .2s ease;
+  opacity:.6;
+}
+.nav a:hover::after{ transform:scaleX(1) }
+.nav a[aria-current="page"]::after{ transform:scaleX(1); opacity:1 }
+
+.footer .link{ border-bottom:1px solid rgba(0,0,0,.25); }
+.footer .link:hover{ border-color: currentColor; }
