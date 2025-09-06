@@ -212,3 +212,15 @@ main{ min-height: 60vh; }
 .hr{
   height:1px; background: var(--muted); border:0; margin: 24px 0;
 }
+
+/* Booking embed */
+.embed{
+  width: 100%;
+  height: 720px;
+  border: 1px solid var(--muted);
+  border-radius: var(--radius);
+  background: #fff;
+}
+@media (max-width: 480px){
+  .embed{ height: 760px; }
+}
