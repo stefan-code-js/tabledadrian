@@ -1,5 +1,6 @@
 ﻿param(
-  [string]$Message = "chore: ship"
+  [string]$Message = "chore: ship",
+  [switch]$NoBuild
 )
 
 Write-Host "➤ staging changes…"
@@ -15,10 +16,33 @@ if ([string]::IsNullOrWhiteSpace($staged)) {
   git commit -m $Message
 }
 
-Write-Host "➤ quick build sanity (next build)…"
-npm run -s build
-if ($LASTEXITCODE -ne 0) {
-  Write-Error "✖ build failed — fix errors before pushing"
+function Invoke-LocalBuild {
+  if ($NoBuild) {
+    Write-Host "↷ skipping local build (--NoBuild)"
+    return $true
+  }
+
+  # Try to find npm
+  $npm = (Get-Command npm -ErrorAction SilentlyContinue)
+  if (-not $npm) {
+    $npm = (Get-Command "C:\Program Files\nodejs\npm.cmd" -ErrorAction SilentlyContinue)
+  }
+
+  if (-not $npm) {
+    Write-Warning "npm not found on PATH; skipping local build sanity check"
+    return $true
+  }
+
+  Write-Host "➤ quick build sanity (next build)…"
+  & $npm.Source run -s build
+  if ($LASTEXITCODE -ne 0) {
+    Write-Error "✖ build failed — fix errors before pushing"
+    return $false
+  }
+  return $true
+}
+
+if (-not (Invoke-LocalBuild)) {
   exit 1
 }
 
@@ -27,3 +51,4 @@ Write-Host "➤ pushing to $branch…"
 git push origin $branch
 
 Write-Host "✓ done. Cloudflare Pages will deploy automatically."
+
