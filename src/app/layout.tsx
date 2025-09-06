@@ -75,6 +75,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             postalCode: site.address.postalCode,
             addressCountry: site.address.country
         },
+        areaServed: site.serviceArea?.map(city => ({ "@type": "City", name: city })),
+        priceRange: "€€€",
         servesCuisine: ["Plant-based", "Modern European", "Tasting menu"],
         sameAs: [site.socials.instagram]
     } as const;
