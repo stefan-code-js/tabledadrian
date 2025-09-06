@@ -101,3 +101,11 @@ main{min-height:60vh}
 .stats .stat{ text-align:center }
 .stat .num{ font-size:clamp(28px,4.2vw,40px); font-weight:700; letter-spacing:.5px }
 .stat .note{ opacity:.75 }
+
+/* Menus */
+.grid-3{ display:grid; gap:24px; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); }
+.sub{ opacity:.8; margin:.5rem 0 0; }
+.menu .card h3{ text-transform:lowercase; margin-bottom:.35em; }
+.menu .card p{ margin:.35em 0; }
+.menu .btn{ margin-top:10px; display:inline-flex; align-items:center; }
+.menu-note{ opacity:.8; }
