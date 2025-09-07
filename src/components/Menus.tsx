@@ -43,8 +43,7 @@ export default function Menus() {
                                 <Icon.Users /> 6–12 guests · <Icon.Clock /> ~3 hours
                             </p>
                             <p>
-                                Six courses of plant-based haute cuisine. Clarified broths, cultured creams, warm acidity.
-                            </p>
+                                Six courses of ingredient-driven haute cuisine. Clarified broths, cultured creams, warm acidity.                            </p>
                             <p><strong>From €180 per guest</strong></p>
                             <Link href="/book" className="btn" aria-label="Enquire about the Signature Tasting">
                                 Enquire <Icon.Chevron style={{ marginLeft: 6 }} />
@@ -59,7 +58,7 @@ export default function Menus() {
                                 <Icon.Users /> 6–10 guests · <Icon.Clock /> ~2.5 hours
                             </p>
                             <p>
-                                Longevity-minded arc: ferments, low-glycemic harmonies, aromatic pairings; light yet complete.
+                                Longevity-minded arc: ferments, clean carbohydrates, aromatic pairings; light yet complete.
                             </p>
                             <p><strong>From €220 per guest</strong></p>
                             <Link href="/book" className="btn" aria-label="Enquire about the Performance Dinner">
@@ -75,8 +74,7 @@ export default function Menus() {
                                 <Icon.Users /> 8–16 guests · <Icon.Clock /> ~2 hours
                             </p>
                             <p>
-                                Refined family-style platters for intimate salons. Abundant, shareable, quietly opulent.
-                            </p>
+                                Refined family-style platters for intimate salons. Abundant, shareable, quietly opulent.                            </p>
                             <p><strong>From €120 per guest</strong></p>
                             <Link href="/book" className="btn" aria-label="Enquire about the Salon Supper">
                                 Enquire <Icon.Chevron style={{ marginLeft: 6 }} />
@@ -85,10 +83,10 @@ export default function Menus() {
                     </Reveal>
                 </div>
 
-                <p className="menu-note prose" style={{ textAlign: 'center', marginTop: 24 }}>
-                    Dietary notes: fully meat-free. Gluten-free and dairy-free paths available with notice. We design around
-                    fragrance, texture, and seasonality; final compositions may vary.
-                </p>
+            <p className="menu-note prose" style={{ textAlign: 'center', marginTop: 24 }}>
+                 Dietary notes: omnivore by default; vegetarian, vegan, and gluten-free paths available with notice (72h+).
+                 We design around fragrance, texture, and seasonality; final compositions may vary.
+            </p>
             </div>
         </section>
     );

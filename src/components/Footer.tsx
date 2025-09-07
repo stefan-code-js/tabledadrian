@@ -17,7 +17,7 @@ export default function Footer() {
                 >
                     <p style={{ marginBottom: 8 }}>{site.name}</p>
                     <p style={{ opacity: 0.8, margin: 0 }}>
-                        Côte d’Azur • meat-free fine dining
+                        Côte d’Azur • private fine dining
                     </p>
 
                     <p style={{ marginTop: 16 }}>

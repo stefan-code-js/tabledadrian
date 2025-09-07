@@ -37,8 +37,8 @@ export default function Book() {
                     <article className="card">
                         <h3>what to expect</h3>
                         <p>
-                            12–16 courses (Signature), fully meat-free. We tailor around fragrance, texture, and seasonality.
-                            Gluten-free and dairy-free paths available with notice.
+                            12–16 courses (Signature). We tailor around fragrance, texture, and seasonality.
+                            Vegetarian/vegan/gluten-free paths available with notice
                         </p>
                     </article>
                     <article className="card">

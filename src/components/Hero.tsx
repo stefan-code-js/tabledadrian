@@ -24,10 +24,10 @@ export default function Hero() {
     return (
         <section className="hero container" aria-label="Introduction">
             <motion.div className="hero-copy" variants={parent} initial="hidden" animate="show">
-                <motion.p className="kicker" variants={fadeUp}>plant-based fine dining</motion.p>
+                <motion.p className="kicker" variants={fadeUp}>private chef · côte d’azur</motion.p>
                 <motion.h1 className="title" variants={fadeUp}>Table d’Adrian</motion.h1>
                 <motion.p className="lead" variants={fadeUp}>
-                    Nature-rooted tasting menus for private villas, yachts & salons on the Côte d’Azur.
+                    Seasonal tasting menus for private villas, yachts & salons along the Côte d’Azur.
                 </motion.p>
                 <motion.div className="cta" variants={fadeUp}>
                     <Link href="/book" className="btn primary">request a date</Link>
