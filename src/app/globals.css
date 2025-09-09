@@ -338,3 +338,65 @@ main{ min-height: 60vh; }
   transition: transform .18s ease; opacity:.55;
 }
 .u-underline:hover::after{ transform: scaleX(1); }
+
+/* ── Footer compact layout additions ───────────────────────── */
+.footer-navline{
+  display:flex;
+  gap: 14px;
+  justify-content:center;
+  align-items:center;
+  flex-wrap:wrap;
+  margin-top: 4px;
+  margin-bottom: 4px;
+}
+.footer-bullet{ opacity:.38; }
+.footer-legal{ text-align:center; opacity:.9; margin-top: 2px; }
+
+/* ── Footer logos: normalize heights + optical alignment ─────────────── */
+.footer-logos{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  align-items:center;
+  gap: 18px;                 /* a little more air */
+  margin-top: 8px;
+  padding: 10px 0 14px;
+}
+
+/* Each link becomes a fixed-height lane; the image is centered inside. */
+.footer-logos a{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  height: 28px;              /* lane height (tweak here if you want larger row) */
+  min-width: 28px;           /* keeps square logos from collapsing */
+}
+
+/* Base sizing for all icons; object-fit guards odd viewBox padding */
+.footer-logos img{
+  max-height: 20px;          /* base cap height for the artwork */
+  width: auto;
+  display:block;
+  object-fit: contain;
+  transition: transform .15s ease, opacity .15s ease;
+  opacity:.98;
+}
+.footer-logos a:hover img{ transform: translateY(-1px); opacity:1; }
+
+/* Brand-specific tiny optical tweaks using your filenames */
+/* (All stay within ~±15% so the row still feels uniform) */
+.footer-logos img[src*="stripe-4.svg"]{            transform: translateY(.5px) scale(1.12); }
+.footer-logos img[src*="visa-10.svg"]{             transform: translateY(.5px) scale(1.10); }
+.footer-logos img[src*="gronda-seeklogo.svg"]{     transform: translateY(.5px) scale(1.10); }
+.footer-logos img[src*="kraken-4.svg"]{            transform: translateY(.5px) scale(1.10); }
+.footer-logos img[src*="EHL_idlWUemmCk_1.svg"]{    transform: translateY(.5px) scale(1.22); } /* round mark reads smaller */
+.footer-logos img[src*="mastercard-modern-design"]{transform: translateY(0)   scale(.96);  }  /* naturally “taller” */
+.footer-logos img[src*="x-2.svg"]{                 transform: translateY(1px) scale(1.04); }
+.footer-logos img[src*="linkedin-logo-icon_"]{     transform: translateY(.5px) scale(1.06); }
+.footer-logos img[src*="instagram-2016-5.svg"]{    transform: translateY(.5px) scale(1.02); }
+
+/* Smaller on phones while preserving the line */
+@media (max-width: 480px){
+  .footer-logos a{ height: 26px; }
+  .footer-logos img{ max-height: 18px; }
+}
