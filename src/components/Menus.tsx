@@ -1,7 +1,6 @@
 'use client';
 
 import Link from 'next/link';
-import Reveal from './Reveal';
 
 const Icon = {
     Users: (props: React.SVGProps<SVGSVGElement>) => (
@@ -29,47 +28,41 @@ export default function Menus() {
     return (
         <section className="section menu" id="menu">
             <div className="container">
-                <h2 style={{ textAlign: 'center' }}>Menus</h2>
-                <p className="sub">
-                    Fixed offerings — precise pacing, calm service, ingredient-driven cuisine.
-                </p>
+                <div className="prose center-text">
+                    <h1 className="title">Menus</h1>
+                    <p className="sub">Fixed offerings — precise pacing, calm service, ingredient-driven cuisine.</p>
+                </div>
 
                 <div className="grid-3" style={{ marginTop: 24 }}>
-                    <Reveal>
-                        <article className="card">
-                            <h3>Signature Tasting</h3>
-                            <p><Icon.Users /> 6–12 guests · <Icon.Clock /> ~3 hours</p>
-                            <p>Six courses of haute cuisine: clarified broths, cultured creams, warm acidity.</p>
-                            <p><strong>From €180 per guest</strong></p>
-                            <Link href="/book" className="btn" aria-label="Enquire about the Signature Tasting">
-                                Enquire <Icon.Chevron style={{ marginLeft: 6 }} />
-                            </Link>
-                        </article>
-                    </Reveal>
+                    <article className="card">
+                        <h3>Signature Tasting</h3>
+                        <p><Icon.Users /> 6–12 guests · <Icon.Clock /> ~3 hours</p>
+                        <p>Six courses of haute cuisine: clarified broths, cultured creams, warm acidity.</p>
+                        <p><strong>From €180 per guest</strong></p>
+                        <Link href="/book" className="btn" aria-label="Enquire about the Signature Tasting">
+                            Enquire <Icon.Chevron style={{ marginLeft: 6 }} />
+                        </Link>
+                    </article>
 
-                    <Reveal delay={0.06}>
-                        <article className="card">
-                            <h3>Performance Dinner</h3>
-                            <p><Icon.Users /> 6–10 guests · <Icon.Clock /> ~2.5 hours</p>
-                            <p>Longevity-minded arc: ferments, clean carbohydrates, aromatic pairings; light yet complete.</p>
-                            <p><strong>From €220 per guest</strong></p>
-                            <Link href="/book" className="btn" aria-label="Enquire about the Performance Dinner">
-                                Enquire <Icon.Chevron style={{ marginLeft: 6 }} />
-                            </Link>
-                        </article>
-                    </Reveal>
+                    <article className="card">
+                        <h3>Performance Dinner</h3>
+                        <p><Icon.Users /> 6–10 guests · <Icon.Clock /> ~2.5 hours</p>
+                        <p>Longevity-minded arc: ferments, clean carbohydrates, aromatic pairings; light yet complete.</p>
+                        <p><strong>From €220 per guest</strong></p>
+                        <Link href="/book" className="btn" aria-label="Enquire about the Performance Dinner">
+                            Enquire <Icon.Chevron style={{ marginLeft: 6 }} />
+                        </Link>
+                    </article>
 
-                    <Reveal delay={0.12}>
-                        <article className="card">
-                            <h3>Salon Supper</h3>
-                            <p><Icon.Users /> 8–16 guests · <Icon.Clock /> ~2 hours</p>
-                            <p>Refined family-style platters for intimate salons. Abundant, shareable, quietly opulent.</p>
-                            <p><strong>From €120 per guest</strong></p>
-                            <Link href="/book" className="btn" aria-label="Enquire about the Salon Supper">
-                                Enquire <Icon.Chevron style={{ marginLeft: 6 }} />
-                            </Link>
-                        </article>
-                    </Reveal>
+                    <article className="card">
+                        <h3>Salon Supper</h3>
+                        <p><Icon.Users /> 8–16 guests · <Icon.Clock /> ~2 hours</p>
+                        <p>Refined family-style platters for intimate salons. Abundant, shareable, quietly opulent.</p>
+                        <p><strong>From €120 per guest</strong></p>
+                        <Link href="/book" className="btn" aria-label="Enquire about the Salon Supper">
+                            Enquire <Icon.Chevron style={{ marginLeft: 6 }} />
+                        </Link>
+                    </article>
                 </div>
 
                 <p className="menu-note prose" style={{ marginTop: 24 }}>

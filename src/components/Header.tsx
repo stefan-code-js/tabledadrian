@@ -12,6 +12,7 @@ const nav: Item[] = [
     { href: '/about', label: 'about' },
     { href: '/menu', label: 'menu' },
     { href: '/book', label: 'book' },
+    { href: '/team', label: 'team' },
     // add later: { href: '/journal', label: 'journal' }, { href:'/members', label:'members' }
 ];
 

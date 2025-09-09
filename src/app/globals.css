@@ -184,7 +184,8 @@ main{ min-height: 60vh; }
 /*─────────────────────────────────────────────────────────────
   7) MENUS
 ──────────────────────────────────────────────────────────────*/
-.grid-3{ display:grid; gap:24px; grid-template-columns: repeat(auto-fit,minmax(260px,1fr)); }
+.grid-3 { display:grid; gap:16px; grid-template-columns:repeat(auto-fit, minmax(280px,1fr)); }
+.embed { width:100%; min-height:720px; border:0; border-radius:12px; background:#fff; }
 .sub{ opacity:.8; margin:.5rem 0 0; text-align:center; }
 .menu .card h3{ text-transform:lowercase; margin-bottom:.35em; }
 .menu .card p{ margin:.35em 0; }
