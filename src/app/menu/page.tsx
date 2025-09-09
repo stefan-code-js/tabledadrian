@@ -5,7 +5,7 @@ import { site } from '@/lib/site';
 export const metadata: Metadata = {
     title: 'Menu',
     description:
-        'Three fixed, plant-based offerings by Table d’Adrian — Signature Tasting, Performance Dinner, and Salon Supper.',
+        'Signature Tasting, Performance Dinner, and Salon Supper — seasonal, ingredient-driven tasting menus by Table d’Adrian.',
     alternates: { canonical: `${site.url}/menu` },
 };
 
