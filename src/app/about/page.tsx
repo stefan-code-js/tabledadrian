@@ -5,7 +5,7 @@ import { site } from '@/lib/site';
 export const metadata: Metadata = {
     title: 'About',
     description:
-        'Table d’Adrian is a plant-based fine dining atelier on the Côte d’Azur — ritual, aroma, and texture crafted into story.',
+        'Table d’Adrian — Michelin-level, ingredient-driven cuisine on the Côte d’Azur. Nature-rooted storytelling across seasonal tasting menus.',
     alternates: { canonical: `${site.url}/about` },
 };
 

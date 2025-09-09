@@ -13,38 +13,65 @@ export default function About() {
     return (
         <section className="section" aria-label="About Table d’Adrian">
             <div className="container container--narrow">
+                {/* Intro */}
                 <motion.div className="prose center-text" initial="hidden" animate="show" variants={parent}>
                     <motion.h1 className="title" variants={fadeUp}>About</motion.h1>
                     <motion.p className="lead" variants={fadeUp}>
-                        Michelin-level, ingredient-driven cuisine. Nature-rooted storytelling. Ritual, aroma, and texture at the center.                    </motion.p>
+                        Michelin-level, <strong>ingredient-driven</strong> cuisine. Nature-rooted storytelling. Ritual, aroma,
+                        and texture at the center.
+                    </motion.p>
                 </motion.div>
 
-                <motion.div className="pillars" initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.3 }} variants={parent}>
+                {/* Pillars */}
+                <motion.div
+                    className="pillars"
+                    initial="hidden"
+                    whileInView="show"
+                    viewport={{ once: true, amount: 0.3 }}
+                    variants={parent}
+                    style={{ marginTop: 24 }}
+                >
                     <motion.article className="card" variants={fadeUp}>
                         <h3>philosophy</h3>
-                        Ingredient as narrative: forest, stone, and sea expressed through broth, flame, smoke, and bright acidity.                    </motion.article>
+                        <p>
+                            Ingredient as narrative: forest, stone, and sea expressed through broth, flame, smoke, and bright acidity.
+                        </p>
+                    </motion.article>
 
                     <motion.article className="card" variants={fadeUp}>
                         <h3>technique</h3>
-                        <p>Ferments, clarified consommés, dry-aging, cultured creams, slow reductions; precision balanced with softness.
+                        <p>
+                            Ferments, clarified consommés, dry-aging, cultured creams, and slow reductions — precision balanced with softness.
                         </p>
                     </motion.article>
 
                     <motion.article className="card" variants={fadeUp}>
                         <h3>provenance</h3>
-                        <p>Foraged herbs, small farms, Riviera orchards. Ceramics and linens by local artisans; glass by flame.</p>
+                        <p>
+                            Riviera orchards, small boats, and foraged herbs. Ceramics and linens by local artisans; glass by flame.
+                        </p>
                     </motion.article>
                 </motion.div>
 
-                <motion.div className="stats" initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.3 }} variants={parent}>
+                {/* Stats */}
+                <motion.div
+                    className="stats"
+                    initial="hidden"
+                    whileInView="show"
+                    viewport={{ once: true, amount: 0.3 }}
+                    variants={parent}
+                    style={{ marginTop: 20 }}
+                >
                     <motion.div className="stat card" variants={fadeUp}>
                         <div className="num">12–16</div>
                         <div className="note">courses, seasonally</div>
                     </motion.div>
+
                     <motion.div className="stat card" variants={fadeUp}>
                         <div className="num">seasonal</div>
                         <div className="note">seafood & select meats available</div>
                     </motion.div>
+
                     <motion.div className="stat card" variants={fadeUp}>
                         <div className="num">1</div>
                         <div className="note">table — yours</div>

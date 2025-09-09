@@ -151,10 +151,20 @@ main{ min-height: 60vh; }
 /*─────────────────────────────────────────────────────────────
   6) ABOUT (Pillars & Stats)
 ──────────────────────────────────────────────────────────────*/
+/* About grids: tighter, fully responsive */
 .pillars{
-  display:grid; gap:16px; grid-template-columns: 1fr; align-items:stretch;
-  margin-top:24px;
+  display:grid;
+  gap:16px;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  align-items: stretch;
 }
+.stats{
+  display:grid;
+  gap:16px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  align-items: stretch;
+}
+
 @media (min-width: 720px){
   .pillars{ grid-template-columns: repeat(2, minmax(0,1fr)); }
 }

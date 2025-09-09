@@ -5,12 +5,11 @@ import { site } from '@/lib/site';
 export const metadata: Metadata = {
     title: 'Book',
     description:
-        'Reserve a private, plant-based tasting menu with Table d’Adrian on the Côte d’Azur. Quiet luxury, seasonal ritual.',
+        'Reserve a private tasting menu with Table d’Adrian on the Côte d’Azur. Ingredient-driven cuisine; seasonal seafood and select meats.',
     alternates: { canonical: `${site.url}/book` },
 };
 
 export default function BookPage() {
-    // Minimal RestaurantReservation JSON-LD
     const jsonLd = {
         '@context': 'https://schema.org',
         '@type': 'Restaurant',
@@ -30,10 +29,7 @@ export default function BookPage() {
     return (
         <>
             <Book />
-            <script
-                type="application/ld+json"
-                dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-            />
+            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
         </>
     );
 }

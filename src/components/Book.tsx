@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { site } from '@/lib/site';
 
-const CAL_URL = 'https://cal.com/adrian-stefan/event'; // update if your slug differs
+const CAL_URL = 'https://cal.com/adrian-stefan/event'; // update if needed
 
 export default function Book() {
     return (
@@ -12,8 +12,8 @@ export default function Book() {
                 <div className="prose center-text">
                     <h1 className="title">Book</h1>
                     <p className="lead">
-                        Private tasting menus for villas, yachts, and salons along the Côte d’Azur.
-                        Choose a date and we’ll shape the season to your table.
+                        Seasonal tasting menus for private villas, yachts, and salons along the Côte d’Azur. Choose a date and we’ll
+                        shape the season to your table.
                     </p>
 
                     <p style={{ marginTop: 14 }}>
@@ -23,13 +23,15 @@ export default function Book() {
                     </p>
                 </div>
 
-                {/* Inline calendar embed (optional but convenient).
-           If your Cal.com embed path differs, update the URL below. */}
+                {/* Inline calendar embed (responsive container; loads fast) */}
                 <div style={{ marginTop: 24 }}>
                     <iframe
                         title="Booking calendar"
                         src={CAL_URL.replace('https://cal.com/', 'https://cal.com/embed/')}
                         className="embed"
+                        loading="lazy"
+                        referrerPolicy="no-referrer-when-downgrade"
+                        allow="clipboard-write; fullscreen"
                     />
                 </div>
 
@@ -37,15 +39,15 @@ export default function Book() {
                     <article className="card">
                         <h3>what to expect</h3>
                         <p>
-                            12–16 courses (Signature). We tailor around fragrance, texture, and seasonality.
-                            Vegetarian/vegan/gluten-free paths available with notice
+                            12–16 courses (Signature). Ingredient-driven menu designed around fragrance, texture, and seasonality.
+                            Vegetarian/vegan/gluten-free paths available with notice.
                         </p>
                     </article>
                     <article className="card">
                         <h3>questions</h3>
                         <p>
-                            Email <a className="link" href={`mailto:${site.email}`}>{site.email}</a>.
-                            For dates outside Antibes · Cannes · Monaco, include location and guest count.
+                            Email <a className="link" href={`mailto:${site.email}`}>{site.email}</a>. For dates beyond Antibes · Cannes · Monaco,
+                            include location and guest count.
                         </p>
                     </article>
                 </div>
