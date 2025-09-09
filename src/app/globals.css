@@ -234,3 +234,7 @@ main{ min-height: 60vh; }
 @media (max-width: 480px){
   .embed{ height: 760px; }
 }
+
+.avatar{ width:100%; aspect-ratio:1/1; border-radius:12px; overflow:hidden; background:#fff; }
+.tags{ display:flex; flex-wrap:wrap; gap:6px; margin-top:8px; }
+.tag{ font-size:.82em; border:1px solid var(--muted); border-radius:999px; padding:.2em .6em; background:#fff; }

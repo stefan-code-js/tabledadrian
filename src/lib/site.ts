@@ -1,5 +1,33 @@
-// canonical site config used everywhere
-export const site = {
+// src/lib/site.ts
+
+export type SiteConfig = {
+    name: string;
+    shortName: string;
+    url: string;
+    locale: string;
+    description: string;
+    email: string;
+    telephone: string;
+    address: {
+        street: string;
+        locality: string;
+        region: string;
+        postalCode: string;
+        country: string;
+    };
+    socials: {
+        instagram?: string;
+        linkedin?: string;
+    };
+    accreditationUrl?: string;
+    serviceArea: string[];
+    offerings: string[];
+    cuisines: string[];
+    dietaryNotes: string;
+    keywords: string[];
+};
+
+export const site: SiteConfig = {
     name: "Table d’Adrian",
     shortName: "Table d’Adrian",
     url: "https://tabledadrian.com",
@@ -7,7 +35,7 @@ export const site = {
     description:
         "Michelin-trained private chef — ingredient-driven haute cuisine on the Côte d’Azur. Seasonal vegetables, seafood, and select meats.",
     email: "adrian@tabledadrian.com",
-    telephone: "", // add when ready
+    telephone: "",
     address: {
         street: "",
         locality: "Antibes",
@@ -17,17 +45,21 @@ export const site = {
     },
     socials: {
         instagram: "https://instagram.com/tabledadrian",
+        linkedin:  "https://www.linkedin.com/in/YOUR-LINKEDIN",
     },
+    accreditationUrl:
+        "https://www.linkedin.com/in/YOUR-LINKEDIN/details/certifications/",
     serviceArea: ["Antibes", "Cannes", "Monaco"],
     offerings: ["Signature Tasting", "Performance Dinner", "Salon Supper"],
     cuisines: ["Contemporary European", "Modern Mediterranean", "Seafood", "Tasting menu"],
-    dietaryNotes: "Omnivore-friendly; vegetarian/vegan/gluten-free menus available on request.",
+    dietaryNotes:
+        "Omnivore-friendly; vegetarian/vegan/gluten-free menus available on request.",
     keywords: [
         "table d’adrian",
         "private chef côte d’azur",
         "fine dining tasting menu",
         "seafood tasting menu",
         "luxury private dining antibes",
-        "michelin-trained chef riviera"
+        "michelin-trained chef riviera",
     ],
 };

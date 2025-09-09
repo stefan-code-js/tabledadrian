@@ -30,6 +30,7 @@ export default function Footer() {
                                 <Link className="link" href={site.socials.instagram}>
                                     instagram
                                 </Link>
+                                {site.accreditationUrl ? <> • <a className="link" href={site.accreditationUrl} target="_blank" rel="noreferrer">accreditation</a></> : null}
                             </>
                         ) : null}
                     </p>
