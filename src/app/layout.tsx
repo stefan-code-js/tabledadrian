@@ -1,20 +1,13 @@
 // src/app/layout.tsx
-import "./globals.css";
-import type { Metadata, Viewport } from "next";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
-import { serif, sans } from "@/lib/fonts";
-import { site } from "@/lib/site";
+import type { Metadata, Viewport } from 'next';
+import './globals.css';
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
+import { site } from '@/lib/site';
 import React from "react";
 
-export const viewport: Viewport = {
-    themeColor: "#f8f6f1",
-    colorScheme: "light",
-    width: "device-width",
-    initialScale: 1,
-};
-
 export const metadata: Metadata = {
+    // no metadataBase → avoids IDE UMD warning on `new URL(...)`
     title: {
         default: site.name,
         template: `%s · ${site.shortName}`,
@@ -23,79 +16,71 @@ export const metadata: Metadata = {
     keywords: site.keywords,
     alternates: { canonical: site.url },
     openGraph: {
-        type: "website",
+        type: 'website',
         url: site.url,
         title: site.name,
-        siteName: site.shortName,
         description: site.description,
-        locale: "en_US",
-        images: [
-            {
-                url: `${site.url}/og.jpg`,
-                width: 1200,
-                height: 630,
-                alt: site.name,
-            },
-        ],
+        siteName: site.name,
+        images: ['/og.jpg'],
+        locale: site.locale,
     },
     twitter: {
-        card: "summary_large_image",
+        card: 'summary_large_image',
         title: site.name,
         description: site.description,
-        images: [`${site.url}/og.jpg`],
+        images: ['/og.jpg'],
     },
-    robots: { index: true, follow: true, googleBot: { index: true, follow: true } },
-    icons: {
-        icon: [
-            { url: "/favicon.ico" },
-            { url: "/icon-192.png", sizes: "192x192", type: "image/png" },
-            { url: "/icon-512.png", sizes: "512x512", type: "image/png" }
-        ],
-        apple: [{ url: "/apple-touch-icon.png", sizes: "180x180" }],
-        other: [{ rel: "manifest", url: "/site.webmanifest" }]
-    },
-    applicationName: site.shortName,
-    category: "Food & Drink"
+    icons: { icon: '/favicon.ico', apple: '/apple-touch-icon.png' },
+    robots: { index: true, follow: true },
+};
+
+export const viewport: Viewport = {
+    themeColor: '#f8f6f1',
+    colorScheme: 'light',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
     const jsonLd = {
-        "@context": "https://schema.org",
-        "@type": "Restaurant",
+        '@context': 'https://schema.org',
+        '@type': 'Restaurant',
         name: site.name,
         url: site.url,
         description: site.description,
-        email: site.email,
-        telephone: site.telephone,
+        telephone: site.telephone || undefined,
         address: {
-            "@type": "PostalAddress",
+            '@type': 'PostalAddress',
             streetAddress: site.address.street,
             addressLocality: site.address.locality,
             addressRegion: site.address.region,
             postalCode: site.address.postalCode,
-            addressCountry: site.address.country
+            addressCountry: site.address.country,
         },
-        areaServed: site.serviceArea?.map(city => ({ "@type": "City", name: city })),
-        priceRange: "€€€",
         servesCuisine: site.cuisines,
-        sameAs: [site.socials.instagram]
-    } as const;
+        areaServed: site.serviceArea.map((city: string) => ({ '@type': 'City', name: city })),
+        sameAs: [site.socials.instagram, site.socials.linkedin].filter(Boolean),
+    };
 
     return (
-        <html
-            lang={site.locale}
-            className={`${serif.variable} ${sans.variable}`}
-            style={{ scrollBehavior: "smooth" }}
-        >
+        <html lang={site.locale}>
         <body>
-        <Header />
-        <main id="main">{children}</main>
-        <Footer />
+        <header className="header">
+            <div className="container container--narrow" style={{ paddingTop: 16, paddingBottom: 16 }}>
+                <Header />
+            </div>
+        </header>
 
-        <script
-            type="application/ld+json"
-            dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-        />
+        {/* Keep focusable main for a11y; skip link can be re-added later */}
+        <main id="content" tabIndex={-1}>
+            {children}
+        </main>
+
+        <footer className="footer">
+            <div className="container container--narrow" style={{ paddingTop: 24, paddingBottom: 24 }}>
+                <Footer />
+            </div>
+        </footer>
+
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
         </body>
         </html>
     );
