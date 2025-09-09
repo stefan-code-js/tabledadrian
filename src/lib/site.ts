@@ -45,7 +45,7 @@ export const site: SiteConfig = {
     },
     socials: {
         instagram: "https://instagram.com/tabledadrian",
-        linkedin:  "https://www.linkedin.com/in/YOUR-LINKEDIN",
+        linkedin:  "https://www.linkedin.com/in/adrian-stefan-badea-82456131b",
     },
     accreditationUrl:
         "https://eu.badgr.com/public/badges/soyVM0MMRr2r33z69W8oNQ",

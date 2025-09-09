@@ -400,3 +400,131 @@ main{ min-height: 60vh; }
   .footer-logos a{ height: 26px; }
   .footer-logos img{ max-height: 18px; }
 }
+
+/* ── Home: menu preview ───────────────────────────────────── */
+.menu-grid{
+  display: grid;
+  gap: 16px;
+  /* behaves well on mobile/tablet */
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  align-items: stretch;          /* make tracks the same height */
+}
+
+/* force a clean 3-column layout on wide screens */
+@media (min-width: 1024px){
+  .menu-grid{
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    justify-items: stretch;
+  }
+}
+
+/* make each card fill its grid track and keep the CTA aligned */
+/* ── Home: Menu Preview (3 cards aligned, equal height) ───────────── */
+.grid-3.menu-preview{
+  display:grid;
+  gap:16px;
+  grid-template-columns: repeat(3, minmax(0, 1fr)); /* lock 3-up on desktop */
+  align-items: stretch;                               /* equal track height */
+}
+
+@media (max-width: 1024px){
+  .grid-3.menu-preview{
+    grid-template-columns: repeat(2, minmax(0, 1fr)); /* 2-up on tablet */
+  }
+}
+@media (max-width: 640px){
+  .grid-3.menu-preview{
+    grid-template-columns: 1fr;                       /* stack on phones */
+  }
+}
+
+.grid-3.menu-preview .card{
+  height:100%;
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-start;
+}
+
+.grid-3.menu-preview .card h3{
+  margin-top:0;
+  text-transform:lowercase;
+}
+
+.grid-3.menu-preview .card p{
+  margin:.5rem 0 1.25rem;
+}
+
+.grid-3.menu-preview .card .btn{
+  margin-top:auto;            /* pins buttons to the bottom */
+  align-self:center;          /* centers the CTA */
+}
+
+/* subtle hover lift to keep it luxe but restrained */
+.grid-3.menu-preview .card:hover{
+  transform: translateY(-2px);
+  transition: transform .18s ease;
+}
+
+/* ── Gallery (responsive, quiet) ──────────────────────────── */
+.gallery{
+  display:grid;
+  gap:12px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+.gallery figure{
+  margin:0;
+  border-radius: var(--radius);
+  overflow:hidden;
+  background:#fff;
+  border:1px solid var(--muted);
+  box-shadow: var(--shadow-sm);
+  aspect-ratio: 4/3;
+}
+.gallery img{
+  width:100%;
+  height:100%;
+  object-fit: cover;
+}
+
+/* ── Quotes (testimonials) ────────────────────────────────── */
+.quotes{
+  display:grid;
+  gap:16px;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+.quote{
+  padding: 18px 20px;
+}
+.quote p{ margin:0 0 .4rem; }
+.quote cite{ opacity:.8; font-style: normal; }
+
+/* ── Newsletter (inline, centered) ─────────────────────────── */
+.newsletter .inline-form{
+  display:flex; gap:10px; justify-content:center; flex-wrap:wrap;
+}
+
+.newsletter input[type="email"]{
+  padding: 10px 12px;
+  border: 1px solid var(--muted);
+  border-radius: 999px;
+  min-width: 260px;
+  background: #fff;
+}
+
+/* Section titles (light, centered, no heavy bold) */
+.section-title{
+  font-family: var(--font-serif);
+  font-weight: 400;                /* keep it elegant, not bold */
+  letter-spacing: .2px;
+  margin: 0 0 16px;
+  font-size: clamp(24px, 3.2vw, 34px);
+}
+
+/* Optional small divider spacing under a title when needed */
+.section-title + .lead,
+.section-title + .grid,
+.section-title + .gallery,
+.section-title + .testimonials{
+  margin-top: 12px;
+}
+
