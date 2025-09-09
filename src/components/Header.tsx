@@ -1,54 +1,63 @@
 'use client';
 
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { motion } from 'framer-motion';
-import { site } from '@/lib/site';
-
-type Item = { href: string; label: string };
-
-const nav: Item[] = [
-    { href: '/', label: 'home' },
-    { href: '/about', label: 'about' },
-    { href: '/menu', label: 'menu' },
-    { href: '/book', label: 'book' },
-    { href: '/team', label: 'team' },
-    // add later: { href: '/journal', label: 'journal' }, { href:'/members', label:'members' }
-];
+import { useEffect, useState } from 'react';
 
 export default function Header() {
-    const pathname = usePathname();
+    const [open, setOpen] = useState(false);
+
+    useEffect(() => {
+        const el = document.documentElement;
+        if (open) el.classList.add('no-scroll');
+        else el.classList.remove('no-scroll');
+        return () => el.classList.remove('no-scroll');
+    }, [open]);
+
+    const links = [
+        { href: '/', label: 'home' },
+        { href: '/about', label: 'about' },
+        { href: '/menu', label: 'menu' },
+        { href: '/team', label: 'team' },
+        { href: '/book', label: 'book' },
+    ];
 
     return (
-        <motion.header
-            className="header"
-            initial={{ y: -12, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.4, ease: 'easeOut' }}
-        >
-            <div className="container" style={{ textAlign: 'center' }}>
-                <Link href="/" aria-label={`${site.name} — home`} className="logo">
-                    {site.shortName}
-                </Link>
+        <div className="header-inner">
+            <Link href="/" className="logo" aria-label="Table d’Adrian">Table d’Adrian</Link>
 
-                <nav className="nav" aria-label="Main">
-                    {nav.map((item) => {
-                        const active =
-                            item.href === '/'
-                                ? pathname === '/'
-                                : pathname?.startsWith(item.href);
-                        return (
-                            <Link
-                                key={item.href}
-                                href={item.href}
-                                aria-current={active ? 'page' : undefined}
-                            >
-                                <span>{item.label}</span>
-                            </Link>
-                        );
-                    })}
-                </nav>
+            {/* Desktop nav */}
+            <nav className="nav nav--desktop" aria-label="Primary">
+                {links.map((l) => (
+                    <Link key={l.href} href={l.href}>{l.label}</Link>
+                ))}
+            </nav>
+
+            {/* Burger button (mobile/tablet) */}
+            <button
+                className="burger"
+                aria-label={open ? 'Close menu' : 'Open menu'}
+                aria-expanded={open}
+                aria-controls="mobile-menu"
+                onClick={() => setOpen((v) => !v)}
+            >
+        <span className="burger__box">
+          <span className="burger__line" />
+          <span className="burger__line" />
+          <span className="burger__line" />
+        </span>
+            </button>
+
+            {/* Drawer */}
+            <div className={`drawer ${open ? 'is-open' : ''}`} id="mobile-menu">
+                <button className="drawer__scrim" aria-label="Close menu" onClick={() => setOpen(false)} />
+                <div className="drawer__panel" role="dialog" aria-modal="true" aria-label="Mobile navigation">
+                    <nav className="drawer__nav" onClick={() => setOpen(false)}>
+                        {links.map((l) => (
+                            <Link key={l.href} href={l.href}>{l.label}</Link>
+                        ))}
+                    </nav>
+                </div>
             </div>
-        </motion.header>
+        </div>
     );
 }
