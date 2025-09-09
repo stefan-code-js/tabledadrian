@@ -316,3 +316,25 @@ main{ min-height: 60vh; }
 .avatar img{ width:100%; height:100%; object-fit:cover; }
 .tags{ gap:4px; }
 .tag{ font-size:.75em; padding:.16em .5em; }
+
+
+/* ── Footer additions (append only) ────────────────────────── */
+.footer-wrap{
+  display:grid;
+  gap:10px;
+  justify-items:center;
+  padding: 24px 0;
+}
+.footer-social{
+  display:flex; gap:14px; flex-wrap:wrap; justify-content:center; align-items:center;
+}
+.footer-legal small{ opacity:.85; }
+
+/* Reusable subtle underline for any link (footer uses this) */
+.u-underline{ position:relative; }
+.u-underline::after{
+  content:""; position:absolute; left:6px; right:6px; bottom:-2px; height:1px;
+  background: currentColor; transform: scaleX(0); transform-origin:left;
+  transition: transform .18s ease; opacity:.55;
+}
+.u-underline:hover::after{ transform: scaleX(1); }

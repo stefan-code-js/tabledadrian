@@ -1,15 +1,13 @@
-import { MetadataRoute } from "next";
-import { site } from "@/lib/site";
+import type { MetadataRoute } from "next";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-    const lastmod = new Date().toISOString().split("T")[0];
+    const site = process.env.SITE_URL || "https://tabledadrian.com";
+    const lastmod = new Date();
     return [
-        { url: `${site.url}/`, lastModified: lastmod, changeFrequency: "weekly", priority: 1 },
-        { url: `${site.url}/about`, lastModified: lastmod, changeFrequency: "monthly", priority: 0.7 },
-        { url: `${site.url}/menu`, lastModified: lastmod, changeFrequency: "weekly", priority: 0.8 },
-        { url: `${site.url}/book`, changeFrequency: "weekly", priority: 0.8 },
-        { url: `${site.url}/team`, changeFrequency: "monthly", priority: 0.6 }
-
-
+        { url: `${site}/`, lastModified: lastmod, changeFrequency: "monthly", priority: 1 },
+        { url: `${site}/about`, lastModified: lastmod, changeFrequency: "monthly", priority: 0.9 },
+        { url: `${site}/menu`, lastModified: lastmod, changeFrequency: "monthly", priority: 0.8 },
+        { url: `${site}/team`, lastModified: lastmod, changeFrequency: "monthly", priority: 0.7 },
+        { url: `${site}/book`, lastModified: lastmod, changeFrequency: "monthly", priority: 0.9 },
     ];
 }
