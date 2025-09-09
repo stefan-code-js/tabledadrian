@@ -48,7 +48,7 @@ export const site: SiteConfig = {
         linkedin:  "https://www.linkedin.com/in/YOUR-LINKEDIN",
     },
     accreditationUrl:
-        "https://www.linkedin.com/in/YOUR-LINKEDIN/details/certifications/",
+        "https://eu.badgr.com/public/badges/soyVM0MMRr2r33z69W8oNQ",
     serviceArea: ["Antibes", "Cannes", "Monaco"],
     offerings: ["Signature Tasting", "Performance Dinner", "Salon Supper"],
     cuisines: ["Contemporary European", "Modern Mediterranean", "Seafood", "Tasting menu"],

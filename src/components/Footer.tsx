@@ -1,44 +1,44 @@
-'use client';
-
-import { motion } from 'framer-motion';
-import Link from 'next/link';
-import { site } from '@/lib/site';
-
+// Server component – clean, centered
 export default function Footer() {
-    const year = new Date().getFullYear();
+    const IG =
+        process.env.INSTAGRAM_PROFILE_URL ?? "https://instagram.com/tabledadrian";
+    const LI =
+        process.env.LINKEDIN_PROFILE_URL ??
+        "https://www.linkedin.com/in/adrian-stefan-badea-82456131b";
+    const ACC =
+        process.env.ACCREDITATION_URL ??
+        "https://eu.badgr.com/public/badges/soyVM0MMRr2r33z69W8oNQ";
+
     return (
         <footer className="footer">
-            <div className="container" style={{ textAlign: 'center' }}>
-                <motion.div
-                    initial={{ opacity: 0 }}
-                    whileInView={{ opacity: 1 }}
-                    viewport={{ once: true, amount: 0.6 }}
-                    transition={{ duration: 0.5 }}
-                >
-                    <p style={{ marginBottom: 8 }}>{site.name}</p>
-                    <p style={{ opacity: 0.8, margin: 0 }}>
-                        Côte d’Azur • private fine dining
-                    </p>
+            <div className="container">
+                <div className="footer-wrap">
+                    {/* Experience & Accreditation (centered) */}
+                    <div className="footer-block center-text">
+                        <nav className="footer-social" aria-label="Experience and accreditation">
+                            <a href={LI} target="_blank" rel="noreferrer" className="u-underline">
+                                Experience
+                            </a>
+                            <a href={ACC} target="_blank" rel="noreferrer" className="u-underline">
+                                Accreditation
+                            </a>
+                        </nav>
+                    </div>
 
-                    <p style={{ marginTop: 16 }}>
-                        <Link className="link" href="mailto:adrian@tabledadrian.com">
-                            adrian@tabledadrian.com
-                        </Link>
-                        {site.socials.instagram ? (
-                            <>
-                                {' • '}
-                                <Link className="link" href={site.socials.instagram}>
-                                    instagram
-                                </Link>
-                                {site.accreditationUrl ? <> • <a className="link" href={site.accreditationUrl} target="_blank" rel="noreferrer">accreditation</a></> : null}
-                            </>
-                        ) : null}
-                    </p>
+                    {/* Social row */}
+                    <nav className="footer-social" aria-label="Social">
+                        <a href={IG} target="_blank" rel="noreferrer" className="u-underline">
+                            instagram
+                        </a>
+                        <a href={LI} target="_blank" rel="noreferrer" className="u-underline">
+                            linkedin
+                        </a>
+                    </nav>
 
-                    <p style={{ marginTop: 16, opacity: 0.7 }}>
-                        © {year} {site.shortName}. all rights reserved.
-                    </p>
-                </motion.div>
+                    <div className="footer-legal">
+                        <small>&copy; {new Date().getFullYear()} Table d’Adrian</small>
+                    </div>
+                </div>
             </div>
         </footer>
     );

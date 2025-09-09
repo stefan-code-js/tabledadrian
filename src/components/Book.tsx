@@ -1,28 +1,28 @@
 'use client';
 
 import Link from 'next/link';
+import Script from 'next/script';
 import { site } from '@/lib/site';
 
-const RAW = process.env.NEXT_PUBLIC_CAL_URL ?? 'https://cal.com/adrian-stefan';
-
-function toEmbed(u: string) {
-    try {
-        const url = new URL(u.replace('www.cal.com', 'cal.com'));
-        const parts = url.pathname.replace(/^\/|\/$/g, '').split('/').filter(Boolean);
-        // /username  → /embed/username
-        // /username/event-slug → /embed/username/event-slug
-        if (parts.length === 1) return `https://cal.com/embed/${parts[0]}`;
-        if (parts.length >= 2) return `https://cal.com/embed/${parts[0]}/${parts[1]}`;
-    } catch { /* noop */ }
-    return 'https://cal.com/embed/adrian-stefan';
-}
+/**
+ * Use a Cal "link", not a dashboard URL.
+ * Examples:
+ *   adrian-stefan                         → profile (all event types)
+ *   adrian-stefan/signature-tasting      → a single event
+ *
+ * Set this in .env.local and Cloudflare Pages → Environment Variables:
+ *   NEXT_PUBLIC_CAL_LINK=adrian-stefan
+ */
+const CAL_LINK = process.env.NEXT_PUBLIC_CAL_LINK || 'adrian-stefan';
 
 export default function Book() {
-    const CAL_URL = RAW;
-    const EMBED = toEmbed(RAW);
+    const publicUrl = `https://cal.com/${CAL_LINK}`;
 
     return (
         <section className="section" aria-label="Book Table d’Adrian">
+            {/* Cal embed script (loads once, safe to keep here) */}
+            <Script src="https://cal.com/embed.js" strategy="lazyOnload" />
+
             <div className="container container--narrow">
                 <div className="prose center-text">
                     <h1 className="title">Book</h1>
@@ -30,30 +30,33 @@ export default function Book() {
                         Seasonal tasting menus for private villas, yachts, and salons along the Côte d’Azur.
                         Choose a date and we’ll shape the season to your table.
                     </p>
+
                     <p style={{ marginTop: 14 }}>
-                        <Link href={CAL_URL} className="btn primary" target="_blank" rel="noreferrer">
+                        <Link href={publicUrl} className="btn primary" target="_blank" rel="noreferrer">
                             open booking calendar
                         </Link>
                     </p>
                 </div>
 
-                <div style={{ marginTop: 24 }}>
-                    <iframe
-                        title="Booking calendar"
-                        src={EMBED}
-                        className="embed"
-                        loading="lazy"
-                        referrerPolicy="no-referrer-when-downgrade"
-                        allow="clipboard-write; fullscreen"
-                    />
+                {/* Inline Cal profile/event. If your link exists, this will not 404. */}
+                <div className="cal-wrapper" style={{ marginTop: 24 }}>
+                    {/* React passes attributes through to custom elements; kebab-case is correct. */}
+                    {/* @ts-expect-error: web component not in TS JSX types */}
+                    <cal-inline cal-link={CAL_LINK} class="cal-inline"></cal-inline>
+                    <noscript>
+                        <p>
+                            JavaScript is required to load the calendar. Open it{' '}
+                            <a className="link" href={publicUrl} rel="noreferrer" target="_blank">here</a>.
+                        </p>
+                    </noscript>
                 </div>
 
                 <div className="grid" style={{ marginTop: 24 }}>
                     <article className="card">
                         <h3>what to expect</h3>
                         <p>
-                            12–16 courses (Signature). Ingredient-driven menu designed around fragrance,
-                            texture, and seasonality. Vegetarian/vegan/gluten-free paths available with notice.
+                            12–16 courses (Signature). Ingredient-driven menu designed around fragrance, texture, and seasonality.
+                            Vegetarian/vegan/gluten-free paths available with notice.
                         </p>
                     </article>
                     <article className="card">

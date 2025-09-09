@@ -1,41 +1,36 @@
-'use client';
-
-import Image from "next/image";
-import Link from "next/link";
-import { team } from "@/data/team";
-
 export default function Team() {
-    return (
-        <section className="section" aria-label="Team">
-            <div className="container container--narrow">
-                <div className="prose center-text">
-                    <h1 className="title">Team</h1>
-                    <p className="lead">Craft built by specialists — kitchen, cellar, and service in concert.</p>
-                </div>
+    const people = [
+        {
+            name: 'Adrian Stefan',
+            role: 'Chef-Founder',
+            skills: ['fragrance design', 'fermentation', 'menu architecture'],
+            img: '/images/team/adrian.jpg',
+        },
+        {
+            name: '…',
+            role: 'Service',
+            skills: ['wine pacing', 'ritual service'],
+            img: '/images/team/blank.jpg',
+        },
+    ];
 
-                <div className="grid" style={{ marginTop: 24 }}>
-                    {team.map((m) => (
-                        <article key={m.slug} className="card">
-                            <div className="avatar">
-                                <Image
-                                    src={m.image}
-                                    alt={`${m.name}, ${m.role}`}
-                                    width={800}
-                                    height={800}
-                                    sizes="(max-width: 768px) 100vw, 400px"
-                                />
+    return (
+        <section className="section">
+            <div className="container container--narrow">
+                <h2 className="title center-text">Team</h2>
+                <div className="team-grid">
+                    {people.map((p) => (
+                        <article className="team-card card" key={p.name}>
+                            <img className="avatar avatar--sm" src={p.img} alt={p.name} />
+                            <div>
+                                <h3 style={{ margin: 0 }}>{p.name}</h3>
+                                <p style={{ margin: '2px 0 6px', opacity: 0.8 }}>{p.role}</p>
+                                <div className="tags">
+                                    {p.skills.map((s) => (
+                                        <span className="tag" key={s}>{s}</span>
+                                    ))}
+                                </div>
                             </div>
-                            <h3 style={{ marginTop: 12 }}>{m.name}</h3>
-                            <p style={{ opacity: .8, marginTop: -6 }}>{m.role}</p>
-                            <p style={{ marginTop: 10 }}>{m.bio}</p>
-                            <div className="tags">
-                                {m.specialties.map((s) => <span key={s} className="tag">{s}</span>)}
-                            </div>
-                            {m.linkedin && (
-                                <p style={{ marginTop: 12 }}>
-                                    <Link className="link" href={m.linkedin} target="_blank" rel="noreferrer">LinkedIn</Link>
-                                </p>
-                            )}
                         </article>
                     ))}
                 </div>
