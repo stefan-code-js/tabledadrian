@@ -10,10 +10,14 @@
     "cf:build": "npx --yes @cloudflare/next-on-pages@latest"
   },
   "dependencies": {
+    "@hookform/resolvers": "^5.2.1",
     "framer-motion": "^12.23.12",
+    "lucide-react": "^0.543.0",
     "next": "15.5.2",
     "react": "18.3.1",
-    "react-dom": "18.3.1"
+    "react-dom": "18.3.1",
+    "react-hook-form": "^7.62.0",
+    "zod": "^4.1.5"
   },
   "devDependencies": {
     "@cloudflare/next-on-pages": "^1.13.16",
