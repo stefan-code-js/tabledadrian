@@ -1,6 +1,6 @@
 // src/app/api/contact/route.ts
-
 import { NextResponse } from 'next/server';
+
 // Cloudflare Pages (next-on-pages) requires Edge runtime for API routes
 export const runtime = 'edge';
 export const dynamic = 'force-dynamic';
@@ -40,6 +40,33 @@ function asIntent(v: string): Intent {
     return v === 'garden' || v === 'salon' ? v : 'signature';
 }
 
+async function readBodyAsObject(req: Request): Promise<Record<string, unknown> | null> {
+    const ct = (req.headers.get('content-type') || '').toLowerCase();
+
+    // Prefer JSON when indicated
+    if (ct.includes('application/json')) {
+        try {
+            const json = await req.json();
+            return isRecord(json) ? (json as Record<string, unknown>) : null;
+        } catch {
+            // fall through to FormData
+        }
+    }
+
+    // Fallback: FormData (multipart or urlencoded)
+    try {
+        const fd = await req.formData();
+        const obj: Record<string, unknown> = {};
+        fd.forEach((value, key) => {
+            if (typeof value === 'string') obj[key] = value;
+            else obj[key] = value.name; // File → keep filename (we're not handling files now)
+        });
+        return obj;
+    } catch {
+        return null;
+    }
+}
+
 function toPayload(raw: unknown): ContactPayload {
     if (!isRecord(raw)) throw new Error('Invalid request body');
 
@@ -48,8 +75,16 @@ function toPayload(raw: unknown): ContactPayload {
     const phone = getString(raw, 'phone') || undefined;
     const intent = asIntent(getString(raw, 'intent'));
     const message = getString(raw, 'message');
+
+    // Accept multiple token field names:
+    // - custom: turnstileToken / token
+    // - default Turnstile widget: cf-turnstile-response
+    // - legacy compat: g-recaptcha-response
     const token =
-        getString(raw, 'turnstileToken') || getString(raw, 'token');
+        getString(raw, 'turnstileToken') ||
+        getString(raw, 'token') ||
+        getString(raw, 'cf-turnstile-response') ||
+        getString(raw, 'g-recaptcha-response');
 
     if (!name || !email || !token) {
         throw new Error('Missing required fields');
@@ -79,14 +114,14 @@ async function verifyTurnstile(
     if (!secret) return true; // dev: skip when not configured
 
     const body = new URLSearchParams({ secret, response: responseToken });
-    if (remoteIp) body.set('remote', remoteIp);
+    if (remoteIp) body.set('remoteip', remoteIp);
 
     const resp = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
         method: 'POST',
         body,
     });
 
-    const data = (await resp.json()) as unknown as TurnstileVerifyResponse;
+    const data = (await resp.json()) as TurnstileVerifyResponse;
     return data.success;
 }
 
@@ -133,7 +168,7 @@ export async function POST(req: Request) {
             req.headers.get('x-forwarded-for') ??
             undefined;
 
-        const raw = await req.json().catch(() => null);
+        const raw = await readBodyAsObject(req);
         if (!raw) {
             return NextResponse.json({ ok: false, error: 'Invalid JSON' }, { status: 400 });
         }
@@ -146,7 +181,10 @@ export async function POST(req: Request) {
 
         const ok = await verifyTurnstile(payload.token, remoteIp);
         if (!ok) {
-            return NextResponse.json({ ok: false, error: 'Turnstile verification failed' }, { status: 400 });
+            return NextResponse.json(
+                { ok: false, error: 'Turnstile verification failed' },
+                { status: 400 }
+            );
         }
 
         await sendWithResend(payload).catch(() => {
