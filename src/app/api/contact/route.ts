@@ -1,6 +1,9 @@
 // src/app/api/contact/route.ts
 
 import { NextResponse } from 'next/server';
+// Cloudflare Pages (next-on-pages) requires Edge runtime for API routes
+export const runtime = 'edge';
+export const dynamic = 'force-dynamic';
 
 type Intent = 'signature' | 'garden' | 'salon';
 
