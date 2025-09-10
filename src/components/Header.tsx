@@ -10,6 +10,7 @@ const LINKS = [
     { href: "/menu", label: "menu" },
     { href: "/team", label: "team" },
     { href: "/book", label: "book" },
+    { href: "/contact", label:"contact"},
 ];
 
 export default function Header() {
