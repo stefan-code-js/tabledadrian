@@ -1,8 +1,8 @@
 /** @type {import('next').NextConfig} */
-const nextConfig: import('next').NextConfig = {
+const nextConfig = {
     eslint: {
-        ignoreDuringBuilds: true, // ⬅️ no lint in `next build`
+        ignoreDuringBuilds: true,
     },
-    typescript: { ignoreBuildErrors: true }, // leave OFF unless you really need it
 };
+
 module.exports = nextConfig;
