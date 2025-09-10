@@ -1,4 +1,5 @@
 // src/app/api/contact/route.ts
+
 import { NextResponse } from 'next/server';
 
 type Intent = 'signature' | 'garden' | 'salon';
@@ -75,7 +76,7 @@ async function verifyTurnstile(
     if (!secret) return true; // dev: skip when not configured
 
     const body = new URLSearchParams({ secret, response: responseToken });
-    if (remoteIp) body.set('remoteip', remoteIp);
+    if (remoteIp) body.set('remote', remoteIp);
 
     const resp = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
         method: 'POST',
@@ -83,7 +84,7 @@ async function verifyTurnstile(
     });
 
     const data = (await resp.json()) as unknown as TurnstileVerifyResponse;
-    return data.success === true;
+    return data.success;
 }
 
 async function sendWithResend(payload: ContactPayload): Promise<void> {
