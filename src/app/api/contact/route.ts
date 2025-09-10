@@ -21,8 +21,10 @@ interface TurnstileVerifyResponse {
     cdata?: string;
 }
 
-function isRecord(value: unknown): value is Record<string, unknown> {
-    return typeof value === 'object' && value !== null;
+/* ---------------- helpers ---------------- */
+
+function isRecord(v: unknown): v is Record<string, unknown> {
+    return typeof v === 'object' && v !== null;
 }
 
 function getString(obj: Record<string, unknown>, key: string): string {
@@ -43,7 +45,7 @@ function toPayload(raw: unknown): ContactPayload {
     const intent = asIntent(getString(raw, 'intent'));
     const message = getString(raw, 'message');
 
-    // allow either `turnstileToken` or `token` from client
+    // accept either `turnstileToken` or `token` from the client
     const token =
         getString(raw, 'turnstileToken') || getString(raw, 'token');
 
@@ -72,10 +74,7 @@ async function verifyTurnstile(
     remoteIp?: string
 ): Promise<boolean> {
     const secret = process.env.TURNSTILE_SECRET_KEY;
-    if (!secret) {
-        // If you don’t configure a secret, skip verification (dev mode)
-        return true;
-    }
+    if (!secret) return true; // dev: skip when not configured
 
     const body = new URLSearchParams({
         secret,
@@ -85,20 +84,17 @@ async function verifyTurnstile(
 
     const resp = await fetch(
         'https://challenges.cloudflare.com/turnstile/v0/siteverify',
-        {
-            method: 'POST',
-            body,
-        }
+        { method: 'POST', body }
     );
 
-    const data = (await resp.json()) as TurnstileVerifyResponse;
+    const data = (await resp.json()) as unknown as TurnstileVerifyResponse;
     return data.success === true;
 }
 
 async function sendWithResend(payload: ContactPayload): Promise<void> {
     const key = process.env.RESEND_API_KEY;
     const to = process.env.CONTACT_TO || 'adrian@tabledadrian.com';
-    if (!key) return; // silently no-op if not configured
+    if (!key) return; // silently skip if not wired
 
     const html = `
     <h2>New enquiry — ${escapeHtml(payload.intent)}</h2>
@@ -125,11 +121,11 @@ async function sendWithResend(payload: ContactPayload): Promise<void> {
 
     if (!res.ok) {
         const text = await res.text().catch(() => '');
-        throw new Error(
-            `Email send failed (${res.status}): ${text.slice(0, 200)}`
-        );
+        throw new Error(`Email send failed (${res.status}): ${text.slice(0, 200)}`);
     }
 }
+
+/* ---------------- handler ---------------- */
 
 export async function POST(req: Request) {
     try {
@@ -164,16 +160,13 @@ export async function POST(req: Request) {
         }
 
         await sendWithResend(payload).catch(() => {
-            /* ignore email errors for now */
+            // Allow success even if email sending isn’t configured
         });
 
         return NextResponse.json({ ok: true });
-    } catch (err) {
-        const message =
-            err instanceof Error ? err.message : 'Unexpected error';
-        return NextResponse.json(
-            { ok: false, error: message },
-            { status: 400 }
-        );
+    } catch (err: unknown) {
+        const message = err instanceof Error ? err.message : 'Unexpected error';
+        return NextResponse.json({ ok: false, error: message }, { status: 400 });
     }
 }
+
