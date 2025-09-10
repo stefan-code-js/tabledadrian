@@ -44,8 +44,6 @@ function toPayload(raw: unknown): ContactPayload {
     const phone = getString(raw, 'phone') || undefined;
     const intent = asIntent(getString(raw, 'intent'));
     const message = getString(raw, 'message');
-
-    // accept either `turnstileToken` or `token` from the client
     const token =
         getString(raw, 'turnstileToken') || getString(raw, 'token');
 
@@ -76,16 +74,13 @@ async function verifyTurnstile(
     const secret = process.env.TURNSTILE_SECRET_KEY;
     if (!secret) return true; // dev: skip when not configured
 
-    const body = new URLSearchParams({
-        secret,
-        response: responseToken,
-    });
+    const body = new URLSearchParams({ secret, response: responseToken });
     if (remoteIp) body.set('remoteip', remoteIp);
 
-    const resp = await fetch(
-        'https://challenges.cloudflare.com/turnstile/v0/siteverify',
-        { method: 'POST', body }
-    );
+    const resp = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
+        method: 'POST',
+        body,
+    });
 
     const data = (await resp.json()) as unknown as TurnstileVerifyResponse;
     return data.success === true;
@@ -136,31 +131,22 @@ export async function POST(req: Request) {
 
         const raw = await req.json().catch(() => null);
         if (!raw) {
-            return NextResponse.json(
-                { ok: false, error: 'Invalid JSON' },
-                { status: 400 }
-            );
+            return NextResponse.json({ ok: false, error: 'Invalid JSON' }, { status: 400 });
         }
 
         const payload = toPayload(raw);
 
         if (!isEmail(payload.email)) {
-            return NextResponse.json(
-                { ok: false, error: 'Invalid email' },
-                { status: 400 }
-            );
+            return NextResponse.json({ ok: false, error: 'Invalid email' }, { status: 400 });
         }
 
         const ok = await verifyTurnstile(payload.token, remoteIp);
         if (!ok) {
-            return NextResponse.json(
-                { ok: false, error: 'Turnstile verification failed' },
-                { status: 400 }
-            );
+            return NextResponse.json({ ok: false, error: 'Turnstile verification failed' }, { status: 400 });
         }
 
         await sendWithResend(payload).catch(() => {
-            // Allow success even if email sending isn’t configured
+            // allow success even if email sending isn’t configured
         });
 
         return NextResponse.json({ ok: true });
@@ -169,4 +155,3 @@ export async function POST(req: Request) {
         return NextResponse.json({ ok: false, error: message }, { status: 400 });
     }
 }
-
