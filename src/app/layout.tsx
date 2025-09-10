@@ -4,7 +4,8 @@ import './globals.css';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { site } from '@/lib/site';
-import React from "react";
+import React from 'react';
+import Script from 'next/script'; // ← Turnstile loader
 
 export const metadata: Metadata = {
     // no metadataBase → avoids IDE UMD warning on `new URL(...)`
@@ -80,7 +81,17 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             </div>
         </footer>
 
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+        {/* Cloudflare Turnstile (loads once app-wide) */}
+        <Script
+            src="https://challenges.cloudflare.com/turnstile/v0/api.js"
+            strategy="afterInteractive"
+            defer
+        />
+
+        <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
         </body>
         </html>
     );
