@@ -528,141 +528,85 @@ main{ min-height: 60vh; }
   margin-top: 12px;
 }
 
-/* ── Contact: compact embed only (append) ─────────────────── */
-.contact-embed{ height: 420px; }
-@media (max-width:480px){ .contact-embed{ height: 520px; } }
+/* reviews */
 
-/* ── Contact form (luxury, compact) — APPEND ONLY ─────────── */
-.form{ max-width: 900px; margin: 0 auto; }
-.form-grid{
-  display:grid; gap:12px;
-  grid-template-columns: 1fr 1fr;
-}
-@media (max-width:720px){ .form-grid{ grid-template-columns: 1fr; } }
-
-.field input,
-.field textarea{
-  width:100%;
-  padding: 10px 14px;
-  border: 1px solid var(--muted);
-  border-radius: 999px;
-  background:#fff;
-  outline: none;
-}
-.field textarea{
-  border-radius: 16px;
-  min-height: 140px;
-  resize: vertical;
+/* ---- Reviews page (luxury, minimal, fluid) ---- */
+:root{
+  --fg:#1b1b1b;
+  --muted:#dedede;
+  --bg:#fafafa;
+  --radius:14px;
 }
 
-/* REPLACE the previous `.chips/.chip` rules with this */
-.chips{
-  display:flex; flex-wrap:wrap; gap:8px; margin: 8px 0 6px;
-}
-.chip{
-  position: relative;
-  display:inline-flex; align-items:center;
-  gap:8px; padding: 6px 12px;
-  border:1px solid var(--muted);
-  border-radius:999px; background:#fff;
-}
-.chip input{
-  position:absolute; inset:0; opacity:0; margin:0;
-  cursor:pointer;
-}
-.chip span{ pointer-events:none; }
+.container{ max-width:980px; margin-inline:auto; padding:32px 20px; }
 
-/* subtle selected affordance without bold */
-.chip input:checked + span{
-  text-decoration: underline;
-  text-underline-offset: 3px;
+.reviews-page{ display:grid; gap:24px; color:var(--fg); }
+
+.title{
+  text-align:center;
+  font-size: clamp(28px, 3.6vw, 42px);
+  letter-spacing:.5px;
+  margin: 6px 0 2px;
 }
 
-
-.form .cta{ display:flex; gap:8px; flex-wrap:wrap; align-items:center; margin-top: 8px; }
-.note{ opacity:.85; }
-
-/*─────────────────────────────────────────────────────────────
-  Reviews — luxury, minimal, fixed grid (scoped)
-  Drop-in to replace your current review styles
-──────────────────────────────────────────────────────────────*/
-.reviews-page .reviews-grid{
-  display:grid;
-  grid-template-columns: 1.1fr .9fr; /* fixed; no auto-fit */
-  gap:16px;
+/* Summary (public) */
+.summary{
+  display:flex; align-items:center; justify-content:center; gap:14px;
+  padding:10px 14px; border:1px solid var(--muted); border-radius:999px; background:#fff;
 }
-@media (max-width:900px){
-  .reviews-page .reviews-grid{ grid-template-columns:1fr; }
-}
+.summary .summary-text{ font-size:1rem; }
+.muted{ opacity:.55; }
+.center{ text-align:center; }
 
-.reviews-page .review-card{
-  background:#fff;
+/* Single stars container (used everywhere) */
+.stars{
+  display:flex; align-items:center; gap:8px; user-select:none;
+}
+.stars button, .stars span{
+  appearance:none; border:0; background:none; padding:0;
+  font-size: 22px; line-height:1; cursor:pointer; transition: transform .12s ease, opacity .12s ease;
+}
+.stars.small span{ font-size:18px; }
+.stars .on{ color:#111; }
+.stars button:not(.on), .stars span:not(.on){ opacity:.35; }
+.stars button:hover{ transform: translateY(-1px); }
+
+/* Form */
+.form{
+  display:grid; gap:10px;
+  border:1px solid var(--muted); border-radius: var(--radius);
+  background:#fff; padding:16px;
+}
+.form input, .form textarea{
+  width:100%; border:1px solid var(--muted); border-radius:10px; padding:10px 12px; background:#fff;
+}
+.form textarea{ resize: vertical; min-height: 110px; }
+.actions{ display:flex; justify-content:flex-end; }
+.btn{
+  border:1px solid #000; border-radius:999px; padding:10px 16px; background:#111; color:#fff;
+  transition:transform .12s ease, opacity .12s ease;
+}
+.btn:disabled{ opacity:.6; }
+.btn:hover{ transform: translateY(-1px); }
+.error{ color:#b00020; }
+
+/* List */
+.list{
+  list-style:none; padding:0; margin:0;
+  display:grid; gap:16px; grid-template-columns: 1fr;
+}
+@media (min-width: 820px){
+  .list{ grid-template-columns: 1fr 1fr; }
+}
+.card{
+  background:rgba(255,255,255,.7);
   border:1px solid var(--muted);
   border-radius: var(--radius);
-  box-shadow: var(--shadow-sm);
-  padding:20px;
+  padding:16px;
+  backdrop-filter:saturate(160%) blur(10px);
+  -webkit-backdrop-filter:saturate(160%) blur(10px);
 }
-
-.reviews-page .h-subtle{
-  margin:.1rem 0 1rem;
-  font-weight:600;
-  font-size: clamp(18px,1.8vw,20px);
+.card .row{
+  display:flex; align-items:baseline; justify-content:space-between; gap:10px; margin-bottom:6px;
 }
-
-.reviews-page .reviews-head{
-  display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:6px;
-}
-.reviews-page .avg{ display:flex; align-items:center; gap:8px; }
-.reviews-page .avg .star-row{ letter-spacing:.15em; }
-.reviews-page .avg-note{ opacity:.75; font-size:.92rem; }
-
-/* If ReviewSummary renders a list */
-.reviews-page .review-list{ list-style:none; margin:10px 0 0; padding:0; }
-.reviews-page .review-item + .review-item{ border-top:1px solid var(--muted); }
-.reviews-page .review-item .card{
-  box-shadow:none; border:0; border-radius:0; padding:14px 0;
-}
-.reviews-page .card-header{
-  display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:6px;
-}
-.reviews-page .card-title{ font-weight:600; }
-.reviews-page .star-row{ color: var(--fg); }
-.reviews-page .meta{ opacity:.75; font-size:.92rem; }
-
-/* If ReviewForm uses standard fields, these will style them elegantly */
-.reviews-page .review-card--form .form-field{ margin-bottom:12px; }
-.reviews-page .review-card--form label,
-.reviews-page .review-card--form .label{
-  display:block; margin-bottom:4px; opacity:.85;
-}
-.reviews-page .review-card--form input,
-.reviews-page .review-card--form textarea,
-.reviews-page .review-card--form select{
-  width:100%;
-  padding:10px 12px;
-  border:1px solid var(--muted);
-  border-radius:12px;
-  background:#fff;
-}
-.reviews-page .review-card--form textarea{ min-height:140px; resize:vertical; }
-.reviews-page .review-card--form .form-actions{
-  display:flex; align-items:center; gap:10px; flex-wrap:wrap;
-}
-.reviews-page .review-card--form .form-note{ opacity:.75; font-size:.9rem; }
-
-/* Accessible star radios (if your form exposes .stars) */
-.reviews-page .stars{ display:flex; flex-direction:row-reverse; gap:8px; }
-.reviews-page .stars input{ position:absolute; opacity:0; width:1px; height:1px; overflow:hidden; }
-.reviews-page .stars label{
-  display:inline-block; width:26px; height:26px; cursor:pointer;
-  mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z'/></svg>") no-repeat center/contain;
-  -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z'/></svg>") no-repeat center/contain;
-  background:#d6d4cf;
-  transition: background .15s ease;
-  border-radius:4px; /* larger tap target */
-}
-.reviews-page .stars label:hover,
-.reviews-page .stars label:focus{ background:#b2b0a8; outline:none; }
-.reviews-page .stars input:checked ~ span label{ background:#d6d4cf; } /* reset to the right */
-.reviews-page .stars input:checked + label,
-.reviews-page .stars input:checked + label ~ span label{ background:#1d1b17; } /* fill checked→end */
+.card .text{ margin:6px 0 0; white-space:pre-wrap; }
