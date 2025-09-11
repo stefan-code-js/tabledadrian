@@ -49,9 +49,9 @@ a{ color: inherit; text-decoration: none; }
 button{ font: inherit; }
 :focus-visible{ outline: 2px solid var(--fg); outline-offset: 2px; }
 
-/* headings — refined, not bold */
+/* headings — refined, not heavy */
 h1,h2,h3{ letter-spacing:.18px; margin:0 0 .5em; font-weight:500; }
-h1{ font-size: clamp(30px, 4vw, 40px); }   /* smaller to reduce scroll */
+h1{ font-size: clamp(30px, 4vw, 40px); }
 h2{ font-size: clamp(19px, 2.3vw, 26px); }
 h3{ font-size: clamp(17px, 2vw, 20px); }
 
@@ -73,7 +73,7 @@ main{ min-height: 60vh; }
 .grid-3{ display:grid; gap:18px; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
 .center{ display:grid; place-items:center; }
 
-/* Cards (kept if used elsewhere; no borders) */
+/* cards */
 .card{
   background:#fff;
   border:0;
@@ -94,18 +94,19 @@ main{ min-height: 60vh; }
   display: grid;
   justify-items: center;
   gap: 6px;
+  position: relative; /* for burger absolute on mobile */
 }
 .logo{
   font-weight:500;
   font-size: clamp(18px, 2.1vw, 22px);
   letter-spacing:.3px;
 }
+
+/* Desktop nav (under the logo) */
 .nav{
   display:flex; gap:14px; justify-content:center; align-items:center;
   flex-wrap:wrap;
 }
-
-/* Subtle animated underline — only on hover/active */
 .nav a{
   position:relative; padding:6px 8px; text-transform:lowercase;
 }
@@ -120,6 +121,9 @@ main{ min-height: 60vh; }
 }
 .nav a:hover::after{ transform: scaleX(1); }
 .nav a[aria-current="page"]::after{ transform: scaleX(1); opacity:.85; }
+
+/* visibility helpers */
+.desktop-nav{ display:flex !important; }
 
 /*─────────────────────────────────────────────────────────────
   4) BUTTONS
@@ -181,8 +185,6 @@ main{ min-height: 60vh; }
   max-width: 46ch;
 }
 .story .note{ opacity:.9; }
-
-/* Optional dropcap */
 .dropcap{
   float:left; font-size: 3em; line-height:.86; margin:.02em .25em 0 0; font-weight:500;
 }
@@ -216,98 +218,140 @@ main{ min-height: 60vh; }
 }
 
 /*─────────────────────────────────────────────────────────────
-  9) FOOTER — line-free
+  9) FOOTER — compact, line-free + brand logos
 ──────────────────────────────────────────────────────────────*/
 .footer{ background: transparent; }
 .footer .link{ border-bottom: 0; }
 
+.footer-wrap{
+  display:grid;
+  gap:10px;
+  justify-items:center;
+  padding: 24px 0;
+}
+.footer-navline{
+  display:flex;
+  gap: 14px;
+  justify-content:center;
+  align-items:center;
+  flex-wrap:wrap;
+  margin: 4px 0;
+}
+.footer-bullet{ opacity:.38; }
+.footer-legal{ text-align:center; opacity:.9; margin-top: 2px; }
+
+.footer-logos{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  align-items:center;
+  gap: 18px;
+  margin-top: 8px;
+  padding: 10px 0 14px;
+}
+.footer-logos a{
+  display:flex; align-items:center; justify-content:center;
+  height: 28px; min-width: 28px;
+}
+.footer-logos img{
+  max-height: 20px; width:auto; display:block; object-fit:contain;
+  transition: transform .15s ease, opacity .15s ease; opacity:.98;
+}
+.footer-logos a:hover img{ transform: translateY(-1px); opacity:1; }
+
+/* tiny optical tweaks per file name (kept lightweight) */
+.footer-logos img[src*="stripe-4.svg"]{            transform: translateY(.5px) scale(1.12); }
+.footer-logos img[src*="visa-10.svg"]{             transform: translateY(.5px) scale(1.10); }
+.footer-logos img[src*="gronda-seeklogo.svg"]{     transform: translateY(.5px) scale(1.10); }
+.footer-logos img[src*="kraken-4.svg"]{            transform: translateY(.5px) scale(1.10); }
+.footer-logos img[src*="EHL_idlWUemmCk_1.svg"]{    transform: translateY(.5px) scale(1.22); }
+.footer-logos img[src*="mastercard-modern-design"]{transform: translateY(0)   scale(.96);  }
+.footer-logos img[src*="x-2.svg"]{                 transform: translateY(1px) scale(1.04); }
+.footer-logos img[src*="linkedin-logo-icon_"]{     transform: translateY(.5px) scale(1.06); }
+.footer-logos img[src*="instagram-2016-5.svg"]{    transform: translateY(.5px) scale(1.02); }
+
+@media (max-width: 480px){
+  .footer-logos a{ height: 26px; }
+  .footer-logos img{ max-height: 18px; }
+}
+
 /*─────────────────────────────────────────────────────────────
-  10) ACCESSIBILITY & REDUCED MOTION
+  10) HOME: MENU PREVIEW (3 aligned cards)
 ──────────────────────────────────────────────────────────────*/
-.visually-hidden{
-  position:absolute !important; height:1px; width:1px; overflow:hidden;
-  clip: rect(1px, 1px, 1px, 1px); white-space: nowrap; border:0; padding:0; margin:-1px;
+.menu-grid{
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  align-items: stretch;
 }
-@media (prefers-reduced-motion: reduce){
-  *{ animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; scroll-behavior: auto !important; }
+@media (min-width: 1024px){
+  .menu-grid{ grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
+
+.grid-3.menu-preview{
+  display:grid; gap:16px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: stretch;
+}
+@media (max-width: 1024px){
+  .grid-3.menu-preview{ grid-template-columns: repeat(2, minmax(0,1fr)); }
+}
+@media (max-width: 640px){
+  .grid-3.menu-preview{ grid-template-columns: 1fr; }
+}
+.grid-3.menu-preview .card{
+  height:100%; display:flex; flex-direction:column; justify-content:flex-start;
+}
+.grid-3.menu-preview .card h3{ margin-top:0; text-transform:lowercase; }
+.grid-3.menu-preview .card p{ margin:.5rem 0 1.25rem; }
+.grid-3.menu-preview .card .btn{ margin-top:auto; align-self:center; }
+.grid-3.menu-preview .card:hover{ transform: translateY(-2px); transition: transform .18s ease; }
 
 /*─────────────────────────────────────────────────────────────
-  11) LINE-FREE GUARANTEE
+  11) GALLERY / QUOTES / NEWSLETTER
 ──────────────────────────────────────────────────────────────*/
-.header, .footer, .hr, hr,
-.card, .embed, .menu .card, .team-card, .avatar, .tag { border: 0 !important; }
+.gallery{
+  display:grid; gap:12px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+.gallery figure{
+  margin:0; border-radius: var(--radius); overflow:hidden; background:#fff;
+  border:1px solid var(--muted); box-shadow: var(--shadow-sm); aspect-ratio: 4/3;
+}
+.gallery img{ width:100%; height:100%; object-fit:cover; }
 
+.quotes{
+  display:grid; gap:16px;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+.quote{ padding: 18px 20px; }
+.quote p{ margin:0 0 .4rem; }
+.quote cite{ opacity:.8; font-style: normal; }
 
-/* Prevent body scroll when mobile nav is open */
-.no-scroll { overflow: hidden; }
-
-/* Header container needs relative for burger positioning */
-.header .inner { position: relative; }
-
-/* Desktop vs mobile visibility */
-.desktop-nav { display: flex; }
-.burger { display: none; }
-
-@media (max-width: 780px){
-  .desktop-nav { display: none; }
-  .burger {
-    position:absolute; right:12px; top:12px;
-    display:inline-flex; align-items:center; justify-content:center;
-    width: 36px; height: 36px; border-radius: 999px;
-    background:#fff; border:1px solid rgba(0,0,0,.08);
-    box-shadow: var(--shadow-sm); cursor:pointer;
-  }
+.newsletter .inline-form{
+  display:flex; gap:10px; justify-content:center; flex-wrap:wrap;
+}
+.newsletter input[type="email"]{
+  padding: 10px 12px; border: 1px solid var(--muted);
+  border-radius: 999px; min-width: 260px; background:#fff;
 }
 
-/* Burger icon (3 lines → subtle X when open) */
-.burger-icon,
-.burger-icon::before,
-.burger-icon::after{
-  display:block; width:18px; height:1px; background: var(--fg);
-  content:""; transition: transform .18s ease, opacity .18s ease;
+/* section titles */
+.section-title{
+  font-family: var(--font-serif);
+  font-weight: 400;
+  letter-spacing: .2px;
+  margin: 0 0 16px;
+  font-size: clamp(24px, 3.2vw, 34px);
 }
-.burger-icon{ position:relative; }
-.burger-icon::before{ position:absolute; top:-6px; left:0; }
-.burger-icon::after{ position:absolute; top:6px; left:0; }
-.burger.is-open .burger-icon{ background: transparent; }
-.burger.is-open .burger-icon::before{ transform: translateY(6px) rotate(45deg); }
-.burger.is-open .burger-icon::after{ transform: translateY(-6px) rotate(-45deg); }
+.section-title + .lead,
+.section-title + .grid,
+.section-title + .gallery,
+.section-title + .testimonials{ margin-top: 12px; }
 
-/* Mobile drawer (overlay) */
-.menu-drawer{
-  position: fixed; inset: 0;
-  background: rgba(247,245,239,.96);
-  -webkit-backdrop-filter: blur(4px);
-  backdrop-filter: blur(4px);
-  opacity: 0; pointer-events: none;
-  transition: opacity .18s ease;
-  z-index: 60;
-}
-.menu-drawer.is-open{ opacity: 1; pointer-events: auto; }
-
-.menu-panel{
-  position: absolute; inset: 0;
-  display: grid; place-items: center;
-}
-
-.mobile-nav{
-  display: grid; gap: 14px; place-items: center;
-  padding: 24px;
-}
-.mobile-nav a{
-  font-size: 18px; padding: 8px 6px; font-weight: 500;
-  position: relative;
-}
-/* same subtle underline animation as desktop nav */
-.mobile-nav a::after{
-  content:""; position:absolute; left:10px; right:10px; bottom:3px; height:1px;
-  background: currentColor; transform: scaleX(0); transform-origin:left;
-  transition: transform .18s ease; opacity:.55;
-}
-.mobile-nav a:hover::after{ transform: scaleX(1); }
-
-/* ── Team (compact, minimal scroll) — APPEND ONLY ─────────── */
+/*─────────────────────────────────────────────────────────────
+  12) TEAM compact tweaks
+──────────────────────────────────────────────────────────────*/
 .team-grid{ grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:14px; }
 .team-card{ padding:12px; }
 .team-card h3{ margin:8px 0 4px; font-size:16px; font-weight:500; }
@@ -317,296 +361,268 @@ main{ min-height: 60vh; }
 .tags{ gap:4px; }
 .tag{ font-size:.75em; padding:.16em .5em; }
 
-
-/* ── Footer additions (append only) ────────────────────────── */
-.footer-wrap{
-  display:grid;
-  gap:10px;
-  justify-items:center;
-  padding: 24px 0;
+/*─────────────────────────────────────────────────────────────
+  13) ACCESSIBILITY & REDUCED MOTION
+──────────────────────────────────────────────────────────────*/
+.visually-hidden{
+  position:absolute !important; height:1px; width:1px; overflow:hidden;
+  clip: rect(1px, 1px, 1px, 1px); white-space: nowrap; border:0; padding:0; margin:-1px;
 }
-.footer-social{
-  display:flex; gap:14px; flex-wrap:wrap; justify-content:center; align-items:center;
-}
-.footer-legal small{ opacity:.85; }
-
-/* Reusable subtle underline for any link (footer uses this) */
-.u-underline{ position:relative; }
-.u-underline::after{
-  content:""; position:absolute; left:6px; right:6px; bottom:-2px; height:1px;
-  background: currentColor; transform: scaleX(0); transform-origin:left;
-  transition: transform .18s ease; opacity:.55;
-}
-.u-underline:hover::after{ transform: scaleX(1); }
-
-/* ── Footer compact layout additions ───────────────────────── */
-.footer-navline{
-  display:flex;
-  gap: 14px;
-  justify-content:center;
-  align-items:center;
-  flex-wrap:wrap;
-  margin-top: 4px;
-  margin-bottom: 4px;
-}
-.footer-bullet{ opacity:.38; }
-.footer-legal{ text-align:center; opacity:.9; margin-top: 2px; }
-
-/* ── Footer logos: normalize heights + optical alignment ─────────────── */
-.footer-logos{
-  display:flex;
-  flex-wrap:wrap;
-  justify-content:center;
-  align-items:center;
-  gap: 18px;                 /* a little more air */
-  margin-top: 8px;
-  padding: 10px 0 14px;
-}
-
-/* Each link becomes a fixed-height lane; the image is centered inside. */
-.footer-logos a{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  height: 28px;              /* lane height (tweak here if you want larger row) */
-  min-width: 28px;           /* keeps square logos from collapsing */
-}
-
-/* Base sizing for all icons; object-fit guards odd viewBox padding */
-.footer-logos img{
-  max-height: 20px;          /* base cap height for the artwork */
-  width: auto;
-  display:block;
-  object-fit: contain;
-  transition: transform .15s ease, opacity .15s ease;
-  opacity:.98;
-}
-.footer-logos a:hover img{ transform: translateY(-1px); opacity:1; }
-
-/* Brand-specific tiny optical tweaks using your filenames */
-/* (All stay within ~±15% so the row still feels uniform) */
-.footer-logos img[src*="stripe-4.svg"]{            transform: translateY(.5px) scale(1.12); }
-.footer-logos img[src*="visa-10.svg"]{             transform: translateY(.5px) scale(1.10); }
-.footer-logos img[src*="gronda-seeklogo.svg"]{     transform: translateY(.5px) scale(1.10); }
-.footer-logos img[src*="kraken-4.svg"]{            transform: translateY(.5px) scale(1.10); }
-.footer-logos img[src*="EHL_idlWUemmCk_1.svg"]{    transform: translateY(.5px) scale(1.22); } /* round mark reads smaller */
-.footer-logos img[src*="mastercard-modern-design"]{transform: translateY(0)   scale(.96);  }  /* naturally “taller” */
-.footer-logos img[src*="x-2.svg"]{                 transform: translateY(1px) scale(1.04); }
-.footer-logos img[src*="linkedin-logo-icon_"]{     transform: translateY(.5px) scale(1.06); }
-.footer-logos img[src*="instagram-2016-5.svg"]{    transform: translateY(.5px) scale(1.02); }
-
-/* Smaller on phones while preserving the line */
-@media (max-width: 480px){
-  .footer-logos a{ height: 26px; }
-  .footer-logos img{ max-height: 18px; }
-}
-
-/* ── Home: menu preview ───────────────────────────────────── */
-.menu-grid{
-  display: grid;
-  gap: 16px;
-  /* behaves well on mobile/tablet */
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  align-items: stretch;          /* make tracks the same height */
-}
-
-/* force a clean 3-column layout on wide screens */
-@media (min-width: 1024px){
-  .menu-grid{
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    justify-items: stretch;
+@media (prefers-reduced-motion: reduce){
+  *{
+    animation-duration: .001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .001ms !important;
+    scroll-behavior: auto !important;
   }
 }
 
-/* make each card fill its grid track and keep the CTA aligned */
-/* ── Home: Menu Preview (3 cards aligned, equal height) ───────────── */
-.grid-3.menu-preview{
-  display:grid;
-  gap:16px;
-  grid-template-columns: repeat(3, minmax(0, 1fr)); /* lock 3-up on desktop */
-  align-items: stretch;                               /* equal track height */
+/*─────────────────────────────────────────────────────────────
+  14) LINE-FREE GUARANTEE (no unexpected borders)
+──────────────────────────────────────────────────────────────*/
+.header, .footer, .hr, hr,
+.card, .embed, .menu .card, .team-card, .avatar, .tag { border: 0 !important; }
+
+/* Prevent body scroll when mobile nav is open */
+.no-scroll{ overflow:hidden; }
+
+/*─────────────────────────────────────────────────────────────
+  15) MOBILE-ONLY BURGER + OVERLAY (NO WHITE CIRCLE)
+──────────────────────────────────────────────────────────────*/
+/* Desktop defaults */
+.burger{ display:none !important; }   /* hidden on desktop */
+.desktop-nav{ display:flex !important; }
+
+@media (max-width:780px){
+  .desktop-nav{ display:none !important; }
+
+  /* Button: transparent, small, top-right */
+  .burger{
+    display:grid !important; place-items:center;
+    position:absolute; right:12px; top:12px;
+    width:40px; height:40px; padding:0;
+    background:transparent; border:0; color:var(--fg);
+    cursor:pointer; line-height:0;
+  }
+  .burger:focus-visible{ outline:2px solid currentColor; outline-offset:2px; }
+
+  /* 3 lines → X */
+  .burger-icon{
+    position:relative; width:22px; height:2px;
+    background: currentColor; border-radius:2px; transition: opacity .18s;
+  }
+  .burger-icon::before,
+  .burger-icon::after{
+    content:""; position:absolute; left:0; right:0; margin:auto;
+    width:22px; height:2px; background: currentColor; border-radius:2px;
+    transition: transform .22s ease;
+  }
+  .burger-icon::before{ transform: translateY(-6px); }
+  .burger-icon::after{  transform: translateY( 6px); }
+
+  .burger.is-open .burger-icon{ opacity:0; }            /* hide middle bar */
+  .burger.is-open .burger-icon::before{ transform: rotate(45deg); }
+  .burger.is-open .burger-icon::after{  transform: rotate(-45deg); }
+
+  /* Overlay drawer */
+  .menu-drawer{
+    position:fixed; inset:0; z-index:60;
+    display:none; opacity:0; pointer-events:none;
+    background: color-mix(in oklab, #000 6%, transparent);
+    backdrop-filter: blur(6px);
+    transition: opacity .18s ease;
+  }
+  .menu-drawer.is-open{ display:block; opacity:1; pointer-events:auto; }
+
+  .menu-panel{ position:absolute; inset:0; display:grid; place-items:center; padding:24px; }
+
+  .mobile-nav{
+    display:grid; gap:18px; text-align:center;
+  }
+  .mobile-nav a{
+    text-decoration:none; font-size: clamp(22px, 5vw, 28px);
+  }
+}/* ── PATCH: keep mobile drawer hidden by default on desktop ────────── */
+.menu-drawer{
+  display:none;               /* hide on desktop & when closed */
+  position:fixed;
+  inset:0;
+  z-index:60;
+  opacity:0;
+  pointer-events:none;
+  background: color-mix(in oklab, #000 6%, transparent);
+  backdrop-filter: blur(6px);
+  transition: opacity .18s ease;
+}
+.menu-drawer.is-open{
+  display:block;              /* only visible when toggled open */
+  opacity:1;
+  pointer-events:auto;
 }
 
-@media (max-width: 1024px){
-  .grid-3.menu-preview{
-    grid-template-columns: repeat(2, minmax(0, 1fr)); /* 2-up on tablet */
+/* ensure internal layout is ready when it opens */
+.menu-panel{ position:absolute; inset:0; display:grid; place-items:center; padding:24px; }
+.mobile-nav{ display:grid; gap:18px; text-align:center; }
+
+/* keep burger hidden on desktop (safety) */
+.burger{ display:none; }
+@media (max-width:780px){
+  .burger{ display:grid; }
+  .desktop-nav{ display:none !important; }
+}
+/* ── Burger → X fix (append at end) ───────────────────────── */
+.header .inner{ position:relative; }  /* anchor the absolute button */
+
+.burger{
+  position:absolute; right:12px; top:12px;
+  display:grid; place-items:center;
+  width:40px; height:40px;
+  padding:6px;
+  background:transparent !important;   /* no white circle */
+  border:0 !important; box-shadow:none !important;
+  color: var(--fg, #111);               /* make lines visible */
+  z-index: 70;                          /* stay above overlay */
+}
+
+/* 3 lines */
+.burger-icon,
+.burger-icon::before,
+.burger-icon::after{
+  display:block; content:"";
+  width:22px; height:2px;
+  background: currentColor;
+  border-radius:2px;
+  transition: transform .22s ease, opacity .18s ease, background .18s ease;
+}
+.burger-icon{ position:relative; }
+.burger-icon::before{ position:absolute; top:-7px; left:0; right:0; }
+.burger-icon::after { position:absolute; top: 7px; left:0; right:0; }
+
+/* open → X */
+.burger.is-open .burger-icon{ background: transparent; }        /* hide middle bar */
+.burger.is-open .burger-icon::before{ transform: translateY(7px) rotate(45deg); }
+.burger.is-open .burger-icon::after { transform: translateY(-7px) rotate(-45deg); }
+
+/* mobile-only visibility (desktop uses the inline nav) */
+.burger{ display:none; }
+@media (max-width:780px){
+  .burger{ display:grid; }
+  .desktop-nav{ display:none !important; }
+}
+
+/* Drawer visibility (so it doesn't sit on top of the button) */
+.menu-drawer{
+  display:none; opacity:0; pointer-events:none;
+  position:fixed; inset:0; z-index:60;
+  background: color-mix(in oklab, #000 6%, transparent);
+  backdrop-filter: blur(6px);
+  transition: opacity .18s ease;
+}
+.menu-drawer.is-open{ display:block; opacity:1; pointer-events:auto; }
+
+/* Burger/X visibility fix (append at end) */
+@media (max-width: 780px){
+  /* Force a dark color and keep it above the overlay */
+  .burger{
+    color: #1c1a17 !important;       /* near-black */
+    z-index: 100 !important;          /* above menu overlay */
+  }
+
+  /* Make sure the lines actually use that color and have contrast */
+  .burger .burger-icon,
+  .burger .burger-icon::before,
+  .burger .burger-icon::after{
+    background: currentColor !important;
+    filter: drop-shadow(0 0 1px rgba(0,0,0,.45)); /* tiny halo for bright bgs */
+  }
+
+  /* Middle bar hidden only when open (keep the two arms visible) */
+  .burger.is-open .burger-icon{
+    background: transparent !important;
+  }
+
+  /* Extra safety: ensure the X arms keep the dark color even when open */
+  .burger.is-open .burger-icon::before,
+  .burger.is-open .burger-icon::after{
+    background: #1c1a17 !important;
   }
 }
-@media (max-width: 640px){
-  .grid-3.menu-preview{
-    grid-template-columns: 1fr;                       /* stack on phones */
+/* === Burger visibility + layering fix (append at end) === */
+@media (max-width: 780px){
+
+  /* Keep the button fixed and on top of the drawer */
+  .burger{
+    position: fixed !important;
+    top: 12px !important;
+    right: 12px !important;
+    z-index: 1001 !important;      /* higher than overlay */
+    color: #1c1a17 !important;     /* force dark lines */
+    background: transparent !important;
+    border: 0 !important;
   }
-}
 
-.grid-3.menu-preview .card{
-  height:100%;
-  display:flex;
-  flex-direction:column;
-  justify-content:flex-start;
-}
+  /* Ensure the overlay sits below the burger */
+  .menu-drawer{
+    z-index: 1000 !important;
+  }
 
-.grid-3.menu-preview .card h3{
-  margin-top:0;
-  text-transform:lowercase;
-}
+  /* Make the 3 lines/X always use that color + add tiny halo for contrast */
+  .burger .burger-icon,
+  .burger .burger-icon::before,
+  .burger .burger-icon::after{
+    background: currentColor !important;
+    filter: drop-shadow(0 0 1px rgba(0,0,0,.45));
+  }
 
-.grid-3.menu-preview .card p{
-  margin:.5rem 0 1.25rem;
+  /* When open: hide middle bar, show the two arms as an X */
+  .burger.is-open .burger-icon{
+    background: transparent !important;
+  }
+  .burger.is-open .burger-icon::before{ transform: rotate(45deg) !important; }
+  .burger.is-open .burger-icon::after{  transform: rotate(-45deg) !important; }
 }
+/* === MOBILE BURGER: force visible X above overlay === */
+@media (max-width: 780px){
+  /* put burger on top of everything and fix it to the corner */
+  .burger{
+    position: fixed !important;
+    inset: 12px 12px auto auto !important;   /* top-right */
+    width: 40px !important;
+    height: 40px !important;
+    display: grid !important;                /* beat any display:none */
+    place-items: center !important;
+    z-index: 2147483647 !important;          /* higher than any overlay */
+    background: transparent !important;      /* no white circle */
+    border: 0 !important;
+    color: #111 !important;                  /* ensure dark icon color */
+  }
 
-.grid-3.menu-preview .card .btn{
-  margin-top:auto;            /* pins buttons to the bottom */
-  align-self:center;          /* centers the CTA */
-}
+  /* overlay sits just below the button */
+  .menu-drawer{
+    z-index: 2147483646 !important;
+  }
 
-/* subtle hover lift to keep it luxe but restrained */
-.grid-3.menu-preview .card:hover{
-  transform: translateY(-2px);
-  transition: transform .18s ease;
-}
+  /* 3 bars → always dark; tiny halo for contrast on bright bg */
+  .burger .burger-icon,
+  .burger .burger-icon::before,
+  .burger .burger-icon::after{
+    background-color: #111 !important;
+    width: 24px !important;
+    height: 2px !important;
+    border-radius: 2px !important;
+    filter: drop-shadow(0 0 1px rgba(255,255,255,.35)) !important;
+  }
 
-/* ── Gallery (responsive, quiet) ──────────────────────────── */
-.gallery{
-  display:grid;
-  gap:12px;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-}
-.gallery figure{
-  margin:0;
-  border-radius: var(--radius);
-  overflow:hidden;
-  background:#fff;
-  border:1px solid var(--muted);
-  box-shadow: var(--shadow-sm);
-  aspect-ratio: 4/3;
-}
-.gallery img{
-  width:100%;
-  height:100%;
-  object-fit: cover;
-}
+  .burger .burger-icon{ position: relative !important; }
+  .burger .burger-icon::before{
+    content:"" !important; position:absolute !important; left:0 !important; top:-7px !important;
+  }
+  .burger .burger-icon::after{
+    content:"" !important; position:absolute !important; left:0 !important; top: 7px !important;
+  }
 
-/* ── Quotes (testimonials) ────────────────────────────────── */
-.quotes{
-  display:grid;
-  gap:16px;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  /* open state: middle bar hidden, two arms form the X */
+  .burger.is-open .burger-icon{ background-color: transparent !important; }
+  .burger.is-open .burger-icon::before{ top:0 !important; transform: rotate(45deg) !important; }
+  .burger.is-open .burger-icon::after{  top:0 !important; transform: rotate(-45deg) !important; }
 }
-.quote{
-  padding: 18px 20px;
-}
-.quote p{ margin:0 0 .4rem; }
-.quote cite{ opacity:.8; font-style: normal; }
-
-/* ── Newsletter (inline, centered) ─────────────────────────── */
-.newsletter .inline-form{
-  display:flex; gap:10px; justify-content:center; flex-wrap:wrap;
-}
-
-.newsletter input[type="email"]{
-  padding: 10px 12px;
-  border: 1px solid var(--muted);
-  border-radius: 999px;
-  min-width: 260px;
-  background: #fff;
-}
-
-/* Section titles (light, centered, no heavy bold) */
-.section-title{
-  font-family: var(--font-serif);
-  font-weight: 400;                /* keep it elegant, not bold */
-  letter-spacing: .2px;
-  margin: 0 0 16px;
-  font-size: clamp(24px, 3.2vw, 34px);
-}
-
-/* Optional small divider spacing under a title when needed */
-.section-title + .lead,
-.section-title + .grid,
-.section-title + .gallery,
-.section-title + .testimonials{
-  margin-top: 12px;
-}
-
-/* reviews */
-
-/* ---- Reviews page (luxury, minimal, fluid) ---- */
-:root{
-  --fg:#1b1b1b;
-  --muted:#dedede;
-  --bg:#fafafa;
-  --radius:14px;
-}
-
-.container{ max-width:980px; margin-inline:auto; padding:32px 20px; }
-
-.reviews-page{ display:grid; gap:24px; color:var(--fg); }
-
-.title{
-  text-align:center;
-  font-size: clamp(28px, 3.6vw, 42px);
-  letter-spacing:.5px;
-  margin: 6px 0 2px;
-}
-
-/* Summary (public) */
-.summary{
-  display:flex; align-items:center; justify-content:center; gap:14px;
-  padding:10px 14px; border:1px solid var(--muted); border-radius:999px; background:#fff;
-}
-.summary .summary-text{ font-size:1rem; }
-.muted{ opacity:.55; }
-.center{ text-align:center; }
-
-/* Single stars container (used everywhere) */
-.stars{
-  display:flex; align-items:center; gap:8px; user-select:none;
-}
-.stars button, .stars span{
-  appearance:none; border:0; background:none; padding:0;
-  font-size: 22px; line-height:1; cursor:pointer; transition: transform .12s ease, opacity .12s ease;
-}
-.stars.small span{ font-size:18px; }
-.stars .on{ color:#111; }
-.stars button:not(.on), .stars span:not(.on){ opacity:.35; }
-.stars button:hover{ transform: translateY(-1px); }
-
-/* Form */
-.form{
-  display:grid; gap:10px;
-  border:1px solid var(--muted); border-radius: var(--radius);
-  background:#fff; padding:16px;
-}
-.form input, .form textarea{
-  width:100%; border:1px solid var(--muted); border-radius:10px; padding:10px 12px; background:#fff;
-}
-.form textarea{ resize: vertical; min-height: 110px; }
-.actions{ display:flex; justify-content:flex-end; }
-.btn{
-  border:1px solid #000; border-radius:999px; padding:10px 16px; background:#111; color:#fff;
-  transition:transform .12s ease, opacity .12s ease;
-}
-.btn:disabled{ opacity:.6; }
-.btn:hover{ transform: translateY(-1px); }
-.error{ color:#b00020; }
-
-/* List */
-.list{
-  list-style:none; padding:0; margin:0;
-  display:grid; gap:16px; grid-template-columns: 1fr;
-}
-@media (min-width: 820px){
-  .list{ grid-template-columns: 1fr 1fr; }
-}
-.card{
-  background:rgba(255,255,255,.7);
-  border:1px solid var(--muted);
-  border-radius: var(--radius);
-  padding:16px;
-  backdrop-filter:saturate(160%) blur(10px);
-  -webkit-backdrop-filter:saturate(160%) blur(10px);
-}
-.card .row{
-  display:flex; align-items:baseline; justify-content:space-between; gap:10px; margin-bottom:6px;
-}
-.card .text{ margin:6px 0 0; white-space:pre-wrap; }
