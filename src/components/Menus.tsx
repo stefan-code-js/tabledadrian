@@ -34,34 +34,70 @@ export default function Menus() {
                 </div>
 
                 <div className="grid-3" style={{ marginTop: 24 }}>
-                    <article className="card">
-                        <h3>Signature Tasting</h3>
-                        <p><Icon.Users /> 6–12 guests · <Icon.Clock /> ~3 hours</p>
-                        <p>Six courses of haute cuisine: clarified broths, cultured creams, warm acidity.</p>
-                        <p><strong>From €180 per guest</strong></p>
-                        <Link href="/book" className="btn" aria-label="Enquire about the Signature Tasting">
-                            Enquire <Icon.Chevron style={{ marginLeft: 6 }} />
-                        </Link>
+                    {/* Card 1 */}
+                    <article className="card menu-card">
+                        <h3 className="menu-title">Signature tasting</h3>
+
+                        <p className="menu-meta">
+                            <span className="meta-item"><Icon.Users /> 6–12 guests</span>
+                            <span className="meta-sep">·</span>
+                            <span className="meta-item"><Icon.Clock /> ~3 hours</span>
+                        </p>
+
+                        <p className="menu-desc">
+                            Six courses of haute cuisine: clarified broths, cultured creams, warm acidity.
+                        </p>
+
+                        <div className="menu-bottom">
+                            <p className="menu-price"><strong>From €180 per guest</strong></p>
+                            <Link href="/book" className="btn" aria-label="Enquire about the Signature tasting">
+                                Enquire <Icon.Chevron style={{ marginLeft: 6 }} />
+                            </Link>
+                        </div>
                     </article>
 
-                    <article className="card">
-                        <h3>Performance Dinner</h3>
-                        <p><Icon.Users /> 6–10 guests · <Icon.Clock /> ~2.5 hours</p>
-                        <p>Longevity-minded arc: ferments, clean carbohydrates, aromatic pairings; light yet complete.</p>
-                        <p><strong>From €220 per guest</strong></p>
-                        <Link href="/book" className="btn" aria-label="Enquire about the Performance Dinner">
-                            Enquire <Icon.Chevron style={{ marginLeft: 6 }} />
-                        </Link>
+                    {/* Card 2 */}
+                    <article className="card menu-card">
+                        <h3 className="menu-title">Performance dinner</h3>
+
+                        <p className="menu-meta">
+                            <span className="meta-item"><Icon.Users /> 6–10 guests</span>
+                            <span className="meta-sep">·</span>
+                            <span className="meta-item"><Icon.Clock /> ~2.5 hours</span>
+                        </p>
+
+                        <p className="menu-desc">
+                            Longevity-minded arc: ferments, clean carbohydrates, aromatic pairings; light yet complete.
+                        </p>
+
+                        <div className="menu-bottom">
+                            <p className="menu-price"><strong>From €220 per guest</strong></p>
+                            <Link href="/book" className="btn" aria-label="Enquire about the Performance dinner">
+                                Enquire <Icon.Chevron style={{ marginLeft: 6 }} />
+                            </Link>
+                        </div>
                     </article>
 
-                    <article className="card">
-                        <h3>Salon Supper</h3>
-                        <p><Icon.Users /> 8–16 guests · <Icon.Clock /> ~2 hours</p>
-                        <p>Refined family-style platters for intimate salons. Abundant, shareable, quietly opulent.</p>
-                        <p><strong>From €120 per guest</strong></p>
-                        <Link href="/book" className="btn" aria-label="Enquire about the Salon Supper">
-                            Enquire <Icon.Chevron style={{ marginLeft: 6 }} />
-                        </Link>
+                    {/* Card 3 */}
+                    <article className="card menu-card">
+                        <h3 className="menu-title">Salon supper</h3>
+
+                        <p className="menu-meta">
+                            <span className="meta-item"><Icon.Users /> 8–16 guests</span>
+                            <span className="meta-sep">·</span>
+                            <span className="meta-item"><Icon.Clock /> ~2 hours</span>
+                        </p>
+
+                        <p className="menu-desc">
+                            Refined family-style platters for intimate salons. Abundant, shareable, quietly opulent.
+                        </p>
+
+                        <div className="menu-bottom">
+                            <p className="menu-price"><strong>From €120 per guest</strong></p>
+                            <Link href="/book" className="btn" aria-label="Enquire about the Salon supper">
+                                Enquire <Icon.Chevron style={{ marginLeft: 6 }} />
+                            </Link>
+                        </div>
                     </article>
                 </div>
 

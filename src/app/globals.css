@@ -9,7 +9,10 @@
   --brand: #263226;         /* quiet forest accent */
   --card: #ffffff;
   --ring: rgba(38,50,38,.18);
-
+  --d: 0ms;                         /* default reveal delay */
+  --accent: #263226;                /* quiet forest accent already used */
+  --glass: rgba(255,255,255,.65);   /* glass for soft cards */
+  --shadow-lg: 0 22px 50px rgba(0,0,0,.12);
   /* radius & elevation */
   --radius: 14px;
   --shadow-sm: 0 8px 22px rgba(0,0,0,.06);
@@ -388,241 +391,741 @@ main{ min-height: 60vh; }
 
 /*─────────────────────────────────────────────────────────────
   15) MOBILE-ONLY BURGER + OVERLAY (NO WHITE CIRCLE)
-──────────────────────────────────────────────────────────────*/
+/* ====== Burger + Drawer (one clean source of truth) ====== */
+
 /* Desktop defaults */
-.burger{ display:none !important; }   /* hidden on desktop */
-.desktop-nav{ display:flex !important; }
+.burger{ display:none; }
+.desktop-nav{ display:flex; }
 
 @media (max-width:780px){
-  .desktop-nav{ display:none !important; }
-
-  /* Button: transparent, small, top-right */
+  /* hide desktop nav, show burger */
+  .desktop-nav{ display:none; }
   .burger{
-    display:grid !important; place-items:center;
-    position:absolute; right:12px; top:12px;
-    width:40px; height:40px; padding:0;
-    background:transparent; border:0; color:var(--fg);
-    cursor:pointer; line-height:0;
+    position: fixed;                    /* always in the same spot */
+    top: 12px;
+    right: 12px;
+    width: 34px;
+    height: 34px;
+    padding: 0;
+    display: grid;
+    place-items: center;
+    background: transparent;
+    border: 0;
+    color: var(--fg, #111);             /* dark bars */
+    z-index: 1001;                      /* above the overlay */
+    line-height: 0;
+    cursor: pointer;
   }
-  .burger:focus-visible{ outline:2px solid currentColor; outline-offset:2px; }
 
-  /* 3 lines → X */
-  .burger-icon{
-    position:relative; width:22px; height:2px;
-    background: currentColor; border-radius:2px; transition: opacity .18s;
-  }
+  /* 3 bars → X */
+  .burger-icon,
   .burger-icon::before,
   .burger-icon::after{
-    content:""; position:absolute; left:0; right:0; margin:auto;
-    width:22px; height:2px; background: currentColor; border-radius:2px;
-    transition: transform .22s ease;
+    content: "";
+    display: block;
+    width: 22px;
+    height: 2px;
+    background: currentColor;
+    border-radius: 2px;
+    transition: transform .20s ease, opacity .20s ease;
   }
-  .burger-icon::before{ transform: translateY(-6px); }
-  .burger-icon::after{  transform: translateY( 6px); }
+  .burger-icon{ position: relative; }
+  .burger-icon::before{ position: absolute; top: -6px; left: 0; right: 0; }
+  .burger-icon::after { position: absolute; top:  6px; left: 0; right: 0; }
 
-  .burger.is-open .burger-icon{ opacity:0; }            /* hide middle bar */
-  .burger.is-open .burger-icon::before{ transform: rotate(45deg); }
-  .burger.is-open .burger-icon::after{  transform: rotate(-45deg); }
+  .burger.is-open .burger-icon{ background: transparent; } /* hide middle bar */
+  .burger.is-open .burger-icon::before{ top: 0; transform: rotate(45deg); }
+  .burger.is-open .burger-icon::after { top: 0; transform: rotate(-45deg); }
 
-  /* Overlay drawer */
+  /* overlay just below the button */
   .menu-drawer{
-    position:fixed; inset:0; z-index:60;
-    display:none; opacity:0; pointer-events:none;
-    background: color-mix(in oklab, #000 6%, transparent);
-    backdrop-filter: blur(6px);
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: none;
+    opacity: 0;
+    pointer-events: none;
+    background: rgba(247,245,239,.96);  /* your parchment tone */
+    backdrop-filter: blur(4px);
     transition: opacity .18s ease;
   }
-  .menu-drawer.is-open{ display:block; opacity:1; pointer-events:auto; }
+  .menu-drawer.is-open{ display: block; opacity: 1; pointer-events: auto; }
 
-  .menu-panel{ position:absolute; inset:0; display:grid; place-items:center; padding:24px; }
-
-  .mobile-nav{
-    display:grid; gap:18px; text-align:center;
-  }
-  .mobile-nav a{
-    text-decoration:none; font-size: clamp(22px, 5vw, 28px);
-  }
-}/* ── PATCH: keep mobile drawer hidden by default on desktop ────────── */
-.menu-drawer{
-  display:none;               /* hide on desktop & when closed */
-  position:fixed;
-  inset:0;
-  z-index:60;
-  opacity:0;
-  pointer-events:none;
-  background: color-mix(in oklab, #000 6%, transparent);
-  backdrop-filter: blur(6px);
-  transition: opacity .18s ease;
+  .menu-panel{ position: absolute; inset: 0; display: grid; place-items: center; padding: 24px; }
+  .mobile-nav{ display: grid; gap: 16px; text-align: center; }
 }
-.menu-drawer.is-open{
-  display:block;              /* only visible when toggled open */
-  opacity:1;
-  pointer-events:auto;
-}
+/* === NAV VISIBILITY RULES (authoritative) === */
 
-/* ensure internal layout is ready when it opens */
-.menu-panel{ position:absolute; inset:0; display:grid; place-items:center; padding:24px; }
-.mobile-nav{ display:grid; gap:18px; text-align:center; }
+/* desktop defaults */
+.desktop-nav { display: flex !important; }
+.burger      { display: none !important; }
 
-/* keep burger hidden on desktop (safety) */
-.burger{ display:none; }
-@media (max-width:780px){
-  .burger{ display:grid; }
-  .desktop-nav{ display:none !important; }
-}
-/* ── Burger → X fix (append at end) ───────────────────────── */
-.header .inner{ position:relative; }  /* anchor the absolute button */
-
-.burger{
-  position:absolute; right:12px; top:12px;
-  display:grid; place-items:center;
-  width:40px; height:40px;
-  padding:6px;
-  background:transparent !important;   /* no white circle */
-  border:0 !important; box-shadow:none !important;
-  color: var(--fg, #111);               /* make lines visible */
-  z-index: 70;                          /* stay above overlay */
-}
-
-/* 3 lines */
-.burger-icon,
-.burger-icon::before,
-.burger-icon::after{
-  display:block; content:"";
-  width:22px; height:2px;
-  background: currentColor;
-  border-radius:2px;
-  transition: transform .22s ease, opacity .18s ease, background .18s ease;
-}
-.burger-icon{ position:relative; }
-.burger-icon::before{ position:absolute; top:-7px; left:0; right:0; }
-.burger-icon::after { position:absolute; top: 7px; left:0; right:0; }
-
-/* open → X */
-.burger.is-open .burger-icon{ background: transparent; }        /* hide middle bar */
-.burger.is-open .burger-icon::before{ transform: translateY(7px) rotate(45deg); }
-.burger.is-open .burger-icon::after { transform: translateY(-7px) rotate(-45deg); }
-
-/* mobile-only visibility (desktop uses the inline nav) */
-.burger{ display:none; }
-@media (max-width:780px){
-  .burger{ display:grid; }
-  .desktop-nav{ display:none !important; }
-}
-
-/* Drawer visibility (so it doesn't sit on top of the button) */
-.menu-drawer{
-  display:none; opacity:0; pointer-events:none;
-  position:fixed; inset:0; z-index:60;
-  background: color-mix(in oklab, #000 6%, transparent);
-  backdrop-filter: blur(6px);
-  transition: opacity .18s ease;
-}
-.menu-drawer.is-open{ display:block; opacity:1; pointer-events:auto; }
-
-/* Burger/X visibility fix (append at end) */
+/* mobile: only the burger */
 @media (max-width: 780px){
-  /* Force a dark color and keep it above the overlay */
-  .burger{
-    color: #1c1a17 !important;       /* near-black */
-    z-index: 100 !important;          /* above menu overlay */
-  }
-
-  /* Make sure the lines actually use that color and have contrast */
-  .burger .burger-icon,
-  .burger .burger-icon::before,
-  .burger .burger-icon::after{
-    background: currentColor !important;
-    filter: drop-shadow(0 0 1px rgba(0,0,0,.45)); /* tiny halo for bright bgs */
-  }
-
-  /* Middle bar hidden only when open (keep the two arms visible) */
-  .burger.is-open .burger-icon{
-    background: transparent !important;
-  }
-
-  /* Extra safety: ensure the X arms keep the dark color even when open */
-  .burger.is-open .burger-icon::before,
-  .burger.is-open .burger-icon::after{
-    background: #1c1a17 !important;
-  }
+  .desktop-nav { display: none !important; }
+  .burger      { display: grid !important; }
 }
-/* === Burger visibility + layering fix (append at end) === */
+
+/* keep the burger above the overlay on mobile */
 @media (max-width: 780px){
-
-  /* Keep the button fixed and on top of the drawer */
   .burger{
-    position: fixed !important;
-    top: 12px !important;
-    right: 12px !important;
-    z-index: 1001 !important;      /* higher than overlay */
-    color: #1c1a17 !important;     /* force dark lines */
-    background: transparent !important;
-    border: 0 !important;
+    position: fixed;         /* top-right corner */
+    top: 12px;
+    right: 12px;
+    width: 34px;
+    height: 34px;
+    place-items: center;
+    background: transparent;
+    border: 0;
+    color: var(--fg, #111);
+    z-index: 1001;           /* above the drawer */
+    line-height: 0;
+    cursor: pointer;
   }
 
-  /* Ensure the overlay sits below the burger */
-  .menu-drawer{
-    z-index: 1000 !important;
+  /* bars → X */
+  .burger-icon,
+  .burger-icon::before,
+  .burger-icon::after{
+    content: "";
+    display: block;
+    width: 22px;
+    height: 2px;
+    background: currentColor;
+    border-radius: 2px;
+    transition: transform .2s ease, opacity .2s ease;
   }
+  .burger-icon{ position: relative; }
+  .burger-icon::before{ position: absolute; top: -6px; left: 0; right: 0; }
+  .burger-icon::after { position: absolute; top:  6px; left: 0; right: 0; }
 
-  /* Make the 3 lines/X always use that color + add tiny halo for contrast */
-  .burger .burger-icon,
-  .burger .burger-icon::before,
-  .burger .burger-icon::after{
-    background: currentColor !important;
-    filter: drop-shadow(0 0 1px rgba(0,0,0,.45));
-  }
-
-  /* When open: hide middle bar, show the two arms as an X */
-  .burger.is-open .burger-icon{
-    background: transparent !important;
-  }
-  .burger.is-open .burger-icon::before{ transform: rotate(45deg) !important; }
-  .burger.is-open .burger-icon::after{  transform: rotate(-45deg) !important; }
-}
-/* === MOBILE BURGER: force visible X above overlay === */
-@media (max-width: 780px){
-  /* put burger on top of everything and fix it to the corner */
-  .burger{
-    position: fixed !important;
-    inset: 12px 12px auto auto !important;   /* top-right */
-    width: 40px !important;
-    height: 40px !important;
-    display: grid !important;                /* beat any display:none */
-    place-items: center !important;
-    z-index: 2147483647 !important;          /* higher than any overlay */
-    background: transparent !important;      /* no white circle */
-    border: 0 !important;
-    color: #111 !important;                  /* ensure dark icon color */
-  }
+  .burger.is-open .burger-icon{ background: transparent; }
+  .burger.is-open .burger-icon::before{ top: 0; transform: rotate(45deg); }
+  .burger.is-open .burger-icon::after { top: 0; transform: rotate(-45deg); }
 
   /* overlay sits just below the button */
   .menu-drawer{
-    z-index: 2147483646 !important;
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: none;
+    opacity: 0;
+    pointer-events: none;
+    background: rgba(247,245,239,.96);
+    backdrop-filter: blur(4px);
+    transition: opacity .18s ease;
+  }
+  .menu-drawer.is-open{ display: block; opacity: 1; pointer-events: auto; }
+
+  .menu-panel{ position: absolute; inset: 0; display: grid; place-items: center; padding: 24px; }
+  .mobile-nav{ display: grid; gap: 16px; text-align: center; }
+}
+/* === NAV SAFETY PATCH — desktop shows only desktop nav; mobile shows burger === */
+.header .inner{ position:relative; }
+
+/* Mobile drawer is hidden by default on desktop */
+.menu-drawer{ display:none !important; position:fixed !important; inset:0 !important; z-index:1000; }
+.menu-drawer.is-open{ display:block !important; }
+
+@media (min-width:781px){
+  .desktop-nav{ display:flex !important; }
+  .burger{ display:none !important; }
+  .menu-drawer, .menu-panel, .mobile-nav{ display:none !important; }
+}
+
+@media (max-width:780px){
+  .desktop-nav{ display:none !important; }
+
+  /* small, clean burger */
+  .burger{
+    display:grid !important; place-items:center;
+    position:fixed; top:14px; right:14px;
+    width:36px; height:36px; padding:0;
+    background:transparent !important; border:0 !important; box-shadow:none !important;
+    color:#1c1a17 !important; z-index:2147483647 !important; line-height:0;
   }
 
-  /* 3 bars → always dark; tiny halo for contrast on bright bg */
+  /* 3 bars → X */
   .burger .burger-icon,
   .burger .burger-icon::before,
   .burger .burger-icon::after{
-    background-color: #111 !important;
-    width: 24px !important;
-    height: 2px !important;
-    border-radius: 2px !important;
-    filter: drop-shadow(0 0 1px rgba(255,255,255,.35)) !important;
+    display:block; content:"";
+    width:22px; height:2px; border-radius:2px;
+    background: currentColor !important;
+    transition: transform .22s ease, opacity .18s ease;
   }
+  .burger .burger-icon{ position:relative; }
+  .burger .burger-icon::before{ position:absolute; top:-6px; left:0; }
+  .burger .burger-icon::after{ position:absolute; top: 6px; left:0; }
 
-  .burger .burger-icon{ position: relative !important; }
-  .burger .burger-icon::before{
-    content:"" !important; position:absolute !important; left:0 !important; top:-7px !important;
-  }
-  .burger .burger-icon::after{
-    content:"" !important; position:absolute !important; left:0 !important; top: 7px !important;
-  }
+  .burger.is-open .burger-icon{ background:transparent !important; }
+  .burger.is-open .burger-icon::before{ top:0; transform:rotate(45deg); }
+  .burger.is-open .burger-icon::after{  top:0; transform:rotate(-45deg); }
 
-  /* open state: middle bar hidden, two arms form the X */
-  .burger.is-open .burger-icon{ background-color: transparent !important; }
-  .burger.is-open .burger-icon::before{ top:0 !important; transform: rotate(45deg) !important; }
-  .burger.is-open .burger-icon::after{  top:0 !important; transform: rotate(-45deg) !important; }
+  /* overlay sits just beneath the button */
+  .menu-drawer{ z-index:2147483646 !important; }
+}
+/* small helpers used above */
+.checklist{ margin: .4rem 0 .2rem; padding:0; list-style:none; }
+.checklist li{ margin:.2rem 0; padding-left:1.2em; position:relative; }
+.checklist li::before{ content:"–"; position:absolute; left:0; opacity:.55; }
+
+.bullet{ margin:.4rem 0; }
+.steps{ margin:.4rem 0; padding-left:1.2em; }
+/* consult page trims */
+.prose .card h2 { margin: 0 0 .4rem; }
+.prose details { margin: .4rem 0; }
+.prose summary { cursor: pointer; }
+/* ========== CONSULT – luxe, centered, animated ========== */
+.consult-page .container--narrow{ max-width: 880px; }
+.consult-page .lead{ max-width: 54ch; margin-inline: auto; }
+
+/* subtle entrance */
+.reveal{
+  opacity:0;
+  transform: translateY(10px);
+  animation: lux-in .5s ease forwards;
+  animation-delay: var(--d, 0ms);
+}
+@keyframes lux-in{ to{ opacity:1; transform:none; } }
+@media (prefers-reduced-motion: reduce){
+  .reveal{ opacity:1; transform:none; animation:none; }
+}
+
+/* centered grid that never feels cramped */
+.lux-grid{
+  display:grid;
+  gap:16px;
+  grid-template-columns: 1fr;
+  justify-items: center;
+  align-items: stretch;
+  margin: 10px 0;
+}
+@media (min-width: 940px){
+  .lux-grid{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+.lux-grid .lux-tier{ text-align:center; }
+
+/* glassy card with soft shadow and hover lift */
+.lux-card{
+  width:100%;
+  max-width: 520px;
+  background: color-mix(in oklab, #ffffff 88%, var(--bg, #f7f5ef));
+  border: 1px solid rgba(0,0,0,.06);
+  border-radius: 16px;
+  padding: 18px 18px 16px;
+  box-shadow: 0 10px 28px rgba(0,0,0,.07);
+  backdrop-filter: saturate(140%) blur(6px);
+  -webkit-backdrop-filter: saturate(140%) blur(6px);
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+.lux-card:hover{
+  transform: translateY(-2px);
+  box-shadow: 0 16px 34px rgba(0,0,0,.10);
+}
+
+/* headings + lists look restrained */
+.lux-h{
+  margin: 0 0 .4rem;
+  font-weight: 500;
+  letter-spacing: .2px;
+  text-align: center;
+}
+.lux-list, .lux-steps{
+  margin: .25rem auto 0;
+  padding-left: 1.1rem;
+  max-width: 54ch;
+  text-align: left;
+}
+.lux-steps li{ margin: .25rem 0; }
+
+/* prices centered and elegant */
+.lux-price{
+  font-size: 1.15rem;
+  font-weight: 500;
+  margin: .25rem 0 .6rem;
+}
+
+/* details with chevron and subtle motion */
+.lux-details{
+  border-top: 1px solid rgba(0,0,0,.06);
+  padding: 10px 0;
+}
+.lux-details:first-of-type{ border-top: 0; }
+.lux-details > summary{
+  list-style: none;
+  cursor: pointer;
+  position: relative;
+  padding-right: 22px;
+  text-align: left;
+}
+.lux-details > summary::marker{ content:""; }
+.lux-details > summary::after{
+  content: "";
+  position: absolute; right: 2px; top: 50%;
+  width: 8px; height: 8px;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  transform: translateY(-50%) rotate(-45deg);
+  opacity: .7;
+  transition: transform .18s ease, opacity .18s ease;
+}
+.lux-details[open] > summary::after{
+  transform: translateY(-50%) rotate(45deg);
+  opacity: .9;
+}
+.lux-details p{ margin: .35rem 0 0; max-width: 60ch; }
+
+/* === Consult cards: equal height, centered, pinned CTA ================== */
+.lux-grid{ justify-items:center; }
+
+.lux-card{
+  display:flex;                 /* make the card a column */
+  flex-direction:column;
+  min-height: 380px;            /* guarantees equal visual height */
+}
+
+.lux-card .lux-body{
+  flex: 1 1 auto;               /* takes remaining space */
+  display:grid;
+  gap: .4rem;
+  place-items: center;          /* center headings/price/lists nicely */
+  text-align: center;           /* keeps it luxe & balanced */
+}
+
+.lux-card .lux-list,
+.lux-card .lux-steps{
+  text-align: left;             /* lists read better left-aligned */
+}
+
+.lux-card .lux-cta{
+  margin-top: auto;             /* pins the CTA row to the bottom */
+  display:flex;
+  justify-content: center;
+  padding-top: .6rem;
+}
+
+/* micro spacing polish */
+.lux-price{ margin: .2rem 0 .5rem; }
+.lux-h{ margin-bottom: .3rem; }
+
+/* slightly stronger hover lift for a luxe feel */
+.lux-card{
+  transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+}
+.lux-card:hover{
+  transform: translateY(-3px);
+  box-shadow: 0 18px 40px rgba(0,0,0,.12);
+  border-color: rgba(0,0,0,.08);
+}
+
+/* optional: three columns on very wide screens (feel free to keep two) */
+@media (min-width: 1200px){
+  .lux-grid{ grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+/* ── Consult: 2-up info row, 3-up tiers row, pinned CTAs, wide FAQ ───────── */
+.consult-page .container--narrow{ max-width: 980px; } /* keeps all rows same total width */
+
+/* top row: 2 wide cards */
+.consult-grid.top{
+  display:grid; gap:16px; justify-items:center; align-items:stretch;
+  grid-template-columns: 1fr;
+  margin: 12px 0 4px;
+}
+@media (min-width: 940px){
+  .consult-grid.top{ grid-template-columns: repeat(2, minmax(0,1fr)); }
+}
+
+/* second row: 3 service tiers aligned */
+.consult-grid.tiers{
+  display:grid; gap:16px; justify-items:center; align-items:stretch;
+  grid-template-columns: 1fr; margin: 8px 0;
+}
+@media (min-width: 940px){
+  .consult-grid.tiers{ grid-template-columns: repeat(2, minmax(0,1fr)); }
+}
+@media (min-width: 1200px){
+  .consult-grid.tiers{ grid-template-columns: repeat(3, minmax(0,1fr)); }
+}
+
+/* cards behave as columns; CTAs pin to bottom so buttons align */
+.lux-card{
+  display:flex; flex-direction:column;
+  width:100%; max-width:none; /* let grid control width so rows line up */
+  min-height: 380px;
+}
+.lux-card .lux-body{
+  flex:1 1 auto; display:grid; gap:.45rem; place-items:center; text-align:center;
+}
+.lux-card .lux-list, .lux-card .lux-steps{ text-align:left; max-width:54ch; }
+.lux-card .lux-cta{ margin-top:auto; display:flex; justify-content:center; padding-top:.6rem; }
+
+/* FAQ block spans same width as rows above */
+.consult-faq{
+  margin-top: 22px;
+}
+.consult-faq .lux-details{ max-width: 980px; margin-inline:auto; }
+
+/* ── Membership: two-wide info row, three-wide tiers, wide FAQ ────────── */
+.membership-page .container--narrow{ max-width: 980px; }
+
+/* top row: 2 info cards */
+.member-grid.top{
+  display:grid; gap:16px; justify-items:center; align-items:stretch;
+  grid-template-columns: 1fr; margin: 12px 0 4px;
+}
+@media (min-width: 940px){
+  .member-grid.top{ grid-template-columns: repeat(2, minmax(0,1fr)); }
+}
+
+/* tier row: 3 plans with pinned CTA/price */
+.member-grid.tiers{
+  display:grid; gap:16px; justify-items:center; align-items:stretch;
+  grid-template-columns: 1fr; margin: 8px 0;
+}
+@media (min-width: 940px){
+  .member-grid.tiers{ grid-template-columns: repeat(2, minmax(0,1fr)); }
+}
+@media (min-width: 1200px){
+  .member-grid.tiers{ grid-template-columns: repeat(3, minmax(0,1fr)); }
+}
+
+/* cards behave as columns; body centers, CTA pins */
+.membership-page .lux-card{
+  display:flex; flex-direction:column; min-height: 400px;
+}
+.membership-page .lux-card .lux-body{
+  flex:1 1 auto; display:grid; gap:.45rem; place-items:center; text-align:center;
+}
+.membership-page .lux-card .lux-list,
+.membership-page .lux-card .lux-steps{ text-align:left; max-width:54ch; }
+.membership-page .lux-card .lux-cta{
+  margin-top:auto; display:flex; justify-content:center; padding-top:.6rem;
+}
+
+/* FAQ matches overall width */
+.membership-faq{ margin-top: 22px; }
+.membership-faq .lux-details{ max-width: 980px; margin-inline:auto; }
+
+/* Membership: center the intro paragraph */
+.membership-page header.center-text .lead{
+  text-align: center;
+  max-width: 60ch;
+  margin-inline: auto;
+}
+/* ——— Menus: align rows across cards ——— */
+.menu .grid-3 { align-items: stretch; }
+
+/* Build consistent rows inside each card */
+.menu-card{
+  display: grid;
+  grid-template-rows:
+    auto           /* title */
+    auto           /* meta */
+    1fr            /* desc fills available space (but we clamp) */
+    auto;          /* price + button row */
+  gap: .5rem;
+  height: 100%;
+}
+
+/* Title: clamp to 2 lines + equal block height */
+.menu-title{
+  text-transform: lowercase;
+  font-weight: 500;
+  line-height: 1.2;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  min-height: calc(1.2em * 2);      /* keeps same height across cards */
+  margin: 0 0 .1rem;
+}
+
+/* Meta: one line, icon spacing */
+.menu-meta{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  line-height: 1.3;
+  min-height: 1.4em;                 /* keeps row height identical */
+  opacity: .95;
+}
+.menu-meta .meta-item{
+  display: inline-flex; align-items:center; gap:6px;
+}
+.menu-meta .meta-sep{ opacity:.55; }
+
+/* Description: clamp to 3 lines so all cards match */
+.menu-desc{
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  line-height: 1.45;
+  min-height: calc(1.45em * 3);      /* equalize description block */
+  margin:.35em 0;
+}
+
+/* Bottom row: price + CTA on same horizontal line, pinned to bottom */
+.menu-bottom{
+  display:flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-top: auto;                  /* pins the whole row to the bottom */
+}
+.menu-price{ margin: 0; }
+
+/* Button can stay left or right; here we keep it right. */
+.menu .btn{
+  margin: 0;                         /* we no longer need margin-top:auto here */
+}
+
+/* Optional: consistent meta icon sizing */
+.menu .card svg{ flex: 0 0 auto; }
+/* ============ ABOUT ============ */
+
+/* Page wrapper tweaks */
+.about-page .title { margin-bottom: .2rem; }
+.about-page .intro { max-width: 62ch; margin-inline: auto; }
+
+/* Pillars */
+.about-pillars { align-items: stretch; }
+.about-card{
+  text-align:center;
+  display:flex; flex-direction:column; gap:.4rem;
+  backdrop-filter: saturate(140%) blur(6px);
+  -webkit-backdrop-filter: saturate(140%) blur(6px);
+  border:1px solid rgba(0,0,0,.06);
+  border-radius:16px;
+  padding:18px 18px 16px;
+  box-shadow: 0 10px 28px rgba(0,0,0,.07);
+  transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+  background: color-mix(in oklab, #ffffff 88%, var(--bg, #f7f5ef));
+}
+.about-card:hover{
+  transform: translateY(-3px);
+  box-shadow: 0 18px 40px rgba(0,0,0,.11);
+  border-color: rgba(0,0,0,.08);
+}
+.about-card h3{
+  margin: 0 0 .3rem; font-weight: 500; letter-spacing:.2px; text-transform: lowercase;
+}
+
+/* Stats */
+.about-stats .stat{
+  text-align:center;
+  padding: 16px 14px;
+  border-radius: 16px;
+}
+.about-stats .num{
+  font-size: clamp(22px, 3vw, 28px);
+  font-weight: 500;
+  letter-spacing:.3px;
+}
+.about-stats .note{ opacity:.9; }
+
+/* Story grid breathing */
+.story-grid section{
+  background: #fff;
+  border: 1px solid rgba(0,0,0,.06);
+  border-radius: 14px;
+  padding: 14px;
+  box-shadow: 0 8px 22px rgba(0,0,0,.06);
+}
+.story-grid h2{
+  margin: 0 0 .25rem;
+  font-size: clamp(18px, 2.1vw, 22px);
+  font-weight: 500;
+  text-transform: lowercase;
+}
+.story-grid .note{ margin:0; }
+
+.reveal{
+  opacity: 0;
+  transform: translateY(10px);
+  animation: lux-in .55s ease forwards;
+  animation-delay: var(--d, 0ms);
+}
+@keyframes lux-in { to { opacity:1; transform:none; } }
+@media (prefers-reduced-motion: reduce){
+  .reveal{ opacity:1; transform:none; animation:none; }
+}
+
+/* === About page styles (append) ======================================= */
+.about-page .container--narrow{ max-width: 980px; }
+.about-hero{ text-align:center; }
+
+.about-kicker{
+  font-family: var(--font-sans, ui-sans-serif, system-ui);
+  font-size: 11px;
+  letter-spacing: .14em;
+  text-transform: lowercase;
+  opacity: .75;
+  margin-bottom: 8px;
+}
+
+.about-title{
+  letter-spacing: .3px;
+  margin: .1em 0 .25em;
+}
+
+.about-lead{
+  max-width: 58ch;
+  margin: 0 auto;
+  opacity: .94;
+}
+
+.badges{
+  display:flex; gap:8px; justify-content:center; flex-wrap:wrap;
+  margin-top: 10px;
+}
+.badge{
+  font-size:.85rem;
+  border: 1px solid rgba(0,0,0,.06);
+  background: #fff;
+  border-radius: 999px;
+  padding: .35rem .7rem;
+  box-shadow: 0 8px 22px rgba(0,0,0,.05);
+}
+
+.about-grid{
+  display:grid; gap:16px;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  margin-top: 24px;
+}
+
+.about-card{
+  background: var(--glass);
+  border: 1px solid rgba(0,0,0,.06);
+  border-radius: 16px;
+  padding: 18px 18px 14px;
+  backdrop-filter: saturate(140%) blur(6px);
+  -webkit-backdrop-filter: saturate(140%) blur(6px);
+  box-shadow: 0 12px 30px rgba(0,0,0,.08);
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+.about-card:hover{
+  transform: translateY(-2px);
+  box-shadow: 0 18px 40px rgba(0,0,0,.12);
+}
+.about-card h3{
+  margin: 0 0 .4rem;
+  font-weight: 500;
+  text-transform: lowercase;
+  letter-spacing: .2px;
+}
+.about-card p{ margin:.35rem 0; }
+
+.about-stats{
+  display:grid; gap:14px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  margin-top: 18px;
+}
+.stat{
+  background:#fff;
+  border: 1px solid rgba(0,0,0,.06);
+  border-radius: 14px;
+  padding: 14px;
+  text-align:center;
+  box-shadow: 0 10px 26px rgba(0,0,0,.06);
+}
+.stat .num{ font-size: 1.6rem; letter-spacing:.2px; }
+.stat .note{ opacity:.85; margin-top: 2px; }
+
+.timeline{
+  margin-top: 20px;
+  display:grid; gap:14px;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+.step{
+  background:#fff;
+  border: 1px solid rgba(0,0,0,.06);
+  border-radius: 14px;
+  padding: 16px;
+  box-shadow: 0 10px 26px rgba(0,0,0,.06);
+}
+.step h4{ margin: 0 0 .35rem; font-weight: 500; letter-spacing:.2px; }
+
+.about-cta{
+  display:flex; gap:10px; justify-content:center; flex-wrap:wrap;
+  margin-top: 22px;
+}
+/* ---- About page helpers ---- */
+.about-chipset{
+  display:flex; gap:10px; flex-wrap:wrap; justify-content:center;
+  margin: 10px 0 14px;
+}
+.chip{
+  padding:6px 10px; border:1px solid rgba(0,0,0,.08);
+  border-radius:999px; background:#fff; box-shadow: var(--shadow-sm);
+  font-size:.92rem;
+}
+
+/* 4-up on desktop; gracefully downshifts on small screens */
+.grid-4{ display:grid; gap:16px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+@media (min-width: 1100px){ .grid-4{ grid-template-columns: repeat(4, 1fr); } }
+
+.about-card{ padding:18px 18px 14px; text-align:center; }
+.about-h{ margin:0 0 .3rem; font-weight:500; letter-spacing:.2px; }
+
+/* Replace heavy card rows with a calm list */
+.principles{
+  max-width: 820px; margin: 12px auto 0; padding:0; list-style:none;
+  border-top: 1px solid rgba(0,0,0,.08);
+}
+.principles li{
+  padding: .6rem 0 .6rem 1.1rem;
+  border-bottom: 1px solid rgba(0,0,0,.06);
+  position: relative;
+}
+.principles li::before{
+  content:""; position:absolute; left:0; top:1.15rem;
+  width:6px; height:6px; border-radius:50%; background: currentColor; opacity:.35;
+}
+/* ---- Team grid & cards (lux, equal height) ---- */
+.team-grid{
+  display:grid;
+  gap:16px;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  align-items: stretch;
+  margin-top: 8px;
+}
+
+.team-card{
+  display:flex;
+  flex-direction:column;
+  text-align:center;
+  padding:16px;
+  border-radius: var(--radius);
+  background:#fff;
+  border:1px solid rgba(0,0,0,.06);
+  box-shadow: var(--shadow-sm);
+  transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+}
+.team-card:hover{
+  transform: translateY(-2px);
+  box-shadow: 0 16px 34px rgba(0,0,0,.10);
+  border-color: rgba(0,0,0,.08);
+}
+
+.avatar{
+  width:100%;
+  aspect-ratio: 4 / 3;
+  border-radius:12px;
+  overflow:hidden;
+  background:#fff;
+}
+.avatar img{ width:100%; height:100%; object-fit:cover; }
+
+.team-card .role{ margin: 0 0 6px; opacity:.85; }
+
+.tags{ display:flex; justify-content:center; flex-wrap:wrap; gap:6px; margin-top:6px; }
+.tag{
+  font-size:.82em;
+  padding:.2em .6em;
+  border-radius:999px;
+  background:#fff;
+  border:1px solid rgba(0,0,0,.08);
+  box-shadow: var(--shadow-sm);
 }

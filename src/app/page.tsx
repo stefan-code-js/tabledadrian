@@ -8,7 +8,7 @@ import Testimonials from "@/components/Testimonials";
 import NewsletterSignup from "@/components/NewsletterSignup";
 
 export const metadata: Metadata = {
-  title: "Table d’Adrian — Côte d’Azur tasting menus",
+  title: "Table d’Adrian",
   description:
       "Ingredient-driven cuisine with ritual, aroma, and texture at the center. Seasonal tasting menus for private villas, yachts, and salons along the Côte d’Azur.",
   alternates: { canonical: "https://tabledadrian.com/" },
