@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import { headers } from "next/headers";
 import ReviewsClient, { Review } from "@/components/ReviewsClient";
 
+export const runtime = "edge";
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
     title: "Reviews · Table d’Adrian",
     description:
@@ -11,12 +14,12 @@ export const metadata: Metadata = {
 
 type ApiShape = { items?: Review[]; count?: number; avg?: number };
 
-/** Build an absolute URL for server-side fetch, using env first, else request headers. */
 async function absolute(path: string) {
     const configured = process.env.NEXT_PUBLIC_SITE_URL || process.env.SITE_URL;
     if (configured) return configured.replace(/\/$/, "") + path;
 
-    const h = await headers(); // <-- await, fixes TS2339
+    // Edge-safe headers()
+    const h = await headers();
     const proto = h.get("x-forwarded-proto") || "https";
     const host = h.get("host") || "localhost:3000";
     return `${proto}://${host}${path}`;
@@ -40,6 +43,7 @@ async function getStats(): Promise<{ count: number; avg: number }> {
 
 export default async function ReviewsPage() {
     const [items, stats] = await Promise.all([getInitial(), getStats()]);
+
     return (
         <main className="section reviews-page">
             <div className="container container--narrow">
@@ -49,7 +53,7 @@ export default async function ReviewsPage() {
                     Notes from guests. Public, human, and visible to everyone.
                 </p>
 
-                <div className="center" style={{ marginTop: 8, marginBottom: 12 }}>
+                <div className="center" style={{ marginTop: 8, marginBottom: 14 }}>
                     <div className="summary reveal" style={{ ["--d" as any]: "40ms" }}>
             <span className="stars-display" aria-hidden="true">
               <span className="stars-back">★★★★★</span>
