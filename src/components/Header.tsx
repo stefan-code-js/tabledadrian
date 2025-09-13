@@ -12,6 +12,7 @@ const LINKS = [
     { href: "/book", label: "book" },
     { href: "/membership", label: "membership" },
     { href: "/consult", label: "consult" },
+    { href: "/reviews", label: "reviews" },
 
 ];
 

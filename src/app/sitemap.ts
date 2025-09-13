@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-    const site = process.env.SITE_URL || "https://tabledadrian.com";
+    const site = process.env.SITE_URL || "https://www.tabledadrian.com";
     const lastmod = new Date();
     return [
         { url: `${site}/`, lastModified: lastmod, changeFrequency: "monthly", priority: 1 },
@@ -11,6 +11,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
         { url: `${site}/book`, lastModified: lastmod, changeFrequency: "monthly", priority: 0.9 },
         { url: `${site}/membership`, lastModified: lastmod, changeFrequency: "monthly", priority: 0.9 },
         { url: `${site}/consult`, lastModified: lastmod, changeFrequency: "monthly", priority: 0.9 },
+        { url: `${site}/reviews`, lastModified: lastmod, changeFrequency: "monthly", priority: 0.9 },
 
     ];
 }
