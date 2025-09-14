@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { headers } from "next/headers";
 import ReviewsClient, { Review } from "@/components/ReviewsClient";
+import type { CSSProperties } from "react";
 
 export const runtime = "edge";
 export const dynamic = "force-dynamic";
@@ -54,7 +55,7 @@ export default async function ReviewsPage() {
                 </p>
 
                 <div className="center" style={{ marginTop: 8, marginBottom: 14 }}>
-                    <div className="summary reveal" style={{ ["--d" as any]: "40ms" }}>
+                    <div className="summary reveal" style={delay(40)}>
             <span className="stars-display" aria-hidden="true">
               <span className="stars-back">★★★★★</span>
               <span
@@ -71,12 +72,12 @@ export default async function ReviewsPage() {
                     </div>
                 </div>
 
-                <ReviewsClient
-                    initialItems={items}
-                    initialCount={stats.count}
-                    initialAvg={stats.avg}
-                />
+                <ReviewsClient initialItems={items} />
             </div>
         </main>
     );
+}
+
+function delay(ms: number): CSSProperties {
+    return { "--d": `${ms}ms` } as CSSProperties;
 }
