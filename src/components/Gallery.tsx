@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 // src/components/Gallery.tsx
 export default function Gallery() {
     const shots = [

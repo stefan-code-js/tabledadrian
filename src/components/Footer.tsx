@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 // Server component – clean, centered, compact
 export default function Footer() {
     const IG = process.env.INSTAGRAM_PROFILE_URL ?? "https://instagram.com/tabledadrian";
