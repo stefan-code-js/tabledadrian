@@ -1,3 +1,5 @@
+
+import TailwindCDN from "./_components/TailwindCDN";
 // src/app/layout.tsx
 import type { Metadata, Viewport } from 'next';
 import './globals.css';
@@ -63,6 +65,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
     return (
         <html lang={site.locale}>
+  <head><TailwindCDN /></head>
         <body>
         <header className="header">
             <div className="container container--narrow" style={{ paddingTop: 16, paddingBottom: 16 }}>
