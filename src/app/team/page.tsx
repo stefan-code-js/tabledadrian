@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import type { CSSProperties } from "react";
 
 export const metadata: Metadata = {
     title: "Team · Private Chef Atelier",
@@ -59,7 +60,7 @@ export default function TeamPage() {
                             <article
                                 key={m.name}
                                 className="team-card lux-card reveal"
-                                style={{ ["--d" as any]: `${i * 90}ms` }}
+                                style={delay(i * 90)}
                             >
                                 <div className="avatar">
                                     <Image
@@ -103,4 +104,8 @@ export default function TeamPage() {
             </div>
         </main>
     );
+}
+
+function delay(ms: number): CSSProperties {
+    return { "--d": `${ms}ms` } as CSSProperties;
 }
