@@ -13,8 +13,6 @@ export type Review = {
 
 type Props = {
     initialItems: Review[];
-    initialCount: number;
-    initialAvg: number;
 };
 
 const StarIcon: React.FC<{ filled?: boolean; size?: number }> = ({ filled, size = 22 }) => (
@@ -34,10 +32,8 @@ const StarIcon: React.FC<{ filled?: boolean; size?: number }> = ({ filled, size 
     </svg>
 );
 
-export default function ReviewsClient({ initialItems, initialCount, initialAvg }: Props) {
+export default function ReviewsClient({ initialItems }: Props) {
     const [items, setItems] = React.useState<Review[]>(initialItems);
-    const [count, setCount] = React.useState<number>(initialCount);
-    const [avg, setAvg] = React.useState<number>(initialAvg);
 
     const [rating, setRating] = React.useState(0);
     const [hover, setHover] = React.useState<number | null>(null);
@@ -48,16 +44,6 @@ export default function ReviewsClient({ initialItems, initialCount, initialAvg }
     const [busy, setBusy] = React.useState(false);
     const [err, setErr] = React.useState<string | null>(null);
     const [ok, setOk] = React.useState<string | null>(null);
-
-    // derived avg
-    function recompute(newItems: Review[]) {
-        const a =
-            newItems.length === 0
-                ? 0
-                : +(newItems.reduce((s, r) => s + r.rating, 0) / newItems.length).toFixed(2);
-        setAvg(a);
-        setCount(newItems.length);
-    }
 
     async function onSubmit(e: React.FormEvent) {
         e.preventDefault();
@@ -79,24 +65,20 @@ export default function ReviewsClient({ initialItems, initialCount, initialAvg }
                     email: email.trim() || undefined,
                     text: text.trim(),
                     rating,
-                    // If Turnstile is present on page you can pass token here:
-                    // token: (window as any).turnstileToken
                 }),
             });
 
-            const data: any = await res.json().catch(() => ({}));
-            if (!res.ok || !data?.ok) {
-                setErr(data?.error || "Network error. Please try again.");
+            type ApiResp = { ok?: boolean; error?: string; review?: Review };
+            const data = (await res.json().catch(() => ({}))) as ApiResp;
+            if (!res.ok || !data.ok) {
+                setErr(data.error || "Network error. Please try again.");
                 setBusy(false);
                 return;
             }
 
-            const created: Review = data.review;
-            setItems((prev) => {
-                const next = [created, ...prev].slice(0, 50);
-                recompute(next);
-                return next;
-            });
+            if (data.review) {
+                setItems((prev) => [data.review as Review, ...prev].slice(0, 50));
+            }
             setOk("Thank you — your note is published.");
             setName("");
             setEmail("");
@@ -113,7 +95,7 @@ export default function ReviewsClient({ initialItems, initialCount, initialAvg }
         <section className="section" style={{ paddingTop: 10 }}>
             <div className="lux-grid">
                 {/* Left: Public list */}
-                <article className="lux-card reveal" style={{ ["--d" as any]: "60ms" }}>
+                <article className="lux-card reveal" style={delay(60)}>
                     <div className="lux-body" style={{ width: "100%" }}>
                         <h2 className="lux-h">Guest notes</h2>
 
@@ -147,7 +129,7 @@ export default function ReviewsClient({ initialItems, initialCount, initialAvg }
                 </article>
 
                 {/* Right: Form */}
-                <article className="lux-card reveal" style={{ ["--d" as any]: "120ms" }}>
+                <article className="lux-card reveal" style={delay(120)}>
                     <div className="lux-body" style={{ width: "100%" }}>
                         <h2 className="lux-h">Leave a review</h2>
 
@@ -222,11 +204,7 @@ export default function ReviewsClient({ initialItems, initialCount, initialAvg }
     );
 }
 
-function Star({ filled }: { filled: boolean }) {
-    return (
-        <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"
-             className={`star ${filled ? 'filled' : ''}`}>
-            <path d="M12 17.3l-5.5 3.2 1.5-6.2-4.7-4.1 6.3-.5L12 4l2.4 5.7 6.3.5-4.7 4.1 1.5 6.2z" />
-        </svg>
-    );
+
+function delay(ms: number): React.CSSProperties {
+    return { "--d": `${ms}ms` } as React.CSSProperties;
 }

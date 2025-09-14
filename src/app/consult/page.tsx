@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import PayButton from '@/components/PayButton';
+import type { CSSProperties } from 'react';
 
 export const metadata: Metadata = {
     title: 'Consult',
@@ -7,6 +8,10 @@ export const metadata: Metadata = {
         'Pharmacist-led wellness and private-chef consulting by Antonia & Adrian. From focused intakes to 12-week concierge seasons for villas and yachts.',
     alternates: { canonical: '/consult' },
 };
+
+function delay(ms: number): CSSProperties {
+    return { "--d": `${ms}ms` } as CSSProperties;
+}
 
 export default function ConsultPage() {
     const PRICES = {
@@ -46,7 +51,7 @@ export default function ConsultPage() {
                         </div>
                     </article>
 
-                    <article className="lux-card reveal" style={{ ['--d' as any]: '80ms' }}>
+                    <article className="lux-card reveal" style={delay(80)}>
                         <h2 className="lux-h">How it works</h2>
                         <div className="lux-body">
                             <ol className="lux-steps">
@@ -89,7 +94,7 @@ export default function ConsultPage() {
                     </article>
 
                     {/* 4-Week Reset */}
-                    <article className="lux-card reveal" style={{ ['--d' as any]: '60ms' }}>
+                    <article className="lux-card reveal" style={delay(60)}>
                         <h2 className="lux-h">4-Week Reset</h2>
                         <div className="lux-body">
                             <p className="lux-price">€2,400</p>
@@ -116,7 +121,7 @@ export default function ConsultPage() {
                     </article>
 
                     {/* 12-Week Concierge */}
-                    <article className="lux-card reveal" style={{ ['--d' as any]: '120ms' }}>
+                    <article className="lux-card reveal" style={delay(120)}>
                         <h2 className="lux-h">12-Week Concierge</h2>
                         <div className="lux-body">
                             <p className="lux-price">€7,500</p>

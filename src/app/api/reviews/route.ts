@@ -1,6 +1,8 @@
 /* Edge + Cloudflare KV + optional Turnstile */
 export const runtime = "edge";
 
+import { z } from "zod";
+
 export type Review = {
     id: string;
     name: string;
@@ -10,9 +12,16 @@ export type Review = {
     createdAt: number; // epoch ms
 };
 
-type Out = { items?: Review[]; count?: number; avg?: number; ok?: boolean; error?: string };
+type Out = {
+    items?: Review[];
+    count?: number;
+    avg?: number;
+    ok?: boolean;
+    error?: string;
+    review?: Review;
+};
 
-const KV = (globalThis as any).REVIEWS as KVNamespace | undefined;
+const KV = (globalThis as { REVIEWS?: KVNamespace }).REVIEWS;
 
 // Dev fallback if KV binding is missing locally
 const mem: { items: Review[]; count: number; sum: number } = { items: [], count: 0, sum: 0 };
@@ -33,6 +42,14 @@ function clampRating(n: unknown) {
     const x = Math.max(1, Math.min(5, Number(n || 0) | 0));
     return x;
 }
+
+const ReviewInput = z.object({
+    name: z.string().min(1).max(60),
+    email: z.string().email().max(120).optional(),
+    text: z.string().min(1).max(1600),
+    rating: z.number().int().min(1).max(5),
+    cfToken: z.string().optional(),
+});
 
 async function verifyTurnstile(token?: string): Promise<boolean> {
     const secret = process.env.CF_TURNSTILE_SECRET;
@@ -90,8 +107,17 @@ export async function GET(req: Request): Promise<Response> {
 
 export async function POST(req: Request): Promise<Response> {
     try {
-        const body = (await req.json()) as any;
-        const okTurnstile = await verifyTurnstile(body?.cfToken);
+        const json = await req.json().catch(() => null);
+        const parsed = ReviewInput.safeParse(json);
+        if (!parsed.success) {
+            return Response.json({ ok: false, error: "invalid_fields" } satisfies Out, {
+                status: 400,
+                headers: corsHeaders(req),
+            });
+        }
+
+        const data = parsed.data;
+        const okTurnstile = await verifyTurnstile(data.cfToken);
         if (!okTurnstile) {
             return Response.json({ ok: false, error: "turnstile_failed" } satisfies Out, {
                 status: 400,
@@ -99,17 +125,10 @@ export async function POST(req: Request): Promise<Response> {
             });
         }
 
-        const name = sanitizeName(body?.name);
-        const email = sanitizeEmail(body?.email);
-        const text = sanitizeText(body?.text);
-        const rating = clampRating(body?.rating);
-
-        if (!name || !text || !rating) {
-            return Response.json({ ok: false, error: "missing_fields" } satisfies Out, {
-                status: 400,
-                headers: corsHeaders(req),
-            });
-        }
+        const name = sanitizeName(data.name);
+        const email = sanitizeEmail(data.email);
+        const text = sanitizeText(data.text);
+        const rating = clampRating(data.rating);
 
         const createdAt = Date.now();
         const id = `r:${createdAt}-${Math.random().toString(36).slice(2, 7)}`;
@@ -131,8 +150,8 @@ export async function POST(req: Request): Promise<Response> {
             mem.sum += rating;
         }
 
-        return Response.json({ ok: true } satisfies Out, { headers: corsHeaders(req) });
-    } catch (e) {
+        return Response.json({ ok: true, review } satisfies Out, { headers: corsHeaders(req) });
+    } catch {
         return Response.json({ ok: false, error: "bad_json" } satisfies Out, {
             status: 400,
             headers: corsHeaders(req),
