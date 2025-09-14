@@ -1,2 +1,0 @@
-# Ignore API routes and components that we don't want lint to block
-src/app/api/contact/route.ts

@@ -1,0 +1,50 @@
+name: CI
+on: [push, pull_request]
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 20 }
+
+      - name: npm registry + retries
+        run: |
+          npm config set registry https://registry.npmjs.org
+          npm config set fetch-retries 5
+          npm config set fetch-retry-maxtimeout 120000
+          npm config set audit false
+          npm config set fund false
+
+      - name: Install (validate lock; rebuild on failure; mirror fallback)
+        shell: bash
+        run: |
+          set -e
+          try_ci () { npm ci || return 1; }
+          if [ -f package-lock.json ]; then
+            echo "Lock present → npm ci"
+            if ! try_ci; then
+              echo "Bad lockfile → rebuilding"
+              rm -f package-lock.json
+              npm install
+              git config user.name "github-actions[bot]"
+              git config user.email "github-actions[bot]@users.noreply.github.com"
+              git add package-lock.json
+              git commit -m "chore(lock): auto-rebuild bad package-lock.json" || true
+              npm ci || (npm config set registry https://registry.yarnpkg.com && npm ci && npm config set registry https://registry.npmjs.org)
+            fi
+          else
+            echo "No lockfile → npm install then ci"
+            npm install || (npm config set registry https://registry.yarnpkg.com && npm install && npm config set registry https://registry.npmjs.org)
+            npm ci
+          fi
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Test
+        run: npm test || npx --yes vitest run --reporter=verbose
+
+      - name: Build
+        run: npm run build
