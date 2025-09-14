@@ -1,10 +1,14 @@
-export type ReviewInput = {
-    name?: string;
-    email?: string; // optional, not shown publicly
-    rating: number; // 1..5
-    message: string; // 2..800 chars
-    token: string;   // turnstile token
-};
+import { z } from "zod";
+
+export const reviewInputSchema = z.object({
+    name: z.string().trim().optional(),
+    email: z.string().email().trim().optional(),
+    rating: z.coerce.number().int().min(1).max(5),
+    message: z.string().trim().min(2).max(800),
+    token: z.string().trim().min(1),
+});
+
+export type ReviewInput = z.infer<typeof reviewInputSchema>;
 
 export type Review = {
     id: string;
@@ -14,36 +18,12 @@ export type Review = {
     message: string;
 };
 
-export function validateReviewInput(payload: unknown): { ok: true; data: ReviewInput } | { ok: false; errors: string[] } {
-    const errors: string[] = [];
-    const p = payload as Partial<ReviewInput> | undefined;
-
-    if (!p) return { ok: false, errors: ['Missing body'] };
-
-    if (typeof p.message !== 'string' || p.message.trim().length < 2 || p.message.length > 800) {
-        errors.push('Message must be 2–800 characters.');
+export function validateReviewInput(
+    payload: unknown,
+): { ok: true; data: ReviewInput } | { ok: false; errors: string[] } {
+    const parsed = reviewInputSchema.safeParse(payload);
+    if (!parsed.success) {
+        return { ok: false, errors: parsed.error.issues.map((i) => i.message) };
     }
-    const rating = Number(p.rating);
-    if (!Number.isFinite(rating) || rating < 1 || rating > 5) {
-        errors.push('Rating must be between 1 and 5.');
-    }
-    if (!p.token || typeof p.token !== 'string') {
-        errors.push('Missing Turnstile token.');
-    }
-
-    if (p.name && typeof p.name !== 'string') errors.push('Name must be a string.');
-    if (p.email && typeof p.email !== 'string') errors.push('Email must be a string.');
-
-    if (errors.length) return { ok: false, errors };
-
-    return {
-        ok: true,
-        data: {
-            name: p.name?.trim(),
-            email: p.email?.trim(),
-            rating,
-            message: p.message!.trim(),
-            token: p.token!,
-        },
-    };
+    return { ok: true, data: parsed.data };
 }

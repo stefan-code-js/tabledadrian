@@ -12,7 +12,7 @@ export type Review = {
 
 type Out = { items?: Review[]; count?: number; avg?: number; ok?: boolean; error?: string };
 
-const KV = (globalThis as any).REVIEWS as KVNamespace | undefined;
+const KV = (globalThis as { REVIEWS?: KVNamespace }).REVIEWS;
 
 // Dev fallback if KV binding is missing locally
 const mem: { items: Review[]; count: number; sum: number } = { items: [], count: 0, sum: 0 };
@@ -90,7 +90,7 @@ export async function GET(req: Request): Promise<Response> {
 
 export async function POST(req: Request): Promise<Response> {
     try {
-        const body = (await req.json()) as any;
+        const body = (await req.json()) as Record<string, unknown>;
         const okTurnstile = await verifyTurnstile(body?.cfToken);
         if (!okTurnstile) {
             return Response.json({ ok: false, error: "turnstile_failed" } satisfies Out, {
@@ -132,7 +132,7 @@ export async function POST(req: Request): Promise<Response> {
         }
 
         return Response.json({ ok: true } satisfies Out, { headers: corsHeaders(req) });
-    } catch (e) {
+    } catch {
         return Response.json({ ok: false, error: "bad_json" } satisfies Out, {
             status: 400,
             headers: corsHeaders(req),

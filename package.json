@@ -7,6 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
+    "test": "tsc src/lib/reviews.test.ts src/lib/reviews.ts --outDir .tests --module commonjs --esModuleInterop --target ES2020 && node --test .tests/reviews.test.js",
     "cf:build": "npx --yes @cloudflare/next-on-pages@latest"
   },
   "dependencies": {

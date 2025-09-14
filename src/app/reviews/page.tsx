@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { headers } from "next/headers";
+import type { CSSProperties } from "react";
 import ReviewsClient, { Review } from "@/components/ReviewsClient";
 
 export const runtime = "edge";
@@ -54,7 +55,7 @@ export default async function ReviewsPage() {
                 </p>
 
                 <div className="center" style={{ marginTop: 8, marginBottom: 14 }}>
-                    <div className="summary reveal" style={{ ["--d" as any]: "40ms" }}>
+                    <div className="summary reveal" style={{ "--d": "40ms" } as CSSProperties}>
             <span className="stars-display" aria-hidden="true">
               <span className="stars-back">★★★★★</span>
               <span
@@ -71,11 +72,7 @@ export default async function ReviewsPage() {
                     </div>
                 </div>
 
-                <ReviewsClient
-                    initialItems={items}
-                    initialCount={stats.count}
-                    initialAvg={stats.avg}
-                />
+                <ReviewsClient initialItems={items} />
             </div>
         </main>
     );

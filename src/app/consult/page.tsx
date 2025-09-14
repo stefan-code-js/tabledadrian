@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import type { CSSProperties } from 'react';
 import PayButton from '@/components/PayButton';
 
 export const metadata: Metadata = {
@@ -46,7 +47,7 @@ export default function ConsultPage() {
                         </div>
                     </article>
 
-                    <article className="lux-card reveal" style={{ ['--d' as any]: '80ms' }}>
+                    <article className="lux-card reveal" style={{ '--d': '80ms' } as CSSProperties}>
                         <h2 className="lux-h">How it works</h2>
                         <div className="lux-body">
                             <ol className="lux-steps">
@@ -89,7 +90,7 @@ export default function ConsultPage() {
                     </article>
 
                     {/* 4-Week Reset */}
-                    <article className="lux-card reveal" style={{ ['--d' as any]: '60ms' }}>
+                    <article className="lux-card reveal" style={{ '--d': '60ms' } as CSSProperties}>
                         <h2 className="lux-h">4-Week Reset</h2>
                         <div className="lux-body">
                             <p className="lux-price">€2,400</p>
@@ -116,7 +117,7 @@ export default function ConsultPage() {
                     </article>
 
                     {/* 12-Week Concierge */}
-                    <article className="lux-card reveal" style={{ ['--d' as any]: '120ms' }}>
+                    <article className="lux-card reveal" style={{ '--d': '120ms' } as CSSProperties}>
                         <h2 className="lux-h">12-Week Concierge</h2>
                         <div className="lux-body">
                             <p className="lux-price">€7,500</p>
