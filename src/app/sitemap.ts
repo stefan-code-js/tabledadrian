@@ -12,6 +12,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
         { url: `${site}/membership`, lastModified: lastmod, changeFrequency: "monthly", priority: 0.9 },
         { url: `${site}/consult`, lastModified: lastmod, changeFrequency: "monthly", priority: 0.9 },
         { url: `${site}/reviews`, lastModified: lastmod, changeFrequency: "monthly", priority: 0.9 },
+        { url: `${site}/products`, lastModified: lastmod, changeFrequency: "monthly", priority: 0.8 },
+        { url: `${site}/cancel`, lastModified: lastmod, changeFrequency: "monthly", priority: 0.3 },
 
     ];
 }
