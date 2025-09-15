@@ -1,5 +1,16 @@
 import type { Metadata } from "next";
 import { headers } from "next/headers";
+import {
+    PageHero,
+    PageQuickNav,
+    ValueSection,
+    IncludedSection,
+    ProcessSection,
+    PricingSection,
+    TestimonialsSection,
+    FinalCtaSection,
+} from "@/components/StructuredPage";
+import { sitePages } from "@/data/siteContent";
 import ReviewsClient, { Review } from "@/components/ReviewsClient";
 
 export const runtime = "edge";
@@ -18,65 +29,74 @@ async function absolute(path: string) {
     const configured = process.env.NEXT_PUBLIC_SITE_URL || process.env.SITE_URL;
     if (configured) return configured.replace(/\/$/, "") + path;
 
-    // Edge-safe headers()
     const h = await headers();
     const proto = h.get("x-forwarded-proto") || "https";
     const host = h.get("host") || "localhost:3000";
     return `${proto}://${host}${path}`;
 }
 
+async function safeFetch(url: string) {
+    try {
+        const res = await fetch(url, { cache: "no-store" });
+        if (!res.ok) return null;
+        return (await res.json()) as ApiShape;
+    } catch {
+        return null;
+    }
+}
+
 async function getInitial(): Promise<Review[]> {
     const url = await absolute("/api/reviews?limit=24");
-    const res = await fetch(url, { cache: "no-store" });
-    if (!res.ok) return [];
-    const data = (await res.json()) as ApiShape;
-    return data.items ?? [];
+    const data = await safeFetch(url);
+    return data?.items ?? [];
 }
 
 async function getStats(): Promise<{ count: number; avg: number }> {
     const url = await absolute("/api/reviews?stats=1");
-    const res = await fetch(url, { cache: "no-store" });
-    if (!res.ok) return { count: 0, avg: 0 };
-    const data = (await res.json()) as ApiShape;
-    return { count: data.count ?? 0, avg: data.avg ?? 0 };
+    const data = await safeFetch(url);
+    return { count: data?.count ?? 0, avg: data?.avg ?? 0 };
 }
 
 export default async function ReviewsPage() {
+    const page = sitePages.reviews;
     const [items, stats] = await Promise.all([getInitial(), getStats()]);
+    const avgDisplay = stats.count ? stats.avg.toFixed(1) : "5.0";
 
     return (
-        <main className="section reviews-page">
-            <div className="container container--narrow">
-                <p className="kicker center-text">guest notes · public</p>
-                <h1 className="title center-text">Reviews</h1>
-                <p className="lead center-text">
-                    Notes from guests. Public, human, and visible to everyone.
-                </p>
-
-                <div className="center" style={{ marginTop: 8, marginBottom: 14 }}>
-                    <div className="summary reveal" style={{ ["--d" as any]: "40ms" }}>
-            <span className="stars-display" aria-hidden="true">
-              <span className="stars-back">★★★★★</span>
-              <span
-                  className="stars-front"
-                  style={{ width: `${(Math.max(0, Math.min(5, stats.avg)) / 5) * 100}%` }}
-              >
-                ★★★★★
-              </span>
-            </span>
-                        <span className="summary-text">
-              {stats.avg.toFixed(1)} <span className="muted">·</span> {stats.count}{" "}
-                            review{stats.count === 1 ? "" : "s"}
-            </span>
+        <section className="section structured-page">
+            <div className="container container--narrow prose">
+                <PageHero page={page} />
+                <PageQuickNav page={page} />
+                <ValueSection page={page} />
+                <IncludedSection page={page} />
+                <ProcessSection page={page} />
+                <PricingSection page={page} />
+                <TestimonialsSection page={page} />
+                <section className="structured-section" id={`${page.slug}-reviews`}>
+                    <h2 className="lux-h center-text">Latest notes</h2>
+                    <div className="center" style={{ marginBottom: 16 }}>
+                        <div className="summary">
+                            <span className="stars-display" aria-hidden="true">
+                                <span className="stars-back">★★★★★</span>
+                                <span
+                                    className="stars-front"
+                                    style={{ width: `${(Math.max(0, Math.min(5, stats.avg)) / 5) * 100}%` }}
+                                >
+                                    ★★★★★
+                                </span>
+                            </span>
+                            <span className="summary-text">
+                                {avgDisplay} <span className="muted">·</span> {stats.count} review{stats.count === 1 ? "" : "s"}
+                            </span>
+                        </div>
                     </div>
-                </div>
-
-                <ReviewsClient
-                    initialItems={items}
-                    initialCount={stats.count}
-                    initialAvg={stats.avg}
-                />
+                    {items.length === 0 ? (
+                        <p className="muted center-text">Reviews will appear here as soon as guests share them.</p>
+                    ) : null}
+                    <ReviewsClient initialItems={items} initialCount={stats.count} initialAvg={stats.avg} />
+                </section>
+                <FinalCtaSection page={page} />
             </div>
-        </main>
+        </section>
     );
 }

@@ -10,24 +10,20 @@ import {
     TestimonialsSection,
     FinalCtaSection,
 } from "@/components/StructuredPage";
+import ContactForm from "@/components/ContactForm";
 
 export const metadata: Metadata = {
-    title: "About",
+    title: "Contact & Booking",
     description:
-        "Table d’Adrian is a private chef table on the Côte d’Azur. Ingredient-driven menus, fragrance-forward plating, quiet service. Chef Adrian and Antonia (PharmD) bridge gastronomy and longevity for villas, yachts, and salons across Antibes, Cannes, and Monaco.",
-    alternates: { canonical: "/about" },
-    keywords: [
-        "private chef Côte d’Azur",
-        "luxury private dining",
-        "tasting menu",
-        "longevity cuisine",
-        "villa chef Antibes Cannes Monaco",
-        "pharmacist chef wellness",
-    ],
+        "Share your date, guest cadence, and intentions. We reply with availability, pricing, and clear next steps within 24 hours.",
+    alternates: { canonical: "/contact" },
 };
 
-export default function AboutPage() {
-    const page = sitePages.about;
+export const runtime = "edge";
+
+export default function ContactPage({ searchParams }: { searchParams?: { context?: string } }) {
+    const page = sitePages.contact;
+    const context = searchParams?.context ? decodeURIComponent(searchParams.context) : undefined;
     return (
         <section className="section structured-page">
             <div className="container container--narrow prose">
@@ -38,7 +34,9 @@ export default function AboutPage() {
                 <ProcessSection page={page} />
                 <PricingSection page={page} />
                 <TestimonialsSection page={page} />
-                <FinalCtaSection page={page} />
+                <FinalCtaSection page={page}>
+                    <ContactForm context={context} />
+                </FinalCtaSection>
             </div>
         </section>
     );

@@ -10,24 +10,16 @@ import {
     TestimonialsSection,
     FinalCtaSection,
 } from "@/components/StructuredPage";
+import LightboxGallery from "@/components/LightboxGallery";
 
 export const metadata: Metadata = {
-    title: "About",
-    description:
-        "Table d’Adrian is a private chef table on the Côte d’Azur. Ingredient-driven menus, fragrance-forward plating, quiet service. Chef Adrian and Antonia (PharmD) bridge gastronomy and longevity for villas, yachts, and salons across Antibes, Cannes, and Monaco.",
-    alternates: { canonical: "/about" },
-    keywords: [
-        "private chef Côte d’Azur",
-        "luxury private dining",
-        "tasting menu",
-        "longevity cuisine",
-        "villa chef Antibes Cannes Monaco",
-        "pharmacist chef wellness",
-    ],
+    title: "Gallery",
+    description: "A look at recent tables: ceramics, courses, and atmospheres curated for villas, yachts, and salons.",
+    alternates: { canonical: "/gallery" },
 };
 
-export default function AboutPage() {
-    const page = sitePages.about;
+export default function GalleryPage() {
+    const page = sitePages.gallery;
     return (
         <section className="section structured-page">
             <div className="container container--narrow prose">
@@ -36,6 +28,10 @@ export default function AboutPage() {
                 <ValueSection page={page} />
                 <IncludedSection page={page} />
                 <ProcessSection page={page} />
+                <section className="structured-section" id={`${page.slug}-gallery`}>
+                    <h2 className="lux-h center-text">Gallery</h2>
+                    <LightboxGallery />
+                </section>
                 <PricingSection page={page} />
                 <TestimonialsSection page={page} />
                 <FinalCtaSection page={page} />

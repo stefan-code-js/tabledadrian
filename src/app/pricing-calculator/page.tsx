@@ -10,24 +10,17 @@ import {
     TestimonialsSection,
     FinalCtaSection,
 } from "@/components/StructuredPage";
+import PricingCalculatorWidget from "@/components/PricingCalculatorWidget";
 
 export const metadata: Metadata = {
-    title: "About",
+    title: "Pricing Calculator",
     description:
-        "Table d’Adrian is a private chef table on the Côte d’Azur. Ingredient-driven menus, fragrance-forward plating, quiet service. Chef Adrian and Antonia (PharmD) bridge gastronomy and longevity for villas, yachts, and salons across Antibes, Cannes, and Monaco.",
-    alternates: { canonical: "/about" },
-    keywords: [
-        "private chef Côte d’Azur",
-        "luxury private dining",
-        "tasting menu",
-        "longevity cuisine",
-        "villa chef Antibes Cannes Monaco",
-        "pharmacist chef wellness",
-    ],
+        "Estimate investment for your gathering or program. Adjust guests and enhancements, then route to booking or checkout.",
+    alternates: { canonical: "/pricing-calculator" },
 };
 
-export default function AboutPage() {
-    const page = sitePages.about;
+export default function PricingCalculatorPage() {
+    const page = sitePages.pricingCalculator;
     return (
         <section className="section structured-page">
             <div className="container container--narrow prose">
@@ -36,6 +29,10 @@ export default function AboutPage() {
                 <ValueSection page={page} />
                 <IncludedSection page={page} />
                 <ProcessSection page={page} />
+                <section className="structured-section" id={`${page.slug}-calculator`}>
+                    <h2 className="lux-h center-text">Interactive calculator</h2>
+                    <PricingCalculatorWidget />
+                </section>
                 <PricingSection page={page} />
                 <TestimonialsSection page={page} />
                 <FinalCtaSection page={page} />

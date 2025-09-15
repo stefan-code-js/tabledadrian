@@ -12,22 +12,13 @@ import {
 } from "@/components/StructuredPage";
 
 export const metadata: Metadata = {
-    title: "About",
-    description:
-        "Table d’Adrian is a private chef table on the Côte d’Azur. Ingredient-driven menus, fragrance-forward plating, quiet service. Chef Adrian and Antonia (PharmD) bridge gastronomy and longevity for villas, yachts, and salons across Antibes, Cannes, and Monaco.",
-    alternates: { canonical: "/about" },
-    keywords: [
-        "private chef Côte d’Azur",
-        "luxury private dining",
-        "tasting menu",
-        "longevity cuisine",
-        "villa chef Antibes Cannes Monaco",
-        "pharmacist chef wellness",
-    ],
+    title: "Press & Testimonials",
+    description: "Selected features, editorials, and partners speaking about Table d’Adrian’s work across Europe.",
+    alternates: { canonical: "/press" },
 };
 
-export default function AboutPage() {
-    const page = sitePages.about;
+export default function PressPage() {
+    const page = sitePages.press;
     return (
         <section className="section structured-page">
             <div className="container container--narrow prose">
