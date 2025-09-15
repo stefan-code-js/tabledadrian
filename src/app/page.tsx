@@ -6,6 +6,7 @@ import Gallery from "@/components/Gallery";
 import MenuPreview from "@/components/MenuPreview";
 import Testimonials from "@/components/Testimonials";
 import NewsletterSignup from "@/components/NewsletterSignup";
+import TrustSection from "@/components/TrustSection";
 
 export const metadata: Metadata = {
   title: "Table d’Adrian",
@@ -37,6 +38,8 @@ export default function HomePage() {
             <Testimonials />
           </div>
         </section>
+
+        <TrustSection />
 
         <section className="section">
           <div className="container container--narrow center-text">
