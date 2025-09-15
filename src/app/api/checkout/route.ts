@@ -1,6 +1,7 @@
-export const runtime = 'edge';
+export const runtime = 'nodejs';
 
 import { NextRequest } from 'next/server';
+import { createCheckoutSession } from '@/lib/checkout';
 
 type Mode = 'payment' | 'subscription';
 
@@ -13,12 +14,6 @@ const ALLOWED_PRICE_IDS = new Set(
         process.env.PRICE_MEMBERSHIP_YACHT,
     ].filter(Boolean) as string[]
 );
-
-function params(data: Record<string, string>) {
-    const p = new URLSearchParams();
-    for (const [k, v] of Object.entries(data)) p.append(k, v);
-    return p;
-}
 
 export async function POST(req: NextRequest) {
     try {
@@ -34,28 +29,7 @@ export async function POST(req: NextRequest) {
             return new Response(JSON.stringify({ error: 'Invalid mode' }), { status: 400 });
         }
 
-        const origin = process.env.PUBLIC_BASE_URL || req.nextUrl.origin;
-        const body = params({
-            mode,
-            'line_items[0][price]': priceId,
-            'line_items[0][quantity]': '1',
-            success_url: `${origin}/success?session_id={CHECKOUT_SESSION_ID}`,
-            cancel_url: `${origin}`,
-            automatic_tax: 'enabled',
-        });
-
-        const r = await fetch('https://api.stripe.com/v1/checkout/sessions', {
-            method: 'POST',
-            headers: {
-                Authorization: `Bearer ${process.env.STRIPE_SECRET_KEY}`,
-                'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            body,
-        });
-
-        if (!r.ok) return new Response(JSON.stringify({ error: await r.text() }), { status: 400 });
-
-        const session = (await r.json()) as { url?: string };
+        const session = await createCheckoutSession(priceId, mode, fetch, req.nextUrl.origin);
         return new Response(JSON.stringify({ url: session.url }), { status: 200 });
     } catch {
         return new Response(JSON.stringify({ error: 'Bad request' }), { status: 400 });
