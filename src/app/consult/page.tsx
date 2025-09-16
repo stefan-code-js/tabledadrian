@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import PayButton from '@/components/PayButton';
+import { priceCatalog } from '@/data/siteContent';
 
 export const metadata: Metadata = {
     title: 'Consult',
@@ -10,10 +11,9 @@ export const metadata: Metadata = {
 
 export default function ConsultPage() {
     const PRICES = {
-        intake90: process.env.NEXT_PUBLIC_PRICE_CONSULT_90 || 'price_CONSULT_90',
-        reset4w: process.env.NEXT_PUBLIC_PRICE_RESET_4W || 'price_RESET_4W',
-        concierge12w:
-            process.env.NEXT_PUBLIC_PRICE_CONCIERGE_12W || 'price_CONCIERGE_12W',
+        intake90: priceCatalog.consultIntake90.id,
+        reset4w: priceCatalog.reset4Week.id,
+        concierge12w: priceCatalog.concierge12Week.id,
     };
 
     return (

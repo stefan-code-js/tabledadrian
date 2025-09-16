@@ -30,12 +30,12 @@ export type SiteConfig = {
 export const site: SiteConfig = {
     name: "Table d’Adrian",
     shortName: "Table d’Adrian",
-    url: "https://tabledadrian.com",
+    url: "https://www.tabledadrian.com",
     locale: "en",
     description:
         "Michelin-trained private chef — ingredient-driven haute cuisine on the Côte d’Azur. Seasonal vegetables, seafood, and select meats.",
     email: "adrian@tabledadrian.com",
-    telephone: "",
+    telephone: "+33 7 81 46 37 24",
     address: {
         street: "",
         locality: "Antibes",

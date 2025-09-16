@@ -6,8 +6,12 @@ export async function createCheckoutSession(
     priceId: string,
     mode: Mode,
     fetchImpl: typeof fetch = fetch,
-    origin = process.env.PUBLIC_BASE_URL || ''
+    origin = process.env.PUBLIC_BASE_URL || '',
+    secretKey = process.env.STRIPE_SECRET_KEY || ''
 ): Promise<{ id: string; url?: string }> {
+    if (!secretKey) {
+        throw new Error('Stripe key missing');
+    }
     const body = new URLSearchParams({
         mode,
         'line_items[0][price]': priceId,
@@ -20,7 +24,7 @@ export async function createCheckoutSession(
     const r = await fetchImpl('https://api.stripe.com/v1/checkout/sessions', {
         method: 'POST',
         headers: {
-            Authorization: `Bearer ${process.env.STRIPE_SECRET_KEY}`,
+            Authorization: `Bearer ${secretKey}`,
             'Content-Type': 'application/x-www-form-urlencoded',
         },
         body,
