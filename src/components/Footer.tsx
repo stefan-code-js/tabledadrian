@@ -1,3 +1,6 @@
+import Link from "next/link";
+import { footerLinks } from "@/data/siteContent";
+
 // Server component – clean, centered, compact
 export default function Footer() {
     const IG = process.env.INSTAGRAM_PROFILE_URL ?? "https://instagram.com/tabledadrian";
@@ -13,10 +16,19 @@ export default function Footer() {
     return (
         <footer className="footer">
             <div className="container">
-                {/* One-line nav: Experience • Accreditation • instagram • linkedin • email */}
+                {/* One-line nav for site sections */}
                 <nav className="footer-navline" aria-label="Footer quick links">
-                    <a href={LI} target="_blank" rel="noreferrer" className="u-underline">Experience</a>
-                    <span className="footer-bullet">•</span>
+                    {footerLinks.map((link, index) => (
+                        <span key={link.href} className="footer-link">
+                            <Link href={link.href} className="u-underline">
+                                {link.label}
+                            </Link>
+                            {index < footerLinks.length - 1 ? <span className="footer-bullet">•</span> : null}
+                        </span>
+                    ))}
+                </nav>
+
+                <nav className="footer-navline" aria-label="External references">
                     <a href={ACC} target="_blank" rel="noreferrer" className="u-underline">Accreditation</a>
                     <span className="footer-bullet">•</span>
                     <a href={IG} target="_blank" rel="noreferrer" className="u-underline">instagram</a>

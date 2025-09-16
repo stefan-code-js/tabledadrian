@@ -1,19 +1,12 @@
-export const runtime = 'nodejs';
+export const runtime = 'edge';
 
 import { NextRequest } from 'next/server';
 import { createCheckoutSession } from '@/lib/checkout';
+import { priceCatalog } from '@/data/siteContent';
 
 type Mode = 'payment' | 'subscription';
 
-const ALLOWED_PRICE_IDS = new Set(
-    [
-        process.env.PRICE_CONSULT_REMOTE,
-        process.env.PRICE_CONSULT_INPERSON,
-        process.env.PRICE_MEMBERSHIP_SEASONAL,
-        process.env.PRICE_MEMBERSHIP_VILLA,
-        process.env.PRICE_MEMBERSHIP_YACHT,
-    ].filter(Boolean) as string[]
-);
+const ALLOWED_PRICE_IDS = new Set(Object.values(priceCatalog).map((entry) => entry.id));
 
 export async function POST(req: NextRequest) {
     try {
@@ -29,7 +22,13 @@ export async function POST(req: NextRequest) {
             return new Response(JSON.stringify({ error: 'Invalid mode' }), { status: 400 });
         }
 
-        const session = await createCheckoutSession(priceId, mode, fetch, req.nextUrl.origin);
+        const session = await createCheckoutSession(
+            priceId,
+            mode,
+            fetch,
+            req.nextUrl.origin,
+            process.env.STRIPE_SECRET_KEY
+        );
         return new Response(JSON.stringify({ url: session.url }), { status: 200 });
     } catch {
         return new Response(JSON.stringify({ error: 'Bad request' }), { status: 400 });
