@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import PayButton from '@/components/PayButton';
+import { priceCatalog } from '@/data/siteContent';
 
 export const metadata: Metadata = {
     title: 'Membership',
@@ -11,12 +12,9 @@ export const metadata: Metadata = {
 export default function MembershipPage() {
     // Stripe Price IDs (subscriptions)
     const PRICES = {
-        essential:
-            process.env.NEXT_PUBLIC_PRICE_MEMBER_ESSENTIAL || 'price_MEMBER_ESSENTIAL',
-        studio:
-            process.env.NEXT_PUBLIC_PRICE_MEMBER_STUDIO || 'price_MEMBER_STUDIO',
-        patron:
-            process.env.NEXT_PUBLIC_PRICE_MEMBER_PATRON || 'price_MEMBER_PATRON',
+        essential: priceCatalog.membershipEssential.id,
+        studio: priceCatalog.membershipStudio.id,
+        patron: priceCatalog.membershipPatron.id,
     };
 
     return (

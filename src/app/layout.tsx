@@ -64,22 +64,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     return (
         <html lang={site.locale}>
         <body>
-        <header className="header">
-            <div className="container container--narrow" style={{ paddingTop: 16, paddingBottom: 16 }}>
-                <Header />
-            </div>
-        </header>
+        <Header />
 
         {/* Keep focusable main for a11y; skip link can be re-added later */}
         <main id="content" tabIndex={-1}>
             {children}
         </main>
 
-        <footer className="footer">
-            <div className="container container--narrow" style={{ paddingTop: 24, paddingBottom: 24 }}>
-                <Footer />
-            </div>
-        </footer>
+        <Footer />
 
         {/* Cloudflare Turnstile (loads once app-wide) */}
         <Script

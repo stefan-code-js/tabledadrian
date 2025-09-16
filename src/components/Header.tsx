@@ -3,18 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
-
-const LINKS = [
-    { href: "/", label: "home" },
-    { href: "/about", label: "about" },
-    { href: "/menu", label: "menu" },
-    { href: "/team", label: "team" },
-    { href: "/book", label: "book" },
-    { href: "/membership", label: "membership" },
-    { href: "/consult", label: "consult" },
-    { href: "/reviews", label: "reviews" },
-
-];
+import { navLinks } from "@/data/siteContent";
 
 export default function Header() {
     const pathname = usePathname();
@@ -44,7 +33,7 @@ export default function Header() {
 
                     {/* Desktop nav (under the logo) */}
                     <nav className="nav desktop-nav" aria-label="Primary">
-                        {LINKS.map((l) => (
+                        {navLinks.map((l) => (
                             <Link
                                 key={l.href}
                                 href={l.href}
@@ -80,12 +69,12 @@ export default function Header() {
             >
                 <div className="menu-panel" role="dialog" aria-modal="true" aria-label="Site navigation">
                     <nav className="mobile-nav" aria-label="Mobile">
-                        {LINKS.map((l) => (
+                        {navLinks.map((l) => (
                             <Link key={l.href} href={l.href} onClick={() => setOpen(false)}>
                                 {l.label}
                             </Link>
                         ))}
-                        <Link href="/book" className="btn" onClick={() => setOpen(false)}>
+                        <Link href="/contact" className="btn" onClick={() => setOpen(false)}>
                             book a table
                         </Link>
                     </nav>

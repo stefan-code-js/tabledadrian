@@ -1,0 +1,47 @@
+import { z } from "zod";
+import type { Lead } from "@/lib/leads";
+
+export const bookingSchema = z.object({
+    name: z.string().trim().min(2).max(80),
+    email: z.string().trim().email(),
+    guests: z.coerce.number().int().min(1).max(120),
+    eventDate: z.string().trim().min(4),
+    location: z.string().trim().max(120).optional(),
+    budget: z.string().trim().max(120).optional(),
+    message: z.string().trim().max(1600).optional(),
+    company: z.string().optional(),
+});
+
+export type BookingPayload = z.infer<typeof bookingSchema>;
+
+export function safeParseBooking(data: unknown) {
+    return bookingSchema.safeParse(data);
+}
+
+export function classifySignal(eventDate: string, budget?: string): Lead["signal"] {
+    const now = Date.now();
+    const time = Date.parse(eventDate);
+    if (!Number.isNaN(time)) {
+        const diffDays = Math.round((time - now) / (1000 * 60 * 60 * 24));
+        if (diffDays <= 14) return "hot";
+        if (diffDays <= 45) return "warm";
+    }
+    if (budget && /\b(€|eur|10k|20k|30k|40k|50k)\b/i.test(budget)) {
+        return "hot";
+    }
+    return "nurture";
+}
+
+export function buildLeadFromBooking(data: BookingPayload): Omit<Lead, "id" | "createdAt"> {
+    const { name, email, guests, eventDate, location, budget, message } = data;
+    return {
+        name,
+        email,
+        guests,
+        eventDate,
+        location: location?.trim() ? location : undefined,
+        budget: budget?.trim() ? budget : undefined,
+        message: message?.trim() ? message : undefined,
+        signal: classifySignal(eventDate, budget),
+    };
+}

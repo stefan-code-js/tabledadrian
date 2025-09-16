@@ -49,43 +49,45 @@ async function verifyTurnstile(token?: string): Promise<boolean> {
 
 export async function GET(req: Request): Promise<Response> {
     const { searchParams } = new URL(req.url);
-
-    // Stats fast-path
-    if (searchParams.get("stats")) {
-        if (KV) {
-            const [c, s] = await Promise.all([
-                KV.get("stats:count"),
-                KV.get("stats:sum"),
-            ]);
-            const count = Number(c || "0");
-            const sum = Number(s || "0");
-            const avg = count ? sum / count : 0;
-            return Response.json({ count, avg } satisfies Out, { headers: corsHeaders(req) });
+    try {
+        if (searchParams.get("stats")) {
+            if (KV) {
+                const [c, s] = await Promise.all([
+                    KV.get("stats:count"),
+                    KV.get("stats:sum"),
+                ]);
+                const count = Number(c || "0");
+                const sum = Number(s || "0");
+                const avg = count ? sum / count : 0;
+                return Response.json({ count, avg } satisfies Out, { headers: corsHeaders(req) });
+            }
+            const avg = mem.count ? mem.sum / mem.count : 0;
+            return Response.json({ count: mem.count, avg } satisfies Out, { headers: corsHeaders(req) });
         }
-        const avg = mem.count ? mem.sum / mem.count : 0;
-        return Response.json({ count: mem.count, avg } satisfies Out, { headers: corsHeaders(req) });
-    }
 
-    const limit = Math.max(1, Math.min(50, Number(searchParams.get("limit") || 24)));
-    if (KV) {
-        // list latest reviews (keys with prefix r:)
-        const keys = await KV.list({ prefix: "r:" });
-        // newest first by id timestamp
-        const ids = keys.keys
-            .map((k) => k.name)
-            .sort((a, b) => (a < b ? 1 : -1))
-            .slice(0, limit);
+        const limit = Math.max(1, Math.min(50, Number(searchParams.get("limit") || 24)));
+        if (KV) {
+            const keys = await KV.list({ prefix: "r:" });
+            const ids = keys.keys
+                .map((k) => k.name)
+                .sort((a, b) => (a < b ? 1 : -1))
+                .slice(0, limit);
 
-        const items = (await Promise.all(
-            ids.map((id) => KV.get(id, "json") as Promise<Review | null>)
-        )).filter(Boolean) as Review[];
+            const items = (await Promise.all(
+                ids.map((id) => KV.get(id, "json") as Promise<Review | null>)
+            )).filter(Boolean) as Review[];
 
+            return Response.json({ items } satisfies Out, { headers: corsHeaders(req) });
+        }
+
+        const items = [...mem.items].sort((a, b) => b.createdAt - a.createdAt).slice(0, limit);
         return Response.json({ items } satisfies Out, { headers: corsHeaders(req) });
+    } catch {
+        if (searchParams.get("stats")) {
+            return Response.json({ count: 0, avg: 0 } satisfies Out, { headers: corsHeaders(req) });
+        }
+        return Response.json({ items: [] } satisfies Out, { headers: corsHeaders(req) });
     }
-
-    // dev fallback
-    const items = [...mem.items].sort((a, b) => b.createdAt - a.createdAt).slice(0, limit);
-    return Response.json({ items } satisfies Out, { headers: corsHeaders(req) });
 }
 
 export async function POST(req: Request): Promise<Response> {
