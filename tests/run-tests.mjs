@@ -6,8 +6,16 @@ import ts from 'typescript';
 
 const nodeRequire = createRequire(import.meta.url);
 
-const tsOptions = { compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2020 } };
+const tsOptions = {
+  compilerOptions: {
+    module: ts.ModuleKind.CommonJS,
+    target: ts.ScriptTarget.ES2020,
+    jsx: ts.JsxEmit.ReactJSX,
+  },
+};
 const cache = new Map();
+const testDir = new URL('.', import.meta.url).pathname;
+const projectRoot = path.resolve(testDir, '..');
 
 function loadTs(filePath) {
   if (cache.has(filePath)) return cache.get(filePath);
@@ -20,8 +28,25 @@ function loadTs(filePath) {
       let resolved = path.resolve(dirname, p);
       if (!fs.existsSync(resolved) && fs.existsSync(resolved + '.ts')) {
         resolved += '.ts';
+      } else if (!fs.existsSync(resolved) && fs.existsSync(resolved + '.tsx')) {
+        resolved += '.tsx';
       }
       if (resolved.endsWith('.ts')) {
+        return loadTs(resolved);
+      }
+      if (resolved.endsWith('.tsx')) {
+        return loadTs(resolved);
+      }
+      return nodeRequire(resolved);
+    }
+    if (p.startsWith('@/')) {
+      let resolved = path.resolve(projectRoot, 'src', p.slice(2));
+      if (!fs.existsSync(resolved) && fs.existsSync(resolved + '.ts')) {
+        resolved += '.ts';
+      } else if (!fs.existsSync(resolved) && fs.existsSync(resolved + '.tsx')) {
+        resolved += '.tsx';
+      }
+      if (resolved.endsWith('.ts') || resolved.endsWith('.tsx')) {
         return loadTs(resolved);
       }
       return nodeRequire(resolved);
@@ -31,7 +56,18 @@ function loadTs(filePath) {
     }
     return nodeRequire(p);
   };
-  const context = { module, exports: module.exports, require: requireFn, __dirname: dirname, __filename: filePath, process, URLSearchParams };
+  const context = {
+    module,
+    exports: module.exports,
+    require: requireFn,
+    __dirname: dirname,
+    __filename: filePath,
+    process,
+    URLSearchParams,
+    Request: globalThis.Request,
+    Response: globalThis.Response,
+    fetch: globalThis.fetch,
+  };
   vm.runInNewContext(outputText, context, { filename: filePath });
   cache.set(filePath, module.exports);
   return module.exports;
@@ -70,8 +106,6 @@ globalThis.it = (name, fn) => {
 };
 globalThis.expect = expect;
 globalThis.vi = vi;
-
-const testDir = new URL('.', import.meta.url).pathname;
 for (const file of fs.readdirSync(testDir)) {
   if (file.endsWith('.test.ts')) {
     loadTs(path.join(testDir, file));

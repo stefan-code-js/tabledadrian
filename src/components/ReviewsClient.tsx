@@ -85,7 +85,7 @@ export default function ReviewsClient({ initialItems, initialCount, initialAvg }
             });
 
             const data: any = await res.json().catch(() => ({}));
-            if (!res.ok || !data?.ok) {
+            if (!res.ok || !data?.ok || !data.review) {
                 setErr(data?.error || "Network error. Please try again.");
                 setBusy(false);
                 return;
@@ -219,14 +219,5 @@ export default function ReviewsClient({ initialItems, initialCount, initialAvg }
                 </article>
             </div>
         </section>
-    );
-}
-
-function Star({ filled }: { filled: boolean }) {
-    return (
-        <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"
-             className={`star ${filled ? 'filled' : ''}`}>
-            <path d="M12 17.3l-5.5 3.2 1.5-6.2-4.7-4.1 6.3-.5L12 4l2.4 5.7 6.3.5-4.7 4.1 1.5 6.2z" />
-        </svg>
     );
 }

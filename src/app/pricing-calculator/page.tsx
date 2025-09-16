@@ -10,13 +10,14 @@ import {
     FinalCtaSection,
     PageStructuredData,
 } from "@/components/StructuredPage";
+import PricingCalculatorWidget from "@/components/PricingCalculatorWidget";
 import { createPageMetadata } from "@/lib/metadata";
 
-const page = sitePages.products;
+const page = sitePages.pricingCalculator;
 
 export const metadata = createPageMetadata(page);
 
-export default function ProductsPage() {
+export default function PricingCalculatorPage() {
     return (
         <section className="section structured-page">
             <div className="container container--narrow prose">
@@ -26,6 +27,10 @@ export default function ProductsPage() {
                 <ValueSection page={page} />
                 <IncludedSection page={page} />
                 <ProcessSection page={page} />
+                <section className="structured-section" id={`${page.slug}-calculator`}>
+                    <h2 className="lux-h center-text">Interactive calculator</h2>
+                    <PricingCalculatorWidget />
+                </section>
                 <PricingSection page={page} />
                 <TestimonialsSection page={page} />
                 <FinalCtaSection page={page} />
