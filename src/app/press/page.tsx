@@ -12,11 +12,11 @@ import {
 } from "@/components/StructuredPage";
 import { createPageMetadata } from "@/lib/metadata";
 
-const page = sitePages.products;
+const page = sitePages.press;
 
 export const metadata = createPageMetadata(page);
 
-export default function ProductsPage() {
+export default function PressPage() {
     return (
         <section className="section structured-page">
             <div className="container container--narrow prose">
