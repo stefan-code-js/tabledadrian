@@ -3,9 +3,13 @@
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import PayButton from "@/components/PayButton";
-import { pricingCalculatorOptions, priceCatalog } from "@/data/siteContent";
-import type { CalculatorOption, TierCta } from "@/data/siteContent";
-import { estimatePricing, getCalculatorOption } from "@/lib/pricing";
+import { priceCatalog, type TierCta } from "@/data/siteContent";
+import {
+    estimatePricing,
+    getCalculatorOption,
+    pricingCalculatorOptions,
+    type CalculatorOption,
+} from "@/lib/pricing";
 
 function CTAButton({ cta }: { cta: TierCta }) {
     if (cta.type === "checkout") {

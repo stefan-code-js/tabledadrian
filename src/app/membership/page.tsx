@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import PayButton from '@/components/PayButton';
 import { priceCatalog } from '@/data/siteContent';
+import { formatEuro, getMembershipPricing } from '@/lib/pricing';
 
 export const metadata: Metadata = {
     title: 'Membership',
@@ -15,6 +16,11 @@ export default function MembershipPage() {
         essential: priceCatalog.membershipEssential.id,
         studio: priceCatalog.membershipStudio.id,
         patron: priceCatalog.membershipPatron.id,
+    } as const;
+
+    const monthlyLabel = (tier: 'essential' | 'studio' | 'patron') => {
+        const pricing = getMembershipPricing(tier);
+        return `${formatEuro(pricing.monthly)} / month`;
     };
 
     return (
@@ -68,7 +74,7 @@ export default function MembershipPage() {
                     <article className="lux-card reveal">
                         <h2 className="lux-h">Essential</h2>
                         <div className="lux-body">
-                            <p className="lux-price">€650 / month</p>
+                            <p className="lux-price">{monthlyLabel('essential')}</p>
                             <ul className="lux-list">
                                 <li>Quarterly pharmacist review & culinary rewrite</li>
                                 <li>Seasonal menu book + grocery & mise standards</li>
@@ -96,7 +102,7 @@ export default function MembershipPage() {
                     <article className="lux-card reveal">
                         <h2 className="lux-h">Studio</h2>
                         <div className="lux-body">
-                            <p className="lux-price">€1,350 / month</p>
+                            <p className="lux-price">{monthlyLabel('studio')}</p>
                             <ul className="lux-list">
                                 <li>Monthly pharmacist check-in & menu refinement</li>
                                 <li>Expanded menu library & pantry audits</li>
@@ -124,7 +130,7 @@ export default function MembershipPage() {
                     <article className="lux-card reveal">
                         <h2 className="lux-h">Patron</h2>
                         <div className="lux-body">
-                            <p className="lux-price">€3,500 / month</p>
+                            <p className="lux-price">{monthlyLabel('patron')}</p>
                             <ul className="lux-list">
                                 <li>Weekly pharmacist/chef touchpoint & rapid refinements</li>
                                 <li>Executive menu book with unlimited revisions</li>

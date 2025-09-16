@@ -25,8 +25,15 @@ async function fetchStripeSummary(sessionId: string) {
     }
 }
 
-export default async function SuccessPage({ searchParams }: { searchParams: { session_id?: string } }) {
-    const sessionId = searchParams?.session_id;
+type SuccessPageProps = {
+    searchParams?: Promise<Record<string, string | string[]>>;
+};
+
+export default async function SuccessPage({ searchParams }: SuccessPageProps) {
+    const resolved = searchParams ? await searchParams : undefined;
+    const rawSession = resolved?.session_id;
+    const sessionIdValue = Array.isArray(rawSession) ? rawSession[0] : rawSession;
+    const sessionId = sessionIdValue ?? undefined;
     const localOrder = sessionId ? getOrder(sessionId) : undefined;
     const stripe = sessionId && !localOrder ? await fetchStripeSummary(sessionId) : null;
 

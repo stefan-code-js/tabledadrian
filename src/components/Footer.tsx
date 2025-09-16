@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { footerLinks } from "@/data/siteContent";
 
 // Server component – clean, centered, compact
@@ -46,31 +47,36 @@ export default function Footer() {
                 {/* Brand logo strip (colored originals expected in /public/brands) */}
                 <div className="footer-logos" aria-label="Partners and platforms">
                     <a href={IG} target="_blank" rel="noreferrer" aria-label="Instagram">
-                        <img src="/brands/instagram-2016-5.svg" alt="Instagram" />
+                        <Image src="/brands/instagram-2016-5.svg" alt="Instagram" width={80} height={24} />
                     </a>
                     <a href={LI} target="_blank" rel="noreferrer" aria-label="LinkedIn">
-                        <img src="/brands/linkedin-logo-icon_svgstack_com_3961757457128.svg" alt="LinkedIn" />
+                        <Image
+                            src="/brands/linkedin-logo-icon_svgstack_com_3961757457128.svg"
+                            alt="LinkedIn"
+                            width={80}
+                            height={24}
+                        />
                     </a>
                     <a href="https://stripe.com" target="_blank" rel="noreferrer" aria-label="Stripe">
-                        <img src="/brands/stripe-4.svg" alt="Stripe" />
+                        <Image src="/brands/stripe-4.svg" alt="Stripe" width={80} height={24} />
                     </a>
                     <a href="https://www.ehl.edu" target="_blank" rel="noreferrer" aria-label="EHL">
-                        <img src="/brands/EHL_idlWUemmCk_1.svg" alt="EHL" />
+                        <Image src="/brands/EHL_idlWUemmCk_1.svg" alt="EHL" width={80} height={24} />
                     </a>
                     <a href="https://www.visa.com" target="_blank" rel="noreferrer" aria-label="Visa">
-                        <img src="/brands/visa-10.svg" alt="Visa" />
+                        <Image src="/brands/visa-10.svg" alt="Visa" width={80} height={24} />
                     </a>
                     <a href="https://www.mastercard.com" target="_blank" rel="noreferrer" aria-label="Mastercard">
-                        <img src="/brands/mastercard-modern-design-.svg" alt="Mastercard" />
+                        <Image src="/brands/mastercard-modern-design-.svg" alt="Mastercard" width={80} height={24} />
                     </a>
                     <a href="https://www.gronda.eu" target="_blank" rel="noreferrer" aria-label="Gronda">
-                        <img src="/brands/gronda-seeklogo.svg" alt="Gronda" />
+                        <Image src="/brands/gronda-seeklogo.svg" alt="Gronda" width={80} height={24} />
                     </a>
                     <a href={X_URL} target="_blank" rel="noreferrer" aria-label="X">
-                        <img src="/brands/x-2.svg" alt="X" />
+                        <Image src="/brands/x-2.svg" alt="X" width={80} height={24} />
                     </a>
                     <a href="https://www.kraken.com" target="_blank" rel="noreferrer" aria-label="Kraken">
-                        <img src="/brands/kraken-4.svg" alt="Kraken" />
+                        <Image src="/brands/kraken-4.svg" alt="Kraken" width={80} height={24} />
                     </a>
                 </div>
             </div>

@@ -24,14 +24,14 @@ export default function Hero() {
     return (
         <section className="hero container" aria-label="Introduction">
             <motion.div className="hero-copy" variants={parent} initial="hidden" animate="show">
-                <motion.p className="kicker" variants={fadeUp}>private chef · côte d’azur</motion.p>
+                <motion.p className="kicker" variants={fadeUp}>atelier gastronomy · côte d’azur</motion.p>
                 <motion.h1 className="title" variants={fadeUp}>Table d’Adrian</motion.h1>
                 <motion.p className="lead" variants={fadeUp}>
-                    Seasonal tasting menus for private villas, yachts & salons along the Côte d’Azur.
+                    Private table, wellness systems, and salon atmospheres crafted with pharmacist precision and chef poetry.
                 </motion.p>
                 <motion.div className="cta" variants={fadeUp}>
-                    <Link href="/book" className="btn primary">request a date</Link>
-                    <Link href="/menu" className="btn">view menu</Link>
+                    <Link href="/book" className="btn primary">reserve a season</Link>
+                    <Link href="/menu" className="btn ghost">view experiences</Link>
                 </motion.div>
             </motion.div>
 
@@ -42,8 +42,8 @@ export default function Hero() {
                 transition={{ delay: 0.2, duration: 0.5, ease: EASE }}
             >
                 <Image
-                    src="/hero.jpg"
-                    alt="Ivory table with herbs, candlelight, and hand-thrown ceramics."
+                    src="/hero-art.svg"
+                    alt="Atmospheric gradient artwork evoking candlelight on the Riviera."
                     fill
                     sizes="(max-width: 900px) 100vw, 900px"
                     priority
