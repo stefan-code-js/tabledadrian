@@ -32,7 +32,7 @@ export default function Book() {
                     </p>
 
                     <p style={{ marginTop: 14 }}>
-                        <Link href={publicUrl} className="btn primary" target="_blank" rel="noreferrer">
+                        <Link href={publicUrl} className="btn btn--primary" target="_blank" rel="noreferrer">
                             open booking calendar
                         </Link>
                     </p>

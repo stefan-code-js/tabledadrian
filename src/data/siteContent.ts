@@ -100,7 +100,8 @@ export type TierCta =
 export type Tier = {
     id: string;
     title: string;
-    price: string;
+    price?: string;
+    calculatorId?: string;
     description?: string;
     bullets: string[];
     details?: { summary: string; body: string };
@@ -276,7 +277,7 @@ export const sitePages: Record<PageId, PageContent> = {
                 {
                     id: "signature",
                     title: "Signature Tasting",
-                    price: "from €2,200",
+                    price: "investment set during private consult",
                     description: "12-course progression for villas and private salons.",
                     bullets: [
                         "Ingredient-led arc for up to 12 guests",
@@ -288,7 +289,7 @@ export const sitePages: Record<PageId, PageContent> = {
                 {
                     id: "voyage",
                     title: "Voyage Weekend",
-                    price: "€6,500 flat",
+                    price: "quote prepared after itinerary review",
                     description: "Chef + pharmacist weekend residency for yachts and retreats.",
                     bullets: [
                         "Provisioning and crew training",
@@ -300,7 +301,7 @@ export const sitePages: Record<PageId, PageContent> = {
                 {
                     id: "concierge",
                     title: "Concierge Quarter",
-                    price: "€7,500",
+                    price: "annualized retainer by proposal",
                     description: "12-week continuity with Antonia & Adrian.",
                     bullets: [
                         "Weekly adjustments and priority booking",
@@ -430,7 +431,7 @@ export const sitePages: Record<PageId, PageContent> = {
                 {
                     id: "intake",
                     title: "Foundational Intake",
-                    price: "€650",
+                    price: "quoted during scheduling",
                     description: "90-minute session with Antonia & Adrian.",
                     bullets: [
                         "Medical & culinary history review",
@@ -442,7 +443,7 @@ export const sitePages: Record<PageId, PageContent> = {
                 {
                     id: "reset",
                     title: "4-Week Reset",
-                    price: "€2,400",
+                    price: "scoped after intake",
                     description: "Concise program to rebuild rhythms.",
                     bullets: [
                         "Weekly pharmacist and chef touchpoints",
@@ -454,7 +455,7 @@ export const sitePages: Record<PageId, PageContent> = {
                 {
                     id: "membership",
                     title: "Annual Membership",
-                    price: "from €650 / month",
+                    price: "membership retains bespoke",
                     description: "Ongoing leadership with hosted dinners embedded.",
                     bullets: [
                         "Quarterly or monthly reviews",
@@ -563,7 +564,7 @@ export const sitePages: Record<PageId, PageContent> = {
                 {
                     id: "signature-dinner",
                     title: "Signature Dinner",
-                    price: "from €2,200",
+                    calculatorId: "signature",
                     bullets: [
                         "12–14 course progression",
                         "Curated pairings & playlist",
@@ -574,7 +575,7 @@ export const sitePages: Record<PageId, PageContent> = {
                 {
                     id: "salon-supper",
                     title: "Salon Supper",
-                    price: "€3,800",
+                    calculatorId: "salon",
                     bullets: [
                         "8-course conversational format",
                         "Interactive plating moments",
@@ -585,7 +586,7 @@ export const sitePages: Record<PageId, PageContent> = {
                 {
                     id: "day-luncheon",
                     title: "Day Luncheon",
-                    price: "€1,450",
+                    calculatorId: "luncheon",
                     bullets: [
                         "Midday produce-driven service",
                         "Cold-pressed elixirs & infusions",
@@ -694,7 +695,7 @@ export const sitePages: Record<PageId, PageContent> = {
                 {
                     id: "library",
                     title: "Seasonal Library",
-                    price: "€1,950",
+                    price: "quoted after scope call",
                     bullets: [
                         "3 seasonal menus",
                         "Shopping and prep standards",
@@ -705,7 +706,7 @@ export const sitePages: Record<PageId, PageContent> = {
                 {
                     id: "crew",
                     title: "Crew Intensive",
-                    price: "€3,600",
+                    price: "investment tailored per crew",
                     bullets: [
                         "On-site two-day training",
                         "Performance evaluation",
@@ -716,7 +717,7 @@ export const sitePages: Record<PageId, PageContent> = {
                 {
                     id: "protocol",
                     title: "Wellness Protocol",
-                    price: "€2,200",
+                    price: "proposal following pharmacist review",
                     bullets: [
                         "Pharmacist-led intake",
                         "Lab-aligned menu plan",
@@ -836,7 +837,7 @@ export const sitePages: Record<PageId, PageContent> = {
                 {
                     id: "deposit",
                     title: "Event Deposit",
-                    price: "€1,000",
+                    price: "issued once proposal approved",
                     bullets: [
                         "Reserve your date",
                         "Locks crew & travel",
@@ -847,7 +848,7 @@ export const sitePages: Record<PageId, PageContent> = {
                 {
                     id: "retainer",
                     title: "Concierge Retainer",
-                    price: "€2,500",
+                    price: "retainer defined with concierge",
                     bullets: [
                         "Priority line",
                         "Rolling calendar holds",
@@ -956,7 +957,7 @@ export const sitePages: Record<PageId, PageContent> = {
                 {
                     id: "documentary",
                     title: "Documentary Set",
-                    price: "€480",
+                    price: "provided with booking confirmation",
                     bullets: [
                         "Up to 60 edited images",
                         "Private gallery",
@@ -967,7 +968,7 @@ export const sitePages: Record<PageId, PageContent> = {
                 {
                     id: "press",
                     title: "Press Kit",
-                    price: "€850",
+                    price: "tailored to outlet requirements",
                     bullets: [
                         "Narrative photo essay",
                         "Interview notes",
@@ -978,7 +979,7 @@ export const sitePages: Record<PageId, PageContent> = {
                 {
                     id: "motion",
                     title: "Motion Capsule",
-                    price: "€1,200",
+                    price: "quoted alongside production brief",
                     bullets: [
                         "45-second hero film",
                         "Vertical + horizontal cuts",
@@ -1086,7 +1087,7 @@ export const sitePages: Record<PageId, PageContent> = {
                 {
                     id: "editor-lunch",
                     title: "Editor Luncheon",
-                    price: "€1,200",
+                    price: "arranged with editorial team",
                     bullets: [
                         "4-course tasting",
                         "Interview window",
@@ -1097,7 +1098,7 @@ export const sitePages: Record<PageId, PageContent> = {
                 {
                     id: "shoot-day",
                     title: "Shoot Day",
-                    price: "€2,800",
+                    price: "budget finalized with creative lead",
                     bullets: [
                         "Styled plates",
                         "Prop & lighting support",
@@ -1108,7 +1109,7 @@ export const sitePages: Record<PageId, PageContent> = {
                 {
                     id: "launch-dinner",
                     title: "Launch Dinner",
-                    price: "€4,500",
+                    price: "bespoke hospitality quote",
                     bullets: [
                         "10-guest salon",
                         "Paired beverages",
@@ -1226,7 +1227,7 @@ export const sitePages: Record<PageId, PageContent> = {
                 {
                     id: "spotlight",
                     title: "Spotlight Response",
-                    price: "€180",
+                    price: "arranged per appreciation",
                     bullets: [
                         "Tailored thank-you gift",
                         "Crew debrief",
@@ -1237,7 +1238,7 @@ export const sitePages: Record<PageId, PageContent> = {
                 {
                     id: "audit",
                     title: "Experience Audit",
-                    price: "€450",
+                    price: "delivered with consulting quote",
                     bullets: [
                         "In-depth review analysis",
                         "Operational recommendations",
@@ -1475,33 +1476,33 @@ export const sitePages: Record<PageId, PageContent> = {
                 {
                     id: "signature",
                     title: "Signature Dinner",
-                    price: "baseline €2,200",
+                    calculatorId: "signature",
                     bullets: [
-                        "Includes 12 guests",
-                        "€180 per additional guest",
-                        "Deposit €1,000",
+                        "12-course tasting progression",
+                        "Crew handles mise and reset",
+                        "Wine pairing guidance provided",
                     ],
                     cta: { type: "checkout", label: "pay deposit", priceKey: "experienceSignature" },
                 },
                 {
                     id: "salon",
                     title: "Salon Supper",
-                    price: "baseline €3,800",
+                    calculatorId: "salon",
                     bullets: [
-                        "Includes 16 guests",
-                        "€220 per additional guest",
-                        "Deposit €1,500",
+                        "Conversation-led service arc",
+                        "Perfume-inspired aperitif ritual",
+                        "Playlist and lighting direction",
                     ],
                     cta: { type: "checkout", label: "pay deposit", priceKey: "experienceSalon" },
                 },
                 {
                     id: "concierge",
                     title: "Concierge Quarter",
-                    price: "€7,500",
+                    calculatorId: "concierge",
                     bullets: [
-                        "Covers 12-week program",
-                        "Optional hosted dinners",
-                        "Deposit €2,500",
+                        "12-week continuity program",
+                        "Pharmacist & chef leadership",
+                        "Hosted dinners included per plan",
                     ],
                     cta: { type: "checkout", label: "secure concierge", priceKey: "concierge12Week" },
                 },
@@ -1560,70 +1561,6 @@ export const galleryImages: GalleryImage[] = [
         src: "/images/plate-06.jpg",
         alt: "cocoa husk dessert with citrus peel",
         caption: "Cocoa husk, citrus peel, aged honey",
-    },
-];
-
-export type CalculatorEnhancement = {
-    id: string;
-    label: string;
-    amount: number;
-    description: string;
-};
-
-export type CalculatorOption = {
-    id: string;
-    name: string;
-    description: string;
-    base: number;
-    includedGuests: number;
-    perGuest: number;
-    deposit: number;
-    enhancements: CalculatorEnhancement[];
-    cta: TierCta;
-};
-
-export const pricingCalculatorOptions: CalculatorOption[] = [
-    {
-        id: "signature",
-        name: "Signature Dinner",
-        description: "12-course tasting with Adrian & crew on site",
-        base: 2200,
-        includedGuests: 12,
-        perGuest: 180,
-        deposit: 1000,
-        enhancements: [
-            { id: "wine", label: "Sommelier wine pairing", amount: 480, description: "Curated wines + stemware" },
-            { id: "photography", label: "Documentary photography", amount: 480, description: "60 edited images" },
-        ],
-        cta: { type: "checkout", label: "pay deposit", priceKey: "experienceSignature" },
-    },
-    {
-        id: "salon",
-        name: "Salon Supper",
-        description: "Conversation-led supper with aperitif ritual",
-        base: 3800,
-        includedGuests: 16,
-        perGuest: 220,
-        deposit: 1500,
-        enhancements: [
-            { id: "perfume", label: "Custom perfume pairing", amount: 320, description: "Aroma-led aperitifs" },
-            { id: "press", label: "Press-ready photo set", amount: 850, description: "Editorial coverage" },
-        ],
-        cta: { type: "checkout", label: "reserve salon", priceKey: "experienceSalon" },
-    },
-    {
-        id: "concierge",
-        name: "Concierge Quarter",
-        description: "12-week continuity with hosted dinners",
-        base: 7500,
-        includedGuests: 0,
-        perGuest: 0,
-        deposit: 2500,
-        enhancements: [
-            { id: "dinners", label: "Additional hosted dinners", amount: 1200, description: "Per additional dinner" },
-            { id: "labs", label: "Lab coordination", amount: 650, description: "Pharmacist-managed lab cadence" },
-        ],
-        cta: { type: "checkout", label: "secure concierge", priceKey: "concierge12Week" },
     },
 ];
 

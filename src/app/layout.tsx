@@ -3,7 +3,9 @@ import type { Metadata, Viewport } from 'next';
 import './globals.css';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import PageTransition from '@/components/PageTransition';
 import { site } from '@/lib/site';
+import { sans, display } from '@/lib/fonts';
 import React from 'react';
 import Script from 'next/script'; // ← Turnstile loader
 
@@ -62,13 +64,26 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     };
 
     return (
-        <html lang={site.locale}>
-        <body>
+        <html lang={site.locale} className="no-js">
+        <body className={`${sans.variable} ${display.variable}`}>
+        <Script id="init-js" strategy="beforeInteractive">
+            {"document.documentElement.classList.remove('no-js');document.documentElement.classList.add('has-js');"}
+        </Script>
+        <Script
+            src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"
+            strategy="beforeInteractive"
+            defer
+        />
+        <Script
+            src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"
+            strategy="beforeInteractive"
+            defer
+        />
         <Header />
 
         {/* Keep focusable main for a11y; skip link can be re-added later */}
         <main id="content" tabIndex={-1}>
-            {children}
+            <PageTransition>{children}</PageTransition>
         </main>
 
         <Footer />

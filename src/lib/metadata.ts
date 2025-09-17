@@ -49,6 +49,7 @@ function parsePrice(value: string): number | undefined {
 }
 
 function tierToOffer(page: PageContent, tier: Tier): OfferJsonLd | null {
+    if (!tier.price) return null;
     const price = parsePrice(tier.price);
     if (!price) return null;
     const description = tier.description || tier.bullets.join(" · ");

@@ -96,7 +96,7 @@ export default function TeamPage() {
                     <Link className="btn" href="/menu">
                         view menu
                     </Link>
-                    <Link className="btn ghost" href="/book">
+                    <Link className="btn btn--ghost" href="/book">
                         request a date
                     </Link>
                 </div>

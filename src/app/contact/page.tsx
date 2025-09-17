@@ -1,7 +1,6 @@
 import { sitePages } from "@/data/siteContent";
 import {
     PageHero,
-    PageQuickNav,
     ValueSection,
     IncludedSection,
     ProcessSection,
@@ -19,14 +18,20 @@ export const metadata = createPageMetadata(page);
 
 export const runtime = "edge";
 
-export default function ContactPage({ searchParams }: { searchParams?: { context?: string } }) {
-    const context = searchParams?.context ? decodeURIComponent(searchParams.context) : undefined;
+type ContactPageProps = {
+    searchParams?: Promise<Record<string, string | string[]>>;
+};
+
+export default async function ContactPage({ searchParams }: ContactPageProps) {
+    const resolved = searchParams ? await searchParams : undefined;
+    const rawContext = resolved?.context;
+    const contextValue = Array.isArray(rawContext) ? rawContext[0] : rawContext;
+    const context = contextValue ? decodeURIComponent(contextValue) : undefined;
     return (
         <section className="section structured-page">
             <div className="container container--narrow prose">
                 <PageStructuredData page={page} />
                 <PageHero page={page} />
-                <PageQuickNav page={page} />
                 <ValueSection page={page} />
                 <IncludedSection page={page} />
                 <ProcessSection page={page} />

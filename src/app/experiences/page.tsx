@@ -1,7 +1,6 @@
 import { sitePages } from "@/data/siteContent";
 import {
     PageHero,
-    PageQuickNav,
     ValueSection,
     IncludedSection,
     ProcessSection,
@@ -22,7 +21,6 @@ export default function ExperiencesPage() {
             <div className="container container--narrow prose">
                 <PageStructuredData page={page} />
                 <PageHero page={page} />
-                <PageQuickNav page={page} />
                 <ValueSection page={page} />
                 <IncludedSection page={page} />
                 <ProcessSection page={page} />

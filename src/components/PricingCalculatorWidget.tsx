@@ -3,9 +3,13 @@
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import PayButton from "@/components/PayButton";
-import { pricingCalculatorOptions, priceCatalog } from "@/data/siteContent";
-import type { CalculatorOption, TierCta } from "@/data/siteContent";
-import { estimatePricing, getCalculatorOption } from "@/lib/pricing";
+import { priceCatalog, type TierCta } from "@/data/siteContent";
+import {
+    estimatePricing,
+    getCalculatorOption,
+    pricingCalculatorOptions,
+    type CalculatorOption,
+} from "@/lib/pricing";
 
 function CTAButton({ cta }: { cta: TierCta }) {
     if (cta.type === "checkout") {
@@ -109,9 +113,9 @@ export default function PricingCalculatorWidget() {
                 </p>
             </div>
 
-            <div className="hero-ctas" style={{ marginTop: 16 }}>
+            <div className="calculator-actions">
                 <CTAButton cta={option.cta} />
-                <Link className="btn ghost" href={`/contact?context=${encodeURIComponent(option.id)}`}>
+                <Link className="btn btn--ghost" href={`/contact?context=${encodeURIComponent(option.id)}`}>
                     send inquiry
                 </Link>
             </div>
