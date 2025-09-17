@@ -37,5 +37,5 @@
 - Added Products & Services page with Stripe checkout CTAs.
 - Introduced reusable Trust section with FAQs and reasons to choose us.
 - Implemented Stripe checkout session helper and in-memory order store.
-- Added Vitest with tests for utilities, product data, and checkout session creator.
+- Added Vitest oduct data, and checkout session creator.
 - Updated CI to run install → lint → typecheck → test → build.
