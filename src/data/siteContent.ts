@@ -137,6 +137,7 @@ export type Hero = {
     description: string;
     primaryCta: { label: string; href: string };
     secondaryCta?: { label: string; href: string };
+    image?: { src: string; alt: string };
 };
 
 export type PageId =
@@ -200,6 +201,10 @@ export const sitePages: Record<PageId, PageContent> = {
             description:
                 "Ingredient-led tasting menus, pharmacist-designed wellness systems, and hospitality that moves quietly. Villas, yachts, and salons along Antibes, Cannes, Monaco.",
             primaryCta: { label: "request a booking", href: "/contact" },
+            image: {
+                src: "https://images.unsplash.com/photo-1543353071-873f17a7a088?auto=format&fit=crop&w=2400&q=80&sat=-100",
+                alt: "A monochrome view of a candlelit dining table set for an intimate service",
+            },
         },
         quickNav: [
             { label: "value", target: "values" },

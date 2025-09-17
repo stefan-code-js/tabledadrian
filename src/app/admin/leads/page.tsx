@@ -1,7 +1,6 @@
 import { sitePages } from "@/data/siteContent";
 import {
     PageHero,
-    PageQuickNav,
     ValueSection,
     IncludedSection,
     ProcessSection,
@@ -74,45 +73,46 @@ export default function AdminLeadsPage() {
     const leads = listLeads();
 
     return (
-        <section className="section structured-page">
-            <div className="container container--narrow prose">
+        <section className="editorial-page admin-page">
+            <div className="editorial-shell">
                 <PageStructuredData page={page} />
                 <PageHero page={page} />
-                <PageQuickNav page={page} />
                 <ValueSection page={page} />
                 <IncludedSection page={page} />
                 <ProcessSection page={page} />
                 <PricingSection page={page} />
                 <TestimonialsSection page={page} />
-                <section className="structured-section" id={`${page.slug}-leads`}>
-                    <h2 className="lux-h center-text">Live leads</h2>
-                    <div className="lead-table-wrapper">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th scope="col">Name</th>
-                                    <th scope="col">Guests</th>
-                                    <th scope="col">Event date</th>
-                                    <th scope="col">Location</th>
-                                    <th scope="col">Budget</th>
-                                    <th scope="col">Signal</th>
-                                    <th scope="col">Notes</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {leads.map((lead) => (
-                                    <tr key={lead.id}>
-                                        <td>{lead.name}</td>
-                                        <td>{lead.guests}</td>
-                                        <td>{formatDate(lead.eventDate)}</td>
-                                        <td>{lead.location || "—"}</td>
-                                        <td>{lead.budget || "—"}</td>
-                                        <td className={`signal-${lead.signal}`}>{lead.signal}</td>
-                                        <td>{lead.message || "—"}</td>
+                <section className="editorial-section" id={`${page.slug}-leads`}>
+                    <div className="section-inner">
+                        <h2>Live leads</h2>
+                        <div className="lead-table-wrapper">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Name</th>
+                                        <th scope="col">Guests</th>
+                                        <th scope="col">Event date</th>
+                                        <th scope="col">Location</th>
+                                        <th scope="col">Budget</th>
+                                        <th scope="col">Signal</th>
+                                        <th scope="col">Notes</th>
                                     </tr>
-                                ))}
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    {leads.map((lead) => (
+                                        <tr key={lead.id}>
+                                            <td>{lead.name}</td>
+                                            <td>{lead.guests}</td>
+                                            <td>{formatDate(lead.eventDate)}</td>
+                                            <td>{lead.location || "—"}</td>
+                                            <td>{lead.budget || "—"}</td>
+                                            <td className={`signal-${lead.signal}`}>{lead.signal}</td>
+                                            <td>{lead.message || "—"}</td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </section>
                 <FinalCtaSection page={page} />

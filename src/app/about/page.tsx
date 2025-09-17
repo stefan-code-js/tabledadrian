@@ -1,7 +1,6 @@
 import { sitePages } from "@/data/siteContent";
 import {
     PageHero,
-    PageQuickNav,
     ValueSection,
     IncludedSection,
     ProcessSection,
@@ -18,11 +17,10 @@ export const metadata = createPageMetadata(page);
 
 export default function AboutPage() {
     return (
-        <section className="section structured-page">
-            <div className="container container--narrow prose">
+        <section className="editorial-page">
+            <div className="editorial-shell">
                 <PageStructuredData page={page} />
                 <PageHero page={page} />
-                <PageQuickNav page={page} />
                 <ValueSection page={page} />
                 <IncludedSection page={page} />
                 <ProcessSection page={page} />
