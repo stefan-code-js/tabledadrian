@@ -2,53 +2,96 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { motion, type Variants, type Easing } from 'framer-motion';
+import { useMemo } from 'react';
+import { useEditorialMotion } from '@/hooks/useEditorialMotion';
+import { useGsapFade } from '@/hooks/useGsapFade';
 
-const EASE: Easing = [0.16, 1, 0.3, 1]; // cubic-bezier easeOut
-
-const parent: Variants = {
-    hidden: {},
-    show: { transition: { staggerChildren: 0.08 } },
-};
-
-const fadeUp: Variants = {
-    hidden: { opacity: 0, y: 14 },
-    show: {
-        opacity: 1,
-        y: 0,
-        transition: { duration: 0.45, ease: EASE },
-    },
+const heroCopy = {
+    kicker: 'private chef · côte d’azur',
+    title: 'Table d’Adrian',
+    lead: 'Seasonal tasting menus for private villas, yachts, and salons along the Côte d’Azur.',
+    primaryCta: { href: '/contact', label: 'request a booking' },
+    secondaryCta: { href: '/membership', label: 'explore membership' },
 };
 
 export default function Hero() {
+    const motion = useEditorialMotion();
+    const figureRef = useGsapFade({ delay: 0.2, y: 22 });
+
+    const MotionDiv = useMemo(() => motion?.div ?? null, [motion]);
+    const MotionParagraph = useMemo(() => motion?.p ?? null, [motion]);
+    const MotionHeading = useMemo(() => motion?.h1 ?? null, [motion]);
+
     return (
         <section className="hero container" aria-label="Introduction">
-            <motion.div className="hero-copy" variants={parent} initial="hidden" animate="show">
-                <motion.p className="kicker" variants={fadeUp}>private chef · côte d’azur</motion.p>
-                <motion.h1 className="title" variants={fadeUp}>Table d’Adrian</motion.h1>
-                <motion.p className="lead" variants={fadeUp}>
-                    Seasonal tasting menus for private villas, yachts & salons along the Côte d’Azur.
-                </motion.p>
-                <motion.div className="cta" variants={fadeUp}>
-                    <Link href="/book" className="btn primary">request a date</Link>
-                    <Link href="/menu" className="btn">view menu</Link>
-                </motion.div>
-            </motion.div>
+            {MotionDiv && MotionParagraph && MotionHeading ? (
+                <MotionDiv
+                    className="hero-copy"
+                    initial="hidden"
+                    animate="visible"
+                    variants={{ hidden: { opacity: 0 }, visible: { opacity: 1, transition: { staggerChildren: 0.08 } } }}
+                >
+                    <MotionParagraph
+                        className="kicker"
+                        variants={{ hidden: { opacity: 0, y: 18 }, visible: { opacity: 1, y: 0, transition: { duration: 0.45 } } }}
+                    >
+                        {heroCopy.kicker}
+                    </MotionParagraph>
+                    <MotionHeading
+                        className="title"
+                        variants={{ hidden: { opacity: 0, y: 18 }, visible: { opacity: 1, y: 0, transition: { duration: 0.45 } } }}
+                    >
+                        {heroCopy.title}
+                    </MotionHeading>
+                    <MotionParagraph
+                        className="lead"
+                        variants={{ hidden: { opacity: 0, y: 18 }, visible: { opacity: 1, y: 0, transition: { duration: 0.45 } } }}
+                    >
+                        {heroCopy.lead}
+                    </MotionParagraph>
+                    <MotionDiv
+                        className="cta"
+                        variants={{ hidden: { opacity: 0, y: 24 }, visible: { opacity: 1, y: 0, transition: { duration: 0.5 } } }}
+                    >
+                        <Link href={heroCopy.primaryCta.href} className="btn primary">
+                            {heroCopy.primaryCta.label}
+                        </Link>
+                        <Link href={heroCopy.secondaryCta.href} className="btn">
+                            {heroCopy.secondaryCta.label}
+                        </Link>
+                    </MotionDiv>
+                </MotionDiv>
+            ) : (
+                <div className="hero-copy">
+                    <p className="kicker">{heroCopy.kicker}</p>
+                    <h1 className="title">{heroCopy.title}</h1>
+                    <p className="lead">{heroCopy.lead}</p>
+                    <div className="cta">
+                        <Link href={heroCopy.primaryCta.href} className="btn primary">
+                            {heroCopy.primaryCta.label}
+                        </Link>
+                        <Link href={heroCopy.secondaryCta.href} className="btn">
+                            {heroCopy.secondaryCta.label}
+                        </Link>
+                    </div>
+                </div>
+            )}
 
-            <motion.figure
+            <figure
                 className="hero-media"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.2, duration: 0.5, ease: EASE }}
+                ref={(node) => {
+                    figureRef.current = node;
+                }}
             >
                 <Image
-                    src="/hero.jpg"
+                    src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?fm=webp&w=2000&h=1334&fit=crop&q=85"
                     alt="Ivory table with herbs, candlelight, and hand-thrown ceramics."
                     fill
                     sizes="(max-width: 900px) 100vw, 900px"
                     priority
+                    className="hero-media__image"
                 />
-            </motion.figure>
+            </figure>
         </section>
     );
 }

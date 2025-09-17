@@ -49,7 +49,7 @@ export default function Menus() {
                         </p>
 
                         <div className="menu-bottom">
-                            <p className="menu-price"><strong>From €180 per guest</strong></p>
+                            <p className="menu-price"><strong>Proposal provided after consult</strong></p>
                             <Link href="/book" className="btn" aria-label="Enquire about the Signature tasting">
                                 Enquire <Icon.Chevron style={{ marginLeft: 6 }} />
                             </Link>
@@ -71,7 +71,7 @@ export default function Menus() {
                         </p>
 
                         <div className="menu-bottom">
-                            <p className="menu-price"><strong>From €220 per guest</strong></p>
+                            <p className="menu-price"><strong>Pricing confirmed in brief</strong></p>
                             <Link href="/book" className="btn" aria-label="Enquire about the Performance dinner">
                                 Enquire <Icon.Chevron style={{ marginLeft: 6 }} />
                             </Link>
@@ -93,7 +93,7 @@ export default function Menus() {
                         </p>
 
                         <div className="menu-bottom">
-                            <p className="menu-price"><strong>From €120 per guest</strong></p>
+                            <p className="menu-price"><strong>Investment shared case-by-case</strong></p>
                             <Link href="/book" className="btn" aria-label="Enquire about the Salon supper">
                                 Enquire <Icon.Chevron style={{ marginLeft: 6 }} />
                             </Link>
