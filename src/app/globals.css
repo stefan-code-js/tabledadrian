@@ -608,4 +608,5 @@ main{ min-height: 60vh; }
   border: 1px solid var(--muted); background: #fff;
 }
 .review-form textarea { resize: vertical; }
-.muted { opacity: .7; }
+.muted { opacity: .6; }
+
