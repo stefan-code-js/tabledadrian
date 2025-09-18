@@ -1,7 +1,6 @@
 import { sitePages } from "@/data/siteContent";
 import {
     PageHero,
-    PageQuickNav,
     ValueSection,
     IncludedSection,
     ProcessSection,
@@ -18,18 +17,15 @@ export const metadata = createPageMetadata(page);
 
 export default function PressPage() {
     return (
-        <section className="section structured-page">
-            <div className="container container--narrow prose">
-                <PageStructuredData page={page} />
-                <PageHero page={page} />
-                <PageQuickNav page={page} />
-                <ValueSection page={page} />
-                <IncludedSection page={page} />
-                <ProcessSection page={page} />
-                <PricingSection page={page} />
-                <TestimonialsSection page={page} />
-                <FinalCtaSection page={page} />
-            </div>
-        </section>
+        <article className="editorial-page">
+            <PageStructuredData page={page} />
+            <PageHero page={page} />
+            <ValueSection page={page} />
+            <IncludedSection page={page} />
+            <ProcessSection page={page} />
+            <PricingSection page={page} />
+            <TestimonialsSection page={page} />
+            <FinalCtaSection page={page} />
+        </article>
     );
 }

@@ -4,6 +4,7 @@ import './globals.css';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { site } from '@/lib/site';
+import { serif, sans } from '@/lib/fonts';
 import React from 'react';
 import Script from 'next/script'; // ← Turnstile loader
 
@@ -62,7 +63,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     };
 
     return (
-        <html lang={site.locale}>
+        <html lang={site.locale} className={`${serif.variable} ${sans.variable}`}>
         <body>
         <Header />
 

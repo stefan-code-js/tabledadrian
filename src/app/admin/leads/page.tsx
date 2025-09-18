@@ -1,7 +1,6 @@
 import { sitePages } from "@/data/siteContent";
 import {
     PageHero,
-    PageQuickNav,
     ValueSection,
     IncludedSection,
     ProcessSection,
@@ -74,18 +73,19 @@ export default function AdminLeadsPage() {
     const leads = listLeads();
 
     return (
-        <section className="section structured-page">
-            <div className="container container--narrow prose">
-                <PageStructuredData page={page} />
-                <PageHero page={page} />
-                <PageQuickNav page={page} />
-                <ValueSection page={page} />
-                <IncludedSection page={page} />
-                <ProcessSection page={page} />
-                <PricingSection page={page} />
-                <TestimonialsSection page={page} />
-                <section className="structured-section" id={`${page.slug}-leads`}>
-                    <h2 className="lux-h center-text">Live leads</h2>
+        <article className="editorial-page">
+            <PageStructuredData page={page} />
+            <PageHero page={page} />
+            <ValueSection page={page} />
+            <IncludedSection page={page} />
+            <ProcessSection page={page} />
+            <PricingSection page={page} />
+            <TestimonialsSection page={page} />
+            <section className="editorial-section" id={`${page.slug}-leads`}>
+                <div className="editorial-container">
+                    <div className="section-heading">
+                        <h2>Live leads</h2>
+                    </div>
                     <div className="lead-table-wrapper">
                         <table>
                             <thead>
@@ -114,9 +114,10 @@ export default function AdminLeadsPage() {
                             </tbody>
                         </table>
                     </div>
-                </section>
-                <FinalCtaSection page={page} />
-            </div>
-        </section>
+                </div>
+                <hr className="separator" />
+            </section>
+            <FinalCtaSection page={page} />
+        </article>
     );
 }

@@ -8,9 +8,9 @@ const faqs = [
 
 export default function FAQ() {
     return (
-        <div className="faq">
+        <div className="faq-list">
             {faqs.map((item) => (
-                <details key={item.q} className="lux-details">
+                <details key={item.q}>
                     <summary>{item.q}</summary>
                     <p>{item.a}</p>
                 </details>
