@@ -49,9 +49,9 @@ function parsePrice(value: string): number | undefined {
 }
 
 function tierToOffer(page: PageContent, tier: Tier): OfferJsonLd | null {
-    const price = parsePrice(tier.price);
-    if (!price) return null;
-    const description = tier.description || tier.bullets.join(" · ");
+    const price = tier.price ? parsePrice(tier.price) : undefined;
+    if (price === undefined) return null;
+    const description = tier.description || tier.paragraphs.join(" ");
     const url = tier.cta.type === "link" ? absoluteUrl(tier.cta.href) : absoluteUrl(page.path);
     return {
         "@type": "Offer",

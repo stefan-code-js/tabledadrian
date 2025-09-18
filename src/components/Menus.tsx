@@ -1,111 +1,78 @@
-'use client';
+import Link from "next/link";
 
-import Link from 'next/link';
-
-const Icon = {
-    Users: (props: React.SVGProps<SVGSVGElement>) => (
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" {...props}>
-            <path d="M16 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2" stroke="currentColor" strokeWidth="1.5" />
-            <circle cx="9" cy="7" r="3" stroke="currentColor" strokeWidth="1.5" />
-            <path d="M22 21v-2a4 4 0 0 0-3-3.87" stroke="currentColor" strokeWidth="1.5" />
-            <path d="M16 3.13a3 3 0 0 1 0 5.75" stroke="currentColor" strokeWidth="1.5" />
-        </svg>
-    ),
-    Clock: (props: React.SVGProps<SVGSVGElement>) => (
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" {...props}>
-            <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="1.5" />
-            <path d="M12 7v5l3 2" stroke="currentColor" strokeWidth="1.5" />
-        </svg>
-    ),
-    Chevron: (props: React.SVGProps<SVGSVGElement>) => (
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" {...props}>
-            <path d="M9 18l6-6-6-6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-        </svg>
-    ),
-};
+const menus = [
+    {
+        id: "signature",
+        title: "Signature tasting",
+        summary:
+            "Twelve courses written for villas and salons. Aroma-led aperitif through warm, composed desserts with seamless pacing.",
+        body: [
+            "Clarified broths, cultured creams, and charcoal-kissed mains move quietly so conversation leads while the experience feels precise.",
+            "Crew manages rentals, lighting, and discreet resets. Documentation stays behind so your household can repeat the rhythm when we depart.",
+        ],
+        note: "Best for 6–12 guests · deposit confirms date",
+    },
+    {
+        id: "performance",
+        title: "Performance dinner",
+        summary:
+            "Pharmacist and chef design a longevity-minded arc that protects cognition and energy without sacrificing joy.",
+        body: [
+            "Ferments, luminous carbohydrates, and measured protein keep guests buoyant. Service includes supplementation guidance and pantry prep for the next day.",
+            "Ideal for leadership teams balancing demanding calendars with disciplined nutrition cues.",
+        ],
+        note: "Best for 6–10 guests · includes intake with Antonia",
+    },
+    {
+        id: "salon",
+        title: "Salon supper",
+        summary:
+            "Family-style ritual for conversations that stretch late. Warm abundance, refined plating, and attentive pacing.",
+        body: [
+            "Seasonal platters arrive in waves with quiet annotations from the crew. Wine pairing and florals are coordinated as required.",
+            "Designed for private galleries and penthouse salons where ease matters more than theatre.",
+        ],
+        note: "Best for 8–16 guests · documentation for household crew provided",
+    },
+];
 
 export default function Menus() {
     return (
-        <section className="section menu" id="menu">
-            <div className="container">
-                <div className="prose center-text">
-                    <h1 className="title">Menus</h1>
-                    <p className="sub">Fixed offerings — precise pacing, calm service, ingredient-driven cuisine.</p>
+        <section className="editorial-section" id="menu">
+            <div className="editorial-container">
+                <div className="section-heading">
+                    <h2>Menus</h2>
+                    <p>
+                        Every service is choreographed for the venue. Choose the arc that fits your guests, then we tailor the
+                        menu after a private intake.
+                    </p>
                 </div>
-
-                <div className="grid-3" style={{ marginTop: 24 }}>
-                    {/* Card 1 */}
-                    <article className="card menu-card">
-                        <h3 className="menu-title">Signature tasting</h3>
-
-                        <p className="menu-meta">
-                            <span className="meta-item"><Icon.Users /> 6–12 guests</span>
-                            <span className="meta-sep">·</span>
-                            <span className="meta-item"><Icon.Clock /> ~3 hours</span>
-                        </p>
-
-                        <p className="menu-desc">
-                            Six courses of haute cuisine: clarified broths, cultured creams, warm acidity.
-                        </p>
-
-                        <div className="menu-bottom">
-                            <p className="menu-price"><strong>From €180 per guest</strong></p>
-                            <Link href="/book" className="btn" aria-label="Enquire about the Signature tasting">
-                                Enquire <Icon.Chevron style={{ marginLeft: 6 }} />
-                            </Link>
-                        </div>
-                    </article>
-
-                    {/* Card 2 */}
-                    <article className="card menu-card">
-                        <h3 className="menu-title">Performance dinner</h3>
-
-                        <p className="menu-meta">
-                            <span className="meta-item"><Icon.Users /> 6–10 guests</span>
-                            <span className="meta-sep">·</span>
-                            <span className="meta-item"><Icon.Clock /> ~2.5 hours</span>
-                        </p>
-
-                        <p className="menu-desc">
-                            Longevity-minded arc: ferments, clean carbohydrates, aromatic pairings; light yet complete.
-                        </p>
-
-                        <div className="menu-bottom">
-                            <p className="menu-price"><strong>From €220 per guest</strong></p>
-                            <Link href="/book" className="btn" aria-label="Enquire about the Performance dinner">
-                                Enquire <Icon.Chevron style={{ marginLeft: 6 }} />
-                            </Link>
-                        </div>
-                    </article>
-
-                    {/* Card 3 */}
-                    <article className="card menu-card">
-                        <h3 className="menu-title">Salon supper</h3>
-
-                        <p className="menu-meta">
-                            <span className="meta-item"><Icon.Users /> 8–16 guests</span>
-                            <span className="meta-sep">·</span>
-                            <span className="meta-item"><Icon.Clock /> ~2 hours</span>
-                        </p>
-
-                        <p className="menu-desc">
-                            Refined family-style platters for intimate salons. Abundant, shareable, quietly opulent.
-                        </p>
-
-                        <div className="menu-bottom">
-                            <p className="menu-price"><strong>From €120 per guest</strong></p>
-                            <Link href="/book" className="btn" aria-label="Enquire about the Salon supper">
-                                Enquire <Icon.Chevron style={{ marginLeft: 6 }} />
-                            </Link>
-                        </div>
-                    </article>
+                <div className="two-column">
+                    {menus.map((menu) => (
+                        <article key={menu.id} className="narrative-block">
+                            <h3>{menu.title}</h3>
+                            <p>{menu.summary}</p>
+                            {menu.body.map((paragraph) => (
+                                <p key={paragraph}>{paragraph}</p>
+                            ))}
+                            <p className="muted small">{menu.note}</p>
+                            <div className="cta-row">
+                                <Link className="btn" href="/book">
+                                    request a booking
+                                </Link>
+                                <Link className="btn ghost" href="/membership">
+                                    explore membership
+                                </Link>
+                            </div>
+                        </article>
+                    ))}
                 </div>
-
-                <p className="menu-note prose" style={{ marginTop: 24 }}>
-                    Dietary notes: omnivore by default; vegetarian, vegan, and gluten-free paths available with notice (72h+).
-                    We design around fragrance, texture, and seasonality; final compositions may vary.
+                <p className="muted note">
+                    Looking for a longer cadence? Membership locks in hosted dinners and pharmacist oversight across the
+                    season.
                 </p>
             </div>
+            <hr className="separator" />
         </section>
     );
 }
