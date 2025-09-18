@@ -79,7 +79,7 @@ async function verifyTurnstile(token?: string, ip?: string): Promise<boolean> {
     if (ip) body.set('remoteip', ip);
 
     const r = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', { method: 'POST', body });
-    const j = await r.json().catch(() => ({ success: false }));
+    const j = (await r.json().catch(() => ({ success: false }))) as { success?: boolean };
     return j.success === true;
 }
 

@@ -25,9 +25,9 @@ type ContactSearchParams = {
 export default async function ContactPage({
     searchParams,
 }: {
-    searchParams?: Promise<ContactSearchParams> | ContactSearchParams;
+    searchParams: Promise<ContactSearchParams>;
 }) {
-    const resolvedParams = searchParams instanceof Promise ? await searchParams : searchParams;
+    const resolvedParams = await searchParams;
     const contextParam = resolvedParams?.context;
     const contextValue = Array.isArray(contextParam) ? contextParam[0] : contextParam;
     const context = contextValue ? decodeURIComponent(contextValue) : undefined;
@@ -41,7 +41,7 @@ export default async function ContactPage({
             <PricingSection page={page} />
             <TestimonialsSection page={page} />
             <FinalCtaSection page={page}>
-                <ContactForm context={context} />
+                <ContactForm />
             </FinalCtaSection>
         </article>
     );

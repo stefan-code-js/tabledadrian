@@ -10,7 +10,12 @@ export default function ReviewsSummary() {
         let alive = true;
         fetch('/api/reviews/stats', { cache: 'no-store' })
             .then(r => r.json())
-            .then(d => { if (alive) { setCount(d.count || 0); setAvg(d.avg || 0); } })
+            .then((d: unknown) => {
+                if (!alive) return;
+                const obj = (d as Partial<{ count: number; avg: number }>) || {};
+                setCount(Number(obj.count) || 0);
+                setAvg(Number(obj.avg) || 0);
+            })
             .catch(() => { /* ignore */ });
         return () => { alive = false; };
     }, []);

@@ -31,7 +31,7 @@ export default function ReviewForm() {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(body)
             });
-            const data = await res.json().catch(() => ({}));
+            const data = (await res.json().catch(() => ({}))) as { ok?: boolean; error?: string };
             if (!res.ok || !data.ok) {
                 throw new Error(data?.error || `Bad response ${res.status}`);
             }

@@ -2,6 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import vm from 'node:vm';
 import { createRequire } from 'node:module';
+import { fileURLToPath } from 'node:url';
 import ts from 'typescript';
 
 const nodeRequire = createRequire(import.meta.url);
@@ -14,7 +15,7 @@ const tsOptions = {
   },
 };
 const cache = new Map();
-const testDir = new URL('.', import.meta.url).pathname;
+const testDir = path.dirname(fileURLToPath(import.meta.url));
 const projectRoot = path.resolve(testDir, '..');
 
 function loadTs(filePath) {
