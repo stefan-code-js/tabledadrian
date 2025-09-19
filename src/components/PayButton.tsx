@@ -1,14 +1,14 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
+import { useState } from "react";
 
-type Mode = 'payment' | 'subscription';
+type Mode = "payment" | "subscription";
 
 export default function PayButton({
-                                      priceId,
-                                      mode,
-                                      children,
-                                  }: {
+    priceId,
+    mode,
+    children,
+}: {
     priceId: string;
     mode: Mode;
     children: React.ReactNode;
@@ -18,9 +18,9 @@ export default function PayButton({
     const go = async () => {
         try {
             setBusy(true);
-            const r = await fetch('/api/checkout', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+            const r = await fetch("/api/checkout", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ priceId, mode }),
             });
             const { url } = (await r.json()) as { url?: string };
@@ -33,7 +33,7 @@ export default function PayButton({
 
     return (
         <button className="btn" onClick={go} disabled={busy} aria-busy={busy}>
-            {busy ? 'redirecting…' : children}
+            {busy ? "redirecting…" : children}
         </button>
     );
 }

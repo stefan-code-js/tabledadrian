@@ -4,8 +4,8 @@ export interface Product {
     description: string;
     price: number;
     priceId: string;
-    image: string;
-    alt: string;
+    image?: string;
+    alt?: string;
 }
 
 export const products: Product[] = [
@@ -15,7 +15,5 @@ export const products: Product[] = [
         description: 'Seasonal tasting menu for up to 8 guests.',
         price: 500,
         priceId: process.env.NEXT_PUBLIC_PRICE_DINNER || 'price_DINNER',
-        image: '/vercel.svg',
-        alt: 'Plated seasonal dinner',
     },
 ];

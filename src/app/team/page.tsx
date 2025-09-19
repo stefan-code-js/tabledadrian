@@ -1,6 +1,6 @@
-import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import type { Metadata } from "next";
 
 export const metadata: Metadata = {
     title: "Team · Private Chef Atelier",
@@ -17,72 +17,74 @@ export const metadata: Metadata = {
     ],
 };
 
-type Member = {
-    name: string;
-    role: string;
-    img: string;       // /public/images/team/...
-    link?: string;
+const heroImage = {
+    src: "/placeholder/hero-team.svg",
+    alt: "Team preparing ingredients in a calm kitchen with daylight.",
 };
 
-const team: Member[] = [
+const members = [
     {
         name: "Adrian Ștefan Badea",
         role: "Chef & Founder",
-        img: "/images/team/adrian.jpg",
+        image: "/placeholder/portrait-adrian.svg",
         link: "https://www.linkedin.com/in/adrian-stefan-badea-82456131b",
     },
     {
         name: "Antonia Badea, PharmD",
         role: "Clinical Systems",
-        img: "/images/team/antonia.jpg",
+        image: "/placeholder/portrait-antonia.svg",
     },
-
+    {
+        name: "Claire Dupont",
+        role: "Sommelier",
+        image: "/placeholder/portrait-claire.svg",
+    },
+    {
+        name: "Julien Marchand",
+        role: "Pastry",
+        image: "/placeholder/portrait-julien.svg",
+    },
 ];
 
 export default function TeamPage() {
     return (
-        <main className="section">
-            <div className="container container--narrow">
-                <p className="kicker center-text">atelier</p>
-                <h1 className="title center-text">Team</h1>
-                <p
-                    className="lead center-text"
-                    style={{ maxWidth: "60ch", marginInline: "auto" }}
-                >
-                    A compact group shaping season, texture, and fragrance into one calm
-                    service. Technical where needed, restrained where it matters.
-                </p>
+        <article className="editorial-page">
+            <section className="editorial-hero">
+                <figure className="full-bleed hero-figure">
+                    <Image src={heroImage.src} alt={heroImage.alt} fill priority sizes="100vw" className="hero-figure__image" />
+                </figure>
+                <div className="editorial-container hero-copy">
+                    <h1>Team</h1>
+                    <p className="lead">
+                        A compact group shaping season, texture, and fragrance into one calm service. Technical where needed, restrained where it matters.
+                    </p>
+                </div>
+                <hr className="separator" />
+            </section>
 
-                <section className="section" style={{ paddingTop: 16 }}>
-                    <div className="team-grid">
-                        {team.map((m, i) => (
-                            <article
-                                key={m.name}
-                                className="team-card lux-card reveal"
-                                style={{ ["--d" as any]: `${i * 90}ms` }}
-                            >
-                                <div className="avatar">
+            <section className="editorial-section">
+                <div className="editorial-container">
+                    <div className="section-heading">
+                        <h2>Atelier leads</h2>
+                    </div>
+                    <div className="team-layout">
+                        {members.map((member) => (
+                            <article key={member.name} className="team-profile">
+                                <div className="team-avatar">
                                     <Image
-                                        src={m.img}
-                                        alt={m.name}
-                                        width={640}
-                                        height={800}
+                                        src={member.image}
+                                        alt={member.name}
+                                        fill
                                         sizes="(max-width: 900px) 100vw, 320px"
-                                        priority={i === 0}
+                                        loading="lazy"
+                                        className="team-avatar__image"
                                     />
                                 </div>
-
-                                <h3 style={{ margin: "8px 0 2px" }}>{m.name}</h3>
-                                <p className="role">{m.role}</p>
-
-                                {m.link ? (
-                                    <p style={{ marginTop: 10 }}>
-                                        <a
-                                            className="link"
-                                            href={m.link}
-                                            target="_blank"
-                                            rel="noreferrer"
-                                        >
+                                <h3>{member.name}</h3>
+                                <p className="muted">{member.role}</p>
+                                {member.link ? (
+                                    <p>
+                                        <a href={member.link} target="_blank" rel="noreferrer">
                                             view profile
                                         </a>
                                     </p>
@@ -90,17 +92,26 @@ export default function TeamPage() {
                             </article>
                         ))}
                     </div>
-                </section>
-
-                <div className="center" style={{ marginTop: 18, gap: 10 }}>
-                    <Link className="btn" href="/menu">
-                        view menu
-                    </Link>
-                    <Link className="btn ghost" href="/book">
-                        request a date
-                    </Link>
                 </div>
-            </div>
-        </main>
+                <hr className="separator" />
+            </section>
+
+            <section className="editorial-section">
+                <div className="editorial-container final-call">
+                    <h2>Meet us at the table</h2>
+                    <p>
+                        Explore current menus or request a date—we’ll respond with a plan that holds to your standards and keeps the room composed.
+                    </p>
+                    <div className="cta-row">
+                        <Link className="btn" href="/book">
+                            request a booking
+                        </Link>
+                        <Link className="btn ghost" href="/membership">
+                            explore membership
+                        </Link>
+                    </div>
+                </div>
+            </section>
+        </article>
     );
 }

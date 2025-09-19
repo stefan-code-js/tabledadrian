@@ -1,7 +1,6 @@
 import { headers } from "next/headers";
 import {
     PageHero,
-    PageQuickNav,
     ValueSection,
     IncludedSection,
     ProcessSection,
@@ -60,20 +59,19 @@ export default async function ReviewsPage() {
     const avgDisplay = stats.count ? stats.avg.toFixed(1) : "5.0";
 
     return (
-        <section className="section structured-page">
-            <div className="container container--narrow prose">
-                <PageStructuredData page={page} />
-                <PageHero page={page} />
-                <PageQuickNav page={page} />
-                <ValueSection page={page} />
-                <IncludedSection page={page} />
-                <ProcessSection page={page} />
-                <PricingSection page={page} />
-                <TestimonialsSection page={page} />
-                <section className="structured-section" id={`${page.slug}-reviews`}>
-                    <h2 className="lux-h center-text">Latest notes</h2>
-                    <div className="center" style={{ marginBottom: 16 }}>
-                        <div className="summary">
+        <article className="editorial-page">
+            <PageStructuredData page={page} />
+            <PageHero page={page} />
+            <ValueSection page={page} />
+            <IncludedSection page={page} />
+            <ProcessSection page={page} />
+            <PricingSection page={page} />
+            <TestimonialsSection page={page} />
+            <section className="editorial-section" id={`${page.slug}-reviews`}>
+                <div className="editorial-container">
+                    <div className="section-heading">
+                        <h2>Latest notes</h2>
+                        <div className="review-summary" role="presentation">
                             <span className="stars-display" aria-hidden="true">
                                 <span className="stars-back">★★★★★</span>
                                 <span
@@ -89,12 +87,13 @@ export default async function ReviewsPage() {
                         </div>
                     </div>
                     {items.length === 0 ? (
-                        <p className="muted center-text">Reviews will appear here as soon as guests share them.</p>
+                        <p className="muted">Reviews will appear here as soon as guests share them.</p>
                     ) : null}
                     <ReviewsClient initialItems={items} initialCount={stats.count} initialAvg={stats.avg} />
-                </section>
-                <FinalCtaSection page={page} />
-            </div>
-        </section>
+                </div>
+                <hr className="separator" />
+            </section>
+            <FinalCtaSection page={page} />
+        </article>
     );
 }

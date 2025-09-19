@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f6f6f2" />
+      <stop offset="100%" stop-color="#d9d9d4" />
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#g)" />
+  <rect x="120" y="120" width="1360" height="660" fill="none" stroke="#a7a7a1" stroke-width="12" stroke-dasharray="48 32" opacity="0.6" />
+  <text x="50%" y="52%" fill="#1a1a18" font-family="Helvetica, Arial, sans-serif" font-size="120" letter-spacing="8" text-anchor="middle">HERO PRODUCTS</text>
+</svg>
