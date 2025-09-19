@@ -10,7 +10,7 @@ const basePayload = {
     guests: 12,
     eventDate: soonEventDate,
     location: 'Cap d’Antibes',
-    budget: '€12k',
+    budget: 'approved high-priority spend',
     message: 'Celebration dinner following board meeting.',
     company: '',
 };

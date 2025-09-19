@@ -49,18 +49,17 @@ export default function ReviewsClient({ initialItems, initialCount, initialAvg }
     const [err, setErr] = React.useState<string | null>(null);
     const [ok, setOk] = React.useState<string | null>(null);
 
-    // derived avg
     function recompute(newItems: Review[]) {
         const a =
             newItems.length === 0
                 ? 0
-                : +(newItems.reduce((s, r) => s + r.rating, 0) / newItems.length).toFixed(2);
+                : +(newItems.reduce((sum, review) => sum + review.rating, 0) / newItems.length).toFixed(2);
         setAvg(a);
         setCount(newItems.length);
     }
 
-    async function onSubmit(e: React.FormEvent) {
-        e.preventDefault();
+    async function onSubmit(event: React.FormEvent) {
+        event.preventDefault();
         setErr(null);
         setOk(null);
 
@@ -71,7 +70,7 @@ export default function ReviewsClient({ initialItems, initialCount, initialAvg }
 
         setBusy(true);
         try {
-            const res = await fetch("/api/reviews", {
+            const response = await fetch("/api/reviews", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
@@ -79,13 +78,11 @@ export default function ReviewsClient({ initialItems, initialCount, initialAvg }
                     email: email.trim() || undefined,
                     text: text.trim(),
                     rating,
-                    // If Turnstile is present on page you can pass token here:
-                    // token: (window as any).turnstileToken
                 }),
             });
 
-            const data: any = await res.json().catch(() => ({}));
-            if (!res.ok || !data?.ok) {
+            const data: any = await response.json().catch(() => ({}));
+            if (!response.ok || !data?.ok) {
                 setErr(data?.error || "Network error. Please try again.");
                 setBusy(false);
                 return;
@@ -110,123 +107,91 @@ export default function ReviewsClient({ initialItems, initialCount, initialAvg }
     }
 
     return (
-        <section className="section" style={{ paddingTop: 10 }}>
-            <div className="lux-grid">
-                {/* Left: Public list */}
-                <article className="lux-card reveal" style={{ ["--d" as any]: "60ms" }}>
-                    <div className="lux-body" style={{ width: "100%" }}>
-                        <h2 className="lux-h">Guest notes</h2>
-
-                        {items.length === 0 ? (
-                            <ul className="list skeleton" aria-live="polite" aria-busy="true">
-                                <li />
-                                <li />
-                                <li />
-                            </ul>
-                        ) : (
-                            <ul className="list" aria-live="polite">
-                                {items.map((r) => (
-                                    <li key={r.id} className="review-row">
-                                        <div className="row">
-                                            <strong>{r.name}</strong>
-                                            <span className="stars" aria-label={`${r.rating} out of 5`}>
-                        {[1, 2, 3, 4, 5].map((n) => (
-                            <StarIcon key={n} filled={n <= r.rating} size={18} />
+        <div className="reviews-layout">
+            <section className="reviews-column" aria-live="polite">
+                <header className="reviews-column__header">
+                    <h3>Guest notes</h3>
+                    <p className="muted">
+                        {count} review{count === 1 ? "" : "s"} · average {avg.toFixed(1)}
+                    </p>
+                </header>
+                {items.length === 0 ? (
+                    <p className="muted">Reviews will appear here when guests publish them.</p>
+                ) : (
+                    <div className="reviews-stack">
+                        {items.map((review) => (
+                            <article key={review.id} className="review-item">
+                                <div className="review-meta">
+                                    <strong>{review.name}</strong>
+                                    <span className="review-stars" aria-label={`${review.rating} out of 5`}>
+                                        {[1, 2, 3, 4, 5].map((n) => (
+                                            <StarIcon key={n} filled={n <= review.rating} size={18} />
+                                        ))}
+                                    </span>
+                                </div>
+                                <p>{review.text}</p>
+                                <p className="muted small">{new Date(review.createdAt).toLocaleDateString()}</p>
+                            </article>
                         ))}
-                      </span>
-                                        </div>
-                                        <p className="review-text">{r.text}</p>
-                                        <p className="muted" style={{ margin: 0, fontSize: ".85rem" }}>
-                                            {new Date(r.createdAt).toLocaleDateString()}
-                                        </p>
-                                    </li>
-                                ))}
-                            </ul>
-                        )}
                     </div>
-                </article>
+                )}
+            </section>
 
-                {/* Right: Form */}
-                <article className="lux-card reveal" style={{ ["--d" as any]: "120ms" }}>
-                    <div className="lux-body" style={{ width: "100%" }}>
-                        <h2 className="lux-h">Leave a review</h2>
-
-                        {/* stars */}
-                        <fieldset className="stars-fieldset" aria-label="choose rating">
-                            <div className="stars" role="radiogroup" aria-label="rating">
-                                {[1, 2, 3, 4, 5].map((n) => (
-                                    <button
-                                        key={n}
-                                        type="button"
-                                        className="star-btn"
-                                        aria-pressed={rating >= n}
-                                        aria-label={`${n} star${n > 1 ? "s" : ""}`}
-                                        onMouseEnter={() => setHover(n)}
-                                        onMouseLeave={() => setHover(null)}
-                                        onClick={() => setRating(n)}
-                                    >
-                                        <StarIcon filled={(hover ?? rating) >= n} />
-                                    </button>
-                                ))}
-                            </div>
-                        </fieldset>
-
-                        {/* form */}
-                        <form className="form review-form" onSubmit={onSubmit} style={{ width: "100%" }}>
-                            <label>
-                                <span>name</span>
-                                <input
-                                    required
-                                    placeholder="your name"
-                                    autoComplete="name"
-                                    value={name}
-                                    onChange={(e) => setName(e.target.value)}
-                                />
-                            </label>
-
-                            <label>
-                                <span>email (optional)</span>
-                                <input
-                                    type="email"
-                                    placeholder="you@example.com"
-                                    autoComplete="email"
-                                    value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
-                                />
-                            </label>
-
-                            <label>
-                                <span>comment</span>
-                                <textarea
-                                    placeholder="share a brief note about your experience"
-                                    autoComplete="on"
-                                    value={text}
-                                    onChange={(e) => setText(e.target.value)}
-                                    rows={6}
-                                />
-                            </label>
-
-                            <div className="actions">
-                                <button className="btn" type="submit" disabled={busy}>
-                                    {busy ? "sending…" : "submit review"}
-                                </button>
-                            </div>
-
-                            {err ? <p className="error" role="alert">{err}</p> : null}
-                            {ok ? <p className="ok">{ok}</p> : null}
-                        </form>
+            <section className="reviews-column">
+                <header className="reviews-column__header">
+                    <h3>Leave a review</h3>
+                    <p className="muted">Share a brief note about your experience.</p>
+                </header>
+                <fieldset className="stars-fieldset" aria-label="choose rating">
+                    <div className="stars" role="radiogroup" aria-label="rating">
+                        {[1, 2, 3, 4, 5].map((n) => (
+                            <button
+                                key={n}
+                                type="button"
+                                className={`star-button ${n <= (hover ?? rating) ? "is-active" : ""}`}
+                                onMouseEnter={() => setHover(n)}
+                                onMouseLeave={() => setHover(null)}
+                                onClick={() => setRating(n)}
+                                aria-label={`${n} star${n === 1 ? "" : "s"}`}
+                                aria-pressed={rating === n}
+                            >
+                                <StarIcon filled={n <= (hover ?? rating)} />
+                            </button>
+                        ))}
                     </div>
-                </article>
-            </div>
-        </section>
-    );
-}
+                </fieldset>
+                <form className="form" onSubmit={onSubmit}>
+                    <label>
+                        <span>Name</span>
+                        <input value={name} onChange={(event) => setName(event.target.value)} required aria-required />
+                    </label>
+                    <label>
+                        <span>Email (optional)</span>
+                        <input value={email} onChange={(event) => setEmail(event.target.value)} type="email" />
+                    </label>
+                    <label>
+                        <span>Message</span>
+                        <textarea value={text} onChange={(event) => setText(event.target.value)} rows={4} required />
+                    </label>
 
-function Star({ filled }: { filled: boolean }) {
-    return (
-        <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"
-             className={`star ${filled ? 'filled' : ''}`}>
-            <path d="M12 17.3l-5.5 3.2 1.5-6.2-4.7-4.1 6.3-.5L12 4l2.4 5.7 6.3.5-4.7 4.1 1.5 6.2z" />
-        </svg>
+                    <div className="actions">
+                        <button className="btn" type="submit" disabled={busy}>
+                            {busy ? "sending…" : "publish review"}
+                        </button>
+                    </div>
+                </form>
+
+                {err ? (
+                    <p className="error" role="alert">
+                        {err}
+                    </p>
+                ) : null}
+                {ok ? (
+                    <p className="ok" role="status">
+                        {ok}
+                    </p>
+                ) : null}
+            </section>
+        </div>
     );
 }
