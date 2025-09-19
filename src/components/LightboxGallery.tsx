@@ -1,15 +1,20 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import { galleryImages } from "@/data/siteContent";
 
 export default function LightboxGallery() {
     const [openIndex, setOpenIndex] = useState<number | null>(null);
     const lastFocused = useRef<HTMLElement | null>(null);
+    const closeButtonRef = useRef<HTMLButtonElement | null>(null);
 
     useEffect(() => {
+        if (openIndex === null) {
+            return;
+        }
+
         function onKey(event: KeyboardEvent) {
-            if (openIndex === null) return;
             if (event.key === "Escape") {
                 event.preventDefault();
                 close();
@@ -27,15 +32,32 @@ export default function LightboxGallery() {
                 });
             }
         }
+
         window.addEventListener("keydown", onKey);
         return () => window.removeEventListener("keydown", onKey);
     }, [openIndex]);
 
     useEffect(() => {
+        if (typeof document === "undefined") {
+            return () => undefined;
+        }
+
         if (openIndex !== null) {
             document.body.classList.add("no-scroll");
         } else {
             document.body.classList.remove("no-scroll");
+        }
+
+        return () => {
+            document.body.classList.remove("no-scroll");
+        };
+    }, [openIndex]);
+
+    useEffect(() => {
+        if (openIndex !== null) {
+            closeButtonRef.current?.focus();
+        } else {
+            closeButtonRef.current = null;
         }
     }, [openIndex]);
 
@@ -62,7 +84,15 @@ export default function LightboxGallery() {
                     onClick={(event) => open(index, event.currentTarget)}
                     aria-label={`Open ${image.alt}`}
                 >
-                    <img src={image.src} alt={image.alt} loading="lazy" />
+                    <Image
+                        src={image.src}
+                        alt={image.alt}
+                        width={image.width}
+                        height={image.height}
+                        className="gallery-tile__image"
+                        loading="lazy"
+                        sizes="(min-width: 768px) 33vw, 80vw"
+                    />
                 </button>
             ))}
 
@@ -70,7 +100,16 @@ export default function LightboxGallery() {
                 <div className="lightbox" role="dialog" aria-modal="true" aria-label={current.alt}>
                     <div className="lightbox-backdrop" onClick={close} />
                     <div className="lightbox-body">
-                        <img src={current.src} alt={current.alt} />
+                        <div className="lightbox-media">
+                            <Image
+                                src={current.src}
+                                alt={current.alt}
+                                width={current.width}
+                                height={current.height}
+                                sizes="90vw"
+                                className="lightbox-image"
+                            />
+                        </div>
                         <p>{current.caption}</p>
                         <div className="lightbox-actions">
                             <button
@@ -84,7 +123,12 @@ export default function LightboxGallery() {
                             >
                                 ‹
                             </button>
-                            <button type="button" onClick={close} aria-label="Close gallery">
+                            <button
+                                type="button"
+                                onClick={close}
+                                aria-label="Close gallery"
+                                ref={closeButtonRef}
+                            >
                                 close
                             </button>
                             <button

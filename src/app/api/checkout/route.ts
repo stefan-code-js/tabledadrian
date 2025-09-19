@@ -2,7 +2,7 @@ export const runtime = 'edge';
 
 import { NextRequest } from 'next/server';
 import { createCheckoutSession } from '@/lib/checkout';
-import { priceCatalog } from '@/data/siteContent';
+import { priceCatalog } from '@/lib/pricing';
 
 type Mode = 'payment' | 'subscription';
 

@@ -1,10 +1,118 @@
+import Image from "next/image";
 import Link from "next/link";
-import type { PageContent, Tier, TierCta } from "@/data/siteContent";
-import { priceCatalog } from "@/data/siteContent";
+import type { PageContent, Tier, PageId, SectionKey } from "@/data/siteContent";
+import type { TierCta } from "@/lib/pricing";
+import { priceCatalog } from "@/lib/pricing";
 import PayButton from "@/components/PayButton";
 import { createProductJsonLd } from "@/lib/metadata";
 
+const heroImages: Record<PageId | "default", { src: string; alt: string }> = {
+    default: {
+        src: "/placeholder/hero-default.svg",
+        alt: "Soft daylight across a linen-covered table set with ceramics and herbs.",
+    },
+    home: {
+        src: "/placeholder/hero-home.svg",
+        alt: "Table set for an intimate dinner with natural light and seasonal dishes.",
+    },
+    about: {
+        src: "/placeholder/hero-about.svg",
+        alt: "Chef plating a dish with precision in a calm kitchen.",
+    },
+    experiences: {
+        src: "/placeholder/hero-experiences.svg",
+        alt: "Evening coastal view beyond a candlelit table.",
+    },
+    products: {
+        src: "/placeholder/hero-products.svg",
+        alt: "Minimal pantry shelves with glass jars and linen.",
+    },
+    contact: {
+        src: "/placeholder/hero-contact.svg",
+        alt: "Handwritten notes beside a porcelain cup on a marble surface.",
+    },
+    gallery: {
+        src: "/placeholder/hero-gallery.svg",
+        alt: "Minimal pantry shelves with glass jars and linen.",
+    },
+    press: {
+        src: "/placeholder/hero-press.svg",
+        alt: "Stacks of crisp newsprint beside a ceramic cup.",
+    },
+    reviews: {
+        src: "/placeholder/hero-reviews.svg",
+        alt: "Soft daylight across a linen-covered table set with ceramics and herbs.",
+    },
+    adminLeads: {
+        src: "/placeholder/hero-admin-leads.svg",
+        alt: "Handwritten notes beside a porcelain cup on a marble surface.",
+    },
+    pricingCalculator: {
+        src: "/placeholder/hero-pricing-calculator.svg",
+        alt: "Minimal desk with a calculator, notebook, and soft light.",
+    },
+};
+
+const sectionIllustrations: Partial<
+    Record<PageId, Partial<Record<SectionKey, { src: string; alt: string }>>>
+> = {
+    home: {
+        values: {
+            src: "/placeholder/section-home-values.svg",
+            alt: "Close view of plated seasonal vegetables with herbs.",
+        },
+        included: {
+            src: "/placeholder/section-home-included.svg",
+            alt: "Dining table being set with glassware and linens.",
+        },
+        testimonials: {
+            src: "/placeholder/section-home-testimonials.svg",
+            alt: "Guests gathered around a candlelit table.",
+        },
+    },
+    about: {
+        values: {
+            src: "/placeholder/section-about-values.svg",
+            alt: "Chef presenting a composed dish on porcelain.",
+        },
+        process: {
+            src: "/placeholder/section-about-process.svg",
+            alt: "Notebook with meticulous planning notes.",
+        },
+    },
+    experiences: {
+        values: {
+            src: "/placeholder/section-experiences-values.svg",
+            alt: "Fine dining plating with tweezers and herbs.",
+        },
+        pricing: {
+            src: "/placeholder/section-experiences-pricing.svg",
+            alt: "Glassware aligned on a linen runner.",
+        },
+    },
+    products: {
+        values: {
+            src: "/placeholder/section-products-values.svg",
+            alt: "Curated pantry shelves with jars and tools.",
+        },
+    },
+    contact: {
+        included: {
+            src: "/placeholder/section-contact-included.svg",
+            alt: "Calligraphed invitation resting beside a fountain pen.",
+        },
+    },
+};
+
 const anchor = (page: PageContent, target: string) => `${page.slug}-${target}`;
+
+function heroFor(page: PageContent) {
+    return heroImages[page.id] ?? heroImages.default;
+}
+
+function illustrationFor(page: PageContent, key: SectionKey) {
+    return sectionIllustrations[page.id]?.[key];
+}
 
 function TierAction({ cta }: { cta: TierCta }) {
     if (cta.type === "checkout") {
@@ -25,183 +133,256 @@ function TierAction({ cta }: { cta: TierCta }) {
 
 export function PageHero({ page }: { page: PageContent }) {
     const { hero } = page;
-    return (
-        <header className="center-text" id={anchor(page, "hero")}>
-            <p className="kicker">{hero.kicker}</p>
-            <h1 className="title">{hero.title}</h1>
-            <p className="lead">{hero.description}</p>
-            <div className="hero-ctas">
-                <Link className="btn" href={hero.primaryCta.href}>
-                    {hero.primaryCta.label}
-                </Link>
-                {hero.secondaryCta ? (
-                    <Link className="btn ghost" href={hero.secondaryCta.href}>
-                        {hero.secondaryCta.label}
-                    </Link>
-                ) : null}
-            </div>
-        </header>
-    );
-}
+    const figure = heroFor(page);
 
-export function PageQuickNav({ page }: { page: PageContent }) {
-    if (!page.quickNav?.length) return null;
     return (
-        <nav className="page-quick-nav" aria-label={`${page.hero.title} quick navigation`}>
-            {page.quickNav.map((item) => (
-                <a key={item.target} href={`#${anchor(page, item.target)}`}>
-                    {item.label}
-                </a>
-            ))}
-        </nav>
+        <section className="editorial-hero" id={anchor(page, "hero")}>
+            <figure className="full-bleed hero-figure">
+                <Image
+                    src={figure.src}
+                    alt={figure.alt}
+                    fill
+                    priority
+                    sizes="100vw"
+                    className="hero-figure__image"
+                />
+            </figure>
+            <div className="editorial-container hero-copy">
+                <h1>{hero.title}</h1>
+                <p className="lead">{hero.description}</p>
+                <div className="cta-row">
+                    <Link className="btn" href={hero.primaryCta.href}>
+                        {hero.primaryCta.label}
+                    </Link>
+                    {hero.secondaryCta ? (
+                        <Link className="btn ghost" href={hero.secondaryCta.href}>
+                            {hero.secondaryCta.label}
+                        </Link>
+                    ) : null}
+                </div>
+            </div>
+            <hr className="separator" />
+        </section>
     );
 }
 
 export function ValueSection({ page }: { page: PageContent }) {
     const { values } = page;
+    const illustration = illustrationFor(page, "values");
+
     return (
-        <section className="structured-section" id={anchor(page, "values")}>
-            <h2 className="lux-h center-text">{values.title}</h2>
-            <div className="structured-grid top">
-                {values.cards.map((card, index) => (
-                    <article className="lux-card reveal" key={card.title} style={{ ["--d" as any]: `${index * 50}ms` }}>
-                        <div className="lux-body">
-                            <h3 className="lux-h">{card.title}</h3>
-                            <p>{card.description}</p>
-                            <ul className="lux-list">
-                                {card.bullets.map((bullet) => (
-                                    <li key={bullet}>{bullet}</li>
-                                ))}
-                            </ul>
-                        </div>
-                    </article>
-                ))}
+        <section className="editorial-section" id={anchor(page, "values")}>
+            <div className="editorial-container">
+                <div className="section-heading">
+                    <h2>{values.title}</h2>
+                </div>
+                <div className="two-column">
+                    {values.cards.map((card) => (
+                        <article key={card.title} className="narrative-block">
+                            <h3>{card.title}</h3>
+                            {card.paragraphs.map((paragraph) => (
+                                <p key={paragraph}>{paragraph}</p>
+                            ))}
+                        </article>
+                    ))}
+                </div>
             </div>
+            {illustration ? (
+                <figure className="full-bleed narrative-figure">
+                    <Image
+                        src={illustration.src}
+                        alt={illustration.alt}
+                        fill
+                        sizes="100vw"
+                        loading="lazy"
+                        className="narrative-figure__image"
+                    />
+                </figure>
+            ) : null}
+            <hr className="separator" />
         </section>
     );
 }
 
 export function IncludedSection({ page }: { page: PageContent }) {
     const { included } = page;
+    const illustration = illustrationFor(page, "included");
+
     return (
-        <section className="structured-section" id={anchor(page, "included")}> 
-            <article className="lux-card wide">
-                <div className="lux-body">
-                    <h2 className="lux-h">{included.title}</h2>
-                    {included.description ? <p>{included.description}</p> : null}
-                    <ul className="lux-list">
-                        {included.bullets.map((item) => (
-                            <li key={item}>{item}</li>
-                        ))}
-                    </ul>
+        <section className="editorial-section" id={anchor(page, "included")}>
+            <div className="editorial-container">
+                <div className="section-heading">
+                    <h2>{included.title}</h2>
                 </div>
-            </article>
+                <div className="narrative-block">
+                    {included.intro ? <p>{included.intro}</p> : null}
+                    {included.paragraphs.map((paragraph) => (
+                        <p key={paragraph}>{paragraph}</p>
+                    ))}
+                </div>
+            </div>
+            {illustration ? (
+                <figure className="full-bleed narrative-figure">
+                    <Image
+                        src={illustration.src}
+                        alt={illustration.alt}
+                        fill
+                        sizes="100vw"
+                        loading="lazy"
+                        className="narrative-figure__image"
+                    />
+                </figure>
+            ) : null}
+            <hr className="separator" />
         </section>
     );
 }
 
 export function ProcessSection({ page }: { page: PageContent }) {
     const { process } = page;
+    const illustration = illustrationFor(page, "process");
+
     return (
-        <section className="structured-section" id={anchor(page, "process")}>
-            <article className="lux-card wide">
-                <div className="lux-body">
-                    <h2 className="lux-h">{process.title}</h2>
-                    <ol className="lux-steps">
-                        {process.steps.map((step) => (
-                            <li key={step.title}>
-                                <strong>{step.title}</strong>
-                                <p>{step.detail}</p>
-                            </li>
-                        ))}
-                    </ol>
+        <section className="editorial-section" id={anchor(page, "process")}>
+            <div className="editorial-container">
+                <div className="section-heading">
+                    <h2>{process.title}</h2>
                 </div>
-            </article>
+                <div className="process-flow">
+                    {process.steps.map((step) => (
+                        <article key={step.title} className="process-step">
+                            <h3>{step.title}</h3>
+                            <p>{step.detail}</p>
+                        </article>
+                    ))}
+                </div>
+            </div>
+            {illustration ? (
+                <figure className="full-bleed narrative-figure">
+                    <Image
+                        src={illustration.src}
+                        alt={illustration.alt}
+                        fill
+                        sizes="100vw"
+                        loading="lazy"
+                        className="narrative-figure__image"
+                    />
+                </figure>
+            ) : null}
+            <hr className="separator" />
         </section>
     );
 }
 
 export function PricingSection({ page }: { page: PageContent }) {
     const { pricing } = page;
+    const illustration = illustrationFor(page, "pricing");
+
     return (
-        <section className="structured-section" id={anchor(page, "pricing")}>
-            <h2 className="lux-h center-text">{pricing.title}</h2>
-            <div className="structured-grid tiers">
-                {pricing.tiers.map((tier: Tier, index) => (
-                    <article
-                        className="lux-card reveal"
-                        key={tier.id}
-                        id={`${anchor(page, "pricing")}-${tier.id}`}
-                        style={{ ["--d" as any]: `${index * 60}ms` }}
-                    >
-                        <div className="lux-body">
-                            <h3 className="lux-h">{tier.title}</h3>
-                            <p className="lux-price">{tier.price}</p>
-                            {tier.description ? <p>{tier.description}</p> : null}
-                            <ul className="lux-list">
-                                {tier.bullets.map((bullet) => (
-                                    <li key={bullet}>{bullet}</li>
+        <section className="editorial-section" id={anchor(page, "pricing")}>
+            <div className="editorial-container">
+                <div className="section-heading">
+                    <h2>{pricing.title}</h2>
+                </div>
+                <div className="pricing-stack">
+                    {pricing.tiers.map((tier: Tier) => (
+                        <article key={tier.id} className="pricing-tier">
+                            <div className="pricing-tier__intro">
+                                <h3>{tier.title}</h3>
+                                {tier.price ? <p className="pricing-tier__price">{tier.price}</p> : null}
+                            </div>
+                            <div className="pricing-tier__body">
+                                {tier.description ? <p>{tier.description}</p> : null}
+                                {tier.paragraphs.map((paragraph) => (
+                                    <p key={paragraph}>{paragraph}</p>
                                 ))}
-                            </ul>
-                            {tier.details ? (
-                                <details className="lux-details">
-                                    <summary>{tier.details.summary}</summary>
-                                    <p>{tier.details.body}</p>
-                                </details>
-                            ) : null}
-                        </div>
-                        <div className="lux-cta">
-                            <TierAction cta={tier.cta} />
-                        </div>
-                    </article>
-                ))}
+                                {tier.details ? (
+                                    <details>
+                                        <summary>{tier.details.summary}</summary>
+                                        <p>{tier.details.body}</p>
+                                    </details>
+                                ) : null}
+                                <TierAction cta={tier.cta} />
+                            </div>
+                        </article>
+                    ))}
+                </div>
+                {pricing.note ? <p className="muted note">{pricing.note}</p> : null}
             </div>
-            {pricing.note ? <p className="muted center-text" style={{ marginTop: 12 }}>{pricing.note}</p> : null}
+            {illustration ? (
+                <figure className="full-bleed narrative-figure">
+                    <Image
+                        src={illustration.src}
+                        alt={illustration.alt}
+                        fill
+                        sizes="100vw"
+                        className="narrative-figure__image"
+                    />
+                </figure>
+            ) : null}
+            <hr className="separator" />
         </section>
     );
 }
 
 export function TestimonialsSection({ page }: { page: PageContent }) {
     const { testimonials } = page;
+    const illustration = illustrationFor(page, "testimonials");
+
     return (
-        <section className="structured-section" id={anchor(page, "testimonials")}>
-            <h2 className="lux-h center-text">{testimonials.title}</h2>
-            <div className="testimonial-grid">
-                {testimonials.items.map((item, index) => (
-                    <blockquote className="quote card" key={`${item.name}-${index}`}>
-                        <p>“{item.quote}”</p>
-                        <cite>
-                            — {item.name}
-                            {item.role ? <span className="muted"> · {item.role}</span> : null}
-                        </cite>
-                    </blockquote>
-                ))}
+        <section className="editorial-section" id={anchor(page, "testimonials")}>
+            <div className="editorial-container">
+                <div className="section-heading">
+                    <h2>{testimonials.title}</h2>
+                </div>
+                <div className="pull-quote-stack">
+                    {testimonials.items.map((item, index) => (
+                        <blockquote className="pull-quote" key={`${item.name}-${index}`}>
+                            <p>“{item.quote}”</p>
+                            <footer>
+                                {item.name}
+                                {item.role ? <span> · {item.role}</span> : null}
+                            </footer>
+                        </blockquote>
+                    ))}
+                </div>
             </div>
+            {illustration ? (
+                <figure className="full-bleed narrative-figure">
+                    <Image
+                        src={illustration.src}
+                        alt={illustration.alt}
+                        fill
+                        sizes="100vw"
+                        className="narrative-figure__image"
+                    />
+                </figure>
+            ) : null}
+            <hr className="separator" />
         </section>
     );
 }
 
 export function FinalCtaSection({ page, children }: { page: PageContent; children?: React.ReactNode }) {
     const { finalCta } = page;
+
     return (
-        <section className="structured-section final" id={anchor(page, "cta")}>
-            <article className="lux-card wide">
-                <div className="lux-body">
-                    <h2 className="lux-h">{finalCta.title}</h2>
-                    <p>{finalCta.description}</p>
-                    {children}
-                    <div className="hero-ctas">
-                        <Link className="btn" href={finalCta.primary.href}>
-                            {finalCta.primary.label}
+        <section className="editorial-section" id={anchor(page, "cta")}>
+            <div className="editorial-container final-call">
+                <h2>{finalCta.title}</h2>
+                <p>{finalCta.description}</p>
+                {children}
+                <div className="cta-row">
+                    <Link className="btn" href={finalCta.primary.href}>
+                        {finalCta.primary.label}
+                    </Link>
+                    {finalCta.secondary ? (
+                        <Link className="btn ghost" href={finalCta.secondary.href}>
+                            {finalCta.secondary.label}
                         </Link>
-                        {finalCta.secondary ? (
-                            <Link className="btn ghost" href={finalCta.secondary.href}>
-                                {finalCta.secondary.label}
-                            </Link>
-                        ) : null}
-                    </div>
+                    ) : null}
                 </div>
-            </article>
+            </div>
         </section>
     );
 }

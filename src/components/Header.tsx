@@ -1,85 +1,64 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import { usePathname } from "next/navigation";
-import { navLinks } from "@/data/siteContent";
+import { navGroups } from "@/data/siteContent";
 
 export default function Header() {
-    const pathname = usePathname();
     const [open, setOpen] = useState(false);
 
-    // Close on route change & lock body scroll when open
-    useEffect(() => setOpen(false), [pathname]);
-    useEffect(() => {
-        if (open) document.body.classList.add("no-scroll");
-        else document.body.classList.remove("no-scroll");
-    }, [open]);
-
-    // ESC to close
-    useEffect(() => {
-        const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
-        window.addEventListener("keydown", onKey);
-        return () => window.removeEventListener("keydown", onKey);
-    }, []);
+    const toggle = () => setOpen((prev) => !prev);
+    const close = () => setOpen(false);
 
     return (
-        <>
-            <header className="header">
-                <div className="inner">
-                    <Link href="/" className="logo" aria-label="Table d’Adrian — home">
-                        Table d’Adrian
-                    </Link>
-
-                    {/* Desktop nav (under the logo) */}
-                    <nav className="nav desktop-nav" aria-label="Primary">
-                        {navLinks.map((l) => (
+        <header className="site-header">
+            <div className="site-header__inner">
+                <Link
+                    href="/"
+                    className="site-header__brand"
+                    aria-label="Table d’Adrian — home"
+                    onClick={close}
+                >
+                    Table d’Adrian
+                </Link>
+                <button
+                    type="button"
+                    className={`site-nav__toggle${open ? " is-open" : ""}`}
+                    aria-expanded={open}
+                    aria-controls="primary-navigation"
+                    onClick={toggle}
+                >
+                    <span className="sr-only">Toggle navigation</span>
+                    <span aria-hidden="true" />
+                </button>
+                <nav
+                    id="primary-navigation"
+                    className={`site-nav${open ? " is-open" : ""}`}
+                    aria-label="Primary"
+                >
+                    {navGroups.map((group) => (
+                        <div key={group.label} className="site-nav__group">
                             <Link
-                                key={l.href}
-                                href={l.href}
-                                aria-current={pathname === l.href ? "page" : undefined}
+                                href={group.href}
+                                className="site-nav__group-link"
+                                onClick={close}
                             >
-                                {l.label}
+                                {group.label}
                             </Link>
-                        ))}
-                    </nav>
-
-                    {/* Mobile burger (top-right, small & quiet) */}
-                    <button
-                        type="button"
-                        className={`burger ${open ? "is-open" : ""}`}
-                        aria-label={open ? "Close menu" : "Open menu"}
-                        aria-expanded={open}
-                        aria-controls="mobile-menu"
-                        onClick={() => setOpen((v) => !v)}
-                    >
-                        <span className="burger-icon" aria-hidden="true" />
-                    </button>
-                </div>
-            </header>
-
-            {/* Mobile overlay */}
-            <div
-                id="mobile-menu"
-                className={`menu-drawer ${open ? "is-open" : ""}`}
-                onClick={(e) => {
-                    // click backdrop closes; clicks inside panel do not
-                    if (e.target === e.currentTarget) setOpen(false);
-                }}
-            >
-                <div className="menu-panel" role="dialog" aria-modal="true" aria-label="Site navigation">
-                    <nav className="mobile-nav" aria-label="Mobile">
-                        {navLinks.map((l) => (
-                            <Link key={l.href} href={l.href} onClick={() => setOpen(false)}>
-                                {l.label}
-                            </Link>
-                        ))}
-                        <Link href="/contact" className="btn" onClick={() => setOpen(false)}>
-                            book a table
-                        </Link>
-                    </nav>
-                </div>
+                            <p className="site-nav__group-copy">{group.description}</p>
+                            <ul className="site-nav__sublinks">
+                                {group.links.map((item) => (
+                                    <li key={item.href}>
+                                        <Link href={item.href} onClick={close}>
+                                            {item.label}
+                                        </Link>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    ))}
+                </nav>
             </div>
-        </>
+        </header>
     );
 }

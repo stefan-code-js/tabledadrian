@@ -1,9 +1,10 @@
 // src/app/layout.tsx
 import type { Metadata, Viewport } from 'next';
 import './globals.css';
-import Header from '@/components/Header';
+import NavBar from '@/components/NavBar';
 import Footer from '@/components/Footer';
 import { site } from '@/lib/site';
+import { serif, sans } from '@/lib/fonts';
 import React from 'react';
 import Script from 'next/script'; // ← Turnstile loader
 
@@ -63,28 +64,29 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
     return (
         <html lang={site.locale}>
-        <body>
-        <Header />
+            <head />
+            <body className={`${serif.variable} ${sans.variable}`}>
+                <NavBar />
 
-        {/* Keep focusable main for a11y; skip link can be re-added later */}
-        <main id="content" tabIndex={-1}>
-            {children}
-        </main>
+                {/* Keep focusable main for a11y; skip link can be re-added later */}
+                <main id="content" tabIndex={-1}>
+                    {children}
+                </main>
 
-        <Footer />
+                <Footer />
 
-        {/* Cloudflare Turnstile (loads once app-wide) */}
-        <Script
-            src="https://challenges.cloudflare.com/turnstile/v0/api.js"
-            strategy="afterInteractive"
-            defer
-        />
+                {/* Cloudflare Turnstile (loads once app-wide) */}
+                <Script
+                    src="https://challenges.cloudflare.com/turnstile/v0/api.js"
+                    strategy="afterInteractive"
+                    defer
+                />
 
-        <script
-            type="application/ld+json"
-            dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-        />
-        </body>
+                <script
+                    type="application/ld+json"
+                    dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+                />
+            </body>
         </html>
     );
 }
