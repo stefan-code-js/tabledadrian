@@ -1,13 +1,14 @@
 :root {
-  --paper: #f5f5f2;
-  --paper-soft: #f1f1ee;
-  --paper-strong: #e4e4df;
-  --ink: #111110;
-  --muted: #4c4c4a;
+  /* Noma-inspired, warm luxury palette */
+  --paper: #f6f2ea;          /* warm ivory */
+  --paper-soft: #f2ede4;     /* softer background for html */
+  --paper-strong: #e8e2d8;   /* subtle panels */
+  --ink: #111110;            /* near-black text */
+  --muted: #5a5955;          /* warm grey for secondary text */
   --line: rgba(17, 17, 16, 0.12);
   --shadow-soft: rgba(17, 17, 16, 0.18);
-  --accent: #111111;
-  --accent-dark: #000000;
+  --accent: #1f3d2b;         /* deep forest green accents */
+  --accent-dark: #162a1f;    /* darker hover state */
   --max-width: clamp(64rem, 72vw + 12rem, 84rem);
   --gutter: clamp(1.25rem, 4vw, 4rem);
   --space-0: 0;
@@ -1205,4 +1206,168 @@ summary {
 .team-profile > *:last-child,
 .product-card > *:last-child {
   margin-bottom: 0;
+}
+
+
+/* ===== Luxury Home Experience Styles ===== */
+html { scroll-behavior: smooth; }
+
+.lux-home {
+  /* allow isolated overrides without breaking existing pages */
+}
+
+/* Typography helpers for luxury display */
+.display {
+  font-family: var(--font-serif), "Times New Roman", serif;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  font-size: clamp(3rem, 2.2rem + 4vw, 5rem);
+  line-height: 1.05;
+}
+.display-sub {
+  display: block;
+  font-size: clamp(1rem, 0.9rem + 0.8vw, 1.35rem);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-top: 0.35rem;
+}
+.eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+.lede {
+  font-size: clamp(1.1rem, 1rem + 0.9vw, 1.6rem);
+  line-height: 1.55;
+  max-width: 60ch;
+}
+.text-link {
+  text-decoration: none;
+  position: relative;
+}
+.text-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 100%;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 220ms ease;
+}
+.text-link:hover::after,
+.text-link:focus-visible::after { transform: scaleX(1); }
+
+/* Buttons */
+.btn-primary { /* alias to base .btn */ }
+.btn-ghost { background: transparent; color: var(--ink); border: 1px solid rgba(17,17,16,0.25); box-shadow: none; }
+.btn-ghost:hover { background: rgba(17,17,16,0.06); }
+
+/* Hero */
+.lux-hero {
+  position: relative;
+  min-height: 88vh;
+  display: grid;
+  align-items: center;
+  overflow: clip;
+  isolation: isolate;
+}
+.lux-hero .hero-bg {
+  position: absolute; inset: 0; z-index: -3;
+  background:
+    radial-gradient(1200px 800px at 10% 10%, rgba(255,255,255,0.9), transparent 60%),
+    radial-gradient(1400px 1000px at 90% 0%, rgba(17,17,17,0.06), transparent 60%),
+    radial-gradient(circle at 50% 100%, rgba(17,17,16,0.08), transparent 60%),
+    var(--paper);
+}
+.lux-hero .hero-grain {
+  position: absolute; inset: 0; z-index: -2; pointer-events: none;
+  background-image: radial-gradient(rgba(0,0,0,0.03) 1px, transparent 1px);
+  background-size: 3px 3px;
+  opacity: 0.35;
+  mix-blend-mode: multiply;
+}
+.lux-hero .hero-deco {
+  position: absolute; inset: auto; right: 10%; top: 20%; width: 36vmin; height: 36vmin;
+  border-radius: 999px;
+  background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.5), rgba(17,17,16,0.12));
+  filter: blur(14px);
+  transition: transform 180ms ease;
+}
+.lux-hero .hero-inner {
+  padding-top: clamp(4rem, 12vh, 8rem);
+  padding-bottom: clamp(3rem, 10vh, 6rem);
+}
+
+/* Marquee */
+.hero-marquee { position: absolute; bottom: 0; left: 0; right: 0; overflow: hidden; }
+.marquee-track {
+  display: inline-flex;
+  white-space: nowrap;
+  gap: 2rem;
+  font-family: var(--font-serif), serif;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  padding: 0.75rem 0;
+  animation: marquee 24s linear infinite;
+  opacity: 0.55;
+}
+@keyframes marquee { to { transform: translateX(-50%); } }
+
+/* Sections */
+.lux-section { padding-block: clamp(3rem, 6vw, 6rem); }
+.lux-section.alt { background: linear-gradient(180deg, rgba(17,17,16,0.04), rgba(17,17,16,0.00)); }
+.two-col {
+  display: grid;
+  gap: clamp(1.5rem, 3vw, 3rem);
+}
+@media (min-width: 900px) {
+  .two-col { grid-template-columns: 1.1fr 0.9fr; align-items: center; }
+}
+.col-text { display: grid; gap: clamp(0.75rem, 1.2vw, 1rem); }
+.col-media { }
+.frame {
+  position: relative;
+  width: 100%;
+  min-height: 16rem;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border-radius: clamp(1.25rem, 3vw, 2rem);
+  box-shadow: 0 36px 72px rgba(17,17,16,0.18);
+  background: #e9e9e7;
+}
+.frame.tall { aspect-ratio: 3 / 4; }
+.frame > span > img, .frame img { object-fit: cover; }
+
+.section-title { font-family: var(--font-serif), serif; font-size: clamp(2rem, 1.6rem + 2vw, 3rem); }
+.section-copy { font-size: clamp(1rem, 0.95rem + 0.5vw, 1.15rem); color: var(--ink); max-width: 60ch; }
+.inline-cta { margin-top: 0.5rem; }
+
+/* Reserve */
+.lux-reserve { padding-block: clamp(4rem, 8vw, 8rem); background: radial-gradient(circle at top, rgba(17,17,16,0.06), transparent 70%); text-align: center; }
+.lux-reserve .display { margin-bottom: 0.5rem; }
+.lux-reserve .editorial-container { display: grid; place-items: center; gap: 1rem; }
+
+/* Reveal on scroll (scoped to lux-home to avoid conflicts) */
+.lux-home .reveal { display: block; opacity: 0; transform: translateY(18px); transition: opacity 600ms cubic-bezier(.19,.74,.31,1), transform 600ms cubic-bezier(.19,.74,.31,1); }
+.lux-home .reveal.is-visible { opacity: 1; transform: translateY(0); }
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track { animation: none; }
+  .lux-home .reveal { opacity: 1; transform: none; }
+  .lux-hero .hero-deco { transition: none; }
+}
+
+
+/* Animated reveal for editorial pages (applies site-wide content) */
+.editorial-page .reveal { display: block; opacity: 0; transform: translateY(18px); transition: opacity 600ms cubic-bezier(.19,.74,.31,1), transform 600ms cubic-bezier(.19,.74,.31,1); }
+.editorial-page .reveal.is-visible { opacity: 1; transform: translateY(0); }
+
+@media (prefers-reduced-motion: reduce) {
+  .editorial-page .reveal { opacity: 1; transform: none; transition: none; }
 }

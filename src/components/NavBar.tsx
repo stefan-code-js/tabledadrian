@@ -89,7 +89,6 @@ export default function NavBar() {
     const overlayRef = useRef<HTMLDivElement | null>(null);
     const toggleRef = useRef<HTMLButtonElement | null>(null);
     const focusableRef = useRef<HTMLElement[]>([]);
-    const gsapRef = useRef<typeof import("gsap") | null>(null);
     const [indicatorState, setIndicatorState] = useState({ left: 0, width: 0, visible: false });
 
     useEffect(() => {
@@ -228,34 +227,6 @@ export default function NavBar() {
         return () => document.removeEventListener("keydown", handleKey);
     }, [mobileOpen]);
 
-    useEffect(() => {
-        if (!mobileOpen || prefersReducedMotion) {
-            return;
-        }
-        let cancelled = false;
-        let timeline: { kill(): void } | null = null;
-        const animate = async () => {
-            if (!gsapRef.current) {
-                const mod = await import("gsap");
-                if (cancelled) return;
-                gsapRef.current = mod;
-            }
-            const gsap = gsapRef.current?.gsap;
-            if (!gsap || !overlayRef.current) return;
-            timeline = gsap
-                .timeline()
-                .fromTo(
-                    overlayRef.current,
-                    { opacity: 0, y: -16 },
-                    { opacity: 1, y: 0, duration: 0.32, ease: "power2.out", clearProps: "all" }
-                );
-        };
-        animate();
-        return () => {
-            cancelled = true;
-            timeline?.kill();
-        };
-    }, [mobileOpen, prefersReducedMotion]);
 
     useEffect(() => {
         setMobileOpen(false);
@@ -346,8 +317,8 @@ export default function NavBar() {
                                                 animate={{ opacity: 1, y: 0 }}
                                                 exit={
                                                     prefersReducedMotion
-                                                        ? { opacity: 0 }
-                                                        : { opacity: 0, y: 6 }
+                                                        ? { opacity: 0, transitionEnd: { pointerEvents: "none" } }
+                                                        : { opacity: 0, y: 6, transitionEnd: { pointerEvents: "none" } }
                                                 }
                                                 transition={{
                                                     duration: prefersReducedMotion ? 0 : 0.24,

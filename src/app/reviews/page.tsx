@@ -12,6 +12,7 @@ import {
 import { sitePages } from "@/data/siteContent";
 import ReviewsClient, { Review } from "@/components/ReviewsClient";
 import { createPageMetadata } from "@/lib/metadata";
+import Reveal from "@/components/Reveal";
 
 export const runtime = "edge";
 export const dynamic = "force-dynamic";
@@ -70,26 +71,30 @@ export default async function ReviewsPage() {
             <section className="editorial-section" id={`${page.slug}-reviews`}>
                 <div className="editorial-container">
                     <div className="section-heading">
-                        <h2>Latest notes</h2>
-                        <div className="review-summary" role="presentation">
-                            <span className="stars-display" aria-hidden="true">
-                                <span className="stars-back">★★★★★</span>
-                                <span
-                                    className="stars-front"
-                                    style={{ width: `${(Math.max(0, Math.min(5, stats.avg)) / 5) * 100}%` }}
-                                >
-                                    ★★★★★
+                        <Reveal as="h2">Latest notes</Reveal>
+                        <Reveal>
+                            <div className="review-summary" role="presentation">
+                                <span className="stars-display" aria-hidden="true">
+                                    <span className="stars-back">★★★★★</span>
+                                    <span
+                                        className="stars-front"
+                                        style={{ width: `${(Math.max(0, Math.min(5, stats.avg)) / 5) * 100}%` }}
+                                    >
+                                        ★★★★★
+                                    </span>
                                 </span>
-                            </span>
-                            <span className="summary-text">
-                                {avgDisplay} <span className="muted">·</span> {stats.count} review{stats.count === 1 ? "" : "s"}
-                            </span>
-                        </div>
+                                <span className="summary-text">
+                                    {avgDisplay} <span className="muted">·</span> {stats.count} review{stats.count === 1 ? "" : "s"}
+                                </span>
+                            </div>
+                        </Reveal>
                     </div>
                     {items.length === 0 ? (
-                        <p className="muted">Reviews will appear here as soon as guests share them.</p>
+                        <Reveal as="p" className="muted">Reviews will appear here as soon as guests share them.</Reveal>
                     ) : null}
-                    <ReviewsClient initialItems={items} initialCount={stats.count} initialAvg={stats.avg} />
+                    <Reveal>
+                        <ReviewsClient initialItems={items} initialCount={stats.count} initialAvg={stats.avg} />
+                    </Reveal>
                 </div>
                 <hr className="separator" />
             </section>

@@ -5,6 +5,7 @@ import type { TierCta } from "@/lib/pricing";
 import { priceCatalog } from "@/lib/pricing";
 import PayButton from "@/components/PayButton";
 import { createProductJsonLd } from "@/lib/metadata";
+import Reveal from "@/components/Reveal";
 
 const heroImages: Record<PageId | "default", { src: string; alt: string }> = {
     default: {
@@ -148,18 +149,20 @@ export function PageHero({ page }: { page: PageContent }) {
                 />
             </figure>
             <div className="editorial-container hero-copy">
-                <h1>{hero.title}</h1>
-                <p className="lead">{hero.description}</p>
-                <div className="cta-row">
-                    <Link className="btn" href={hero.primaryCta.href}>
-                        {hero.primaryCta.label}
-                    </Link>
-                    {hero.secondaryCta ? (
-                        <Link className="btn ghost" href={hero.secondaryCta.href}>
-                            {hero.secondaryCta.label}
+                <Reveal as="h1">{hero.title}</Reveal>
+                <Reveal as="p" className="lead">{hero.description}</Reveal>
+                <Reveal>
+                    <div className="cta-row">
+                        <Link className="btn" href={hero.primaryCta.href}>
+                            {hero.primaryCta.label}
                         </Link>
-                    ) : null}
-                </div>
+                        {hero.secondaryCta ? (
+                            <Link className="btn ghost" href={hero.secondaryCta.href}>
+                                {hero.secondaryCta.label}
+                            </Link>
+                        ) : null}
+                    </div>
+                </Reveal>
             </div>
             <hr className="separator" />
         </section>
@@ -174,16 +177,16 @@ export function ValueSection({ page }: { page: PageContent }) {
         <section className="editorial-section" id={anchor(page, "values")}>
             <div className="editorial-container">
                 <div className="section-heading">
-                    <h2>{values.title}</h2>
+                    <Reveal as="h2">{values.title}</Reveal>
                 </div>
                 <div className="two-column">
                     {values.cards.map((card) => (
-                        <article key={card.title} className="narrative-block">
+                        <Reveal as="article" className="narrative-block" key={card.title}>
                             <h3>{card.title}</h3>
                             {card.paragraphs.map((paragraph) => (
                                 <p key={paragraph}>{paragraph}</p>
                             ))}
-                        </article>
+                        </Reveal>
                     ))}
                 </div>
             </div>
@@ -212,14 +215,14 @@ export function IncludedSection({ page }: { page: PageContent }) {
         <section className="editorial-section" id={anchor(page, "included")}>
             <div className="editorial-container">
                 <div className="section-heading">
-                    <h2>{included.title}</h2>
+                    <Reveal as="h2">{included.title}</Reveal>
                 </div>
-                <div className="narrative-block">
+                <Reveal className="narrative-block">
                     {included.intro ? <p>{included.intro}</p> : null}
                     {included.paragraphs.map((paragraph) => (
                         <p key={paragraph}>{paragraph}</p>
                     ))}
-                </div>
+                </Reveal>
             </div>
             {illustration ? (
                 <figure className="full-bleed narrative-figure">
@@ -246,14 +249,14 @@ export function ProcessSection({ page }: { page: PageContent }) {
         <section className="editorial-section" id={anchor(page, "process")}>
             <div className="editorial-container">
                 <div className="section-heading">
-                    <h2>{process.title}</h2>
+                    <Reveal as="h2">{process.title}</Reveal>
                 </div>
                 <div className="process-flow">
                     {process.steps.map((step) => (
-                        <article key={step.title} className="process-step">
+                        <Reveal as="article" className="process-step" key={step.title}>
                             <h3>{step.title}</h3>
                             <p>{step.detail}</p>
-                        </article>
+                        </Reveal>
                     ))}
                 </div>
             </div>
@@ -282,11 +285,11 @@ export function PricingSection({ page }: { page: PageContent }) {
         <section className="editorial-section" id={anchor(page, "pricing")}>
             <div className="editorial-container">
                 <div className="section-heading">
-                    <h2>{pricing.title}</h2>
+                    <Reveal as="h2">{pricing.title}</Reveal>
                 </div>
                 <div className="pricing-stack">
                     {pricing.tiers.map((tier: Tier) => (
-                        <article key={tier.id} className="pricing-tier">
+                        <Reveal as="article" className="pricing-tier" key={tier.id}>
                             <div className="pricing-tier__intro">
                                 <h3>{tier.title}</h3>
                                 {tier.price ? <p className="pricing-tier__price">{tier.price}</p> : null}
@@ -304,7 +307,7 @@ export function PricingSection({ page }: { page: PageContent }) {
                                 ) : null}
                                 <TierAction cta={tier.cta} />
                             </div>
-                        </article>
+                        </Reveal>
                     ))}
                 </div>
                 {pricing.note ? <p className="muted note">{pricing.note}</p> : null}
@@ -333,17 +336,17 @@ export function TestimonialsSection({ page }: { page: PageContent }) {
         <section className="editorial-section" id={anchor(page, "testimonials")}>
             <div className="editorial-container">
                 <div className="section-heading">
-                    <h2>{testimonials.title}</h2>
+                    <Reveal as="h2">{testimonials.title}</Reveal>
                 </div>
                 <div className="pull-quote-stack">
                     {testimonials.items.map((item, index) => (
-                        <blockquote className="pull-quote" key={`${item.name}-${index}`}>
+                        <Reveal as="blockquote" className="pull-quote" key={`${item.name}-${index}`}>
                             <p>“{item.quote}”</p>
                             <footer>
                                 {item.name}
                                 {item.role ? <span> · {item.role}</span> : null}
                             </footer>
-                        </blockquote>
+                        </Reveal>
                     ))}
                 </div>
             </div>
@@ -369,19 +372,21 @@ export function FinalCtaSection({ page, children }: { page: PageContent; childre
     return (
         <section className="editorial-section" id={anchor(page, "cta")}>
             <div className="editorial-container final-call">
-                <h2>{finalCta.title}</h2>
-                <p>{finalCta.description}</p>
+                <Reveal as="h2">{finalCta.title}</Reveal>
+                <Reveal as="p">{finalCta.description}</Reveal>
                 {children}
-                <div className="cta-row">
-                    <Link className="btn" href={finalCta.primary.href}>
-                        {finalCta.primary.label}
-                    </Link>
-                    {finalCta.secondary ? (
-                        <Link className="btn ghost" href={finalCta.secondary.href}>
-                            {finalCta.secondary.label}
+                <Reveal>
+                    <div className="cta-row">
+                        <Link className="btn" href={finalCta.primary.href}>
+                            {finalCta.primary.label}
                         </Link>
-                    ) : null}
-                </div>
+                        {finalCta.secondary ? (
+                            <Link className="btn ghost" href={finalCta.secondary.href}>
+                                {finalCta.secondary.label}
+                            </Link>
+                        ) : null}
+                    </div>
+                </Reveal>
             </div>
         </section>
     );

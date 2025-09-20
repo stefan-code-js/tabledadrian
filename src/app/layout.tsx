@@ -1,7 +1,7 @@
 // src/app/layout.tsx
 import type { Metadata, Viewport } from 'next';
 import './globals.css';
-import NavBar from '@/components/NavBar';
+import SiteHeader from '@/components/SiteHeader';
 import Footer from '@/components/Footer';
 import { site } from '@/lib/site';
 import { serif, sans } from '@/lib/fonts';
@@ -66,7 +66,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <html lang={site.locale}>
             <head />
             <body className={`${serif.variable} ${sans.variable}`}>
-                <NavBar />
+                <SiteHeader />
 
                 {/* Keep focusable main for a11y; skip link can be re-added later */}
                 <main id="content" tabIndex={-1}>

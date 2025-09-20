@@ -39,6 +39,8 @@ export default function Footer() {
                     <a href={ACC} target="_blank" rel="noreferrer">
                         Accreditation
                     </a>
+                    <span aria-hidden="true"> · </span>
+                    <a href="/remove">Remove my data</a>
                 </p>
                 <p className="site-footer__meta">© {new Date().getFullYear()} Table d’Adrian · All rights reserved</p>
                 <div className="site-footer__brands" aria-label="Partner references">

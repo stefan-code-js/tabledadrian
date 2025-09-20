@@ -20,6 +20,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
         { url: `${site}/book`, lastModified: lastmod, changeFrequency: "monthly", priority: 0.6 },
         { url: `${site}/team`, lastModified: lastmod, changeFrequency: "monthly", priority: 0.5 },
         { url: `${site}/cancel`, lastModified: lastmod, changeFrequency: "monthly", priority: 0.2 },
+        { url: `${site}/remove`, lastModified: lastmod, changeFrequency: "yearly", priority: 0.4 },
     ];
     return entries;
 }

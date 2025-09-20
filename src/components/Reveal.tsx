@@ -1,30 +1,53 @@
 "use client";
 
-import type { ReactNode } from "react";
-import { useEditorialMotion } from "@/hooks/useEditorialMotion";
+import React, { useEffect, useRef } from "react";
 
-type Props = {
-    children: ReactNode;
-    delay?: number;
+type RevealProps = {
+  as?: keyof HTMLElementTagNameMap | React.ElementType;
+  className?: string;
+  children?: React.ReactNode;
+  threshold?: number;
 };
 
-export default function Reveal({ children, delay = 0 }: Props) {
-    const motion = useEditorialMotion();
+export default function Reveal({ as = "div", className = "", children, threshold = 0.15 }: RevealProps) {
+  const RefTag = as as any;
+  const ref = useRef<HTMLElement | null>(null);
 
-    if (!motion?.div) {
-        return <div className="reveal-static">{children}</div>;
+  useEffect(() => {
+    const el = ref.current as HTMLElement | null;
+    if (!el) return;
+
+    // Add base class if not present
+    if (!el.classList.contains("reveal")) {
+      el.classList.add("reveal");
     }
 
-    const MotionDiv = motion.div;
+    // If user prefers reduced motion, show immediately
+    const media = window.matchMedia("(prefers-reduced-motion: reduce)");
+    if (media.matches) {
+      el.classList.add("is-visible");
+      return;
+    }
 
-    return (
-        <MotionDiv
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.35 }}
-            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1], delay }}
-        >
-            {children}
-        </MotionDiv>
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            io.unobserve(entry.target);
+          }
+        }
+      },
+      { root: null, rootMargin: "0px", threshold }
     );
+
+    io.observe(el);
+    return () => io.disconnect();
+  }, [threshold]);
+
+  return (
+    <RefTag ref={ref} className={className}>
+      {children}
+    </RefTag>
+  );
 }

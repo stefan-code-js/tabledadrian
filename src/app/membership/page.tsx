@@ -2,6 +2,7 @@ import Image from "next/image";
 import type { Metadata } from "next";
 import PayButton from "@/components/PayButton";
 import { membershipTiers, priceCatalog } from "@/lib/pricing";
+import Reveal from "@/components/Reveal";
 
 export const metadata: Metadata = {
     title: "Membership",
@@ -79,10 +80,10 @@ export default function MembershipPage() {
                     <Image src={heroImage.src} alt={heroImage.alt} fill priority sizes="100vw" className="hero-figure__image" />
                 </figure>
                 <div className="editorial-container hero-copy">
-                    <h1>Membership</h1>
-                    <p className="lead">
+                    <Reveal as="h1">Membership</Reveal>
+                    <Reveal as="p" className="lead">
                         Designed for leaders who protect energy and attention. Antonia (PharmD) translates medical goals into daily systems; Adrian engineers the food, mise, and menus your team can repeat. Membership adds continuity, hosted dinners, and priority access.
-                    </p>
+                    </Reveal>
                 </div>
                 <hr className="separator" />
             </section>
@@ -90,23 +91,23 @@ export default function MembershipPage() {
             <section className="editorial-section">
                 <div className="editorial-container">
                     <div className="two-column">
-                        <div className="narrative-block">
+                        <Reveal className="narrative-block">
                             <h2>What members receive</h2>
                             {pillarParagraphs.map((paragraph) => (
                                 <p key={paragraph}>{paragraph}</p>
                             ))}
-                        </div>
-                        <div className="narrative-block">
+                        </Reveal>
+                        <Reveal className="narrative-block">
                             <h2>How membership works</h2>
                             <div className="process-flow">
                                 {cadence.map((step) => (
-                                    <article key={step.title} className="process-step">
+                                    <Reveal as="article" className="process-step" key={step.title}>
                                         <h3>{step.title}</h3>
                                         <p>{step.detail}</p>
-                                    </article>
+                                    </Reveal>
                                 ))}
                             </div>
-                        </div>
+                        </Reveal>
                     </div>
                 </div>
                 <hr className="separator" />
@@ -115,13 +116,13 @@ export default function MembershipPage() {
             <section className="editorial-section">
                 <div className="editorial-container">
                     <div className="section-heading">
-                        <h2>Member tiers</h2>
+                        <Reveal as="h2">Member tiers</Reveal>
                     </div>
                     <div className="pricing-stack">
                         {membershipTiers.map((tier) => {
                             const priceEntry = priceCatalog[tier.checkout.priceKey];
                             return (
-                                <article key={tier.id} className="pricing-tier">
+                                <Reveal as="article" className="pricing-tier" key={tier.id}>
                                     <div className="pricing-tier__intro">
                                         <h3>{tier.name}</h3>
                                         <p className="pricing-tier__price">{tier.price}</p>
@@ -138,7 +139,7 @@ export default function MembershipPage() {
                                             {tier.checkout.label}
                                         </PayButton>
                                     </div>
-                                </article>
+                                </Reveal>
                             );
                         })}
                     </div>
@@ -149,14 +150,14 @@ export default function MembershipPage() {
             <section className="editorial-section">
                 <div className="editorial-container">
                     <div className="section-heading">
-                        <h2>Membership questions</h2>
+                        <Reveal as="h2">Membership questions</Reveal>
                     </div>
                     <div className="faq-list">
                         {faqs.map((faq) => (
-                            <details key={faq.question}>
+                            <Reveal as="details" key={faq.question}>
                                 <summary>{faq.question}</summary>
                                 <p>{faq.answer}</p>
-                            </details>
+                            </Reveal>
                         ))}
                     </div>
                 </div>
