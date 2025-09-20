@@ -1,0 +1,21 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 900">
+  <defs>
+    <linearGradient id="tableBase" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ede8dd" />
+      <stop offset="100%" stop-color="#c4b39a" />
+    </linearGradient>
+    <radialGradient id="tableGlow" cx="25%" cy="30%" r="40%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.65" />
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0" />
+    </radialGradient>
+    <radialGradient id="tableDeep" cx="75%" cy="80%" r="55%">
+      <stop offset="0%" stop-color="#35332d" stop-opacity="0.5" />
+      <stop offset="100%" stop-color="#13110f" stop-opacity="0.08" />
+    </radialGradient>
+  </defs>
+  <rect width="900" height="900" fill="url(#tableBase)" />
+  <ellipse cx="220" cy="280" rx="190" ry="180" fill="url(#tableGlow)" />
+  <ellipse cx="680" cy="680" rx="280" ry="250" fill="url(#tableDeep)" />
+  <path d="M0 640 C200 560 360 500 520 420 C660 350 780 260 900 200 L900 900 L0 900 Z" fill="#2f2a24" fill-opacity="0.22" />
+  <path d="M0 200 C180 190 320 170 470 130 C640 80 780 60 900 60 L900 0 L0 0 Z" fill="#1a1a17" fill-opacity="0.16" />
+</svg>

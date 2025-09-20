@@ -1,0 +1,20 @@
+﻿name = "tabledadrian"
+compatibility_date = "2024-09-01"
+
+account_id = "00000000000000000000000000000000"
+
+pages_build_output_dir = ".vercel/output/static"
+
+[vars]
+STRIPE_SECRET_KEY = "sk_live_replace_me"
+SITE_URL = "https://tabledadrian.com"
+
+[[d1_databases]]
+binding = "TABLEDADRIAN_DB"
+database_name = "tabledadrian"
+database_id = "00000000-0000-0000-0000-000000000000"
+
+[[kv_namespaces]]
+binding = "BOOKINGS_KV"
+id = "00000000000000000000000000000000"
+preview_id = "00000000000000000000000000000000"

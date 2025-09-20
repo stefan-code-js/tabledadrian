@@ -1,9 +1,13 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { Metadata } from "next";
+import KineticHeading from "@/components/KineticHeading";
+import KineticParagraph from "@/components/KineticParagraph";
+
+export const runtime = "edge";
 
 export const metadata: Metadata = {
-    title: "Payment canceled · Table d’Adrian",
+    title: "Payment canceled - Table d'Adrian",
     robots: { index: false },
     alternates: { canonical: "/cancel" },
 };
@@ -22,7 +26,7 @@ export default function CancelPage() {
     return (
         <article className="editorial-page">
             <section className="editorial-hero">
-                <figure className="full-bleed hero-figure">
+                <figure className="full-bleed hero-figure" data-parallax="6">
                     <Image
                         src={heroImage.src}
                         alt={heroImage.alt}
@@ -33,8 +37,8 @@ export default function CancelPage() {
                     />
                 </figure>
                 <div className="editorial-container hero-copy">
-                    <h1>Payment canceled</h1>
-                    <p className="lead">Your table remains unbooked for now. Return when the timing suits you.</p>
+                    <KineticHeading as="h1">Payment canceled</KineticHeading>
+                    <KineticParagraph>Your table remains unbooked for now. Return when the timing suits you.</KineticParagraph>
                 </div>
                 <hr className="separator" />
             </section>
@@ -43,25 +47,22 @@ export default function CancelPage() {
                 <div className="editorial-container">
                     <div className="two-column">
                         <article className="narrative-block">
-                            <h2>Pick up where you left off</h2>
+                            <KineticHeading as="h2">Pick up where you left off</KineticHeading>
                             {reassuranceParagraphs.map((paragraph) => (
-                                <p key={paragraph}>{paragraph}</p>
+                                <KineticParagraph key={paragraph}>{paragraph}</KineticParagraph>
                             ))}
-                            <p>
-                                Write to <a href="mailto:adrian@tabledadrian.com">adrian@tabledadrian.com</a> with preferred dates
-                                or priorities and we will respond within a day.
-                            </p>
+                            <KineticParagraph>
+                                Write to <a href="mailto:adrian@tabledadrian.com">adrian@tabledadrian.com</a> with preferred dates or priorities and we will respond within a day.
+                            </KineticParagraph>
                         </article>
                         <article className="narrative-block">
-                            <h2>When you are ready</h2>
-                            <p>
-                                The booking calendar can be reopened instantly and deposits remain optional until you approve the
-                                documented menu and service plan.
-                            </p>
-                            <p>
-                                Membership keeps hosted dinners, pharmacist reviews, and household standards on cadence if you
-                                prefer to avoid rebooking each season.
-                            </p>
+                            <KineticHeading as="h2">When you are ready</KineticHeading>
+                            <KineticParagraph>
+                                The booking calendar can be reopened instantly and deposits remain optional until you approve the documented menu and service plan.
+                            </KineticParagraph>
+                            <KineticParagraph>
+                                Membership keeps hosted dinners, pharmacist reviews, and household standards on cadence if you prefer to avoid rebooking each season.
+                            </KineticParagraph>
                         </article>
                     </div>
                 </div>
@@ -70,11 +71,10 @@ export default function CancelPage() {
 
             <section className="editorial-section">
                 <div className="editorial-container final-call">
-                    <h2>Ready to continue?</h2>
-                    <p>
-                        We will hold the calendar as soon as you confirm the new date. Start with an inquiry or move directly to
-                        membership to keep the cadence steady.
-                    </p>
+                    <KineticHeading as="h2">Ready to continue?</KineticHeading>
+                    <KineticParagraph>
+                        We will hold the calendar as soon as you confirm the new date. Start with an inquiry or move directly to membership to keep the cadence steady.
+                    </KineticParagraph>
                     <div className="cta-row">
                         <Link className="btn" href="/book">
                             request a booking

@@ -64,11 +64,62 @@ function tierToOffer(page: PageContent, tier: Tier): OfferJsonLd | null {
     };
 }
 
-export function createProductJsonLd(page: PageContent): Record<string, unknown> | null {
-    const offers = page.pricing.tiers
+function toTitleCase(slug: string): string {
+    return slug
+        .split("-")
+        .filter(Boolean)
+        .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+        .join(" ");
+}
+
+export function createBreadcrumbJsonLd(page: PageContent): Record<string, unknown> {
+    const base = site.url.replace(/\/$/, "");
+    const segments = page.path.split("/").filter(Boolean);
+    const items: Array<Record<string, unknown>> = [
+        {
+            "@type": "ListItem",
+            position: 1,
+            name: site.name,
+            item: base || site.url,
+        },
+    ];
+
+    segments.forEach((segment, index) => {
+        const position = index + 2;
+        const url = `${base}/${segments.slice(0, index + 1).join("/")}`;
+        const isLast = index === segments.length - 1;
+        const name = isLast ? page.meta.title ?? page.hero.title : toTitleCase(segment);
+        items.push({
+            "@type": "ListItem",
+            position,
+            name,
+            item: url,
+        });
+    });
+
+    if (items.length === 1) {
+        return {
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            itemListElement: items,
+        };
+    }
+
+    return {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        itemListElement: items,
+    };
+}
+
+function buildProductOffers(page: PageContent): OfferJsonLd[] {
+    return page.pricing.tiers
         .map((tier) => tierToOffer(page, tier))
         .filter((value): value is OfferJsonLd => value !== null);
+}
 
+export function createProductJsonLd(page: PageContent): Record<string, unknown> | null {
+    const offers = buildProductOffers(page);
     if (offers.length === 0) return null;
 
     return {

@@ -29,7 +29,7 @@ export default function Hero() {
     return (
         <section className="editorial-hero" aria-label="Introduction">
             <figure
-                className="full-bleed hero-figure"
+                className="full-bleed hero-figure" data-parallax="8"
                 ref={(node) => {
                     figureRef.current = node;
                 }}

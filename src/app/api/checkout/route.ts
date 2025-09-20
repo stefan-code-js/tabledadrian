@@ -1,36 +1,81 @@
-export const runtime = 'edge';
+import { NextRequest } from "next/server";
+import { z } from "zod";
+import * as Sentry from "@sentry/nextjs";
+import { createCheckoutSession } from "@/lib/checkout";
+import { priceCatalog, type PriceKey } from "@/lib/pricing";
+import { addOrder } from "@/lib/orders";
 
-import { NextRequest } from 'next/server';
-import { createCheckoutSession } from '@/lib/checkout';
-import { priceCatalog } from '@/lib/pricing';
+export const runtime = "edge";
 
-type Mode = 'payment' | 'subscription';
+type Env = { STRIPE_SECRET_KEY?: string };
 
-const ALLOWED_PRICE_IDS = new Set(Object.values(priceCatalog).map((entry) => entry.id));
+const HEADERS = {
+    "Cache-Control": "no-store",
+};
 
-export async function POST(req: NextRequest) {
+const requestSchema = z.object({
+    priceKey: z.string(),
+});
+
+function readEnv(env: Env | undefined, key: keyof Env): string | undefined {
+    const value = env?.[key];
+    if (typeof value === "string" && value.length) {
+        return value;
+    }
+    if (typeof process !== "undefined" && process.env) {
+        const fallback = process.env[key];
+        return typeof fallback === "string" && fallback.length ? fallback : undefined;
+    }
+    return undefined;
+}
+
+type RouteContext = { params: Promise<Record<string, string>> } & { env?: Env };
+
+export async function POST(request: NextRequest, context: RouteContext): Promise<Response> {
+    let payload: unknown;
     try {
-        const { priceId, mode }: { priceId: string; mode: Mode } = await req.json();
-
-        if (!process.env.STRIPE_SECRET_KEY) {
-            return new Response(JSON.stringify({ error: 'Stripe key not configured' }), { status: 500 });
-        }
-        if (!priceId || !ALLOWED_PRICE_IDS.has(priceId)) {
-            return new Response(JSON.stringify({ error: 'Unknown price' }), { status: 400 });
-        }
-        if (mode !== 'payment' && mode !== 'subscription') {
-            return new Response(JSON.stringify({ error: 'Invalid mode' }), { status: 400 });
-        }
-
-        const session = await createCheckoutSession(
-            priceId,
-            mode,
-            fetch,
-            req.nextUrl.origin,
-            process.env.STRIPE_SECRET_KEY
-        );
-        return new Response(JSON.stringify({ url: session.url }), { status: 200 });
+        payload = await request.json();
     } catch {
-        return new Response(JSON.stringify({ error: 'Bad request' }), { status: 400 });
+        return Response.json({ error: "Invalid JSON payload." }, { status: 400, headers: HEADERS });
+    }
+
+    const parsed = requestSchema.safeParse(payload);
+    if (!parsed.success) {
+        return Response.json({ error: "Missing price key." }, { status: 400, headers: HEADERS });
+    }
+
+    const priceKey = parsed.data.priceKey as PriceKey;
+    const catalogEntry = priceCatalog[priceKey];
+    if (!catalogEntry) {
+        return Response.json({ error: "Unknown price." }, { status: 400, headers: HEADERS });
+    }
+
+    const origin = request.nextUrl?.origin ?? new URL(request.url).origin;
+    const successUrl = `${origin}/success?session_id={CHECKOUT_SESSION_ID}`;
+    const cancelUrl = `${origin}/cancel`;
+
+    const secret = readEnv(context.env, "STRIPE_SECRET_KEY");
+
+    if (!secret) {
+        const mockSessionId = `cs_test_mock_${crypto.randomUUID()}`;
+        const mockUrl = `${origin}/success?session_id=${mockSessionId}`;
+        addOrder({ sessionId: mockSessionId, priceId: catalogEntry.id, mode: catalogEntry.mode });
+        return Response.json({ url: mockUrl, mock: true }, { headers: HEADERS });
+    }
+
+    try {
+        const session = await createCheckoutSession({
+            priceId: catalogEntry.id,
+            mode: catalogEntry.mode,
+            secretKey: secret,
+            successUrl,
+            cancelUrl,
+        });
+
+        const redirectUrl = session.url ?? `${origin}/success?session_id=${session.id}`;
+        return Response.json({ url: redirectUrl }, { headers: HEADERS });
+    } catch (error) {
+        const message = error instanceof Error ? error.message : "Unable to create checkout session.";
+        return Response.json({ error: message }, { status: 502, headers: HEADERS });
     }
 }

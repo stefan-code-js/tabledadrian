@@ -1,18 +1,17 @@
-import { Cormorant_Garamond, Inter } from "next/font/google";
+﻿import localFont from "next/font/local";
 
-export const serif = Cormorant_Garamond({
-    subsets: ["latin"],
+export const serif = localFont({
+    src: [{ path: "../../public/fonts/PlayfairDisplay-Variable.ttf", style: "normal", weight: "400 900" }],
     variable: "--font-serif",
-    style: ["normal", "italic"],
-    weight: ["300", "400", "500", "600", "700"],
     display: "swap",
-    fallback: ["Times New Roman", "Georgia", "serif"],
+    fallback: ["Georgia", "Times New Roman", "serif"],
+    preload: true,
 });
 
-export const sans = Inter({
-    subsets: ["latin"],
+export const sans = localFont({
+    src: [{ path: "../../public/fonts/Manrope-Variable.ttf", style: "normal", weight: "300 800" }],
     variable: "--font-sans",
-    weight: ["300", "400", "500", "600", "700"],
     display: "swap",
     fallback: ["Helvetica Neue", "Arial", "sans-serif"],
+    preload: true,
 });

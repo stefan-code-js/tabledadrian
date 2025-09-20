@@ -1,10 +1,21 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
+import { ANALYTICS_EVENTS, trackEvent } from "@/lib/analytics";
+
+type ContactResponse = { ok: true; id?: string } | { ok: false; errors?: string[] } | null;
 
 export default function ContactForm({ context }: { context?: string }) {
     const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
     const [message, setMessage] = useState<string>("");
+    const startedRef = useRef(false);
+
+    function handleFocus() {
+        if (!startedRef.current) {
+            startedRef.current = true;
+            trackEvent(ANALYTICS_EVENTS.formStart, { form: "contact", context });
+        }
+    }
 
     async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
@@ -23,21 +34,24 @@ export default function ContactForm({ context }: { context?: string }) {
 
         setStatus("submitting");
         setMessage("");
+
         try {
             const response = await fetch("/api/contact", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(payload),
             });
-            const data = await response.json();
-            if (!response.ok || !data?.ok) {
+
+            const raw = (await response.json().catch(() => null)) as ContactResponse;
+            const data = raw && typeof raw === "object" ? raw : null;
+
+            if (!response.ok || !data || ("ok" in data && data.ok !== true)) {
+                const errors = data && "errors" in data ? data.errors?.join(" ") : undefined;
                 setStatus("error");
-                setMessage(
-                    data?.errors?.join?.(" ") ||
-                        "Unable to send right now. Please check your details and try again."
-                );
+                setMessage(errors || "Unable to send right now. Please check your details and try again.");
                 return;
             }
+
             form.reset();
             if (context) {
                 const messageField = form.elements.namedItem("message") as HTMLTextAreaElement | null;
@@ -45,8 +59,14 @@ export default function ContactForm({ context }: { context?: string }) {
                     messageField.value = `Pricing context: ${context}\n`;
                 }
             }
+
+            trackEvent(ANALYTICS_EVENTS.formSuccess, {
+                form: "contact",
+                context,
+                id: "id" in data ? data.id : undefined,
+            });
             setStatus("success");
-            setMessage("Merci — we’ll confirm details shortly.");
+            setMessage("Merci - we'll confirm details shortly.");
         } catch {
             setStatus("error");
             setMessage("Network error. Please retry in a moment.");
@@ -54,7 +74,7 @@ export default function ContactForm({ context }: { context?: string }) {
     }
 
     return (
-        <form id="contact-form" className="form contact-form" onSubmit={onSubmit}>
+        <form id="contact-form" className="form contact-form" onSubmit={onSubmit} onFocusCapture={handleFocus}>
             <div className="grid-two">
                 <label>
                     <span>Name</span>
@@ -78,7 +98,7 @@ export default function ContactForm({ context }: { context?: string }) {
             <div className="grid-two">
                 <label>
                     <span>Location</span>
-                    <input name="location" placeholder="Antibes, Cannes…" />
+                    <input name="location" placeholder="Antibes, Cannes, Monaco" />
                 </label>
                 <label>
                     <span>Budget</span>
@@ -102,7 +122,7 @@ export default function ContactForm({ context }: { context?: string }) {
             </div>
             <div className="actions">
                 <button className="btn" type="submit" disabled={status === "submitting"}>
-                    {status === "submitting" ? "sending…" : "submit inquiry"}
+                    {status === "submitting" ? "sending..." : "submit inquiry"}
                 </button>
             </div>
             {status === "error" ? (

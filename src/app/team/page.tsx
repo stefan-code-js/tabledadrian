@@ -50,7 +50,7 @@ export default function TeamPage() {
     return (
         <article className="editorial-page">
             <section className="editorial-hero">
-                <figure className="full-bleed hero-figure">
+                <figure className="full-bleed hero-figure" data-parallax="8">
                     <Image src={heroImage.src} alt={heroImage.alt} fill priority sizes="100vw" className="hero-figure__image" />
                 </figure>
                 <div className="editorial-container hero-copy">

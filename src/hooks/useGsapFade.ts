@@ -1,7 +1,8 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useRef } from "react";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
+import { loadGsap } from "@/lib/motion";
 
 type TimelineLike = {
     kill(): void;
@@ -29,8 +30,8 @@ export function useGsapFade(
         let timeline: TimelineLike | null = null;
         let cancelled = false;
 
-        void import("gsap").then(({ gsap }) => {
-            if (cancelled || !elementRef.current) {
+        void loadGsap().then((gsap) => {
+            if (cancelled || !elementRef.current || !gsap) {
                 return;
             }
 

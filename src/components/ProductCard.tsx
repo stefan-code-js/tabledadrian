@@ -1,6 +1,6 @@
-import Image from 'next/image';
-import PayButton from './PayButton';
-import type { Product } from '@/data/products';
+import Image from "next/image";
+import PayButton from "./PayButton";
+import type { Product } from "@/data/products";
 
 export default function ProductCard({ product }: { product: Product }) {
     return (
@@ -9,7 +9,7 @@ export default function ProductCard({ product }: { product: Product }) {
                 {product.image ? (
                     <Image
                         src={product.image}
-                        alt={product.alt ?? ''}
+                        alt={product.alt ?? ""}
                         fill
                         sizes="(max-width: 900px) 100vw, 320px"
                         loading="lazy"
@@ -21,7 +21,7 @@ export default function ProductCard({ product }: { product: Product }) {
             </div>
             <h2>{product.name}</h2>
             <p>{product.description}</p>
-            <PayButton priceId={product.priceId} mode="payment">
+            <PayButton priceKey={product.priceKey}>
                 purchase
             </PayButton>
         </article>

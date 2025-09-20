@@ -3,15 +3,20 @@
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import PayButton from "@/components/PayButton";
-import { pricingCalculatorOptions, priceCatalog, estimatePricing, getCalculatorOption } from "@/lib/pricing";
-import type { CalculatorOption, TierCta } from "@/lib/pricing";
+import {
+    pricingCalculatorOptions,
+    estimatePricing,
+    getCalculatorOption,
+    formatMoney,
+    formatRange,
+    type CalculatorOption,
+    type TierCta,
+} from "@/lib/pricing";
 
 function CTAButton({ cta }: { cta: TierCta }) {
     if (cta.type === "checkout") {
-        const config = priceCatalog[cta.priceKey];
-        const mode = cta.mode ?? config.mode;
         return (
-            <PayButton priceId={config.id} mode={mode}>
+            <PayButton priceKey={cta.priceKey}>
                 {cta.label}
             </PayButton>
         );
@@ -25,7 +30,7 @@ function CTAButton({ cta }: { cta: TierCta }) {
 
 export default function PricingCalculatorWidget() {
     const [selectedId, setSelectedId] = useState<string>(pricingCalculatorOptions[0].id);
-    const [guests, setGuests] = useState<number>(pricingCalculatorOptions[0].includedGuests || 10);
+    const [guestInput, setGuestInput] = useState<number>(pricingCalculatorOptions[0].includedGuests || 12);
     const [addons, setAddons] = useState<Record<string, boolean>>({});
 
     const option = useMemo<CalculatorOption>(() => getCalculatorOption(selectedId), [selectedId]);
@@ -35,25 +40,24 @@ export default function PricingCalculatorWidget() {
         [addons]
     );
 
-    const estimate = useMemo(
-        () => estimatePricing(option, guests, selectedAddons),
-        [option, guests, selectedAddons]
-    );
+    const estimate = useMemo(() => estimatePricing(option, guestInput, selectedAddons), [option, guestInput, selectedAddons]);
+
+    const handleOptionChange = (value: string) => {
+        const next = getCalculatorOption(value);
+        setSelectedId(value);
+        setGuestInput(next.includedGuests ?? next.guestRange?.min ?? 10);
+        setAddons({});
+    };
+
+    const perGuestText = option.perGuest
+        ? `${formatMoney(option.perGuest, { includeCadence: false })} per additional guest`
+        : undefined;
 
     return (
         <div className="calculator">
             <label className="calculator-field">
                 <span>Experience</span>
-                <select
-                    value={selectedId}
-                    onChange={(event) => {
-                        const nextId = event.target.value;
-                        setSelectedId(nextId);
-                        const target = getCalculatorOption(nextId);
-                        setGuests(target?.includedGuests || 0);
-                        setAddons({});
-                    }}
-                >
+                <select value={selectedId} onChange={(event) => handleOptionChange(event.target.value)}>
                     {pricingCalculatorOptions.map((opt) => (
                         <option key={opt.id} value={opt.id}>
                             {opt.name}
@@ -62,50 +66,61 @@ export default function PricingCalculatorWidget() {
                 </select>
             </label>
 
-            <p className="muted" style={{ marginTop: 6 }}>{option.description}</p>
+            <p className="muted" style={{ marginTop: 6 }}>
+                {option.description}
+            </p>
 
             <label className="calculator-field">
                 <span>Guests</span>
                 <input
                     type="number"
-                    min={option.includedGuests || 1}
+                    min={option.guestRange?.min ?? 1}
                     value={estimate.guestCount}
-                    onChange={(event) => setGuests(Number(event.target.value) || 0)}
+                    onChange={(event) => setGuestInput(Number(event.target.value) || 0)}
                 />
-                {option.includedGuests ? (
-                    <small className="muted">Includes {option.includedGuests} guests · €{option.perGuest} per additional guest</small>
+                {option.includedGuests && option.perGuest ? (
+                    <small className="muted">
+                        Includes {option.includedGuests} guests � {perGuestText}
+                    </small>
                 ) : null}
             </label>
 
-            <fieldset className="calculator-field">
-                <legend>Add enhancements</legend>
-                {option.enhancements.map((enhancement) => (
-                    <label key={enhancement.id} className="addon">
-                        <input
-                            type="checkbox"
-                            checked={Boolean(addons[enhancement.id])}
-                            onChange={(event) =>
-                                setAddons((prev) => ({
-                                    ...prev,
-                                    [enhancement.id]: event.target.checked,
-                                }))
-                            }
-                        />
-                        <span>
-                            {enhancement.label}
-                            <small>{enhancement.description} · €{enhancement.amount.toLocaleString("en-GB")}</small>
-                        </span>
-                    </label>
-                ))}
-            </fieldset>
+            {option.enhancements.length ? (
+                <fieldset className="calculator-field">
+                    <legend>Add enhancements</legend>
+                    {option.enhancements.map((enhancement) => (
+                        <label key={enhancement.id} className="addon">
+                            <input
+                                type="checkbox"
+                                checked={Boolean(addons[enhancement.id])}
+                                onChange={(event) =>
+                                    setAddons((prev) => ({
+                                        ...prev,
+                                        [enhancement.id]: event.target.checked,
+                                    }))
+                                }
+                            />
+                            <span>
+                                {enhancement.label}
+                                <small>
+                                    {enhancement.description} � {formatMoney(enhancement.cost, { includeCadence: false })}
+                                </small>
+                            </span>
+                        </label>
+                    ))}
+                </fieldset>
+            ) : null}
 
             <div className="calculator-summary">
                 <p>
-                    <strong>Total estimate:</strong> €{estimate.total.toLocaleString("en-GB")}
+                    <strong>Total estimate:</strong> {formatMoney(estimate.total)}
                 </p>
                 <p>
-                    <strong>Deposit due:</strong> €{estimate.deposit.toLocaleString("en-GB")}
+                    <strong>Deposit due:</strong> {formatMoney(estimate.deposit)}
                 </p>
+                {option.duration ? (
+                    <p className="muted">Service duration: {formatRange(option.duration)}</p>
+                ) : null}
             </div>
 
             <div className="hero-ctas" style={{ marginTop: 16 }}>

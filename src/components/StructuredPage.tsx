@@ -1,11 +1,21 @@
 import Image from "next/image";
 import Link from "next/link";
-import type { PageContent, Tier, PageId, SectionKey } from "@/data/siteContent";
+import type { ReactNode } from "react";
+import type { PageContent, Tier, PageId } from "@/data/siteContent";
 import type { TierCta } from "@/lib/pricing";
-import { priceCatalog } from "@/lib/pricing";
 import PayButton from "@/components/PayButton";
-import { createProductJsonLd } from "@/lib/metadata";
-import Reveal from "@/components/Reveal";
+import { createBreadcrumbJsonLd, createProductJsonLd } from "@/lib/metadata";
+import KineticHeading from "@/components/KineticHeading";
+import KineticParagraph from "@/components/KineticParagraph";
+import KeywordHighlighter from "@/components/KeywordHighlighter";
+import EditorialBlock from "@/components/EditorialBlock";
+import PullQuote from "@/components/PullQuote";
+import CTABand from "@/components/CTABand";
+import TestimonialCarousel from "@/components/TestimonialCarousel";
+import FactRow from "@/components/FactRow";
+import CardPanel from "@/components/CardPanel";
+
+const KEYWORDS = ["private table", "C�te d'Azur", "seasonal", "membership", "consult", "chef's table"] as const;
 
 const heroImages: Record<PageId | "default", { src: string; alt: string }> = {
     default: {
@@ -34,7 +44,7 @@ const heroImages: Record<PageId | "default", { src: string; alt: string }> = {
     },
     gallery: {
         src: "/placeholder/hero-gallery.svg",
-        alt: "Minimal pantry shelves with glass jars and linen.",
+        alt: "Cinematic collage of service moments.",
     },
     press: {
         src: "/placeholder/hero-press.svg",
@@ -42,7 +52,7 @@ const heroImages: Record<PageId | "default", { src: string; alt: string }> = {
     },
     reviews: {
         src: "/placeholder/hero-reviews.svg",
-        alt: "Soft daylight across a linen-covered table set with ceramics and herbs.",
+        alt: "Guests gathered at a candlelit table.",
     },
     adminLeads: {
         src: "/placeholder/hero-admin-leads.svg",
@@ -54,91 +64,36 @@ const heroImages: Record<PageId | "default", { src: string; alt: string }> = {
     },
 };
 
-const sectionIllustrations: Partial<
-    Record<PageId, Partial<Record<SectionKey, { src: string; alt: string }>>>
-> = {
-    home: {
-        values: {
-            src: "/placeholder/section-home-values.svg",
-            alt: "Close view of plated seasonal vegetables with herbs.",
-        },
-        included: {
-            src: "/placeholder/section-home-included.svg",
-            alt: "Dining table being set with glassware and linens.",
-        },
-        testimonials: {
-            src: "/placeholder/section-home-testimonials.svg",
-            alt: "Guests gathered around a candlelit table.",
-        },
-    },
-    about: {
-        values: {
-            src: "/placeholder/section-about-values.svg",
-            alt: "Chef presenting a composed dish on porcelain.",
-        },
-        process: {
-            src: "/placeholder/section-about-process.svg",
-            alt: "Notebook with meticulous planning notes.",
-        },
-    },
-    experiences: {
-        values: {
-            src: "/placeholder/section-experiences-values.svg",
-            alt: "Fine dining plating with tweezers and herbs.",
-        },
-        pricing: {
-            src: "/placeholder/section-experiences-pricing.svg",
-            alt: "Glassware aligned on a linen runner.",
-        },
-    },
-    products: {
-        values: {
-            src: "/placeholder/section-products-values.svg",
-            alt: "Curated pantry shelves with jars and tools.",
-        },
-    },
-    contact: {
-        included: {
-            src: "/placeholder/section-contact-included.svg",
-            alt: "Calligraphed invitation resting beside a fountain pen.",
-        },
-    },
-};
-
 const anchor = (page: PageContent, target: string) => `${page.slug}-${target}`;
 
 function heroFor(page: PageContent) {
     return heroImages[page.id] ?? heroImages.default;
 }
 
-function illustrationFor(page: PageContent, key: SectionKey) {
-    return sectionIllustrations[page.id]?.[key];
-}
-
 function TierAction({ cta }: { cta: TierCta }) {
     if (cta.type === "checkout") {
-        const config = priceCatalog[cta.priceKey];
-        const mode = cta.mode ?? config.mode;
         return (
-            <PayButton priceId={config.id} mode={mode}>
+            <PayButton priceKey={cta.priceKey}>
                 {cta.label}
             </PayButton>
         );
     }
     return (
-        <Link className="btn" href={cta.href}>
+        <Link className="text-link" href={cta.href}>
             {cta.label}
         </Link>
     );
 }
 
-export function PageHero({ page }: { page: PageContent }) {
-    const { hero } = page;
-    const figure = heroFor(page);
+const highlight = (text: string, variant: "forest" | "bronze" | "oxblood" = "forest") => (
+    <KeywordHighlighter text={text} keywords={KEYWORDS} variant={variant} />
+);
 
+export function PageHero({ page }: { page: PageContent }) {
+    const figure = heroFor(page);
     return (
         <section className="editorial-hero" id={anchor(page, "hero")}>
-            <figure className="full-bleed hero-figure">
+            <figure className="full-bleed hero-figure" data-parallax="8">
                 <Image
                     src={figure.src}
                     alt={figure.alt}
@@ -149,20 +104,19 @@ export function PageHero({ page }: { page: PageContent }) {
                 />
             </figure>
             <div className="editorial-container hero-copy">
-                <Reveal as="h1">{hero.title}</Reveal>
-                <Reveal as="p" className="lead">{hero.description}</Reveal>
-                <Reveal>
-                    <div className="cta-row">
-                        <Link className="btn" href={hero.primaryCta.href}>
-                            {hero.primaryCta.label}
+                <span className="hero-kicker">{page.hero?.title ?? page.navLabel}</span>
+                <KineticHeading as="h1">{page.hero.title}</KineticHeading>
+                <KineticParagraph>{highlight(page.hero.description, "bronze")}</KineticParagraph>
+                <div className="cta-row">
+                    <Link className="btn" href={page.hero.primaryCta.href}>
+                        {page.hero.primaryCta.label}
+                    </Link>
+                    {page.hero.secondaryCta ? (
+                        <Link className="btn ghost" href={page.hero.secondaryCta.href}>
+                            {page.hero.secondaryCta.label}
                         </Link>
-                        {hero.secondaryCta ? (
-                            <Link className="btn ghost" href={hero.secondaryCta.href}>
-                                {hero.secondaryCta.label}
-                            </Link>
-                        ) : null}
-                    </div>
-                </Reveal>
+                    ) : null}
+                </div>
             </div>
             <hr className="separator" />
         </section>
@@ -171,37 +125,27 @@ export function PageHero({ page }: { page: PageContent }) {
 
 export function ValueSection({ page }: { page: PageContent }) {
     const { values } = page;
-    const illustration = illustrationFor(page, "values");
-
     return (
         <section className="editorial-section" id={anchor(page, "values")}>
             <div className="editorial-container">
-                <div className="section-heading">
-                    <Reveal as="h2">{values.title}</Reveal>
-                </div>
-                <div className="two-column">
-                    {values.cards.map((card) => (
-                        <Reveal as="article" className="narrative-block" key={card.title}>
-                            <h3>{card.title}</h3>
-                            {card.paragraphs.map((paragraph) => (
-                                <p key={paragraph}>{paragraph}</p>
-                            ))}
-                        </Reveal>
-                    ))}
-                </div>
+                <KineticHeading as="h2">{values.title}</KineticHeading>
             </div>
-            {illustration ? (
-                <figure className="full-bleed narrative-figure">
-                    <Image
-                        src={illustration.src}
-                        alt={illustration.alt}
-                        fill
-                        sizes="100vw"
-                        loading="lazy"
-                        className="narrative-figure__image"
-                    />
-                </figure>
-            ) : null}
+            {values.cards.map((card, index) => (
+                <EditorialBlock
+                    key={card.title}
+                    title={card.title}
+                    kicker={index === 0 ? "Focus" : undefined}
+                    copy={card.paragraphs.map((paragraph, idx) => (
+                        <KineticParagraph key={idx}>{highlight(paragraph, index % 2 === 0 ? "forest" : "bronze")}</KineticParagraph>
+                    ))}
+                    image={{
+                        src: index % 2 === 0 ? "/placeholder/section-home-values.svg" : "/placeholder/section-products-values.svg",
+                        alt: card.title,
+                        aspect: index % 2 === 0 ? "4 / 5" : "3 / 4",
+                    }}
+                    align={index % 2 === 0 ? "left" : "right"}
+                />
+            ))}
             <hr className="separator" />
         </section>
     );
@@ -209,33 +153,17 @@ export function ValueSection({ page }: { page: PageContent }) {
 
 export function IncludedSection({ page }: { page: PageContent }) {
     const { included } = page;
-    const illustration = illustrationFor(page, "included");
-
     return (
         <section className="editorial-section" id={anchor(page, "included")}>
             <div className="editorial-container">
-                <div className="section-heading">
-                    <Reveal as="h2">{included.title}</Reveal>
-                </div>
-                <Reveal className="narrative-block">
-                    {included.intro ? <p>{included.intro}</p> : null}
-                    {included.paragraphs.map((paragraph) => (
-                        <p key={paragraph}>{paragraph}</p>
+                <KineticHeading as="h2">{included.title}</KineticHeading>
+                {included.intro ? <KineticParagraph>{highlight(included.intro)}</KineticParagraph> : null}
+                <CardPanel>
+                    {included.paragraphs.map((paragraph, index) => (
+                        <KineticParagraph key={index}>{highlight(paragraph, index % 2 === 0 ? "forest" : "bronze")}</KineticParagraph>
                     ))}
-                </Reveal>
+                </CardPanel>
             </div>
-            {illustration ? (
-                <figure className="full-bleed narrative-figure">
-                    <Image
-                        src={illustration.src}
-                        alt={illustration.alt}
-                        fill
-                        sizes="100vw"
-                        loading="lazy"
-                        className="narrative-figure__image"
-                    />
-                </figure>
-            ) : null}
             <hr className="separator" />
         </section>
     );
@@ -243,35 +171,16 @@ export function IncludedSection({ page }: { page: PageContent }) {
 
 export function ProcessSection({ page }: { page: PageContent }) {
     const { process } = page;
-    const illustration = illustrationFor(page, "process");
-
+    const facts = process.steps.map((step, index) => ({
+        label: `${index + 1}. ${step.title}`,
+        value: step.detail,
+    }));
     return (
         <section className="editorial-section" id={anchor(page, "process")}>
             <div className="editorial-container">
-                <div className="section-heading">
-                    <Reveal as="h2">{process.title}</Reveal>
-                </div>
-                <div className="process-flow">
-                    {process.steps.map((step) => (
-                        <Reveal as="article" className="process-step" key={step.title}>
-                            <h3>{step.title}</h3>
-                            <p>{step.detail}</p>
-                        </Reveal>
-                    ))}
-                </div>
+                <KineticHeading as="h2">{process.title}</KineticHeading>
+                <FactRow facts={facts} />
             </div>
-            {illustration ? (
-                <figure className="full-bleed narrative-figure">
-                    <Image
-                        src={illustration.src}
-                        alt={illustration.alt}
-                        fill
-                        sizes="100vw"
-                        loading="lazy"
-                        className="narrative-figure__image"
-                    />
-                </figure>
-            ) : null}
             <hr className="separator" />
         </section>
     );
@@ -279,50 +188,35 @@ export function ProcessSection({ page }: { page: PageContent }) {
 
 export function PricingSection({ page }: { page: PageContent }) {
     const { pricing } = page;
-    const illustration = illustrationFor(page, "pricing");
-
+    if (!pricing.tiers.length) return null;
     return (
         <section className="editorial-section" id={anchor(page, "pricing")}>
             <div className="editorial-container">
-                <div className="section-heading">
-                    <Reveal as="h2">{pricing.title}</Reveal>
-                </div>
-                <div className="pricing-stack">
+                <KineticHeading as="h2">{pricing.title}</KineticHeading>
+                <div className="pricing-grid">
                     {pricing.tiers.map((tier: Tier) => (
-                        <Reveal as="article" className="pricing-tier" key={tier.id}>
-                            <div className="pricing-tier__intro">
-                                <h3>{tier.title}</h3>
-                                {tier.price ? <p className="pricing-tier__price">{tier.price}</p> : null}
-                            </div>
-                            <div className="pricing-tier__body">
-                                {tier.description ? <p>{tier.description}</p> : null}
-                                {tier.paragraphs.map((paragraph) => (
-                                    <p key={paragraph}>{paragraph}</p>
-                                ))}
-                                {tier.details ? (
-                                    <details>
-                                        <summary>{tier.details.summary}</summary>
-                                        <p>{tier.details.body}</p>
-                                    </details>
-                                ) : null}
+                        <CardPanel key={tier.id} className="pricing-card">
+                            <span className="pricing-card__kicker">{tier.title}</span>
+                            {tier.price ? <p className="pricing-card__price">{tier.price}</p> : null}
+                            {tier.description ? (
+                                <KineticParagraph>{highlight(tier.description, "bronze")}</KineticParagraph>
+                            ) : null}
+                            {tier.paragraphs.map((paragraph, index) => (
+                                <KineticParagraph key={index}>{highlight(paragraph)}</KineticParagraph>
+                            ))}
+                            {tier.details ? (
+                                <KineticParagraph>{highlight(tier.details.body, "oxblood")}</KineticParagraph>
+                            ) : null}
+                            <div className="pricing-card__cta">
                                 <TierAction cta={tier.cta} />
                             </div>
-                        </Reveal>
+                        </CardPanel>
                     ))}
                 </div>
-                {pricing.note ? <p className="muted note">{pricing.note}</p> : null}
+                {pricing.note ? (
+                    <KineticParagraph className="pricing-note">{highlight(pricing.note, "oxblood")}</KineticParagraph>
+                ) : null}
             </div>
-            {illustration ? (
-                <figure className="full-bleed narrative-figure">
-                    <Image
-                        src={illustration.src}
-                        alt={illustration.alt}
-                        fill
-                        sizes="100vw"
-                        className="narrative-figure__image"
-                    />
-                </figure>
-            ) : null}
             <hr className="separator" />
         </section>
     );
@@ -330,72 +224,49 @@ export function PricingSection({ page }: { page: PageContent }) {
 
 export function TestimonialsSection({ page }: { page: PageContent }) {
     const { testimonials } = page;
-    const illustration = illustrationFor(page, "testimonials");
-
+    if (!testimonials.items.length) return null;
     return (
         <section className="editorial-section" id={anchor(page, "testimonials")}>
             <div className="editorial-container">
-                <div className="section-heading">
-                    <Reveal as="h2">{testimonials.title}</Reveal>
-                </div>
-                <div className="pull-quote-stack">
-                    {testimonials.items.map((item, index) => (
-                        <Reveal as="blockquote" className="pull-quote" key={`${item.name}-${index}`}>
-                            <p>“{item.quote}”</p>
-                            <footer>
-                                {item.name}
-                                {item.role ? <span> · {item.role}</span> : null}
-                            </footer>
-                        </Reveal>
-                    ))}
-                </div>
+                <KineticHeading as="h2">{testimonials.title}</KineticHeading>
+                <TestimonialCarousel
+                    testimonials={testimonials.items.map((item) => ({
+                        quote: item.quote,
+                        name: item.name,
+                        role: item.role,
+                    }))}
+                />
             </div>
-            {illustration ? (
-                <figure className="full-bleed narrative-figure">
-                    <Image
-                        src={illustration.src}
-                        alt={illustration.alt}
-                        fill
-                        sizes="100vw"
-                        className="narrative-figure__image"
-                    />
-                </figure>
-            ) : null}
             <hr className="separator" />
         </section>
     );
 }
 
-export function FinalCtaSection({ page, children }: { page: PageContent; children?: React.ReactNode }) {
+export function FinalCtaSection({ page, children }: { page: PageContent; children?: ReactNode }) {
     const { finalCta } = page;
-
     return (
         <section className="editorial-section" id={anchor(page, "cta")}>
-            <div className="editorial-container final-call">
-                <Reveal as="h2">{finalCta.title}</Reveal>
-                <Reveal as="p">{finalCta.description}</Reveal>
+            <div className="editorial-container">
+                <CTABand
+                    title={finalCta.title}
+                    description={finalCta.description}
+                    primary={finalCta.primary}
+                    secondary={finalCta.secondary}
+                />
                 {children}
-                <Reveal>
-                    <div className="cta-row">
-                        <Link className="btn" href={finalCta.primary.href}>
-                            {finalCta.primary.label}
-                        </Link>
-                        {finalCta.secondary ? (
-                            <Link className="btn ghost" href={finalCta.secondary.href}>
-                                {finalCta.secondary.label}
-                            </Link>
-                        ) : null}
-                    </div>
-                </Reveal>
+                {children}
             </div>
         </section>
     );
 }
 
+export function PullQuoteSection({ quote, attribution, role }: { quote: string; attribution?: string; role?: string }) {
+    return <PullQuote quote={quote} attribution={attribution} role={role} />;
+}
+
 export function PageStructuredData({ page }: { page: PageContent }) {
     const data = createProductJsonLd(page);
     if (!data) return null;
-    return (
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }} />
-    );
+    return <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }} />;
 }
+

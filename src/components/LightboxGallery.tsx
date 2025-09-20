@@ -1,148 +1,130 @@
-"use client";
+﻿"use client";
 
-import { useEffect, useRef, useState } from "react";
-import Image from "next/image";
-import { galleryImages } from "@/data/siteContent";
+import Image, { type StaticImageData } from "next/image";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
-export default function LightboxGallery() {
-    const [openIndex, setOpenIndex] = useState<number | null>(null);
-    const lastFocused = useRef<HTMLElement | null>(null);
-    const closeButtonRef = useRef<HTMLButtonElement | null>(null);
+const FOCUSABLE_SELECTOR = [
+    "button:not([disabled])",
+    "a[href]",
+    "[tabindex]:not([tabindex='-1'])",
+].join(",");
+
+type LightboxImage = {
+    src: string | StaticImageData;
+    alt: string;
+    caption?: string;
+};
+
+type LightboxGalleryProps = {
+    images: LightboxImage[];
+    className?: string;
+};
+
+export default function LightboxGallery({ images, className }: LightboxGalleryProps) {
+    const [active, setActive] = useState<number | null>(null);
+    const overlayRef = useRef<HTMLDivElement | null>(null);
+    const lastFocusedRef = useRef<HTMLElement | null>(null);
+
+    const open = useCallback((index: number) => {
+        lastFocusedRef.current = document.activeElement as HTMLElement;
+        setActive(index);
+    }, []);
+
+    const close = useCallback(() => {
+        setActive(null);
+    }, []);
+
+    const visibleImage = useMemo(() => (active != null ? images[active] : null), [active, images]);
 
     useEffect(() => {
-        if (openIndex === null) {
+        if (active == null) {
+            document.body.classList.remove("no-scroll");
+            if (lastFocusedRef.current) {
+                lastFocusedRef.current.focus();
+            }
             return;
         }
 
-        function onKey(event: KeyboardEvent) {
+        document.body.classList.add("no-scroll");
+        const overlay = overlayRef.current;
+        if (!overlay) return;
+
+        const focusables = () => Array.from(overlay.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR));
+        const firstFocusable = focusables()[0];
+        firstFocusable?.focus();
+
+        const handleKeyDown = (event: KeyboardEvent) => {
             if (event.key === "Escape") {
                 event.preventDefault();
                 close();
-            } else if (event.key === "ArrowRight") {
-                event.preventDefault();
-                setOpenIndex((prev) => {
-                    if (prev === null) return 0;
-                    return (prev + 1) % galleryImages.length;
-                });
-            } else if (event.key === "ArrowLeft") {
-                event.preventDefault();
-                setOpenIndex((prev) => {
-                    if (prev === null) return galleryImages.length - 1;
-                    return (prev - 1 + galleryImages.length) % galleryImages.length;
-                });
+                return;
             }
-        }
-
-        window.addEventListener("keydown", onKey);
-        return () => window.removeEventListener("keydown", onKey);
-    }, [openIndex]);
-
-    useEffect(() => {
-        if (typeof document === "undefined") {
-            return () => undefined;
-        }
-
-        if (openIndex !== null) {
-            document.body.classList.add("no-scroll");
-        } else {
-            document.body.classList.remove("no-scroll");
-        }
-
-        return () => {
-            document.body.classList.remove("no-scroll");
+            if (event.key === "ArrowRight") {
+                event.preventDefault();
+                setActive((prev) => (prev === null ? 0 : (prev + 1) % images.length));
+                return;
+            }
+            if (event.key === "ArrowLeft") {
+                event.preventDefault();
+                setActive((prev) => (prev === null ? 0 : (prev - 1 + images.length) % images.length));
+                return;
+            }
+            if (event.key === "Tab") {
+                const elms = focusables();
+                if (elms.length === 0) return;
+                const first = elms[0];
+                const last = elms[elms.length - 1];
+                if (event.shiftKey) {
+                    if (document.activeElement === first) {
+                        event.preventDefault();
+                        last.focus();
+                    }
+                } else if (document.activeElement === last) {
+                    event.preventDefault();
+                    first.focus();
+                }
+            }
         };
-    }, [openIndex]);
 
-    useEffect(() => {
-        if (openIndex !== null) {
-            closeButtonRef.current?.focus();
-        } else {
-            closeButtonRef.current = null;
-        }
-    }, [openIndex]);
-
-    function open(index: number, element: HTMLElement) {
-        lastFocused.current = element;
-        setOpenIndex(index);
-    }
-
-    function close() {
-        setOpenIndex(null);
-        document.body.classList.remove("no-scroll");
-        lastFocused.current?.focus();
-    }
-
-    const current = openIndex !== null ? galleryImages[openIndex] : null;
+        overlay.addEventListener("keydown", handleKeyDown);
+        return () => overlay.removeEventListener("keydown", handleKeyDown);
+    }, [active, close, images.length]);
 
     return (
-        <div className="gallery-grid" role="list">
-            {galleryImages.map((image, index) => (
-                <button
-                    key={image.src}
-                    type="button"
-                    className="gallery-tile"
-                    onClick={(event) => open(index, event.currentTarget)}
-                    aria-label={`Open ${image.alt}`}
-                >
-                    <Image
-                        src={image.src}
-                        alt={image.alt}
-                        width={image.width}
-                        height={image.height}
-                        className="gallery-tile__image"
-                        loading="lazy"
-                        sizes="(min-width: 768px) 33vw, 80vw"
-                    />
-                </button>
-            ))}
+        <div className={["lightbox-gallery", className].filter(Boolean).join(" ")}>
+            <div className="lightbox-gallery__grid">
+                {images.map((image, index) => (
+                    <button
+                        key={`${image.alt}-${index}`}
+                        type="button"
+                        className="lightbox-gallery__thumb"
+                        onClick={() => open(index)}
+                    >
+                        <span className="sr-only">Open image {image.alt}</span>
+                        <Image src={image.src} alt={image.alt} fill sizes="(min-width: 900px) 25vw, 90vw" />
+                    </button>
+                ))}
+            </div>
 
-            {current ? (
-                <div className="lightbox" role="dialog" aria-modal="true" aria-label={current.alt}>
-                    <div className="lightbox-backdrop" onClick={close} />
-                    <div className="lightbox-body">
-                        <div className="lightbox-media">
-                            <Image
-                                src={current.src}
-                                alt={current.alt}
-                                width={current.width}
-                                height={current.height}
-                                sizes="90vw"
-                                className="lightbox-image"
-                            />
-                        </div>
-                        <p>{current.caption}</p>
-                        <div className="lightbox-actions">
-                            <button
-                                type="button"
-                                onClick={() =>
-                                    setOpenIndex((prev) =>
-                                        prev === null ? 0 : (prev - 1 + galleryImages.length) % galleryImages.length
-                                    )
-                                }
-                                aria-label="Previous image"
-                            >
-                                ‹
+            {active != null && visibleImage ? (
+                <div className="lightbox" role="dialog" aria-modal="true" ref={overlayRef}>
+                    <div className="lightbox__scrim" aria-hidden="true" onClick={close} />
+                    <div className="lightbox__panel">
+                        <div className="lightbox__controls">
+                            <button type="button" onClick={() => setActive((prev) => (prev === null ? 0 : (prev - 1 + images.length) % images.length))}>
+                                Prev
                             </button>
-                            <button
-                                type="button"
-                                onClick={close}
-                                aria-label="Close gallery"
-                                ref={closeButtonRef}
-                            >
-                                close
+                            <button type="button" onClick={close}>
+                                Close
                             </button>
-                            <button
-                                type="button"
-                                onClick={() =>
-                                    setOpenIndex((prev) =>
-                                        prev === null ? 0 : (prev + 1) % galleryImages.length
-                                    )
-                                }
-                                aria-label="Next image"
-                            >
-                                ›
+                            <button type="button" onClick={() => setActive((prev) => (prev === null ? 0 : (prev + 1) % images.length))}>
+                                Next
                             </button>
                         </div>
+                        <div className="lightbox__media">
+                            <Image src={visibleImage.src} alt={visibleImage.alt} fill sizes="90vw" />
+                        </div>
+                        {visibleImage.caption ? <p className="lightbox__caption">{visibleImage.caption}</p> : null}
                     </div>
                 </div>
             ) : null}

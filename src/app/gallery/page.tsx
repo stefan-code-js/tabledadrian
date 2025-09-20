@@ -1,4 +1,4 @@
-import { sitePages } from "@/data/siteContent";
+﻿import { sitePages } from "@/data/siteContent";
 import {
     PageHero,
     ValueSection,
@@ -29,7 +29,7 @@ export default function GalleryPage() {
                     <div className="section-heading">
                         <h2>Gallery</h2>
                     </div>
-                    <LightboxGallery />
+                    <LightboxGallery images={[]} />
                 </div>
                 <hr className="separator" />
             </section>

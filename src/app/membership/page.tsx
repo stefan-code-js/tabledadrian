@@ -1,8 +1,13 @@
 import Image from "next/image";
 import type { Metadata } from "next";
 import PayButton from "@/components/PayButton";
-import { membershipTiers, priceCatalog } from "@/lib/pricing";
-import Reveal from "@/components/Reveal";
+import CardPanel from "@/components/CardPanel";
+import KineticHeading from "@/components/KineticHeading";
+import KineticParagraph from "@/components/KineticParagraph";
+import KeywordHighlighter from "@/components/KeywordHighlighter";
+import FactRow from "@/components/FactRow";
+import CTABand from "@/components/CTABand";
+import { membershipTiers, formatMoney, formatRange } from "@/lib/pricing";
 
 export const metadata: Metadata = {
     title: "Membership",
@@ -11,135 +16,75 @@ export const metadata: Metadata = {
     alternates: { canonical: "/membership" },
 };
 
-const heroImage = {
+const HERO_IMAGE = {
     src: "/placeholder/hero-membership.svg",
     alt: "Soft light over a private dining room prepared for membership guests.",
 };
 
+const KEYWORDS = ["membership", "private table", "chef's table", "seasonal", "consult"] as const;
+
+const INTRO = [
+    "Membership exists for households that expect clinical oversight, culinary theatre, and systems that survive full calendars.",
+    "Antonia (PharmD) and Adrian document every standard so your team can repeat it without us present while hosted dinners stay on the calendar year-round.",
+];
+
 export default function MembershipPage() {
-    const pillarParagraphs = [
-        "Pharmacist oversight, sensible lab cadence, and Adrian’s culinary engineering combine so daily routines feel elevated without losing ease.",
-        "Seasonal menu systems, mise charts, and documentation travel with you while hosted dinners, priority access, and discreet coordination keep standards intact in every property.",
-    ];
-
-    const cadence = [
-        {
-            title: "Annual cadence",
-            detail: "Quarterly or annual cycle guided by pharmacist–chef leadership.",
-        },
-        {
-            title: "Kickoff review",
-            detail: "Menu book and provisioning tailored to your medical priorities.",
-        },
-        {
-            title: "Ongoing adjustments",
-            detail: "Monthly or weekly refinements based on how you feel and lab feedback.",
-        },
-        {
-            title: "Hosted dinners",
-            detail: "Dates held within your priority window; every service is documented.",
-        },
-        {
-            title: "Living standards",
-            detail: "Systems updated seasonally so your team can repeat them without us present.",
-        },
-    ];
-
-    const faqs = [
-        {
-            question: "Are hosted dinners truly included?",
-            answer:
-                "Yes. Each plan includes the stated number of hosted dinners per membership year. Dates are held within your priority window and groceries or wine are billed at cost if you request rare products.",
-        },
-        {
-            question: "Is membership a medical service?",
-            answer:
-                "Membership is lifestyle and culinary consulting with pharmacist oversight. It complements your physician; medical decisions always remain with your doctor, and we coordinate where helpful.",
-        },
-        {
-            question: "Can we pause or upgrade mid-year?",
-            answer:
-                "You can upgrade at any time and the difference is prorated. Pauses are available for travel or life events, and unused hosted dinners roll forward within the same year when possible.",
-        },
-        {
-            question: "How far ahead should we book?",
-            answer:
-                "Essential offers a seven-day priority window, Studio fourteen days, and Patron thirty days with first holds. We recommend reserving your recurring evenings each quarter for smooth planning.",
-        },
-        {
-            question: "Do you support dietary constraints?",
-            answer:
-                "Yes. We design elegant, repeatable menus for FODMAP, histamine, lipid-sensitive, and gluten-free patterns—without introducing food anxiety.",
-        },
-    ];
-
     return (
-        <article className="editorial-page">
+        <article className="editorial-page membership-page">
             <section className="editorial-hero">
-                <figure className="full-bleed hero-figure">
-                    <Image src={heroImage.src} alt={heroImage.alt} fill priority sizes="100vw" className="hero-figure__image" />
+                <figure className="full-bleed hero-figure" data-parallax="8">
+                    <Image src={HERO_IMAGE.src} alt={HERO_IMAGE.alt} fill priority sizes="100vw" className="hero-figure__image" />
                 </figure>
                 <div className="editorial-container hero-copy">
-                    <Reveal as="h1">Membership</Reveal>
-                    <Reveal as="p" className="lead">
-                        Designed for leaders who protect energy and attention. Antonia (PharmD) translates medical goals into daily systems; Adrian engineers the food, mise, and menus your team can repeat. Membership adds continuity, hosted dinners, and priority access.
-                    </Reveal>
+                    <KineticHeading as="h1">Membership ledgers</KineticHeading>
+                    {INTRO.map((paragraph, index) => (
+                        <KineticParagraph key={index}>
+                            <KeywordHighlighter text={paragraph} keywords={KEYWORDS} variant={index === 0 ? "forest" : "bronze"} />
+                        </KineticParagraph>
+                    ))}
                 </div>
                 <hr className="separator" />
             </section>
 
             <section className="editorial-section">
                 <div className="editorial-container">
-                    <div className="two-column">
-                        <Reveal className="narrative-block">
-                            <h2>What members receive</h2>
-                            {pillarParagraphs.map((paragraph) => (
-                                <p key={paragraph}>{paragraph}</p>
-                            ))}
-                        </Reveal>
-                        <Reveal className="narrative-block">
-                            <h2>How membership works</h2>
-                            <div className="process-flow">
-                                {cadence.map((step) => (
-                                    <Reveal as="article" className="process-step" key={step.title}>
-                                        <h3>{step.title}</h3>
-                                        <p>{step.detail}</p>
-                                    </Reveal>
-                                ))}
-                            </div>
-                        </Reveal>
-                    </div>
-                </div>
-                <hr className="separator" />
-            </section>
-
-            <section className="editorial-section">
-                <div className="editorial-container">
-                    <div className="section-heading">
-                        <Reveal as="h2">Member tiers</Reveal>
-                    </div>
-                    <div className="pricing-stack">
-                        {membershipTiers.map((tier) => {
-                            const priceEntry = priceCatalog[tier.checkout.priceKey];
+                    <KineticHeading as="h2">Membership pathways</KineticHeading>
+                    <div className="membership-grid">
+                        {membershipTiers.map((tier, index) => {
+                            const facts = [
+                                { label: "Investment", value: formatMoney(tier.investment) },
+                                { label: "Hosted dinners", value: `${formatRange(tier.hostedDinners)} per year` },
+                                { label: "Priority window", value: `${tier.priorityWindowDays}-day first holds` },
+                                { label: "Ideal guest range", value: formatRange(tier.guestRange) },
+                            ];
                             return (
-                                <Reveal as="article" className="pricing-tier" key={tier.id}>
-                                    <div className="pricing-tier__intro">
-                                        <h3>{tier.name}</h3>
-                                        <p className="pricing-tier__price">{tier.price}</p>
-                                    </div>
-                                    <div className="pricing-tier__body">
-                                        {tier.paragraphs.map((paragraph) => (
-                                            <p key={paragraph}>{paragraph}</p>
-                                        ))}
-                                        <details>
-                                            <summary>{tier.summary}</summary>
-                                            <p>{tier.detail}</p>
-                                        </details>
-                                        <PayButton priceId={priceEntry.id} mode={priceEntry.mode}>
+                                <CardPanel key={tier.id} className="membership-card">
+                                    <KineticHeading as="h3">{tier.name}</KineticHeading>
+                                    {tier.narrative.map((paragraph, pIndex) => (
+                                        <KineticParagraph key={pIndex}>
+                                            <KeywordHighlighter
+                                                text={paragraph}
+                                                keywords={KEYWORDS}
+                                                variant={index % 2 === 0 ? "forest" : "bronze"}
+                                            />
+                                        </KineticParagraph>
+                                    ))}
+                                    {tier.followUp.map((paragraph, fIndex) => (
+                                        <KineticParagraph key={`follow-${fIndex}`}>
+                                            <KeywordHighlighter
+                                                text={paragraph}
+                                                keywords={KEYWORDS}
+                                                variant={index % 2 === 0 ? "bronze" : "forest"}
+                                            />
+                                        </KineticParagraph>
+                                    ))}
+                                    <FactRow facts={facts} />
+                                    <div className="membership-card__cta">
+                                        <PayButton priceKey={tier.checkout.priceKey}>
                                             {tier.checkout.label}
                                         </PayButton>
                                     </div>
-                                </Reveal>
+                                </CardPanel>
                             );
                         })}
                     </div>
@@ -149,17 +94,13 @@ export default function MembershipPage() {
 
             <section className="editorial-section">
                 <div className="editorial-container">
-                    <div className="section-heading">
-                        <Reveal as="h2">Membership questions</Reveal>
-                    </div>
-                    <div className="faq-list">
-                        {faqs.map((faq) => (
-                            <Reveal as="details" key={faq.question}>
-                                <summary>{faq.question}</summary>
-                                <p>{faq.answer}</p>
-                            </Reveal>
-                        ))}
-                    </div>
+                    <KineticHeading as="h2">Continue the narrative</KineticHeading>
+                    <CTABand
+                        title="Schedule a membership consult"
+                        description="Bring us the realities of your calendar. We respond within 24 hours with the intake outline, provisioning notes, and first available service dates."
+                        primary={{ label: "Book consult", href: "/consult" }}
+                        secondary={{ label: "Message the chef", href: "/contact" }}
+                    />
                 </div>
             </section>
         </article>

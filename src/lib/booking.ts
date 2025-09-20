@@ -1,5 +1,5 @@
-import { z } from "zod";
-import type { Lead } from "@/lib/leads";
+﻿import { z } from "zod";
+import type { LeadInsert, LeadSignal } from "@/lib/leads";
 
 export const bookingSchema = z.object({
     name: z.string().trim().min(2).max(80),
@@ -18,7 +18,7 @@ export function safeParseBooking(data: unknown) {
     return bookingSchema.safeParse(data);
 }
 
-export function classifySignal(eventDate: string, budget?: string): Lead["signal"] {
+export function classifySignal(eventDate: string, budget?: string): LeadSignal {
     const now = Date.now();
     const time = Date.parse(eventDate);
     if (!Number.isNaN(time)) {
@@ -26,13 +26,13 @@ export function classifySignal(eventDate: string, budget?: string): Lead["signal
         if (diffDays <= 14) return "hot";
         if (diffDays <= 45) return "warm";
     }
-    if (budget && /\b(€|eur|10k|20k|30k|40k|50k)\b/i.test(budget)) {
+    if (budget && /\b(â‚¬|eur|10k|20k|30k|40k|50k)\b/i.test(budget)) {
         return "hot";
     }
     return "nurture";
 }
 
-export function buildLeadFromBooking(data: BookingPayload): Omit<Lead, "id" | "createdAt"> {
+export function buildLeadFromBooking(data: BookingPayload): LeadInsert {
     const { name, email, guests, eventDate, location, budget, message } = data;
     return {
         name,
@@ -45,3 +45,4 @@ export function buildLeadFromBooking(data: BookingPayload): Omit<Lead, "id" | "c
         signal: classifySignal(eventDate, budget),
     };
 }
+

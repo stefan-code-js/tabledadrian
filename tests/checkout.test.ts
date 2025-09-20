@@ -1,15 +1,24 @@
-import { describe, it, expect, vi } from 'vitest';
-import { createCheckoutSession } from '../src/lib/checkout';
-import { getOrder } from '../src/lib/orders';
+import { describe, it, expect, vi } from "vitest";
+import { createCheckoutSession } from "../src/lib/checkout";
+import { getOrder } from "../src/lib/orders";
 
-describe('createCheckoutSession', () => {
-    it('records order and returns url', async () => {
+describe("createCheckoutSession", () => {
+    it("records order and returns url", async () => {
         const fetchMock = vi.fn().mockResolvedValue({
             ok: true,
-            json: () => Promise.resolve({ id: 'sess_1', url: 'https://stripe.test' }),
+            json: () => Promise.resolve({ id: "sess_1", url: "https://stripe.test" }),
         });
-        const session = await createCheckoutSession('price_test', 'payment', fetchMock as any, 'https://test', 'sk');
-        expect(session.url).toBe('https://stripe.test');
-        expect(getOrder('sess_1')).toBeTruthy();
+
+        const session = await createCheckoutSession({
+            priceId: "price_test",
+            mode: "payment",
+            secretKey: "sk_test",
+            successUrl: "https://test/success?session_id={CHECKOUT_SESSION_ID}",
+            cancelUrl: "https://test/cancel",
+            fetchImpl: fetchMock as any,
+        });
+
+        expect(session.url).toBe("https://stripe.test");
+        expect(getOrder("sess_1")).toBeTruthy();
     });
 });

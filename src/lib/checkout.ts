@@ -1,36 +1,54 @@
-import { addOrder } from './orders';
+import { addOrder } from "./orders";
 
-export type Mode = 'payment' | 'subscription';
+export type Mode = "payment" | "subscription";
 
-export async function createCheckoutSession(
-    priceId: string,
-    mode: Mode,
-    fetchImpl: typeof fetch = fetch,
-    origin = process.env.PUBLIC_BASE_URL || '',
-    secretKey = process.env.STRIPE_SECRET_KEY || ''
-): Promise<{ id: string; url?: string }> {
+export type CreateCheckoutSessionOptions = {
+    priceId: string;
+    mode: Mode;
+    secretKey: string;
+    successUrl: string;
+    cancelUrl: string;
+    fetchImpl?: typeof fetch;
+};
+
+type StripeSession = { id: string; url?: string };
+
+export async function createCheckoutSession({
+    priceId,
+    mode,
+    secretKey,
+    successUrl,
+    cancelUrl,
+    fetchImpl = fetch,
+}: CreateCheckoutSessionOptions): Promise<StripeSession> {
     if (!secretKey) {
-        throw new Error('Stripe key missing');
+        throw new Error("Stripe key missing");
     }
+
     const body = new URLSearchParams({
         mode,
-        'line_items[0][price]': priceId,
-        'line_items[0][quantity]': '1',
-        success_url: `${origin}/success?session_id={CHECKOUT_SESSION_ID}`,
-        cancel_url: `${origin}/cancel`,
-        automatic_tax: 'enabled',
+        "line_items[0][price]": priceId,
+        "line_items[0][quantity]": "1",
+        success_url: successUrl,
+        cancel_url: cancelUrl,
+        automatic_tax: "enabled",
     });
 
-    const r = await fetchImpl('https://api.stripe.com/v1/checkout/sessions', {
-        method: 'POST',
+    const response = await fetchImpl("https://api.stripe.com/v1/checkout/sessions", {
+        method: "POST",
         headers: {
             Authorization: `Bearer ${secretKey}`,
-            'Content-Type': 'application/x-www-form-urlencoded',
+            "Content-Type": "application/x-www-form-urlencoded",
         },
         body,
     });
-    if (!r.ok) throw new Error(await r.text());
-    const session = (await r.json()) as { id: string; url?: string };
+
+    if (!response.ok) {
+        const message = await response.text();
+        throw new Error(message || "Failed to create Stripe session");
+    }
+
+    const session = (await response.json()) as StripeSession;
     addOrder({ sessionId: session.id, priceId, mode });
     return session;
 }

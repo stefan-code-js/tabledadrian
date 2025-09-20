@@ -1,55 +1,86 @@
-export default function Footer() {
-    const IG = process.env.INSTAGRAM_PROFILE_URL ?? "https://instagram.com/tabledadrian";
-    const LI =
-        process.env.LINKEDIN_PROFILE_URL ??
-        "https://www.linkedin.com/in/adrian-stefan-badea-82456131b";
-    const ACC =
-        process.env.ACCREDITATION_URL ??
-        "https://eu.badgr.com/public/badges/soyVM0MMRr2r33z69W8oNQ";
-    const EMAIL = process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "adrian@tabledadrian.com";
+﻿import Link from "next/link";
+import { site } from "@/lib/site";
 
-    const brandMarks = [
-        "Visa",
-        "Mastercard",
-        "Stripe",
-        "Kraken",
-        "Gronda",
-        "Instagram",
-        "LinkedIn",
-        "X",
-        "École hôtelière de Lausanne",
-    ];
+const partners = [
+    { name: "Krug", href: "https://www.krug.com" },
+    { name: "EHL Alumni", href: "https://www.ehlalumni.com" },
+    { name: "La Liste", href: "https://www.laliste.com" },
+    { name: "Gronda", href: "https://gronda.eu" },
+    { name: "S.Pellegrino", href: "https://www.sanpellegrino.com" },
+    { name: "Atelier Basalte", href: "https://atelierbasalte.com" },
+];
+
+const socials = [
+    { label: "Instagram", href: site.socials.instagram },
+    { label: "LinkedIn", href: site.socials.linkedin },
+    { label: "Press", href: "/press" },
+].filter((item) => Boolean(item.href));
+
+const manifesto =
+    "We design quiet hospitality for households that collect memories, not spectacles. Every engagement is documented so perfection can be repeated.";
+
+export default function Footer() {
+    const email = site.email;
+    const year = new Date().getFullYear();
 
     return (
-        <footer className="site-footer">
-            <div className="editorial-container">
-                <p className="site-footer__brand">Table d’Adrian</p>
-                <p className="site-footer__line">Private table along the Côte d’Azur</p>
-                <p className="site-footer__line">
-                    <a href={`mailto:${EMAIL}`}>{EMAIL}</a>
-                    <span aria-hidden="true"> · </span>
-                    <a href={IG} target="_blank" rel="noreferrer">
-                        Instagram
-                    </a>
-                    <span aria-hidden="true"> · </span>
-                    <a href={LI} target="_blank" rel="noreferrer">
-                        LinkedIn
-                    </a>
-                    <span aria-hidden="true"> · </span>
-                    <a href={ACC} target="_blank" rel="noreferrer">
-                        Accreditation
-                    </a>
-                    <span aria-hidden="true"> · </span>
-                    <a href="/remove">Remove my data</a>
-                </p>
-                <p className="site-footer__meta">© {new Date().getFullYear()} Table d’Adrian · All rights reserved</p>
-                <div className="site-footer__brands" aria-label="Partner references">
-                    {brandMarks.map((brand) => (
-                        <span key={brand} className="site-footer__brand-text">
-                            {brand}
-                        </span>
-                    ))}
+        <footer className="site-footer" role="contentinfo">
+            <div className="site-footer__partners" aria-label="Selected partners and collaborators">
+                <div className="site-footer__partners-track">
+                    {[...partners, ...partners].map((item, index) => {
+                        const key = `${item.name}-${index }`;
+                        if (item.href) {
+                            return (
+                                <a
+                                    key={key}
+                                    className="site-footer__partner"
+                                    href={item.href}
+                                    target="_blank"
+                                    rel="noreferrer"
+                                >
+                                    {item.name}
+                                </a>
+                            );
+                        }
+                        return (
+                            <span key={key} className="site-footer__partner" tabIndex={0}>
+                                {item.name}
+                            </span>
+                        );
+                    })}
                 </div>
+            </div>
+
+            <div className="site-footer__grid">
+                <div className="site-footer__col site-footer__col--contact">
+                    <p className="site-footer__wordmark">Table d'Adrian</p>
+                    <p className="site-footer__copy">
+                        <Link href={`mailto:${email}`}>{email}</Link>
+                    </p>
+                    <p className="site-footer__copy">Serving {site.serviceArea.join(", ")}</p>
+                </div>
+
+                <div className="site-footer__col site-footer__col--manifesto">
+                    <p>{manifesto}</p>
+                </div>
+
+                <div className="site-footer__col site-footer__col--links">
+                    <span className="site-footer__label">Connect</span>
+                    <ul className="site-footer__list">
+                        {socials.map((item) => (
+                            <li key={item.label}>
+                                <Link href={item.href!} target={item.href?.startsWith("http") ? "_blank" : undefined} rel={item.href?.startsWith("http") ? "noreferrer" : undefined}>
+                                    {item.label}
+                                </Link>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+            </div>
+
+            <div className="site-footer__legal">
+                <span>© {year} {site.name}</span>
+                <Link href="/remove">Data preferences</Link>
             </div>
         </footer>
     );

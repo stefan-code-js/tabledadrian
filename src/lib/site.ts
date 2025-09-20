@@ -1,4 +1,4 @@
-// src/lib/site.ts
+﻿// src/lib/site.ts
 
 export type SiteConfig = {
     name: string;
@@ -28,35 +28,34 @@ export type SiteConfig = {
 };
 
 export const site: SiteConfig = {
-    name: "Table d’Adrian",
-    shortName: "Table d’Adrian",
+    name: "Table d'Adrian",
+    shortName: "Table d'Adrian",
     url: "https://tabledadrian.com",
     locale: "en",
     description:
-        "Michelin-trained private chef — ingredient-driven haute cuisine on the Côte d’Azur. Seasonal vegetables, seafood, and select meats.",
+        "Michelin-trained private chef - ingredient-led haute cuisine along the Cote d'Azur. Seasonal vegetables, seafood, and disciplined hospitality.",
     email: "adrian@tabledadrian.com",
     telephone: "",
     address: {
         street: "",
         locality: "Antibes",
-        region: "Provence-Alpes-Côte d’Azur",
+        region: "Provence-Alpes-Cote d'Azur",
         postalCode: "",
         country: "FR",
     },
     socials: {
         instagram: "https://instagram.com/tabledadrian",
-        linkedin:  "https://www.linkedin.com/in/adrian-stefan-badea-82456131b",
+        linkedin: "https://www.linkedin.com/in/adrian-stefan-badea-82456131b",
     },
-    accreditationUrl:
-        "https://eu.badgr.com/public/badges/soyVM0MMRr2r33z69W8oNQ",
+    accreditationUrl: "https://eu.badgr.com/public/badges/soyVM0MMRr2r33z69W8oNQ",
     serviceArea: ["Antibes", "Cannes", "Monaco"],
     offerings: ["Signature Tasting", "Performance Dinner", "Salon Supper"],
     cuisines: ["Contemporary European", "Modern Mediterranean", "Seafood", "Tasting menu"],
     dietaryNotes:
-        "Omnivore-friendly; vegetarian/vegan/gluten-free menus available on request.",
+        "Omnivore-friendly; vegetarian, vegan, and gluten-free menus are available on request.",
     keywords: [
-        "table d’adrian",
-        "private chef côte d’azur",
+        "table d'adrian",
+        "private chef cote d'azur",
         "fine dining tasting menu",
         "seafood tasting menu",
         "luxury private dining antibes",

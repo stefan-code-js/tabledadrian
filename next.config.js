@@ -1,6 +1,4 @@
-/** @type {import('next').NextConfig} */
-const path = require('path');
-
+﻿/** @type {import('next').NextConfig} */
 const nextConfig = {
     eslint: {
         ignoreDuringBuilds: true,
@@ -19,14 +17,8 @@ const nextConfig = {
             { source: '/bookings', destination: '/book', permanent: true },
         ];
     },
-    webpack: (config) => {
-        config.resolve = config.resolve || {};
-        config.resolve.alias = {
-            ...(config.resolve.alias || {}),
-            gsap: path.join(__dirname, 'src/lib/gsapClient.ts'),
-        };
-        return config;
-    },
 };
 
 module.exports = nextConfig;
+
+
