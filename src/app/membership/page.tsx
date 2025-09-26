@@ -1,4 +1,4 @@
-import Image from "next/image";
+﻿import Image from "next/image";
 import type { Metadata } from "next";
 import PayButton from "@/components/PayButton";
 import CardPanel from "@/components/CardPanel";

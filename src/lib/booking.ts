@@ -18,6 +18,8 @@ export function safeParseBooking(data: unknown) {
     return bookingSchema.safeParse(data);
 }
 
+
+
 export function classifySignal(eventDate: string, budget?: string): LeadSignal {
     const now = Date.now();
     const time = Date.parse(eventDate);
@@ -26,8 +28,12 @@ export function classifySignal(eventDate: string, budget?: string): LeadSignal {
         if (diffDays <= 14) return "hot";
         if (diffDays <= 45) return "warm";
     }
-    if (budget && /\b(â‚¬|eur|10k|20k|30k|40k|50k)\b/i.test(budget)) {
-        return "hot";
+    if (budget) {
+        const normalized = budget.toLowerCase();
+        const hotTokens = ["\u20ac", "eur", "10k", "20k", "30k", "40k", "50k"];
+        if (hotTokens.some((token) => normalized.includes(token))) {
+            return "hot";
+        }
     }
     return "nurture";
 }
@@ -45,4 +51,10 @@ export function buildLeadFromBooking(data: BookingPayload): LeadInsert {
         signal: classifySignal(eventDate, budget),
     };
 }
+
+
+
+
+
+
 

@@ -1,279 +1,217 @@
-import { resolveCfEnv, getClientIp } from "@/lib/cloudflare";
-import { z } from "zod";
+﻿import { NextResponse } from "next/server";
+import { getRequestContext } from "@cloudflare/next-on-pages";
 
 export const runtime = "edge";
+export const dynamic = "force-dynamic";
 
-type Env = {
-    REVIEWS?: KVNamespace;
-    CF_TURNSTILE_SECRET?: string;
-    TURNSTILE_SECRET?: string;
-    TURNSTILE_SECRET_KEY?: string;
-};
+type Rating = 1 | 2 | 3 | 4 | 5;
 
-type RouteContext = { params: Promise<Record<string, string>> } & { env?: Env };
-
-type Review = {
-    id: string;
+type ReviewPayload = {
     name: string;
     email?: string;
-    text: string;
-    rating: number;
-    createdAt: number;
-    ip?: string;
+    rating: Rating;
+    comment?: string;
+    token?: string;
 };
 
-type PublicReview = Omit<Review, "ip">;
-
-type Out = {
-    items?: PublicReview[];
-    count?: number;
-    avg?: number;
-    ok?: boolean;
-    error?: string;
-    review?: PublicReview;
-    stats?: { count: number; avg: number };
-    debug?: boolean;
+type Stats = {
+    count: number;
+    sum: number;
+    avg: number;
 };
 
-type RateLimitResult = { allowed: boolean; debug: boolean };
-
-const reviewSchema = z.object({
-    name: z.string().trim().min(2).max(60),
-    email: z.string().email().optional(),
-    text: z.string().trim().min(8).max(1600),
-    rating: z.coerce.number().int().min(1).max(5),
-    cfToken: z.string().optional(),
-});
-
-const HEADERS = {
-    "Cache-Control": "no-store",
+type KvNamespaceLite = {
+    get(key: string): Promise<string | null>;
+    put(key: string, value: string, options?: { expirationTtl?: number }): Promise<void>;
 };
 
-const FALLBACK_STORE: { items: Review[]; count: number; sum: number } = { items: [], count: 0, sum: 0 };
+const STAT_KEY = "stats";
+const EMAIL_FALLBACK = "adrian@tabledadrian.com";
 
-function getReviewsKv(env: Env): KVNamespace | undefined {
-    return env.REVIEWS ?? ((globalThis as any).REVIEWS as KVNamespace | undefined);
+function isEmail(value: string): boolean {
+    return value === "" || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 }
 
-function resolveTurnstileSecret(env: Env): string | undefined {
-    return (
-        env.CF_TURNSTILE_SECRET ||
-        env.TURNSTILE_SECRET ||
-        env.TURNSTILE_SECRET_KEY ||
-        (typeof process !== "undefined" ? process.env.CF_TURNSTILE_SECRET : undefined) ||
-        (typeof process !== "undefined" ? process.env.TURNSTILE_SECRET : undefined) ||
-        (typeof process !== "undefined" ? process.env.TURNSTILE_SECRET_KEY : undefined)
-    );
+async function readBody(req: Request): Promise<Record<string, string> | null> {
+    const contentType = (req.headers.get("content-type") ?? "").toLowerCase();
+
+    if (contentType.includes("application/json")) {
+        try {
+            const parsed = (await req.json()) as unknown;
+            if (parsed && typeof parsed === "object") {
+                const output: Record<string, string> = {};
+                for (const [key, value] of Object.entries(parsed as Record<string, unknown>)) {
+                    if (typeof value === "string" || typeof value === "number" || typeof value === "boolean") {
+                        output[key] = String(value);
+                    }
+                }
+                if (Object.keys(output).length > 0) {
+                    return output;
+                }
+            }
+        } catch {
+            // ignore JSON errors and fall back to form data
+        }
+    }
+
+    try {
+        const form = await req.formData();
+        const output: Record<string, string> = {};
+        form.forEach((value, key) => {
+            if (typeof value === "string") {
+                output[key] = value;
+            }
+        });
+        if (Object.keys(output).length > 0) {
+            return output;
+        }
+    } catch {
+        // ignore form errors
+    }
+
+    return null;
 }
 
-async function verifyTurnstile(env: Env, token?: string): Promise<boolean> {
-    const secret = resolveTurnstileSecret(env);
+function toPayload(source: Record<string, string>): ReviewPayload {
+    const name = (source.name || source.fullName || source["your-name"] || "").trim();
+    const email = (source.email || source["your-email"] || "").trim();
+    const score = Number(source.rating ?? source.stars ?? source.score ?? 0);
+    const comment = (source.comment || source.message || "").trim();
+    const token = source["cf-turnstile-response"] || source.token || undefined;
+
+    if (!name || !(score >= 1 && score <= 5)) {
+        throw new Error("Missing name or rating (1..5)");
+    }
+
+    return {
+        name,
+        email,
+        rating: Math.round(score) as Rating,
+        comment,
+        token,
+    };
+}
+
+async function verifyTurnstile(token?: string, ip?: string): Promise<boolean> {
+    const secret = process.env.TURNSTILE_SECRET_KEY;
     if (!secret) {
-        return true;
+        return true; // not configured, do not block submissions
     }
     if (!token) {
         return false;
     }
 
-    try {
-        const response = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
-            method: "POST",
-            body: new URLSearchParams({ secret, response: token }),
-        });
-        const data = (await response.json()) as { success?: boolean };
-        return Boolean(data.success);
-    } catch {
-        return false;
-    }
-}
-
-async function applyRateLimit(kv: KVNamespace | undefined, ip: string): Promise<RateLimitResult> {
-    if (!kv) {
-        return { allowed: true, debug: true };
+    const form = new URLSearchParams({ secret, response: token });
+    if (ip) {
+        form.set("remoteip", ip);
     }
 
-    const key = `reviews:rate:${ip}`;
-    try {
-        const currentRaw = await kv.get(key);
-        const current = Number(currentRaw ?? "0");
-        const safeCurrent = Number.isFinite(current) ? current : 0;
-        if (safeCurrent >= 10) {
-            return { allowed: false, debug: false };
-        }
-        await kv.put(key, String(safeCurrent + 1), { expirationTtl: 600 });
-        return { allowed: true, debug: false };
-    } catch {
-        return { allowed: true, debug: true };
-    }
-}
-
-function corsHeaders(req: Request): Headers {
-    const h = new Headers({ "content-type": "application/json; charset=utf-8" });
-    const origin = req.headers.get("origin");
-    if (origin) {
-        h.set("access-control-allow-origin", origin);
-        h.set("vary", "origin");
-    }
-    return h;
-}
-
-function respond(body: Out, init: ResponseInit = {}): Response {
-    const headers = new Headers(init.headers);
-    headers.set("Cache-Control", HEADERS["Cache-Control"]);
-    return new Response(JSON.stringify(body), {
-        ...init,
-        headers,
+    const response = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
+        method: "POST",
+        body: form,
     });
+
+    const data = (await response.json().catch(() => null)) as { success?: boolean } | null;
+    return data?.success === true;
 }
 
-function toPublic(review: Review): PublicReview {
-    const { ip: _ip, ...rest } = review;
-    return rest;
+function escapeHtml(value: string): string {
+    return value
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
 }
 
-async function listReviewsFromKv(kv: KVNamespace, limit: number): Promise<PublicReview[]> {
-    const keys = await kv.list({ prefix: "r:" });
-    const ids = keys.keys
-        .map((k) => k.name)
-        .sort((a, b) => (a < b ? 1 : -1))
-        .slice(0, limit);
+async function maybeEmail(payload: ReviewPayload): Promise<void> {
+    const resendKey = process.env.RESEND_API_KEY;
+    if (!resendKey) {
+        return;
+    }
 
-    const items = (await Promise.all(ids.map((id) => kv.get(id, "json") as Promise<Review | null>))).filter(
-        Boolean,
-    ) as Review[];
-
-    return items.map(toPublic);
-}
-
-function fallbackReviews(limit: number): PublicReview[] {
-    return [...FALLBACK_STORE.items]
-        .sort((a, b) => b.createdAt - a.createdAt)
-        .slice(0, limit)
-        .map(toPublic);
-}
-
-function safeNumber(value: string | null | undefined): number {
-    const parsed = Number(value ?? "0");
-    return Number.isFinite(parsed) ? parsed : 0;
-}
-
-export async function GET(req: Request, context: RouteContext): Promise<Response> {
-    const env: Env = resolveCfEnv<Env>(context.env) ?? {};
-    const kv = getReviewsKv(env);
-    const { searchParams } = new URL(req.url);
+    const to = process.env.CONTACT_TO || EMAIL_FALLBACK;
+    const html = `
+    <h2>New review - rating ${payload.rating}/5</h2>
+    <p><strong>Name:</strong> ${escapeHtml(payload.name)}${payload.email ? ` &lt;${escapeHtml(payload.email)}&gt;` : ""}</p>
+    ${payload.comment ? `<p>${escapeHtml(payload.comment)}</p>` : ""}
+  `;
 
     try {
-        if (searchParams.get("stats")) {
-            if (kv) {
-                const [countRaw, sumRaw] = await Promise.all([
-                    kv.get("stats:count") as Promise<string | null | undefined>,
-                    kv.get("stats:sum") as Promise<string | null | undefined>
-                ]);
-                const count = safeNumber(countRaw);
-                const sum = safeNumber(sumRaw);
-                const avg = count ? sum / count : 0;
-                return respond({ count, avg }, { headers: corsHeaders(req) });
-            }
-            const avg = FALLBACK_STORE.count ? FALLBACK_STORE.sum / FALLBACK_STORE.count : 0;
-            return respond({ count: FALLBACK_STORE.count, avg }, { headers: corsHeaders(req) });
-        }
-
-        const limit = Math.max(1, Math.min(50, Number(searchParams.get("limit") || 24)));
-        if (kv) {
-            const items = await listReviewsFromKv(kv, limit);
-            return respond({ items }, { headers: corsHeaders(req) });
-        }
-
-        const items = fallbackReviews(limit);
-        return respond({ items }, { headers: corsHeaders(req) });
+        await fetch("https://api.resend.com/emails", {
+            method: "POST",
+            headers: {
+                Authorization: `Bearer ${resendKey}`,
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                from: "Table d'Adrian <no-reply@tabledadrian.com>",
+                to: [to],
+                subject: `New review - rating ${payload.rating}/5`,
+                html,
+            }),
+        });
     } catch {
-        if (searchParams.get("stats")) {
-            return respond({ count: 0, avg: 0 }, { headers: corsHeaders(req) });
-        }
-        return respond({ items: [] }, { headers: corsHeaders(req) });
+        // do not block on email failure
     }
 }
 
-export async function POST(req: Request, context: RouteContext): Promise<Response> {
-    const env: Env = resolveCfEnv<Env>(context.env) ?? {};
-    const kv = getReviewsKv(env);
-    const ip = getClientIp(req);
-
+export async function POST(req: Request) {
     try {
-        const body = await req.json();
-        const parsed = reviewSchema.safeParse(body);
-        if (!parsed.success) {
-            return respond({ ok: false, error: parsed.error.issues[0]?.message ?? "invalid_payload" }, {
-                status: 400,
-                headers: corsHeaders(req),
-            });
+        const ip =
+            req.headers.get("cf-connecting-ip") ??
+            req.headers.get("x-forwarded-for") ??
+            undefined;
+
+        const raw = await readBody(req);
+        if (!raw) {
+            return NextResponse.json({ ok: false, error: "Invalid JSON or FormData" }, { status: 400 });
         }
 
-        const rate = await applyRateLimit(kv, ip);
-        if (!rate.allowed) {
-            return respond({ ok: false, error: "rate_limited" }, { status: 429, headers: corsHeaders(req) });
-        }
-        let debug = rate.debug;
-
-        const okTurnstile = await verifyTurnstile(env, parsed.data.cfToken);
-        if (!okTurnstile) {
-            return respond({ ok: false, error: "turnstile_failed" }, { status: 400, headers: corsHeaders(req) });
+        const payload = toPayload(raw);
+        if (!isEmail(payload.email ?? "")) {
+            return NextResponse.json({ ok: false, error: "Invalid email" }, { status: 400 });
         }
 
-        const createdAt = Date.now();
-        const id = `r:${createdAt}-${Math.random().toString(36).slice(2, 7)}`;
-        const review: Review = {
-            id,
-            name: parsed.data.name,
-            email: parsed.data.email,
-            text: parsed.data.text,
-            rating: parsed.data.rating,
-            createdAt,
-            ip: ip === "unknown" ? undefined : ip,
-        };
+        const passedTurnstile = await verifyTurnstile(payload.token, ip);
+        if (!passedTurnstile) {
+            return NextResponse.json({ ok: false, error: "Turnstile verification failed" }, { status: 400 });
+        }
 
-        let nextCount: number;
-        let nextSum: number;
+        await maybeEmail(payload);
 
+        const { env } = getRequestContext();
+        const kv = (env as { REVIEWS?: KvNamespaceLite }).REVIEWS;
         if (kv) {
-            await kv.put(id, JSON.stringify(review), { expirationTtl: 60 * 60 * 24 * 365 * 5 });
-            const [countRaw, sumRaw] = await Promise.all([
-                kv.get("stats:count") as Promise<string | null | undefined>,
-                kv.get("stats:sum") as Promise<string | null | undefined>
-            ]);
-            const currentCount = safeNumber(countRaw);
-            const currentSum = safeNumber(sumRaw);
-            nextCount = currentCount + 1;
-            nextSum = currentSum + review.rating;
-            await Promise.all([
-                kv.put("stats:count", String(nextCount)),
-                kv.put("stats:sum", String(nextSum)),
-            ]);
-        } else {
-            FALLBACK_STORE.items.push(review);
-            FALLBACK_STORE.count += 1;
-            FALLBACK_STORE.sum += review.rating;
-            nextCount = FALLBACK_STORE.count;
-            nextSum = FALLBACK_STORE.sum;
-            debug = true;
+            let current: Stats = { count: 0, sum: 0, avg: 0 };
+            const existing = await kv.get(STAT_KEY);
+            if (existing) {
+                try {
+                    const parsed = JSON.parse(existing) as Partial<Stats>;
+                    if (
+                        typeof parsed.count === "number" &&
+                        typeof parsed.sum === "number" &&
+                        typeof parsed.avg === "number"
+                    ) {
+                        current = { count: parsed.count, sum: parsed.sum, avg: parsed.avg };
+                    }
+                } catch {
+                    // ignore broken payloads
+                }
+            }
+
+            const next: Stats = {
+                count: current.count + 1,
+                sum: current.sum + payload.rating,
+                avg: Math.round(((current.sum + payload.rating) / (current.count + 1)) * 10) / 10,
+            };
+
+            await kv.put(STAT_KEY, JSON.stringify(next), { expirationTtl: 60 * 60 * 24 * 365 });
         }
 
-        const avg = nextCount ? nextSum / nextCount : 0;
-
-        const payload: Out = {
-            ok: true,
-            review: toPublic(review),
-            count: nextCount,
-            avg,
-            stats: { count: nextCount, avg },
-        };
-
-        if (debug) {
-            payload.debug = true;
-        }
-
-        return respond(payload, { headers: corsHeaders(req) });
-    } catch {
-        return respond({ ok: false, error: "bad_json" }, { status: 400, headers: corsHeaders(req) });
+        return NextResponse.json({ ok: true });
+    } catch (error) {
+        const message = error instanceof Error ? error.message : "Unexpected error";
+        return NextResponse.json({ ok: false, error: message }, { status: 400 });
     }
 }

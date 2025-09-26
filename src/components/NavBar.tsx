@@ -314,7 +314,7 @@ export default function NavBar() {
                                     ref={(node) => setGroupNode(group.id, node)}
                                     type="button"
                                     className={`nav-group__label ${sans.className}`}
-                                    aria-expanded={activeGroup === group.id ? true : false}
+                                    aria-expanded={activeGroup === group.id ? "true" : "false"}
                                 >
                                     <span>{group.label}</span>
                                 </button>
@@ -387,7 +387,7 @@ export default function NavBar() {
                     ref={toggleRef}
                     type="button"
                     className={`nav-toggle ${sans.className}${mobileOpen ? " is-open" : ""}`}
-                    aria-expanded={!!mobileOpen}
+                    aria-expanded={mobileOpen ? "true" : "false"}
                     aria-controls="mobile-navigation"
                     aria-label={mobileOpen ? "Close navigation" : "Open navigation"}
                     onClick={handleToggle}

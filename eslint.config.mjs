@@ -1,11 +1,11 @@
-import js from '@eslint/js';
+﻿import js from '@eslint/js';
 import tsPlugin from '@typescript-eslint/eslint-plugin';
 import tsParser from '@typescript-eslint/parser';
 import globals from 'globals';
 
 export default [
   {
-    ignores: ['node_modules/**', '.next/**', 'dist/**', 'coverage/**', 'src/app/api/contact/route.ts', 'next-env.d.ts'],
+    ignores: ['node_modules/**', '.next/**', 'dist/**', 'coverage/**', 'chrome-devtools-mcp/**', 'src/app/api/contact/route.ts', 'next-env.d.ts'],
   },
   {
     languageOptions: {
@@ -35,3 +35,4 @@ export default [
     },
   },
 ];
+

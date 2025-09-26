@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 
 const menus = [
     {
@@ -10,7 +10,7 @@ const menus = [
             "Clarified broths, cultured creams, and charcoal-kissed mains move quietly so conversation leads while the experience feels precise.",
             "Crew manages rentals, lighting, and discreet resets. Documentation stays behind so your household can repeat the rhythm when we depart.",
         ],
-        note: "Best for 6–12 guests · deposit confirms date",
+        note: "Best for 6ÔÇô12 guests ┬Ě deposit confirms date",
     },
     {
         id: "performance",
@@ -21,7 +21,7 @@ const menus = [
             "Ferments, luminous carbohydrates, and measured protein keep guests buoyant. Service includes supplementation guidance and pantry prep for the next day.",
             "Ideal for leadership teams balancing demanding calendars with disciplined nutrition cues.",
         ],
-        note: "Best for 6–10 guests · includes intake with Antonia",
+        note: "Best for 6ÔÇô10 guests ┬Ě includes intake with Antonia",
     },
     {
         id: "salon",
@@ -32,7 +32,7 @@ const menus = [
             "Seasonal platters arrive in waves with quiet annotations from the crew. Wine pairing and florals are coordinated as required.",
             "Designed for private galleries and penthouse salons where ease matters more than theatre.",
         ],
-        note: "Best for 8–16 guests · documentation for household crew provided",
+        note: "Best for 8ÔÇô16 guests ┬Ě documentation for household crew provided",
     },
 ];
 

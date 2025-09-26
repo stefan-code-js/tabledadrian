@@ -1,4 +1,3 @@
-﻿"use client";
 "use client";
 
 import Link from "next/link";
@@ -222,7 +221,7 @@ export default function SiteHeader() {
                         className="menu-header__button"
                         aria-haspopup="dialog"
                         aria-controls="site-menu"
-                        aria-expanded={isMenuActive ? true : false}
+                        aria-expanded={isMenuActive ? "true" : "false"}
                         onClick={handleToggle}
                     >
                         <Menu aria-hidden="true" size={18} />

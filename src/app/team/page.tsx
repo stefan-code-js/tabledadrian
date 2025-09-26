@@ -1,16 +1,16 @@
-import Image from "next/image";
+﻿import Image from "next/image";
 import Link from "next/link";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-    title: "Team · Private Chef Atelier",
+    title: "Team ┬Ě Private Chef Atelier",
     description:
-        "A small atelier led by Chef Adrian with clinical systems by Antonia (PharmD). We shape season, texture, and fragrance into one calm table along the Côte d’Azur.",
+        "A small atelier led by Chef Adrian with clinical systems by Antonia (PharmD). We shape season, texture, and fragrance into one calm table along the C├┤te dÔÇÖAzur.",
     alternates: { canonical: "/team" },
     keywords: [
         "private chef team",
         "luxury private dining",
-        "Côte d’Azur chef",
+        "C├┤te dÔÇÖAzur chef",
         "tasting menu",
         "sommelier",
         "pastry",
@@ -24,7 +24,7 @@ const heroImage = {
 
 const members = [
     {
-        name: "Adrian Ștefan Badea",
+        name: "Adrian ╚śtefan Badea",
         role: "Chef & Founder",
         image: "/placeholder/portrait-adrian.svg",
         link: "https://www.linkedin.com/in/adrian-stefan-badea-82456131b",
@@ -100,7 +100,7 @@ export default function TeamPage() {
                 <div className="editorial-container final-call">
                     <h2>Meet us at the table</h2>
                     <p>
-                        Explore current menus or request a date—we’ll respond with a plan that holds to your standards and keeps the room composed.
+                        Explore current menus or request a dateÔÇöweÔÇÖll respond with a plan that holds to your standards and keeps the room composed.
                     </p>
                     <div className="cta-row">
                         <Link className="btn" href="/book">

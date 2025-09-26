@@ -1,5 +1,4 @@
 "use client";
-"use client";
 
 import { useState } from "react";
 import Link from "next/link";
@@ -17,15 +16,15 @@ export default function Header() {
                 <Link
                     href="/"
                     className="site-header__brand"
-                    aria-label="Table d’Adrian — home"
+                    aria-label="Table d'Adrian - home"
                     onClick={close}
                 >
-                    Table d’Adrian
+                    Table d'Adrian
                 </Link>
                 <button
                     type="button"
                     className={`site-nav__toggle${open ? " is-open" : ""}`}
-                    aria-expanded={open ? true : false}
+                    aria-expanded={open ? "true" : "false"}
                     aria-controls="primary-navigation"
                     onClick={toggle}
                 >
@@ -63,3 +62,4 @@ export default function Header() {
         </header>
     );
 }
+

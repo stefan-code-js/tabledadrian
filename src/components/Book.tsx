@@ -1,4 +1,4 @@
-import Image from "next/image";
+﻿import Image from "next/image";
 import Link from "next/link";
 
 const CAL_HANDLE = process.env.NEXT_PUBLIC_CAL_LINK ?? "adrian-stefan";

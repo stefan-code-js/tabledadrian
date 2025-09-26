@@ -1,4 +1,5 @@
-﻿import Link from "next/link";
+﻿"use client";
+import Link from "next/link";
 import { site } from "@/lib/site";
 import { useRef, useEffect } from "react";
 

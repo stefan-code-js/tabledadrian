@@ -1,11 +1,11 @@
 ---
 id: task-002
 title: Savage mastermind navigation + premium footer (partners)
-status: Done
+status: In Progress
 assignee:
   - anton
 created_date: '2025-09-25 10:40'
-updated_date: '2025-09-26 12:02'
+updated_date: '2025-09-26 22:58'
 labels: []
 dependencies: []
 priority: high

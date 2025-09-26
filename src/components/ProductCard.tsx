@@ -1,4 +1,4 @@
-import Image from "next/image";
+﻿import Image from "next/image";
 import PayButton from "./PayButton";
 import type { Product } from "@/data/products";
 

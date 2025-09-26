@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -7,9 +7,9 @@ import { useEditorialMotion } from "@/hooks/useEditorialMotion";
 import { useGsapFade } from "@/hooks/useGsapFade";
 
 const heroContent = {
-    title: "Table d’Adrian",
+    title: "Table dÔÇÖAdrian",
     description:
-        "Seasonal tasting menus with pharmacist-designed wellness systems. Villas, yachts, and salons along the Côte d’Azur.",
+        "Seasonal tasting menus with pharmacist-designed wellness systems. Villas, yachts, and salons along the C├┤te dÔÇÖAzur.",
     primary: { href: "/contact", label: "request a booking" },
     secondary: { href: "/membership", label: "explore membership" },
     image: {
