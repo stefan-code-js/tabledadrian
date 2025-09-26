@@ -25,7 +25,7 @@ export default function Header() {
                 <button
                     type="button"
                     className={`site-nav__toggle${open ? " is-open" : ""}`}
-                    aria-expanded={open}
+                    aria-expanded={open ? true : false}
                     aria-controls="primary-navigation"
                     onClick={toggle}
                 >

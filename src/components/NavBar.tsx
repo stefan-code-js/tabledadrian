@@ -13,6 +13,7 @@ import {
     useState,
 } from "react";
 import { serif, sans } from "@/lib/fonts";
+import CommandPalette from "./CommandPalette";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 
 const INDICATOR_TRANSITION = { duration: 0.2, ease: [0.16, 0.84, 0.44, 1] };
@@ -29,7 +30,8 @@ type NavGroup = {
     links: NavItem[];
 };
 
-const navGroups: NavGroup[] = [
+export type { NavGroup, NavItem };
+export const navGroups: NavGroup[] = [
     {
         id: "studio",
         label: "Studio",
@@ -77,8 +79,16 @@ const navGroups: NavGroup[] = [
 
 const ctaLink: NavItem = { label: "Book a Table", href: "/book" };
 
+import { useRouter } from "next/navigation";
+
 export default function NavBar() {
     const pathname = usePathname();
+    const router = useRouter();
+    const [paletteOpen, setPaletteOpen] = useState(false);
+    const handlePaletteNavigate = (href: string) => {
+        router.push(href);
+        setPaletteOpen(false);
+    };
     const prefersReducedMotion = usePrefersReducedMotion();
     const [motionLib, setMotionLib] = useState<typeof import("framer-motion") | null>(null);
     const [mobileOpen, setMobileOpen] = useState(false);
@@ -269,7 +279,8 @@ export default function NavBar() {
     };
 
     return (
-        <header className="nav-shell">
+        <>
+            <header className="nav-shell">
             <div className="nav-shell__inner">
                 <Link href="/" className={`nav-brand ${serif.className}`}>
                     Table d’Adrian
@@ -303,7 +314,7 @@ export default function NavBar() {
                                     ref={(node) => setGroupNode(group.id, node)}
                                     type="button"
                                     className={`nav-group__label ${sans.className}`}
-                                    aria-expanded={activeGroup === group.id}
+                                    aria-expanded={activeGroup === group.id ? true : false}
                                 >
                                     <span>{group.label}</span>
                                 </button>
@@ -376,13 +387,21 @@ export default function NavBar() {
                     ref={toggleRef}
                     type="button"
                     className={`nav-toggle ${sans.className}${mobileOpen ? " is-open" : ""}`}
-                    aria-expanded={mobileOpen}
+                    aria-expanded={!!mobileOpen}
                     aria-controls="mobile-navigation"
                     aria-label={mobileOpen ? "Close navigation" : "Open navigation"}
                     onClick={handleToggle}
                 >
                     <span className="nav-toggle__label">Menu</span>
                     <span aria-hidden="true" className="nav-toggle__arrow" />
+                </button>
+                <button
+                    type="button"
+                    className="nav-command-palette-btn"
+                    aria-label="Open command palette"
+                    onClick={() => setPaletteOpen(true)}
+                >
+                    <span className="nav-command-palette-icon">⌘K</span>
                 </button>
             </div>
 
@@ -471,5 +490,7 @@ export default function NavBar() {
                 )
             )}
         </header>
+            <CommandPalette open={paletteOpen} onClose={() => setPaletteOpen(false)} onNavigate={handlePaletteNavigate} />
+        </>
     );
 }

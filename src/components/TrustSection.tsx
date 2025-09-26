@@ -7,13 +7,13 @@ const trustCopy = [
 
 export default function TrustSection() {
     return (
-        <section className="section bg-muted">
+        <section className="section bg-paper-soft">
             <div className="container container--narrow">
-                <h2 className="title center-text">Trusted by discerning hosts</h2>
+                <h2 className="title center-text text-ink">Trusted by discerning hosts</h2>
                 {trustCopy.map((paragraph) => (
-                    <p key={paragraph}>{paragraph}</p>
+                    <p key={paragraph} className="mb-3 text-ink-soft">{paragraph}</p>
                 ))}
-                <h3 className="subtitle">FAQs</h3>
+                <h3 className="subtitle mt-6 mb-2">FAQs</h3>
                 <FAQ />
             </div>
         </section>

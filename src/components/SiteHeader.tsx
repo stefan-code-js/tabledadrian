@@ -222,7 +222,7 @@ export default function SiteHeader() {
                         className="menu-header__button"
                         aria-haspopup="dialog"
                         aria-controls="site-menu"
-                        aria-expanded={isMenuActive}
+                        aria-expanded={isMenuActive ? true : false}
                         onClick={handleToggle}
                     >
                         <Menu aria-hidden="true" size={18} />

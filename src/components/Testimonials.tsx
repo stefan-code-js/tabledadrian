@@ -17,13 +17,13 @@ export default function Testimonials() {
 
     return (
         <div className="quotes">
-            <section className="section" aria-labelledby="testimonials-title">
+            <section className="section bg-paper-soft" aria-labelledby="testimonials-title">
                 <div className="container">
-                    <h2 id="testimonials-title" className="section-title center-text">Testimonials</h2>
+                    <h2 id="testimonials-title" className="section-title center-text text-ink">Testimonials</h2>
             {quotes.map((x, i) => (
-                <blockquote key={i} className="quote card">
-                    <p>“{x.q}”</p>
-                    <cite>— {x.c}</cite>
+                <blockquote key={i} className="quote card mb-4">
+                    <p className="mb-2 text-ink-soft">“{x.q}”</p>
+                    <cite className="text-bronze">— {x.c}</cite>
                 </blockquote>
             ))}
                 </div>

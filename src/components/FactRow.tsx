@@ -13,11 +13,11 @@ export default function FactRow({ facts, className }: FactRowProps) {
     const classes = ["fact-row", className].filter(Boolean).join(" ");
 
     return (
-        <dl className={classes}>
+        <dl className={`${classes} bg-paper-soft py-3 px-4 rounded-md shadow-soft grid gap-3`}>
             {facts.map((fact) => (
-                <div key={fact.label} className="fact-row__item">
-                    <dt>{fact.label}</dt>
-                    <dd>{fact.value}</dd>
+                <div key={fact.label} className="fact-row__item flex gap-2 items-center">
+                    <dt className="text-ink-soft font-medium">{fact.label}</dt>
+                    <dd className="text-ink font-semibold">{fact.value}</dd>
                 </div>
             ))}
         </dl>

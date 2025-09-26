@@ -23,8 +23,8 @@ export default function Team() {
                         <article className="team-card card" key={p.name}>
                             <img className="avatar avatar--sm" src={p.img} alt={p.name} />
                             <div>
-                                <h3 style={{ margin: 0 }}>{p.name}</h3>
-                                <p style={{ margin: '2px 0 6px', opacity: 0.8 }}>{p.role}</p>
+                                <h3 className="m-0">{p.name}</h3>
+                                <p className="mt-1 mb-2 opacity-80">{p.role}</p>
                                 <div className="tags">
                                     {p.skills.map((s) => (
                                         <span className="tag" key={s}>{s}</span>

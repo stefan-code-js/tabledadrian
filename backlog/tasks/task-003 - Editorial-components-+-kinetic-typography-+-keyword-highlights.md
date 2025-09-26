@@ -1,9 +1,11 @@
 ---
 id: task-003
 title: Editorial components + kinetic typography + keyword highlights
-status: To Do
-assignee: []
+status: In Progress
+assignee:
+  - anton
 created_date: '2025-09-25 10:41'
+updated_date: '2025-09-26 12:02'
 labels: []
 dependencies: []
 priority: high

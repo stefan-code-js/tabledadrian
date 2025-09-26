@@ -6,6 +6,6 @@ type CardPanelProps = {
 };
 
 export default function CardPanel({ children, className }: CardPanelProps) {
-    const classes = ["card-panel", className].filter(Boolean).join(" ");
+    const classes = ["card-panel bg-paper-soft rounded-md shadow-soft p-6", className].filter(Boolean).join(" ");
     return <div className={classes}>{children}</div>;
 }

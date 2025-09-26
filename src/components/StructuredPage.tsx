@@ -64,7 +64,7 @@ function TierAction({ cta, context }: TierActionProps) {
     };
 
     return (
-        <Link className="text-link" href={cta.href} onClick={handleClick}>
+        <Link className="text-link text-accent" href={cta.href} onClick={handleClick}>
             {cta.label}
         </Link>
     );

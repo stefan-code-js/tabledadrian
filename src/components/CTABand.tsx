@@ -40,15 +40,15 @@ export default function CTABand({ title, description, primary, secondary, analyt
     };
 
     return (
-        <section className={classes}>
+        <section className={`${classes} bg-accent-muted py-6`}>
             <div className="cta-band__inner">
                 <div className="cta-band__copy">
-                    <h3>{title}</h3>
-                    <p>{description}</p>
+                    <h3 className="text-ink mb-2">{title}</h3>
+                    <p className="text-ink-soft mb-4">{description}</p>
                 </div>
-                <div className="cta-band__actions">
+                <div className="cta-band__actions flex gap-3">
                     <Link
-                        className="cta-band__button cta-band__button--primary"
+                        className="cta-band__button cta-band__button--primary bg-accent text-paper px-5 py-2 rounded-md shadow-soft"
                         href={primary.href}
                         onClick={handleClick("primary", primary.href, primary.label, primary.onClick)}
                     >
@@ -56,7 +56,7 @@ export default function CTABand({ title, description, primary, secondary, analyt
                     </Link>
                     {secondary ? (
                         <Link
-                            className="cta-band__button cta-band__button--secondary"
+                            className="cta-band__button cta-band__button--secondary bg-paper text-accent px-5 py-2 rounded-md border border-accent"
                             href={secondary.href}
                             onClick={handleClick("secondary", secondary.href, secondary.label, secondary.onClick)}
                         >

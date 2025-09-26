@@ -66,7 +66,7 @@ export default function EditorialBlock({
     const placeholder = resolved.placeholder === "blur" ? "blur" : "empty";
 
     return (
-        <section className={classes}>
+        <section className={`${classes} bg-paper-soft py-6`}>
             <div className="editorial-block__media">
                 <div
                     className="editorial-block__frame"
