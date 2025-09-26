@@ -1,4 +1,5 @@
-﻿import Link from "next/link";
+﻿"use client";
+import Link from "next/link";
 import type { MouseEvent } from "react";
 import { ANALYTICS_EVENTS, trackEvent } from "@/lib/analytics";
 

@@ -1,4 +1,5 @@
-﻿import Image, { type StaticImageData } from "next/image";
+﻿"use client";
+import Image, { type StaticImageData } from "next/image";
 import type { ReactNode } from "react";
 import type { ImageAsset } from "@/data/images";
 
