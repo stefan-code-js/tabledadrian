@@ -7,9 +7,5 @@ export function register() {
         enabled: Boolean(dsn),
         tracesSampleRate: 0.05,
         debug: false,
-        // Add the onRequestError hook for Next.js 14+
-        onRequestError: (err, req) => {
-            Sentry.captureRequestError(err, req);
-        },
     });
 }
