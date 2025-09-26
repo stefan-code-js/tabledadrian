@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { reducedMotion } from "@/lib/motion";
 
-type Testimonial = {
+export type Testimonial = {
     quote: string;
     name: string;
     role?: string;
@@ -69,7 +69,7 @@ export default function TestimonialCarousel({ testimonials, intervalMs = 7000, c
                         onClick={() => setIndex((prev) => (prev - 1 + items.length) % items.length)}
                         aria-label="Previous testimonial"
                     >
-                        ←
+                        ‹
                     </button>
                     <span className="testimonial-carousel__index">
                         {index + 1} / {items.length}
@@ -79,10 +79,11 @@ export default function TestimonialCarousel({ testimonials, intervalMs = 7000, c
                         onClick={() => setIndex((prev) => (prev + 1) % items.length)}
                         aria-label="Next testimonial"
                     >
-                        →
+                        ›
                     </button>
                 </div>
             ) : null}
         </section>
     );
 }
+

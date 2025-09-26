@@ -1,16 +1,18 @@
-"use client";
+﻿"use client";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { Menu, X } from "lucide-react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { loadGsap } from "@/lib/motion";
 import { ANALYTICS_EVENTS, trackEvent } from "@/lib/analytics";
+import { site } from "@/lib/site";
 
 const NAV_ITEMS = [
     { href: "/", label: "Home" },
     { href: "/about", label: "Story" },
     { href: "/experiences", label: "Experiences" },
-    { href: "/products", label: "Services" },
+    { href: "/services", label: "Services" },
     { href: "/membership", label: "Membership" },
     { href: "/consult", label: "Consult" },
     { href: "/pricing-calculator", label: "Pricing" },
@@ -18,13 +20,13 @@ const NAV_ITEMS = [
     { href: "/press", label: "Press" },
     { href: "/reviews", label: "Reviews" },
     { href: "/contact", label: "Contact" },
-];
+] as const;
 
 const FEATURED = [
-    { href: "/book", label: "Reserve a private table" },
+    { href: "/contact", label: "Book a table" },
     { href: "/membership", label: "Begin membership consult" },
     { href: "/consult", label: "Schedule a strategy call" },
-];
+] as const;
 
 const FOCUSABLE_SELECTOR = [
     "a[href]",
@@ -44,29 +46,37 @@ export default function SiteHeader() {
     const panelRef = useRef<HTMLDivElement | null>(null);
     const menuButtonRef = useRef<HTMLButtonElement | null>(null);
     const closeButtonRef = useRef<HTMLButtonElement | null>(null);
-    const lastActiveElementRef = useRef<HTMLElement | null>(null);
+    const lastFocusRef = useRef<HTMLElement | null>(null);
 
     const filteredNavItems = useMemo(() => {
         const value = searchTerm.trim().toLowerCase();
-        if (!value) {
-            return NAV_ITEMS;
-        }
+        if (!value) return NAV_ITEMS;
         return NAV_ITEMS.filter((item) => item.label.toLowerCase().includes(value));
     }, [searchTerm]);
 
     const closeMenuImmediate = useCallback(() => {
-        setMenuActive(false);
         setOverlayVisible(false);
         setSearchTerm("");
         document.body.classList.remove("no-scroll");
-        if (lastActiveElementRef.current) {
-            lastActiveElementRef.current.focus();
-            lastActiveElementRef.current = null;
+        const last = lastFocusRef.current;
+        if (last) {
+            window.requestAnimationFrame(() => last.focus());
+            lastFocusRef.current = null;
         }
     }, []);
 
-    const animateClose = useCallback(() => {
-        if (!overlayRef.current || !panelRef.current) {
+    const closeMenu = useCallback(() => {
+        if (!isOverlayVisible) {
+            setMenuActive(false);
+            return;
+        }
+
+        trackEvent(ANALYTICS_EVENTS.menuToggle, { state: "close" });
+        setMenuActive(false);
+
+        const overlay = overlayRef.current;
+        const panel = panelRef.current;
+        if (!overlay || !panel) {
             closeMenuImmediate();
             return;
         }
@@ -76,59 +86,48 @@ export default function SiteHeader() {
                 closeMenuImmediate();
                 return;
             }
-
-            const overlay = overlayRef.current;
-            const panel = panelRef.current;
-            const items = overlay.querySelectorAll<HTMLElement>("[data-menu-item]");
-
+            const items = overlayRef.current.querySelectorAll<HTMLElement>("[data-menu-item]");
             const tl = gsap.timeline({
                 defaults: { ease: "power2.inOut" },
                 onComplete: closeMenuImmediate,
             });
-
             tl.to(items, { y: -16, autoAlpha: 0, stagger: 0.04, duration: 0.18 }, 0);
-            tl.to(panel, { scale: 0.94, autoAlpha: 0, duration: 0.24 }, 0);
-            tl.to(overlay, { autoAlpha: 0, duration: 0.2 }, 0);
+            tl.to(panelRef.current, { scale: 0.94, autoAlpha: 0, duration: 0.24 }, 0);
+            tl.to(overlayRef.current, { autoAlpha: 0, duration: 0.2 }, 0);
         });
-    }, [closeMenuImmediate]);
+    }, [isOverlayVisible, closeMenuImmediate]);
 
     const openMenu = useCallback(() => {
-        lastActiveElementRef.current = (document.activeElement as HTMLElement) ?? null;
+        lastFocusRef.current = (document.activeElement as HTMLElement) ?? null;
         setMenuActive(true);
         setOverlayVisible(true);
+        trackEvent(ANALYTICS_EVENTS.menuToggle, { state: "open" });
     }, []);
 
-    const closeMenu = useCallback(() => {
-        setMenuActive(false);
-        animateClose();
-    }, [animateClose]);
-
     useEffect(() => {
-        if (!isOverlayVisible || !overlayRef.current) {
+        if (!isOverlayVisible) {
+            document.body.classList.remove("no-scroll");
             return;
         }
-
-        const overlay = overlayRef.current;
         document.body.classList.add("no-scroll");
 
         void loadGsap().then((gsap) => {
             if (!gsap || !overlayRef.current || !panelRef.current) {
                 return;
             }
-            const panel = panelRef.current;
             const items = overlayRef.current.querySelectorAll<HTMLElement>("[data-menu-item]");
-
             gsap.set(overlayRef.current, { autoAlpha: 1 });
-
             const tl = gsap.timeline({ defaults: { ease: "power2.out" } });
-            tl.fromTo(panel, { autoAlpha: 0, scale: 0.96 }, { autoAlpha: 1, scale: 1, duration: 0.32 });
+            tl.fromTo(panelRef.current, { autoAlpha: 0, scale: 0.96 }, { autoAlpha: 1, scale: 1, duration: 0.32 });
             tl.from(items, { y: 18, autoAlpha: 0, stagger: 0.05, duration: 0.28 }, "-=0.16");
         });
 
-        const focusables = () => Array.from(overlay.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR));
+        const overlay = overlayRef.current;
+        if (!overlay) return;
 
-        const firstFocusTarget = overlay.querySelector<HTMLInputElement>("[data-menu-search]") ?? overlay;
-        firstFocusTarget.focus();
+        const focusables = () => Array.from(overlay.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR));
+        const preferred = overlay.querySelector<HTMLInputElement>("[data-menu-search]") ?? overlay;
+        window.requestAnimationFrame(() => preferred.focus());
 
         const handleKeyDown = (event: KeyboardEvent) => {
             if (event.key === "Escape") {
@@ -136,12 +135,9 @@ export default function SiteHeader() {
                 closeMenu();
                 return;
             }
-
             if (event.key === "Tab") {
                 const elements = focusables();
-                if (elements.length === 0) {
-                    return;
-                }
+                if (elements.length === 0) return;
                 const first = elements[0];
                 const last = elements[elements.length - 1];
                 if (event.shiftKey) {
@@ -157,16 +153,8 @@ export default function SiteHeader() {
         };
 
         overlay.addEventListener("keydown", handleKeyDown);
-        return () => {
-            overlay.removeEventListener("keydown", handleKeyDown);
-        };
+        return () => overlay.removeEventListener("keydown", handleKeyDown);
     }, [isOverlayVisible, closeMenu]);
-
-    useEffect(() => {
-        if (!isOverlayVisible) {
-            document.body.classList.remove("no-scroll");
-        }
-    }, [isOverlayVisible]);
 
     useEffect(() => {
         if (!isOverlayVisible) {
@@ -180,7 +168,7 @@ export default function SiteHeader() {
         }
     }, [pathname, isOverlayVisible, closeMenuImmediate]);
 
-    const handleMenuToggle = () => {
+    const handleToggle = () => {
         if (isMenuActive || isOverlayVisible) {
             closeMenu();
         } else {
@@ -188,26 +176,62 @@ export default function SiteHeader() {
         }
     };
 
+    const handleNavClick = (href: string, label: string, section: "primary" | "featured") => {
+        trackEvent(ANALYTICS_EVENTS.navClick, { href, label, section });
+        closeMenu();
+    };
+
+    const handlePrimaryNavClick = useCallback((href: string, label: string) => {
+        trackEvent(ANALYTICS_EVENTS.navClick, { href, label, section: "inline" });
+    }, []);
+
+    const handleCtaClick = useCallback(() => {
+        trackEvent(ANALYTICS_EVENTS.bookingCta, { location: "header" });
+    }, []);
+
     return (
         <header className="menu-header">
             <div className="menu-header__inner">
                 <Link href="/" className="menu-header__brand">
-                    Table d'Adrian
+                    {site.shortName}
                 </Link>
-                <button
-                    ref={menuButtonRef}
-                    type="button"
-                    className="menu-header__button"
-                    aria-haspopup="dialog"
-                    aria-expanded={isMenuActive}
-                    onClick={handleMenuToggle}
-                >
-                    Menu
-                </button>
+                <nav className="menu-header__nav" aria-label="Primary">
+                    {NAV_ITEMS.map((item) => {
+                        const isActive =
+                            item.href === "/" ? pathname === "/" : pathname.startsWith(item.href);
+                        return (
+                            <Link
+                                key={item.href}
+                                href={item.href}
+                                className={`menu-header__link${isActive ? " is-active" : ""}`}
+                                onClick={() => handlePrimaryNavClick(item.href, item.label)}
+                            >
+                                {item.label}
+                            </Link>
+                        );
+                    })}
+                </nav>
+                <div className="menu-header__actions">
+                    <Link className="menu-header__cta" href="/contact" onClick={handleCtaClick}>
+                        Book a table
+                    </Link>
+                    <button
+                        ref={menuButtonRef}
+                        type="button"
+                        className="menu-header__button"
+                        aria-haspopup="dialog"
+                        aria-controls="site-menu"
+                        aria-expanded={isMenuActive}
+                        onClick={handleToggle}
+                    >
+                        <Menu aria-hidden="true" size={18} />
+                        <span>Menu</span>
+                    </button>
+                </div>
             </div>
 
             {isOverlayVisible ? (
-                <div className="menu-overlay" ref={overlayRef}>
+                <div id="site-menu" className="menu-overlay" ref={overlayRef}>
                     <div className="menu-overlay__panel" role="dialog" aria-modal="true" aria-label="Site menu" data-menu-panel ref={panelRef}>
                         <div className="menu-overlay__top">
                             <span className="menu-overlay__label">Navigation</span>
@@ -218,7 +242,7 @@ export default function SiteHeader() {
                                 onClick={closeMenu}
                                 aria-label="Close menu"
                             >
-                                <span aria-hidden="true">�</span>
+                                <X aria-hidden="true" size={18} />
                             </button>
                         </div>
                         <div className="menu-overlay__search">
@@ -229,7 +253,7 @@ export default function SiteHeader() {
                                 id="menu-search"
                                 data-menu-search
                                 type="search"
-                                placeholder="Type to filter destinations"
+                                placeholder="Filter destinations"
                                 value={searchTerm}
                                 onChange={(event) => setSearchTerm(event.target.value)}
                                 autoComplete="off"
@@ -241,11 +265,8 @@ export default function SiteHeader() {
                                     key={item.href}
                                     href={item.href}
                                     className="menu-overlay__featured-link"
-                            data-menu-item
-                            onClick={() => {
-                                trackEvent(ANALYTICS_EVENTS.navClick, { href: item.href, label: item.label, section: "featured" });
-                                closeMenu();
-                            }}
+                                    data-menu-item
+                                    onClick={() => handleNavClick(item.href, item.label, "featured")}
                                 >
                                     {item.label}
                                 </Link>
@@ -253,29 +274,20 @@ export default function SiteHeader() {
                         </div>
                         <nav className="menu-overlay__nav" aria-label="Primary">
                             {filteredNavItems.length === 0 ? (
-                                <p className="menu-overlay__empty">No matches. Try a different word.</p>
+                                <p className="menu-overlay__empty">No matches. Try another cue.</p>
                             ) : (
-                                filteredNavItems.map((item) => {
-                                    const isActive =
-                                        item.href === "/"
-                                            ? pathname === "/"
-                                            : pathname.startsWith(item.href);
-                                    return (
-                                        <Link
-                                            key={item.href}
-                                            href={item.href}
-                                            data-menu-item
-                                            className={`menu-overlay__link${isActive ? " is-active" : ""}`}
-                                            onClick={() => {
-                                                trackEvent(ANALYTICS_EVENTS.navClick, { href: item.href, label: item.label, section: "primary" });
-                                                closeMenu();
-                                            }}
-                                        >
-                                            <span>{item.label}</span>
-                                            <span aria-hidden="true" className="menu-overlay__underline" />
-                                        </Link>
-                                    );
-                                })
+                                filteredNavItems.map((item) => (
+                                    <Link
+                                        key={item.href}
+                                        href={item.href}
+                                        data-menu-item
+                                        className={`menu-overlay__link${pathname.startsWith(item.href) ? " is-active" : ""}`}
+                                        onClick={() => handleNavClick(item.href, item.label, "primary")}
+                                    >
+                                        <span>{item.label}</span>
+                                        <span aria-hidden="true" className="menu-overlay__underline" />
+                                    </Link>
+                                ))
                             )}
                         </nav>
                     </div>
@@ -284,3 +296,4 @@ export default function SiteHeader() {
         </header>
     );
 }
+

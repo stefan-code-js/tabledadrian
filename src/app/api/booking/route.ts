@@ -1,4 +1,5 @@
-import { z } from "zod";
+﻿import { z } from "zod";
+import { resolveCfEnv, getClientIp } from "@/lib/cloudflare";
 
 export const runtime = "edge";
 
@@ -14,9 +15,13 @@ type RateLimitResult = { allowed: boolean; debug: boolean };
 type VerifyResult = { ok: boolean; debug: boolean };
 type PersistResult = { ok: boolean; id?: string; error?: string; debug: boolean };
 
+type RouteContext = { params: Promise<Record<string, string>> } & { env?: Env };
+
 const HEADERS = {
     "Cache-Control": "no-store",
 };
+
+const EMPTY_ENV: Env = {};
 
 const requestSchema = z
     .object({
@@ -45,32 +50,14 @@ const requestSchema = z
 type ParsedRequest = z.infer<typeof requestSchema>;
 type BookingPayload = ParsedRequest["booking"];
 
-function getClientIp(request: Request): string {
-    return (
-        request.headers.get("cf-connecting-ip") ||
-        request.headers.get("x-forwarded-for") ||
-        request.headers.get("x-real-ip") ||
-        request.headers.get("client-ip") ||
-        "unknown"
-    );
-}
-
-function getProcessEnv(key: string): string | undefined {
-    if (typeof process === "undefined" || typeof process.env === "undefined") {
-        return undefined;
-    }
-    const value = process.env[key as keyof NodeJS.ProcessEnv];
-    return typeof value === "string" ? value : undefined;
-}
-
 function resolveTurnstileSecret(env: Env): { secret?: string; debug: boolean } {
     const secret =
         env.CF_TURNSTILE_SECRET ||
         env.TURNSTILE_SECRET ||
         env.TURNSTILE_SECRET_KEY ||
-        getProcessEnv("CF_TURNSTILE_SECRET") ||
-        getProcessEnv("TURNSTILE_SECRET") ||
-        getProcessEnv("TURNSTILE_SECRET_KEY");
+        (typeof process !== "undefined" ? process.env.CF_TURNSTILE_SECRET : undefined) ||
+        (typeof process !== "undefined" ? process.env.TURNSTILE_SECRET : undefined) ||
+        (typeof process !== "undefined" ? process.env.TURNSTILE_SECRET_KEY : undefined);
 
     return { secret, debug: !secret };
 }
@@ -162,7 +149,9 @@ async function persistBooking(env: Env, booking: BookingPayload, ip: string): Pr
     }
 }
 
-export async function POST(req: Request, context: { env: Env }): Promise<Response> {
+export async function POST(req: Request, context: RouteContext): Promise<Response> {
+    const env = resolveCfEnv<Env>(context.env) ?? EMPTY_ENV;
+
     let body: unknown;
     try {
         body = await req.json();
@@ -187,7 +176,7 @@ export async function POST(req: Request, context: { env: Env }): Promise<Respons
 
     const ip = getClientIp(req);
 
-    const rate = await applyRateLimit(context.env, ip);
+    const rate = await applyRateLimit(env, ip);
     let debug = rate.debug;
     if (!rate.allowed) {
         return Response.json(
@@ -196,7 +185,7 @@ export async function POST(req: Request, context: { env: Env }): Promise<Respons
         );
     }
 
-    const verification = await verifyTurnstile(context.env, turnstileToken, ip);
+    const verification = await verifyTurnstile(env, turnstileToken, ip);
     debug = debug || verification.debug;
     if (!verification.ok) {
         return Response.json(
@@ -205,7 +194,7 @@ export async function POST(req: Request, context: { env: Env }): Promise<Respons
         );
     }
 
-    const persistence = await persistBooking(context.env, booking, ip);
+    const persistence = await persistBooking(env, booking, ip);
     debug = debug || persistence.debug;
     if (!persistence.ok || !persistence.id) {
         return Response.json(

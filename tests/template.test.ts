@@ -1,3 +1,4 @@
+import React from 'react';
 import { describe, it, expect } from 'vitest';
 import HomePage from '../src/app/page';
 import { PageHero } from '../src/components/StructuredPage';

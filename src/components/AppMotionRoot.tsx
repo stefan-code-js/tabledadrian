@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useRef } from "react";
 import dynamic from "next/dynamic";
@@ -69,8 +69,27 @@ export default function AppMotionRoot({ children }: { children: ReactNode }) {
             lenisRef.current?.destroy();
             lenisRef.current = null;
         };
-    }, [prefersReduced, pathname]);
+    }, [prefersReduced]);
 
+    useEffect(() => {
+        if (prefersReduced) {
+            if (typeof window !== 'undefined') {
+                window.scrollTo({ top: 0, behavior: 'auto' });
+            }
+            return;
+        }
+
+        const lenis = lenisRef.current;
+        if (lenis) {
+            lenis.scrollTo(0, { immediate: true });
+        } else if (typeof window !== 'undefined') {
+            window.scrollTo({ top: 0, behavior: 'auto' });
+        }
+
+        void import("gsap/ScrollTrigger").then(({ ScrollTrigger }) => {
+            ScrollTrigger.refresh();
+        });
+    }, [pathname, prefersReduced]);
     useEffect(() => {
         if (prefersReduced) {
             return;
@@ -120,3 +139,7 @@ export default function AppMotionRoot({ children }: { children: ReactNode }) {
 
     return <FramerBridge pathname={pathname}>{children}</FramerBridge>;
 }
+
+
+
+

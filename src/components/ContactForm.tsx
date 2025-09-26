@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useRef, useState } from "react";
 import { ANALYTICS_EVENTS, trackEvent } from "@/lib/analytics";
@@ -47,6 +47,13 @@ export default function ContactForm({ context }: { context?: string }) {
 
             if (!response.ok || !data || ("ok" in data && data.ok !== true)) {
                 const errors = data && "errors" in data ? data.errors?.join(" ") : undefined;
+                trackEvent(ANALYTICS_EVENTS.formError, {
+                    form: "contact",
+                    context,
+                    reason: "response",
+                    status: response.status,
+                    errors,
+                });
                 setStatus("error");
                 setMessage(errors || "Unable to send right now. Please check your details and try again.");
                 return;
@@ -68,6 +75,11 @@ export default function ContactForm({ context }: { context?: string }) {
             setStatus("success");
             setMessage("Merci - we'll confirm details shortly.");
         } catch {
+            trackEvent(ANALYTICS_EVENTS.formError, {
+                form: "contact",
+                context,
+                reason: "network",
+            });
             setStatus("error");
             setMessage("Network error. Please retry in a moment.");
         }
@@ -132,3 +144,4 @@ export default function ContactForm({ context }: { context?: string }) {
         </form>
     );
 }
+

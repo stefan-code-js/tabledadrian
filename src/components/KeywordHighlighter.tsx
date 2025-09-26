@@ -2,11 +2,12 @@
 
 import { useEffect, useMemo, useRef } from "react";
 import { loadGsap, reducedMotion } from "@/lib/motion";
+import type { AccentVariant } from "@/lib/theme";
 
 type KeywordHighlighterProps = {
     text: string;
     keywords: readonly string[];
-    variant?: "forest" | "bronze" | "oxblood";
+    variant?: AccentVariant;
     className?: string;
 };
 
@@ -93,3 +94,5 @@ export default function KeywordHighlighter({ text, keywords, variant = "forest",
         </span>
     );
 }
+
+

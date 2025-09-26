@@ -1,4 +1,4 @@
-"use client";
+ï»¿"use client";
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
@@ -80,7 +80,7 @@ export default function PricingCalculatorWidget() {
                 />
                 {option.includedGuests && option.perGuest ? (
                     <small className="muted">
-                        Includes {option.includedGuests} guests · {perGuestText}
+                        Includes {option.includedGuests} guests Â· {perGuestText}
                     </small>
                 ) : null}
             </label>
@@ -103,7 +103,7 @@ export default function PricingCalculatorWidget() {
                             <span>
                                 {enhancement.label}
                                 <small>
-                                    {enhancement.description} · {formatMoney(enhancement.cost, { includeCadence: false })}
+                                    {enhancement.description} Â· {formatMoney(enhancement.cost, { includeCadence: false })}
                                 </small>
                             </span>
                         </label>
@@ -132,3 +132,4 @@ export default function PricingCalculatorWidget() {
         </div>
     );
 }
+

@@ -1,3 +1,4 @@
+import * as Sentry from "@sentry/nextjs";
 export type LeadSignal = "hot" | "warm" | "nurture";
 
 export type LeadInsert = {
@@ -101,4 +102,8 @@ export async function insertLead(env: InsertEnv, input: LeadInsert): Promise<Lea
 
 export function listLeads(): LeadRecord[] {
     return [...memoryLeads];
+}
+
+export function clearLeads(): void {
+    memoryLeads.length = 0;
 }

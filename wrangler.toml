@@ -1,5 +1,6 @@
 ﻿name = "tabledadrian"
 compatibility_date = "2024-09-01"
+compatibility_flags = ["nodejs_compat"]
 
 account_id = "00000000000000000000000000000000"
 
@@ -8,6 +9,9 @@ pages_build_output_dir = ".vercel/output/static"
 [vars]
 STRIPE_SECRET_KEY = "sk_live_replace_me"
 SITE_URL = "https://tabledadrian.com"
+CF_TURNSTILE_SECRET = "turnstile_secret_placeholder"
+NEXT_PUBLIC_PLAUSIBLE_DOMAIN = "analytics.tabledadrian.com"
+NEXT_PUBLIC_CF_ANALYTICS_TOKEN = "cf-analytics-token-placeholder"
 
 [[d1_databases]]
 binding = "TABLEDADRIAN_DB"
@@ -16,5 +20,10 @@ database_id = "00000000-0000-0000-0000-000000000000"
 
 [[kv_namespaces]]
 binding = "BOOKINGS_KV"
+id = "00000000000000000000000000000000"
+preview_id = "00000000000000000000000000000000"
+
+[[kv_namespaces]]
+binding = "REVIEWS"
 id = "00000000000000000000000000000000"
 preview_id = "00000000000000000000000000000000"

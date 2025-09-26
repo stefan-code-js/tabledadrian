@@ -1,7 +1,8 @@
-import { z } from "zod";
+﻿import { z } from "zod";
 import * as Sentry from "@sentry/nextjs";
 import { buildLeadFromBooking, safeParseBooking } from "@/lib/booking";
 import { insertLead } from "@/lib/leads";
+import { resolveCfEnv, getClientIp } from "@/lib/cloudflare";
 
 export const runtime = "edge";
 
@@ -12,6 +13,8 @@ type Env = {
     BOOKINGS_KV?: KVNamespace;
     TABLEDADRIAN_DB?: D1Database;
 };
+
+type RouteContext = { params: Promise<Record<string, string>> } & { env?: Env };
 
 const requestSchema = z.object({
     name: z.string().min(2),
@@ -25,17 +28,15 @@ const requestSchema = z.object({
     turnstileToken: z.string().optional(),
 });
 
-function getIpAddress(request: Request) {
-    return (
-        request.headers.get("cf-connecting-ip") ||
-        request.headers.get("x-forwarded-for") ||
-        request.headers.get("client-ip") ||
-        "unknown"
-    );
-}
-
 function getTurnstileSecret(env: Env) {
-    return env.CF_TURNSTILE_SECRET || env.TURNSTILE_SECRET || env.TURNSTILE_SECRET_KEY;
+    return (
+        env.CF_TURNSTILE_SECRET ||
+        env.TURNSTILE_SECRET ||
+        env.TURNSTILE_SECRET_KEY ||
+        (typeof process !== "undefined" ? process.env.CF_TURNSTILE_SECRET : undefined) ||
+        (typeof process !== "undefined" ? process.env.TURNSTILE_SECRET : undefined) ||
+        (typeof process !== "undefined" ? process.env.TURNSTILE_SECRET_KEY : undefined)
+    );
 }
 
 async function verifyTurnstile(env: Env, token: string | undefined, ip: string) {
@@ -58,15 +59,16 @@ async function verifyTurnstile(env: Env, token: string | undefined, ip: string) 
 }
 
 async function rateLimit(env: Env, ip: string) {
-    if (!env.BOOKINGS_KV) return true;
+    const kv = env.BOOKINGS_KV;
+    if (!kv) return true;
     const key = `lead-rate:${ip}`;
     try {
-        const currentRaw = await env.BOOKINGS_KV.get(key);
+        const currentRaw = await kv.get(key);
         const current = currentRaw ? Number(currentRaw) : 0;
         if (current >= 5) {
             return false;
         }
-        await env.BOOKINGS_KV.put(key, String(current + 1), { expirationTtl: 600 });
+        await kv.put(key, String(current + 1), { expirationTtl: 600 });
         return true;
     } catch (error) {
         Sentry.captureException(error);
@@ -75,9 +77,9 @@ async function rateLimit(env: Env, ip: string) {
     }
 }
 
-type RouteContext = { params: Promise<Record<string, string>> } & { env: Env };
-
 export async function POST(req: Request, context: RouteContext): Promise<Response> {
+    const env: Env = resolveCfEnv<Env>(context.env) ?? {};
+
     try {
         const json = await req.json();
         const parsed = requestSchema.safeParse(json);
@@ -93,8 +95,8 @@ export async function POST(req: Request, context: RouteContext): Promise<Respons
             return Response.json({ ok: true, id: "ignored" }, { headers: { "Cache-Control": "no-store" } });
         }
 
-        const ip = getIpAddress(req);
-        const allowed = await rateLimit(context.env, ip);
+        const ip = getClientIp(req);
+        const allowed = await rateLimit(env, ip);
         if (!allowed) {
             return Response.json(
                 { ok: false, errors: ["Too many requests. Please wait a few minutes before retrying."] },
@@ -102,7 +104,7 @@ export async function POST(req: Request, context: RouteContext): Promise<Respons
             );
         }
 
-        const turnstileOk = await verifyTurnstile(context.env, parsed.data.turnstileToken, ip);
+        const turnstileOk = await verifyTurnstile(env, parsed.data.turnstileToken, ip);
         if (!turnstileOk) {
             return Response.json(
                 { ok: false, errors: ["Verification failed. Please refresh and try again."] },
@@ -119,7 +121,7 @@ export async function POST(req: Request, context: RouteContext): Promise<Respons
         }
 
         const leadInput = buildLeadFromBooking(bookingParse.data);
-        const record = await insertLead(context.env, leadInput);
+        const record = await insertLead(env, { ...leadInput, ip: ip === "unknown" ? undefined : ip });
 
         return Response.json(
             { ok: true, id: record.id },
@@ -139,3 +141,5 @@ export async function POST(req: Request, context: RouteContext): Promise<Respons
         );
     }
 }
+
+

@@ -73,18 +73,11 @@ export default async function ReviewsPage() {
                     <div className="section-heading">
                         <Reveal as="h2">Latest notes</Reveal>
                         <Reveal>
-                            <div className="review-summary" role="presentation">
-                                <span className="stars-display" aria-hidden="true">
-                                    <span className="stars-back">★★★★★</span>
-                                    <span
-                                        className="stars-front"
-                                        style={{ width: `${(Math.max(0, Math.min(5, stats.avg)) / 5) * 100}%` }}
-                                    >
-                                        ★★★★★
-                                    </span>
-                                </span>
-                                <span className="summary-text">
-                                    {avgDisplay} <span className="muted">·</span> {stats.count} review{stats.count === 1 ? "" : "s"}
+                            <div className="review-summary" role="status">
+                                <span className="review-summary__score">{avgDisplay}</span>
+                                <span className="muted">
+                                    {" "}
+                                    from {stats.count} review{stats.count === 1 ? "" : "s"}
                                 </span>
                             </div>
                         </Reveal>

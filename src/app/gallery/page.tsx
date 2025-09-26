@@ -10,11 +10,21 @@ import {
     PageStructuredData,
 } from "@/components/StructuredPage";
 import LightboxGallery from "@/components/LightboxGallery";
+import { images } from "@/data/images";
 import { createPageMetadata } from "@/lib/metadata";
 
 const page = sitePages.gallery;
 
 export const metadata = createPageMetadata(page);
+
+const galleryAssets = [
+    images.homeGalleryOne,
+    images.homeGalleryTwo,
+    images.homeGalleryThree,
+    images.homeGalleryFour,
+    images.homeGalleryFive,
+    images.homeGallerySix,
+];
 
 export default function GalleryPage() {
     return (
@@ -29,7 +39,7 @@ export default function GalleryPage() {
                     <div className="section-heading">
                         <h2>Gallery</h2>
                     </div>
-                    <LightboxGallery images={[]} />
+                    <LightboxGallery images={galleryAssets} analyticsId="gallery-main" />
                 </div>
                 <hr className="separator" />
             </section>
@@ -39,3 +49,7 @@ export default function GalleryPage() {
         </article>
     );
 }
+
+
+
+

@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest';
+﻿import { describe, it, expect } from 'vitest';
 import { products } from '../src/data/products';
 
 describe('products data', () => {
@@ -7,7 +7,8 @@ describe('products data', () => {
             expect(typeof p.id).toBe('string');
             expect(typeof p.name).toBe('string');
             expect(typeof p.price).toBe('number');
-            expect(typeof p.priceId).toBe('string');
+            expect(typeof p.priceKey).toBe('string');
         }
     });
 });
+

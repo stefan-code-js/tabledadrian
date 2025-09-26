@@ -1,4 +1,4 @@
-// src/app/layout.tsx
+﻿// src/app/layout.tsx
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import React from "react";
@@ -8,68 +8,30 @@ import AppMotionRoot from "@/components/AppMotionRoot";
 import Footer from "@/components/Footer";
 import { site } from "@/lib/site";
 import { serif, sans } from "@/lib/fonts";
+import { buildPageMetadata, buildOrganizationJsonLd, buildLocalBusinessJsonLd } from "@/lib/metadata";
 
 export const runtime = "edge";
 
-export const metadata: Metadata = {
-    title: {
-        default: `${site.name} | Private dining on the Riviera`,
-        template: `%s | ${site.shortName}`,
-    },
+export const metadata: Metadata = buildPageMetadata({
+    title: `${site.name} | Private dining on the Riviera`,
     description: site.description,
+    path: "/",
     keywords: site.keywords,
-    applicationName: site.shortName,
-    alternates: { canonical: site.url },
-    openGraph: {
-        type: "website",
-        url: site.url,
-        title: site.name,
-        description: site.description,
-        siteName: site.name,
-        locale: site.locale,
-        images: ["/og.jpg"],
-    },
-    twitter: {
-        card: "summary_large_image",
-        title: site.name,
-        description: site.description,
-        images: ["/og.jpg"],
-    },
-    robots: { index: true, follow: true },
-    icons: { icon: "/favicon.ico", apple: "/apple-touch-icon.png" },
-    authors: [{ name: site.name, url: site.url }],
-};
+    image: "/og.jpg",
+});
 
 export const viewport: Viewport = {
     themeColor: "#f7f3ed",
     colorScheme: "light",
 };
 
+const organizationJsonLd = buildOrganizationJsonLd();
+const localBusinessJsonLd = buildLocalBusinessJsonLd();
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
     const plausibleDomain = process.env.NEXT_PUBLIC_PLAUSIBLE_DOMAIN;
     const cfToken = process.env.NEXT_PUBLIC_CF_ANALYTICS_TOKEN;
     const cfBeacon = cfToken ? JSON.stringify({ token: cfToken, spa: true }) : undefined;
-
-    const jsonLd = {
-        "@context": "https://schema.org",
-        "@type": "Restaurant",
-        name: site.name,
-        url: site.url,
-        description: site.description,
-        email: site.email,
-        telephone: site.telephone || undefined,
-        address: {
-            "@type": "PostalAddress",
-            streetAddress: site.address.street,
-            addressLocality: site.address.locality,
-            addressRegion: site.address.region,
-            postalCode: site.address.postalCode,
-            addressCountry: site.address.country,
-        },
-        servesCuisine: site.cuisines,
-        areaServed: site.serviceArea.map((city) => ({ "@type": "City", name: city })),
-        sameAs: [site.socials.instagram, site.socials.linkedin].filter(Boolean),
-    };
 
     return (
         <html lang={site.locale}>
@@ -102,10 +64,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                         data-cf-beacon={cfBeacon}
                     />
                 ) : null}
-                <script
-                    type="application/ld+json"
-                    dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-                />
+                <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }} />
+                <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessJsonLd) }} />
             </body>
         </html>
     );

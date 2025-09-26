@@ -9,11 +9,18 @@ const basePayload = {
     email: 'elena@example.com',
     guests: 12,
     eventDate: soonEventDate,
-    location: 'Cap d’Antibes',
+    location: 'Cap d\'Antibes',
     budget: 'approved high-priority spend',
     message: 'Celebration dinner following board meeting.',
     company: '',
 };
+
+function createContext() {
+    return {
+        env: {},
+        params: Promise.resolve({}),
+    } as any;
+}
 
 describe('booking validation', () => {
     it('parses valid payloads and classifies signals', () => {
@@ -39,8 +46,10 @@ describe('contact API integration', () => {
         const response = await POST(
             new Request('http://localhost/api/contact', {
                 method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(basePayload),
-            })
+            }),
+            createContext()
         );
         expect(response.status).toBe(200);
         const data = await response.json();
@@ -53,8 +62,10 @@ describe('contact API integration', () => {
         const response = await POST(
             new Request('http://localhost/api/contact', {
                 method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email: 'bad' }),
-            })
+            }),
+            createContext()
         );
         expect(response.status).toBe(400);
         const data = await response.json();

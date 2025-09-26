@@ -14,63 +14,37 @@ import CTABand from "@/components/CTABand";
 import TestimonialCarousel from "@/components/TestimonialCarousel";
 import FactRow from "@/components/FactRow";
 import CardPanel from "@/components/CardPanel";
+import { images, type ImageAsset } from "@/data/images";
+import { ANALYTICS_EVENTS, trackEvent } from "@/lib/analytics";
 
-const KEYWORDS = ["private table", "Côte d'Azur", "seasonal", "membership", "consult", "chef's table"] as const;
+const KEYWORDS = ["private table", "Cote d'Azur", "seasonal", "membership", "consult", "chef's table"] as const;
 
-const heroImages: Record<PageId | "default", { src: string; alt: string }> = {
-    default: {
-        src: "/placeholder/hero-default.svg",
-        alt: "Soft daylight across a linen-covered table set with ceramics and herbs.",
-    },
-    home: {
-        src: "/placeholder/hero-home.svg",
-        alt: "Table set for an intimate dinner with natural light and seasonal dishes.",
-    },
-    about: {
-        src: "/placeholder/hero-about.svg",
-        alt: "Chef plating a dish with precision in a calm kitchen.",
-    },
-    experiences: {
-        src: "/placeholder/hero-experiences.svg",
-        alt: "Evening coastal view beyond a candlelit table.",
-    },
-    products: {
-        src: "/placeholder/hero-products.svg",
-        alt: "Minimal pantry shelves with glass jars and linen.",
-    },
-    contact: {
-        src: "/placeholder/hero-contact.svg",
-        alt: "Handwritten notes beside a porcelain cup on a marble surface.",
-    },
-    gallery: {
-        src: "/placeholder/hero-gallery.svg",
-        alt: "Cinematic collage of service moments.",
-    },
-    press: {
-        src: "/placeholder/hero-press.svg",
-        alt: "Stacks of crisp newsprint beside a ceramic cup.",
-    },
-    reviews: {
-        src: "/placeholder/hero-reviews.svg",
-        alt: "Guests gathered at a candlelit table.",
-    },
-    adminLeads: {
-        src: "/placeholder/hero-admin-leads.svg",
-        alt: "Handwritten notes beside a porcelain cup on a marble surface.",
-    },
-    pricingCalculator: {
-        src: "/placeholder/hero-pricing-calculator.svg",
-        alt: "Minimal desk with a calculator, notebook, and soft light.",
-    },
+const heroAssets: Record<PageId | "default", ImageAsset> = {
+    default: images.heroDefault,
+    home: images.heroHome,
+    about: images.heroAbout,
+    experiences: images.heroExperiences,
+    products: images.heroServices,
+    contact: images.heroContact,
+    gallery: images.heroGallery,
+    press: images.heroPress,
+    reviews: images.heroReviews,
+    adminLeads: images.heroAdminLeads,
+    pricingCalculator: images.heroPricing,
 };
 
 const anchor = (page: PageContent, target: string) => `${page.slug}-${target}`;
 
-function heroFor(page: PageContent) {
-    return heroImages[page.id] ?? heroImages.default;
+function heroFor(page: PageContent): ImageAsset {
+    return heroAssets[page.id] ?? heroAssets.default;
 }
 
-function TierAction({ cta }: { cta: TierCta }) {
+type TierActionProps = {
+    cta: TierCta;
+    context: { pageId: PageId; tierId?: string };
+};
+
+function TierAction({ cta, context }: TierActionProps) {
     if (cta.type === "checkout") {
         return (
             <PayButton priceKey={cta.priceKey}>
@@ -78,8 +52,18 @@ function TierAction({ cta }: { cta: TierCta }) {
             </PayButton>
         );
     }
+
+    const handleClick = () => {
+        trackEvent(ANALYTICS_EVENTS.ctaClick, {
+            location: `${context.pageId}-pricing`,
+            tier: context.tierId,
+            href: cta.href,
+            label: cta.label,
+        });
+    };
+
     return (
-        <Link className="text-link" href={cta.href}>
+        <Link className="text-link" href={cta.href} onClick={handleClick}>
             {cta.label}
         </Link>
     );
@@ -91,6 +75,17 @@ const highlight = (text: string, variant: "forest" | "bronze" | "oxblood" = "for
 
 export function PageHero({ page }: { page: PageContent }) {
     const figure = heroFor(page);
+    const location = `${page.slug}-hero`;
+
+    const handleHeroClick = (kind: "primary" | "secondary", href: string, label: string) => () => {
+        trackEvent(ANALYTICS_EVENTS.heroCta, {
+            location,
+            kind,
+            href,
+            label,
+        });
+    };
+
     return (
         <section className="editorial-hero" id={anchor(page, "hero")}>
             <figure className="full-bleed hero-figure" data-parallax="8">
@@ -98,8 +93,10 @@ export function PageHero({ page }: { page: PageContent }) {
                     src={figure.src}
                     alt={figure.alt}
                     fill
-                    priority
+                    priority={figure.priority ?? page.id === "home"}
                     sizes="100vw"
+                    placeholder={figure.placeholder}
+                    blurDataURL={figure.blurDataURL}
                     className="hero-figure__image"
                 />
             </figure>
@@ -108,11 +105,15 @@ export function PageHero({ page }: { page: PageContent }) {
                 <KineticHeading as="h1">{page.hero.title}</KineticHeading>
                 <KineticParagraph>{highlight(page.hero.description, "bronze")}</KineticParagraph>
                 <div className="cta-row">
-                    <Link className="btn" href={page.hero.primaryCta.href}>
+                    <Link className="btn" href={page.hero.primaryCta.href} onClick={handleHeroClick("primary", page.hero.primaryCta.href, page.hero.primaryCta.label)}>
                         {page.hero.primaryCta.label}
                     </Link>
                     {page.hero.secondaryCta ? (
-                        <Link className="btn ghost" href={page.hero.secondaryCta.href}>
+                        <Link
+                            className="btn ghost"
+                            href={page.hero.secondaryCta.href}
+                            onClick={handleHeroClick("secondary", page.hero.secondaryCta.href, page.hero.secondaryCta.label)}
+                        >
                             {page.hero.secondaryCta.label}
                         </Link>
                     ) : null}
@@ -208,7 +209,7 @@ export function PricingSection({ page }: { page: PageContent }) {
                                 <KineticParagraph>{highlight(tier.details.body, "oxblood")}</KineticParagraph>
                             ) : null}
                             <div className="pricing-card__cta">
-                                <TierAction cta={tier.cta} />
+                                <TierAction cta={tier.cta} context={{ pageId: page.id, tierId: tier.id }} />
                             </div>
                         </CardPanel>
                     ))}
@@ -248,12 +249,12 @@ export function FinalCtaSection({ page, children }: { page: PageContent; childre
         <section className="editorial-section" id={anchor(page, "cta")}>
             <div className="editorial-container">
                 <CTABand
+                    analyticsId={`${page.slug}-final-cta`}
                     title={finalCta.title}
                     description={finalCta.description}
                     primary={finalCta.primary}
                     secondary={finalCta.secondary}
                 />
-                {children}
                 {children}
             </div>
         </section>

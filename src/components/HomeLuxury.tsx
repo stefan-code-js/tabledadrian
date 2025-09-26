@@ -13,8 +13,10 @@ import ImageMosaic from "@/components/ImageMosaic";
 import TestimonialCarousel from "@/components/TestimonialCarousel";
 import FactRow from "@/components/FactRow";
 import CardPanel from "@/components/CardPanel";
+import { images } from "@/data/images";
+import { ANALYTICS_EVENTS, trackEvent } from "@/lib/analytics";
 
-const HERO_KEYWORDS: string[] = ["private table", "Côte d'Azur", "seasonal", "membership", "consult", "chef's table"];
+const HERO_KEYWORDS: string[] = ["private table", "Cote d'Azur", "seasonal", "membership", "consult", "chef's table"];
 
 type Sequence = {
     title: string;
@@ -77,7 +79,18 @@ const sequences: Sequence[] = [
         },
         align: "right",
         cta: (
-            <Link className="text-link" href="/membership">
+            <Link
+                className="text-link"
+                href="/membership"
+                onClick={() =>
+                    trackEvent(ANALYTICS_EVENTS.ctaClick, {
+                        location: "home-luxury-sequence",
+                        kind: "membership",
+                        href: "/membership",
+                        label: "Explore membership pathways",
+                    })
+                }
+            >
                 Explore membership pathways
             </Link>
         ),
@@ -88,15 +101,15 @@ const sequences: Sequence[] = [
         copy: [
             <KineticParagraph key="ledger-1">
                 <KeywordHighlighter
-                    text="After the final digestif we record every preference—temperatures, plating, and the cadence that allowed conversation to bloom."
+                    text="After the final digestif we record every preference-temperatures, plating, and the cadence that allowed conversation to bloom."
                     keywords={HERO_KEYWORDS}
                     variant="forest"
                 />
             </KineticParagraph>,
             <KineticParagraph key="ledger-2">
                 <KeywordHighlighter
-                    text="Seasonal clients carry that documentation between villas, yachts, and salons, ensuring the Côte d'Azur narrative follows wherever you convene."
-                    keywords={["Côte d'Azur", "seasonal"]}
+                    text="Seasonal clients carry that documentation between villas, yachts, and salons, ensuring the Cote d'Azur narrative follows wherever you convene."
+                    keywords={["Cote d'Azur", "seasonal"]}
                     variant="bronze"
                 />
             </KineticParagraph>,
@@ -112,7 +125,7 @@ const sequences: Sequence[] = [
 const testimonials = [
     {
         quote:
-            "The evening felt choreographed yet unforced—our guests believed we had done it for years. The deck log lets us repeat it city to city.",
+            "The evening felt choreographed yet unforced-our guests believed we had done it for years. The deck log lets us repeat it city to city.",
         name: "Isabelle D.",
         role: "Monaco Residence Manager",
     },
@@ -129,48 +142,70 @@ const testimonials = [
 ];
 
 const mosaicImages = [
-    { src: "/placeholder/gallery-01.svg", alt: "Linen draped private table." },
-    { src: "/placeholder/gallery-02.svg", alt: "Coastal garden herbs." },
-    { src: "/placeholder/gallery-03.svg", alt: "Cellar with curated pairings." },
-    { src: "/placeholder/gallery-04.svg", alt: "Salon finale with digestifs." },
+    images.homeGalleryOne,
+    images.homeGalleryTwo,
+    images.homeGalleryThree,
+    images.homeGalleryFour,
 ];
 
 const factRow = [
-    { label: "Lead time", value: "14 days for Côte d'Azur residences" },
+    { label: "Lead time", value: "14 days for Cote d'Azur residences" },
     { label: "Season", value: "Menus revise at dawn with the markets" },
     { label: "Guests", value: "4 to 24 guests, chef's table intimacy" },
     { label: "Consult", value: "Membership or single-evening consult" },
 ];
 
 export default function HomeLuxury() {
+    const heroAsset = images.heroHome;
+
+    const handleHeroClick = (kind: "primary" | "secondary", href: string, label: string) => () => {
+        trackEvent(ANALYTICS_EVENTS.heroCta, {
+            location: "home-luxury-hero",
+            kind,
+            href,
+            label,
+        });
+    };
+
+    const handleCardCta = (kind: "primary" | "secondary", href: string, label: string) => () => {
+        trackEvent(ANALYTICS_EVENTS.ctaClick, {
+            location: "home-luxury-membership",
+            kind,
+            href,
+            label,
+        });
+    };
+
     return (
         <article className="home-editorial">
             <section className="home-editorial__hero">
                 <div className="home-editorial__media">
                     <Image
-                        src="/placeholder/hero-home.svg"
-                        alt="Editorial still of the Côte d'Azur private table."
+                        src={heroAsset.src}
+                        alt={heroAsset.alt}
                         fill
-                        priority
+                        priority={heroAsset.priority ?? true}
                         sizes="100vw"
+                        placeholder={heroAsset.placeholder}
+                        blurDataURL={heroAsset.blurDataURL}
                     />
                 </div>
                 <div className="home-editorial__overlay" />
                 <div className="home-editorial__content">
-                    <span className="home-editorial__kicker">Private table · Côte d'Azur</span>
+                    <span className="home-editorial__kicker">Private table / Cote d'Azur</span>
                     <KineticHeading as="h1">An evening written in quiet chapters</KineticHeading>
                     <KineticParagraph>
                         <KeywordHighlighter
-                            text="Our private table on the Côte d'Azur moves through seasonal courses, meticulous service, and membership consultations that translate the chef's table across every residence."
+                            text="Our private table on the Cote d'Azur moves through seasonal courses, meticulous service, and membership consultations that translate the chef's table across every residence."
                             keywords={HERO_KEYWORDS}
                             variant="bronze"
                         />
                     </KineticParagraph>
                     <div className="home-editorial__actions">
-                        <Link className="btn" href="/contact">
+                        <Link className="btn" href="/contact" onClick={handleHeroClick("primary", "/contact", "Reserve a private table")}>
                             Reserve a private table
                         </Link>
-                        <Link className="btn ghost" href="/consult">
+                        <Link className="btn ghost" href="/consult" onClick={handleHeroClick("secondary", "/consult", "Begin membership consult")}>
                             Begin membership consult
                         </Link>
                     </div>
@@ -206,10 +241,10 @@ export default function HomeLuxury() {
                         />
                     </KineticParagraph>
                     <div className="home-editorial__card-actions">
-                        <Link className="btn" href="/membership">
+                        <Link className="btn" href="/membership" onClick={handleCardCta("primary", "/membership", "View membership")}>
                             View membership
                         </Link>
-                        <Link className="btn ghost" href="/consult">
+                        <Link className="btn ghost" href="/consult" onClick={handleCardCta("secondary", "/consult", "Schedule consult")}>
                             Schedule consult
                         </Link>
                     </div>
@@ -223,6 +258,7 @@ export default function HomeLuxury() {
             <TestimonialCarousel testimonials={testimonials} />
 
             <CTABand
+                analyticsId="home-luxury-cta"
                 title="Reserve your chapter"
                 description="Share your preferred date, venue, and guest profile. We respond within the day with a composed narrative, provisioning briefs, and the choreography of service."
                 primary={{ label: "Reserve a private table", href: "/contact" }}
@@ -231,4 +267,3 @@ export default function HomeLuxury() {
         </article>
     );
 }
-

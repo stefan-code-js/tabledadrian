@@ -56,7 +56,7 @@ const navGroups: NavGroup[] = [
         label: "Services",
         summary: "Private consulting, memberships, and tools",
         links: [
-            { label: "Products & Services", href: "/products" },
+            { label: "Services", href: "/services" },
             { label: "Consult", href: "/consult" },
             { label: "Membership", href: "/membership" },
             { label: "Pricing Calculator", href: "/pricing-calculator" },

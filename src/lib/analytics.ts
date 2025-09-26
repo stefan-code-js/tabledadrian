@@ -1,4 +1,4 @@
-export type AnalyticsPayload = Record<string, string | number | boolean | undefined>;
+﻿export type AnalyticsPayload = Record<string, string | number | boolean | undefined>;
 
 declare global {
     interface Window {
@@ -40,7 +40,13 @@ export const ANALYTICS_EVENTS = {
     bookingCta: "booking_cta",
     formStart: "form_start",
     formSuccess: "form_success",
+    formError: "form_error",
     checkoutSuccess: "checkout_success",
     menuToggle: "menu_toggle",
     navClick: "nav_click",
+    heroCta: "hero_cta",
+    ctaClick: "cta_click",
+    galleryOpen: "gallery_open",
+    galleryNavigate: "gallery_navigate",
+    galleryClose: "gallery_close",
 };

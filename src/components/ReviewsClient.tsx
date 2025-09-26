@@ -11,6 +11,22 @@ export type Review = {
     createdAt: number;
 };
 
+type ApiSuccess = {
+    ok: true;
+    review: Review;
+    count?: number;
+    avg?: number;
+    stats?: { count: number; avg: number };
+    debug?: boolean;
+};
+
+type ApiFailure = {
+    ok: false;
+    error?: string;
+};
+
+type ApiResponse = ApiSuccess | ApiFailure | null;
+
 type Props = {
     initialItems: Review[];
     initialCount: number;
@@ -50,11 +66,14 @@ export default function ReviewsClient({ initialItems, initialCount, initialAvg }
     const [ok, setOk] = React.useState<string | null>(null);
 
     function recompute(newItems: Review[]) {
-        const a =
-            newItems.length === 0
-                ? 0
-                : +(newItems.reduce((sum, review) => sum + review.rating, 0) / newItems.length).toFixed(2);
-        setAvg(a);
+        if (newItems.length === 0) {
+            setAvg(0);
+            setCount(0);
+            return;
+        }
+        const total = newItems.reduce((sum, review) => sum + review.rating, 0);
+        const nextAvg = +(total / newItems.length).toFixed(2);
+        setAvg(nextAvg);
         setCount(newItems.length);
     }
 
@@ -81,20 +100,30 @@ export default function ReviewsClient({ initialItems, initialCount, initialAvg }
                 }),
             });
 
-            const data: any = await response.json().catch(() => ({}));
-            if (!response.ok || !data?.ok) {
-                setErr(data?.error || "Network error. Please try again.");
+            const data = (await response.json().catch(() => null)) as ApiResponse;
+            if (!response.ok || !data || !data.ok || !data.review) {
+                const message = data && "error" in data && data.error ? data.error : "Network error. Please try again.";
+                setErr(message);
                 setBusy(false);
                 return;
             }
 
-            const created: Review = data.review;
+            const created = data.review;
+            let nextItems: Review[] | null = null;
             setItems((prev) => {
-                const next = [created, ...prev].slice(0, 50);
-                recompute(next);
-                return next;
+                const merged = [created, ...prev].slice(0, 50);
+                nextItems = merged;
+                return merged;
             });
-            setOk("Thank you — your note is published.");
+
+            if (data.stats) {
+                setCount(data.stats.count);
+                setAvg(data.stats.avg);
+            } else if (nextItems) {
+                recompute(nextItems);
+            }
+
+            setOk("Thank you - your note is published.");
             setName("");
             setEmail("");
             setText("");
@@ -112,7 +141,7 @@ export default function ReviewsClient({ initialItems, initialCount, initialAvg }
                 <header className="reviews-column__header">
                     <h3>Guest notes</h3>
                     <p className="muted">
-                        {count} review{count === 1 ? "" : "s"} · average {avg.toFixed(1)}
+                        {count} review{count === 1 ? "" : "s"} - average {avg.toFixed(1)}
                     </p>
                 </header>
                 {items.length === 0 ? (
@@ -176,7 +205,7 @@ export default function ReviewsClient({ initialItems, initialCount, initialAvg }
 
                     <div className="actions">
                         <button className="btn" type="submit" disabled={busy}>
-                            {busy ? "sending…" : "publish review"}
+                            {busy ? "sending..." : "publish review"}
                         </button>
                     </div>
                 </form>
