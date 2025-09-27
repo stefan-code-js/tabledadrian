@@ -64,17 +64,20 @@ type PageMetaParams = {
     path: string;
     keywords?: string[];
     image?: OpenGraphImage | string;
+    indexable?: boolean;
 };
 
-export function buildPageMetadata({ title, description, path, keywords, image }: PageMetaParams): Metadata {
+export function buildPageMetadata({ title, description, path, keywords, image, indexable }: PageMetaParams): Metadata {
     const canonical = absoluteUrl(path);
     const ogImages = resolveOgImage(image);
+    const robots = indexable === false ? { index: false, follow: false } : undefined;
 
     return {
         title,
         description,
         keywords: keywords ?? site.keywords,
         alternates: { canonical },
+        robots,
         openGraph: {
             title,
             description,
@@ -111,6 +114,29 @@ export function createPageMetadata(page: PageContent): Metadata {
         path: entry.path,
         keywords: entry.keywords ?? site.keywords,
         image: entry.image,
+        indexable: entry.indexable,
+    });
+}
+
+type PathMetadataFallback = {
+    title: string;
+    description: string;
+    keywords?: string[];
+    image?: OpenGraphImage | string;
+    indexable?: boolean;
+};
+
+export function buildMetadataForPath(path: string, fallback: PathMetadataFallback): Metadata {
+    const entry = getSeoEntry(path);
+    const segmentedPath = entry?.path ?? path;
+
+    return buildPageMetadata({
+        title: sanitize(entry?.title, fallback.title),
+        description: sanitize(entry?.description, fallback.description),
+        path: segmentedPath,
+        keywords: entry?.keywords ?? fallback.keywords,
+        image: entry?.image ?? fallback.image,
+        indexable: entry?.indexable ?? fallback.indexable,
     });
 }
 

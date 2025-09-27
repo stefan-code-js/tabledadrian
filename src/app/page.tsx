@@ -1,5 +1,4 @@
 ﻿import React from "react";
-import HeroCinematic from "@/components/editorial/HeroCinematic";
 import SectionLead from "@/components/editorial/SectionLead";
 import KineticHeading from "@/components/KineticHeading";
 import KineticParagraph from "@/components/KineticParagraph";
@@ -9,6 +8,7 @@ import FactRow from "@/components/FactRow";
 import ImageMosaic from "@/components/ImageMosaic";
 import TestimonialCarousel, { type Testimonial } from "@/components/TestimonialCarousel";
 import CTABand from "@/components/CTABand";
+import { PageHero } from "@/components/StructuredPage";
 import { images } from "@/data/images";
 import { sitePages } from "@/data/siteContent";
 import { createPageMetadata } from "@/lib/metadata";
@@ -90,24 +90,8 @@ const MOSAIC = [
 
 export default function HomePage() {
     return (
-        <main className="page page-home">
-            <HeroCinematic
-                kicker="Private table / Cote d'Azur"
-                analyticsId="home-hero"
-                title="An evening written in quiet chapters"
-                summary={
-                    <KineticParagraph>
-                        <KeywordHighlighter
-                            text="Private dining on the Cote d'Azur, composed by Adrian and Antonia, moves through seasonal courses, disciplined service, and membership consults that travel with you."
-                            keywords={HERO_KEYWORDS}
-                            variant="bronze"
-                        />
-                    </KineticParagraph>
-                }
-                image={images.heroHome}
-                primaryAction={{ label: "Reserve a private table", href: "/contact" }}
-                secondaryAction={{ label: "Begin membership consult", href: "/consult" }}
-            />
+        <article className="page page-home">
+            <PageHero page={page} />
 
             <div className="layout-measure section-stack">
                 {EXPERIENCE_SECTIONS.map((section, index) => (
@@ -158,7 +142,7 @@ export default function HomePage() {
                     secondary={{ label: "Speak with the chef", href: "/consult" }}
                 />
             </div>
-        </main>
+        </article>
     );
 }
 

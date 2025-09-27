@@ -1,6 +1,8 @@
 ﻿"use client";
 import Link from "next/link";
 import type { MouseEvent } from "react";
+import { motion } from "framer-motion";
+import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 import { ANALYTICS_EVENTS, trackEvent } from "@/lib/analytics";
 
 type CTA = {
@@ -21,6 +23,14 @@ type CTABandProps = {
 export default function CTABand({ title, description, primary, secondary, analyticsId, className }: CTABandProps) {
     const classes = ["cta-band", className].filter(Boolean).join(" ");
     const location = analyticsId ?? title;
+    const prefersReduced = usePrefersReducedMotion();
+
+    const motionProps = prefersReduced
+        ? { whileHover: undefined, whileTap: undefined }
+        : {
+              whileHover: { y: -3 },
+              whileTap: { scale: 0.97 },
+          } as const;
 
     const handleClick = (
         kind: "primary" | "secondary",
@@ -47,21 +57,25 @@ export default function CTABand({ title, description, primary, secondary, analyt
                     <p className="text-ink-soft mb-4">{description}</p>
                 </div>
                 <div className="cta-band__actions flex gap-3">
-                    <Link
-                        className="cta-band__button cta-band__button--primary bg-accent text-paper px-5 py-2 rounded-md shadow-soft"
-                        href={primary.href}
-                        onClick={handleClick("primary", primary.href, primary.label, primary.onClick)}
-                    >
-                        {primary.label}
-                    </Link>
-                    {secondary ? (
+                    <motion.span {...motionProps} className="inline-flex">
                         <Link
-                            className="cta-band__button cta-band__button--secondary bg-paper text-accent px-5 py-2 rounded-md border border-accent"
-                            href={secondary.href}
-                            onClick={handleClick("secondary", secondary.href, secondary.label, secondary.onClick)}
+                            className="cta-band__button cta-band__button--primary bg-accent text-paper px-5 py-2 rounded-md shadow-soft"
+                            href={primary.href}
+                            onClick={handleClick("primary", primary.href, primary.label, primary.onClick)}
                         >
-                            {secondary.label}
+                            {primary.label}
                         </Link>
+                    </motion.span>
+                    {secondary ? (
+                        <motion.span {...motionProps} className="inline-flex">
+                            <Link
+                                className="cta-band__button cta-band__button--secondary bg-paper text-accent px-5 py-2 rounded-md border border-accent"
+                                href={secondary.href}
+                                onClick={handleClick("secondary", secondary.href, secondary.label, secondary.onClick)}
+                            >
+                                {secondary.label}
+                            </Link>
+                        </motion.span>
                     ) : null}
                 </div>
             </div>

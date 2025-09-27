@@ -1,5 +1,4 @@
-﻿import Image from "next/image";
-import type { Metadata } from "next";
+import Image from "next/image";
 import PayButton from "@/components/PayButton";
 import CardPanel from "@/components/CardPanel";
 import KineticHeading from "@/components/KineticHeading";
@@ -8,13 +7,13 @@ import KeywordHighlighter from "@/components/KeywordHighlighter";
 import FactRow from "@/components/FactRow";
 import CTABand from "@/components/CTABand";
 import { membershipTiers, formatMoney, formatRange } from "@/lib/pricing";
+import { buildMetadataForPath } from "@/lib/metadata";
 
-export const metadata: Metadata = {
+export const metadata = buildMetadataForPath("/membership", {
     title: "Membership",
     description:
         "Member programs by Antonia (PharmD) & Adrian (private chef). Quarterly to premier plans with pharmacist oversight, menu systems, and hosted dinners.",
-    alternates: { canonical: "/membership" },
-};
+});
 
 const HERO_IMAGE = {
     src: "/placeholder/hero-membership.svg",

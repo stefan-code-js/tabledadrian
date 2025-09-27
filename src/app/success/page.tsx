@@ -1,18 +1,22 @@
-﻿import Image from "next/image";
+import Image from "next/image";
 import Link from "next/link";
-import type { Metadata } from "next";
 import { getRequestContext } from "@cloudflare/next-on-pages";
 import KineticHeading from "@/components/KineticHeading";
 import KineticParagraph from "@/components/KineticParagraph";
 import CheckoutSuccessBeacon from "@/components/CheckoutSuccessBeacon";
 import { getOrder } from "@/lib/orders";
+import { buildMetadataForPath } from "@/lib/metadata";
+import KeywordHighlighter from "@/components/KeywordHighlighter";
 
 export const runtime = "edge";
 
-export const metadata: Metadata = {
+export const metadata = buildMetadataForPath("/success", {
     title: "Thank you - Table d'Adrian",
-    robots: { index: false },
-};
+    description: "Confirmation and next steps after reserving your private table.",
+    indexable: false,
+});
+
+const KEYWORDS = ["booking", "membership", "service", "cadence", "table"] as const;
 
 const heroImage = {
     src: "/placeholder/hero-success.svg",
@@ -132,7 +136,13 @@ export default async function SuccessPage({
                 </figure>
                 <div className="editorial-container hero-copy">
                     <KineticHeading as="h1">Merci - your table is reserved</KineticHeading>
-                    <KineticParagraph>We are reviewing your booking now and will reply within a single business day.</KineticParagraph>
+                    <KineticParagraph>
+                        <KeywordHighlighter
+                            text="We are reviewing your booking now and will reply within a single business day."
+                            keywords={KEYWORDS}
+                            variant="forest"
+                        />
+                    </KineticParagraph>
                 </div>
                 <hr className="separator" />
             </section>
@@ -144,10 +154,26 @@ export default async function SuccessPage({
                             <KineticHeading as="h2">What happens next</KineticHeading>
                             <KineticParagraph>{paymentMessage}</KineticParagraph>
                             <KineticParagraph>
-                                If the confirmation email does not arrive, write to <a href="mailto:adrian@tabledadrian.com">adrian@tabledadrian.com</a> and we will resend details immediately.
+                                <KeywordHighlighter
+                                    text="If the confirmation email does not arrive, write to"
+                                    keywords={KEYWORDS}
+                                    variant="forest"
+                                />
+                                {" "}
+                                <a href="mailto:adrian@tabledadrian.com">adrian@tabledadrian.com</a>
+                                {" "}
+                                <KeywordHighlighter
+                                    text="and we will resend details immediately."
+                                    keywords={KEYWORDS}
+                                    variant="forest"
+                                />
                             </KineticParagraph>
                             <KineticParagraph>
-                                Our pharmacist and chef co-author the intake summary, align on sensitivities, and brief the crew so the evening feels inevitable from the first course through the final reset.
+                                <KeywordHighlighter
+                                    text="Our pharmacist and chef co-author the intake summary, align on sensitivities, and brief the crew so the evening feels inevitable from the first course through the final reset."
+                                    keywords={KEYWORDS}
+                                    variant="bronze"
+                                />
                             </KineticParagraph>
                         </article>
                         <article className="narrative-block">
@@ -155,8 +181,10 @@ export default async function SuccessPage({
                             <div className="process-flow">
                                 {followUpSteps.map((step) => (
                                     <article key={step.title} className="process-step">
-                                        <h3>{step.title}</h3>
-                                        <p>{step.detail}</p>
+                                        <KineticHeading as="h3">{step.title}</KineticHeading>
+                                        <KineticParagraph>
+                                            <KeywordHighlighter text={step.detail} keywords={KEYWORDS} variant="forest" />
+                                        </KineticParagraph>
                                     </article>
                                 ))}
                             </div>
@@ -170,8 +198,11 @@ export default async function SuccessPage({
                 <div className="editorial-container final-call">
                     <KineticHeading as="h2">Extend the relationship</KineticHeading>
                     <KineticParagraph>
-                        Membership keeps pharmacist oversight, hosted dinners, and culinary documentation on cadence so every property feels consistent.
-                        Share your next intention and we will design the plan.
+                        <KeywordHighlighter
+                            text="Membership keeps pharmacist oversight, hosted dinners, and culinary documentation on cadence so every property feels consistent. Share your next intention and we will design the plan."
+                            keywords={KEYWORDS}
+                            variant="bronze"
+                        />
                     </KineticParagraph>
                     <div className="cta-row">
                         <Link className="btn" href="/book">

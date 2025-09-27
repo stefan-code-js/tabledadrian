@@ -119,27 +119,27 @@ export const sitePages: Record<PageId, PageContent> = {
         path: "/",
         navLabel: "home",
         meta: {
-            title: "Table dÔÇÖAdrian ┬Ě Private chef C├┤te dÔÇÖAzur",
+            title: "Table d'Adrian · Private chef Cote d'Azur",
             description:
                 "Ingredient-led tasting menus with pharmacist-designed wellness systems for villas, yachts, and salons along Antibes, Cannes, and Monaco.",
             canonical: "/",
             keywords: [
-                "table dÔÇÖadrian",
+                "table d'adrian",
                 "private chef riviera",
-                "c├┤te dÔÇÖazur private dining",
+                "cote d'azur private dining",
                 "tasting menu antibes",
                 "luxury private chef",
             ],
         },
         hero: {
-            title: "Table dÔÇÖAdrian",
+            title: "Table d'Adrian",
             description:
                 "Ingredient-led tasting menus, pharmacist-designed wellness systems, and hospitality that moves quietly. Villas, yachts, and salons along Antibes, Cannes, Monaco. Every engagement is built around a written narrative so your guests understand the intention before the first pour.",
             primaryCta: { label: "request a booking", href: "/book" },
         },
         quickNav: [
             { label: "value", target: "values" },
-            { label: "whatÔÇÖs included", target: "included" },
+            { label: "what's included", target: "included" },
             { label: "process", target: "process" },
             { label: "pricing", target: "pricing" },
             { label: "testimonials", target: "testimonials" },
@@ -175,9 +175,9 @@ export const sitePages: Record<PageId, PageContent> = {
             title: "What every engagement includes",
             intro: "Every booking arrives with meticulous documentation, coordination with household teams, and clear next steps for continuity across properties. We align calendars, inventory, and service preferences before the first mise en place list is drafted.",
             paragraphs: [
-                "Intake sessions with Antonia and Adrian translate your priorities into nutritional guidance, logistics, and a working hospitality plan the household team can trust. We document every standard in shared workspaces so nothing lives in someoneÔÇÖs memory alone.",
+                "Intake sessions with Antonia and Adrian translate your priorities into nutritional guidance, logistics, and a working hospitality plan the household team can trust. We document every standard in shared workspaces so nothing lives in someone's memory alone.",
                 "We deliver menu books with mise charts, plating notes, and wine companions, then brief the crew on-site before service and reset the space afterward. Your staff receives advance run-of-show timelines so they always know what happens next.",
-                "Post-event we refine standards, update provisioning lists, and extend priority access to AdrianÔÇÖs seasonal experiences so momentum never stalls. Continued guidance keeps your household, yacht, or salon aligned even when teams rotate.",
+                "Post-event we refine standards, update provisioning lists, and extend priority access to Adrian's seasonal experiences so momentum never stalls. Continued guidance keeps your household, yacht, or salon aligned even when teams rotate.",
             ],
         },
         process: {
@@ -242,7 +242,7 @@ export const sitePages: Record<PageId, PageContent> = {
                 {
                     quote: "Precision that reads like poetry. Aroma leads; texture stays.",
                     name: "Villa host",
-                    role: "Cap dÔÇÖAntibes",
+                    role: "Cap d'Antibes",
                 },
                 {
                     quote: "Service that disappears. Plates that arrive like small rituals.",
@@ -258,7 +258,7 @@ export const sitePages: Record<PageId, PageContent> = {
         },
         finalCta: {
             title: "Ready to set your table",
-            description: "Share your date and intentions. WeÔÇÖll return with a precise plan and hold the calendar while you review.",
+            description: "Share your date and intentions. We'll return with a precise plan and hold the calendar while you review.",
             primary: { label: "start booking", href: "/book" },
             secondary: { label: "see membership", href: "/membership" },
         },
@@ -269,12 +269,12 @@ export const sitePages: Record<PageId, PageContent> = {
         path: "/about",
         navLabel: "about",
         meta: {
-            title: "About ┬Ě Table dÔÇÖAdrian",
+            title: "About · Table d'Adrian",
             description:
-                "Table dÔÇÖAdrian is a private chef table on the C├┤te dÔÇÖAzur led by Adrian and Antonia (PharmD). Ingredient-driven hospitality anchored in clinical intelligence and sourcing pedigree.",
+                "Table d'Adrian is a private chef table on the Cote d'Azur led by Adrian and Antonia (PharmD). Ingredient-driven hospitality anchored in clinical intelligence and sourcing pedigree.",
             canonical: "/about",
             keywords: [
-                "private chef C├┤te dÔÇÖAzur",
+                "private chef Cote d'Azur",
                 "luxury private dining",
                 "tasting menu",
                 "longevity cuisine",
@@ -327,7 +327,7 @@ export const sitePages: Record<PageId, PageContent> = {
             title: "Pedigree & recognition",
             intro: "Our work spans Michelin kitchens, clinical research, and households that demand both wellness and wonder. We bring the same precision to private residences that we honed in brigades and clinical programs.",
             paragraphs: [
-                "EHL hospitality formation & Riviera residencies. Former clinical lead for metabolic programs. Featured in Financial Times, Monocle, Cond├ę Nast Traveler. Consultants to leading wellness retreats. Trusted by family offices across the C├┤te dÔÇÖAzur. Our partners return season after season because the documentation we deliver lets their teams perform at our standard.",
+                "EHL hospitality formation & Riviera residencies. Former clinical lead for metabolic programs. Featured in Financial Times, Monocle, Conde Nast Traveler. Consultants to leading wellness retreats. Trusted by family offices across the Cote d'Azur. Our partners return season after season because the documentation we deliver lets their teams perform at our standard.",
             ],
         },
         process: {
@@ -347,7 +347,7 @@ export const sitePages: Record<PageId, PageContent> = {
                 },
                 {
                     title: "Today",
-                    detail: "Table dÔÇÖAdrian: integrated culinary and wellness leadership for private clients. We continue to refine the craft with every dossier we hand over.",
+                    detail: "Table d'Adrian: integrated culinary and wellness leadership for private clients. We continue to refine the craft with every dossier we hand over.",
                 },
             ],
         },
@@ -387,13 +387,13 @@ export const sitePages: Record<PageId, PageContent> = {
             title: "Recognition",
             items: [
                 { quote: "They hold space for performance and joy at the same time.", name: "Monocle", role: "Culture" },
-                { quote: "The RivieraÔÇÖs quiet standard for longevity-minded dining.", name: "FT Weekend", role: "How To Spend It" },
-                { quote: "They make elite hospitality livable for households.", name: "Cond├ę Nast", role: "Traveler" },
+                { quote: "The Riviera's quiet standard for longevity-minded dining.", name: "FT Weekend", role: "How To Spend It" },
+                { quote: "They make elite hospitality livable for households.", name: "Conde Nast", role: "Traveler" },
             ],
         },
         finalCta: {
             title: "Bring us into your season",
-            description: "Intake spots are limited each month. Reserve yours and weÔÇÖll align on objectives before holding dates.",
+            description: "Intake spots are limited each month. Reserve yours and we'll align on objectives before holding dates.",
             primary: { label: "request a booking", href: "/book" },
             secondary: { label: "explore membership", href: "/membership" },
         },
@@ -404,9 +404,9 @@ export const sitePages: Record<PageId, PageContent> = {
         path: "/experiences",
         navLabel: "experiences",
         meta: {
-            title: "Experiences & Menus ┬Ě Table dÔÇÖAdrian",
+            title: "Experiences & Menus · Table d'Adrian",
             description:
-                "Signature tastings, salon suppers, and voyage weekends engineered for villas, yachts, and retreats along the C├┤te dÔÇÖAzur.",
+                "Signature tastings, salon suppers, and voyage weekends engineered for villas, yachts, and retreats along the Cote d'Azur.",
             canonical: "/experiences",
         },
         hero: {
@@ -484,7 +484,7 @@ export const sitePages: Record<PageId, PageContent> = {
                     id: "signature-dinner",
                     title: "Signature Dinner",
                     paragraphs: [
-                        "12ÔÇô14 course progression. Curated pairings & playlist. Crew of 3 (chef + two service).",
+                        "12–14 course progression. Curated pairings & playlist. Crew of 3 (chef + two service).",
                     ],
                     cta: { type: "link", label: "reserve dinner", href: "/book" },
                 },
@@ -510,14 +510,14 @@ export const sitePages: Record<PageId, PageContent> = {
         testimonials: {
             title: "Recent hosts",
             items: [
-                { quote: "Menus that remember every guestÔÇÖs constraints without signaling it.", name: "Villa director", role: "Antibes" },
+                { quote: "Menus that remember every guest's constraints without signaling it.", name: "Villa director", role: "Antibes" },
                 { quote: "The salon supper turned clients into friends.", name: "Family office", role: "Cannes" },
                 { quote: "Provisioning checklist that saved our crew days.", name: "Yacht captain", role: "Monaco" },
             ],
         },
         finalCta: {
             title: "Craft your next experience",
-            description: "Tell us the moment youÔÇÖre hosting. WeÔÇÖll respond with a tailored arc within a day.",
+            description: "Tell us the moment you're hosting. We'll respond with a tailored arc within a day.",
             primary: { label: "start design", href: "/book" },
             secondary: { label: "explore membership", href: "/membership" },
         },
@@ -528,9 +528,9 @@ export const sitePages: Record<PageId, PageContent> = {
         path: "/products",
         navLabel: "products & services",
         meta: {
-            title: "Products & Services ┬Ě Table dÔÇÖAdrian",
+            title: "Products & Services · Table d'Adrian",
             description:
-                "Toolkits, menu libraries, and on-call leadership crafted so villas, households, and yachts can operate at Table dÔÇÖAdrianÔÇÖs standard.",
+                "Toolkits, menu libraries, and on-call leadership crafted so villas, households, and yachts can operate at Table d'Adrian's standard.",
             canonical: "/products",
         },
         hero: {
@@ -542,7 +542,7 @@ export const sitePages: Record<PageId, PageContent> = {
         },
         quickNav: [
             { label: "value", target: "values" },
-            { label: "whatÔÇÖs inside", target: "included" },
+            { label: "what's inside", target: "included" },
             { label: "process", target: "process" },
             { label: "packages", target: "pricing" },
             { label: "testimonials", target: "testimonials" },
@@ -555,7 +555,7 @@ export const sitePages: Record<PageId, PageContent> = {
                     title: "Menu libraries",
                     paragraphs: [
                         "Seasonal tasting menus with prep sequencing and sourcing notes for each dish. Ingredients are mapped to local suppliers with substitutions when seasons shift.",
-                        "Printable mise charts. Wine & non-alcoholic pairings. ChefÔÇÖs notes for plating. We include service stories so staff can speak about each course with confidence.",
+                        "Printable mise charts. Wine & non-alcoholic pairings. Chef's notes for plating. We include service stories so staff can speak about each course with confidence.",
                     ],
                 },
                 {
@@ -597,7 +597,7 @@ export const sitePages: Record<PageId, PageContent> = {
                 },
                 {
                     title: "Support",
-                    detail: "We monitor implementation and tune for 30 days. YouÔÇÖll receive change logs and recommendations for ongoing maintenance.",
+                    detail: "We monitor implementation and tune for 30 days. You'll receive change logs and recommendations for ongoing maintenance.",
                 },
             ],
         },
@@ -640,7 +640,7 @@ export const sitePages: Record<PageId, PageContent> = {
         },
         finalCta: {
             title: "Request the catalogue",
-            description: "Tell us which modules you need. WeÔÇÖll deliver scope, timeline, and checkout link in one reply.",
+            description: "Tell us which modules you need. We'll deliver scope, timeline, and checkout link in one reply.",
             primary: { label: "request products", href: "/book" },
             secondary: { label: "explore membership", href: "/membership" },
         },
@@ -651,7 +651,7 @@ export const sitePages: Record<PageId, PageContent> = {
         path: "/contact",
         navLabel: "contact / booking",
         meta: {
-            title: "Contact & Booking ┬Ě Table dÔÇÖAdrian",
+            title: "Contact & Booking · Table d'Adrian",
             description:
                 "Share your date, guest cadence, and intentions. We confirm availability, pricing, and next steps for private chef experiences within 24 hours.",
             canonical: "/contact",
@@ -665,7 +665,7 @@ export const sitePages: Record<PageId, PageContent> = {
         },
         quickNav: [
             { label: "value", target: "values" },
-            { label: "whatÔÇÖs included", target: "included" },
+            { label: "what's included", target: "included" },
             { label: "process", target: "process" },
             { label: "options", target: "pricing" },
             { label: "testimonials", target: "testimonials" },
@@ -721,7 +721,7 @@ export const sitePages: Record<PageId, PageContent> = {
                 },
                 {
                     title: "Prepare",
-                    detail: "We run intake, coordinate vendors, and deliver pre-event documentation. Expect weekly check-ins leading up to service so youÔÇÖre never wondering whatÔÇÖs happening.",
+                    detail: "We run intake, coordinate vendors, and deliver pre-event documentation. Expect weekly check-ins leading up to service so you're never wondering what's happening.",
                 },
             ],
         },
@@ -757,7 +757,7 @@ export const sitePages: Record<PageId, PageContent> = {
         testimonials: {
             title: "Booking feedback",
             items: [
-                { quote: "Fast, precise, and human ÔÇö they held our date while legal reviewed.", name: "General counsel", role: "Monaco" },
+                { quote: "Fast, precise, and human — they held our date while legal reviewed.", name: "General counsel", role: "Monaco" },
                 { quote: "The intake packet made approvals effortless.", name: "Estate manager", role: "Cannes" },
                 { quote: "Security was handled discreetly and professionally.", name: "Chief of staff", role: "Antibes" },
             ],
@@ -775,9 +775,9 @@ export const sitePages: Record<PageId, PageContent> = {
         path: "/gallery",
         navLabel: "gallery",
         meta: {
-            title: "Gallery ┬Ě Table dÔÇÖAdrian",
+            title: "Gallery · Table d'Adrian",
             description:
-                "Recent tables, ceramics, and atmospheres from villas, yachts, and salons across the C├┤te dÔÇÖAzur.",
+                "Recent tables, ceramics, and atmospheres from villas, yachts, and salons across the Cote d'Azur.",
             canonical: "/gallery",
         },
         hero: {
@@ -789,7 +789,7 @@ export const sitePages: Record<PageId, PageContent> = {
         },
         quickNav: [
             { label: "value", target: "values" },
-            { label: "whatÔÇÖs included", target: "included" },
+            { label: "what's included", target: "included" },
             { label: "process", target: "process" },
             { label: "gallery", target: "gallery" },
             { label: "packages", target: "pricing" },
@@ -809,7 +809,7 @@ export const sitePages: Record<PageId, PageContent> = {
                 {
                     title: "Motion",
                     paragraphs: [
-                        "Service choreography captured mid-flight ÔÇö quiet, deliberate, exact. Even in still photography you sense the tempo we maintain.",
+                        "Service choreography captured mid-flight — quiet, deliberate, exact. Even in still photography you sense the tempo we maintain.",
                         "Crew in sync with pacing. Soundscapes and lighting cues. No wasted steps. Our choreography maps are shared with your household team after events.",
                     ],
                 },
@@ -881,14 +881,14 @@ export const sitePages: Record<PageId, PageContent> = {
         testimonials: {
             title: "On the visuals",
             items: [
-                { quote: "Images that smell like the room ÔÇö impossible and yet.", name: "Creative director", role: "Paris" },
+                { quote: "Images that smell like the room — impossible and yet.", name: "Creative director", role: "Paris" },
                 { quote: "Press kit went live within hours; editors loved it.", name: "Hospitality PR", role: "London" },
                 { quote: "Our family relives the night through these frames.", name: "Villa host", role: "Antibes" },
             ],
         },
         finalCta: {
             title: "Curate your own gallery",
-            description: "Book your date and weÔÇÖll capture the textures, light, and people you care about most.",
+            description: "Book your date and we'll capture the textures, light, and people you care about most.",
             primary: { label: "start booking", href: "/book" },
             secondary: { label: "explore membership", href: "/membership" },
         },
@@ -899,15 +899,15 @@ export const sitePages: Record<PageId, PageContent> = {
         path: "/press",
         navLabel: "press & testimonials",
         meta: {
-            title: "Press & Testimonials ┬Ě Table dÔÇÖAdrian",
+            title: "Press & Testimonials · Table d'Adrian",
             description:
-                "Selected features, editorials, and partners speaking about Table dÔÇÖAdrianÔÇÖs work across Europe.",
+                "Selected features, editorials, and partners speaking about Table d'Adrian's work across Europe.",
             canonical: "/press",
         },
         hero: {
             title: "Press & Testimonials",
             description:
-                "Selected features, editorials, and partners speaking about Table dÔÇÖAdrianÔÇÖs work across Europe. We prepare materials so editors and producers can step straight into the story.",
+                "Selected features, editorials, and partners speaking about Table d'Adrian's work across Europe. We prepare materials so editors and producers can step straight into the story.",
             primaryCta: { label: "request interview", href: "/book" },
             secondaryCta: { label: "explore membership", href: "/membership" },
         },
@@ -1006,12 +1006,12 @@ export const sitePages: Record<PageId, PageContent> = {
             items: [
                 { quote: "Fragrance-forward hospitality with clinical clarity.", name: "Financial Times", role: "HTSI" },
                 { quote: "Every plate a quiet piece of theatre.", name: "Monocle", role: "Radio" },
-                { quote: "The RivieraÔÇÖs most considered private table.", name: "Cond├ę Nast", role: "Traveler" },
+                { quote: "The Riviera's most considered private table.", name: "Conde Nast", role: "Traveler" },
             ],
         },
         finalCta: {
             title: "Request press access",
-            description: "We love collaborating with thoughtful storytellers. LetÔÇÖs align on your deadline and needs.",
+            description: "We love collaborating with thoughtful storytellers. Let's align on your deadline and needs.",
             primary: { label: "email press", href: "mailto:press@tabledadrian.com" },
             secondary: { label: "book editor dinner", href: "/book" },
         },
@@ -1022,7 +1022,7 @@ export const sitePages: Record<PageId, PageContent> = {
         path: "/reviews",
         navLabel: "reviews",
         meta: {
-            title: "Reviews ┬Ě Table dÔÇÖAdrian",
+            title: "Reviews · Table d'Adrian",
             description: "Transparent notes from guests, households, and partners across the Riviera.",
             canonical: "/reviews",
         },
@@ -1047,7 +1047,7 @@ export const sitePages: Record<PageId, PageContent> = {
                 {
                     title: "Visibility",
                     paragraphs: [
-                        "Every note is public ÔÇö no hidden endorsements. You see what we see when we review performance internally.",
+                        "Every note is public — no hidden endorsements. You see what we see when we review performance internally.",
                         "Edge-stored, instantly loadable. No edits without consent. Shared with crew for refinement. We track trends over time to measure growth.",
                     ],
                 },
@@ -1070,7 +1070,7 @@ export const sitePages: Record<PageId, PageContent> = {
         included: {
             title: "Verification steps",
             paragraphs: [
-                "Turnstile challenge to reduce bots. Email optional but helps verification. Internal audit for flagged language. All comments archived on Cloudflare KV. Transparent response policy. YouÔÇÖll always know when we respond and how we act on feedback.",
+                "Turnstile challenge to reduce bots. Email optional but helps verification. Internal audit for flagged language. All comments archived on Cloudflare KV. Transparent response policy. You'll always know when we respond and how we act on feedback.",
             ],
         },
         process: {
@@ -1144,14 +1144,14 @@ export const sitePages: Record<PageId, PageContent> = {
         path: "/admin/leads",
         navLabel: "admin leads",
         meta: {
-            title: "Admin Leads ┬Ě Table dÔÇÖAdrian",
+            title: "Admin Leads · Table d'Adrian",
             description: "Internal console to review booking submissions captured across the site.",
             canonical: "/admin/leads",
         },
         hero: {
             title: "Lead Console",
             description:
-                "A read-only view of incoming bookings and inquiries captured through Table dÔÇÖAdrian. Stay ahead of demand without refreshing spreadsheets or inboxes.",
+                "A read-only view of incoming bookings and inquiries captured through Table d'Adrian. Stay ahead of demand without refreshing spreadsheets or inboxes.",
             primaryCta: { label: "review latest", href: "#leads" },
             secondaryCta: { label: "export guidance", href: "/book" },
         },
@@ -1185,7 +1185,7 @@ export const sitePages: Record<PageId, PageContent> = {
                     title: "Context",
                     paragraphs: [
                         "Message, menu preference, and staff notes in one place. No need to cross-reference with docs.",
-                        "Dietary highlights. Event type tags. Contact history. YouÔÇÖll see who last touched the lead and what comes next.",
+                        "Dietary highlights. Event type tags. Contact history. You'll see who last touched the lead and what comes next.",
                     ],
                 },
             ],
@@ -1267,7 +1267,7 @@ export const sitePages: Record<PageId, PageContent> = {
         path: "/pricing-calculator",
         navLabel: "pricing calculator",
         meta: {
-            title: "Pricing Calculator ┬Ě Table dÔÇÖAdrian",
+            title: "Pricing Calculator · Table d'Adrian",
             description: "Estimate investment for your gathering or program. Adjust guests and enhancements, then choose booking or checkout.",
             canonical: "/pricing-calculator",
         },
@@ -1280,7 +1280,7 @@ export const sitePages: Record<PageId, PageContent> = {
         },
         quickNav: [
             { label: "value", target: "values" },
-            { label: "whatÔÇÖs included", target: "included" },
+            { label: "what's included", target: "included" },
             { label: "steps", target: "process" },
             { label: "calculator", target: "calculator" },
             { label: "tiers", target: "pricing" },
@@ -1324,7 +1324,7 @@ export const sitePages: Record<PageId, PageContent> = {
             steps: [
                 {
                     title: "Select",
-                    detail: "Choose the experience or program youÔÇÖre planning. Tooltips describe when each option fits best.",
+                    detail: "Choose the experience or program you're planning. Tooltips describe when each option fits best.",
                 },
                 {
                     title: "Adjust",
@@ -1332,7 +1332,7 @@ export const sitePages: Record<PageId, PageContent> = {
                 },
                 {
                     title: "Review",
-                    detail: "See investment range and recommended next step. Notes explain whatÔÇÖs included and which items can flex.",
+                    detail: "See investment range and recommended next step. Notes explain what's included and which items can flex.",
                 },
                 {
                     title: "Act",
@@ -1397,7 +1397,7 @@ export type GalleryImage = {
 export const galleryImages: GalleryImage[] = [
     {
         src: "/placeholder/gallery-01.svg",
-        alt: "porcelain bowl of clarified consomm├ę with citrus oil",
+        alt: "porcelain bowl of clarified consomme with citrus oil",
         caption: "Clarified langoustine broth, citrus oil, hand-thrown porcelain",
         width: 1600,
         height: 1067,
@@ -1453,7 +1453,7 @@ export const navGroups: NavGroup[] = [
         label: "table",
         href: sitePages.home.path,
         description:
-            "Explore the tableÔÇÖs voice, the team that carries it, and the reception our patrons and press share after each season.",
+            "Explore the table's voice, the team that carries it, and the reception our patrons and press share after each season.",
         links: [
             { href: sitePages.about.path, label: "about" },
             { href: "/team", label: "team" },

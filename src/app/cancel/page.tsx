@@ -1,16 +1,21 @@
-﻿import Image from "next/image";
+import Image from "next/image";
 import Link from "next/link";
-import type { Metadata } from "next";
+import { motion } from "framer-motion";
 import KineticHeading from "@/components/KineticHeading";
 import KineticParagraph from "@/components/KineticParagraph";
-
+import KeywordHighlighter from "@/components/KeywordHighlighter";
+import { buildMetadataForPath } from "@/lib/metadata";
+import { ANALYTICS_EVENTS, trackEvent } from "@/lib/analytics";
+import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 export const runtime = "edge";
 
-export const metadata: Metadata = {
+export const metadata = buildMetadataForPath("/cancel", {
     title: "Payment canceled - Table d'Adrian",
-    robots: { index: false },
-    alternates: { canonical: "/cancel" },
-};
+    description: "Manage or cancel an existing Table d'Adrian booking.",
+    indexable: false,
+});
+
+const KEYWORDS = ["booking", "membership", "calendar", "table"] as const;
 
 const heroImage = {
     src: "/placeholder/hero-cancel.svg",
@@ -23,6 +28,22 @@ const reassuranceParagraphs = [
 ];
 
 export default function CancelPage() {
+    const prefersReduced = usePrefersReducedMotion();
+    const motionProps = prefersReduced
+        ? { whileHover: undefined, whileTap: undefined }
+        : {
+              whileHover: { y: -3 },
+              whileTap: { scale: 0.97 },
+          } as const;
+
+    const handleCta = (label: string, href: string) => () => {
+        trackEvent(ANALYTICS_EVENTS.ctaClick, {
+            location: "cancel-final",
+            kind: label,
+            href,
+        });
+    };
+
     return (
         <article className="editorial-page">
             <section className="editorial-hero">
@@ -38,7 +59,13 @@ export default function CancelPage() {
                 </figure>
                 <div className="editorial-container hero-copy">
                     <KineticHeading as="h1">Payment canceled</KineticHeading>
-                    <KineticParagraph>Your table remains unbooked for now. Return when the timing suits you.</KineticParagraph>
+                    <KineticParagraph>
+                        <KeywordHighlighter
+                            text="Your table remains unbooked for now. Return when the timing suits you."
+                            keywords={KEYWORDS}
+                            variant="forest"
+                        />
+                    </KineticParagraph>
                 </div>
                 <hr className="separator" />
             </section>
@@ -49,19 +76,37 @@ export default function CancelPage() {
                         <article className="narrative-block">
                             <KineticHeading as="h2">Pick up where you left off</KineticHeading>
                             {reassuranceParagraphs.map((paragraph) => (
-                                <KineticParagraph key={paragraph}>{paragraph}</KineticParagraph>
+                                <KineticParagraph key={paragraph}>
+                                    <KeywordHighlighter text={paragraph} keywords={KEYWORDS} variant="bronze" />
+                                </KineticParagraph>
                             ))}
                             <KineticParagraph>
-                                Write to <a href="mailto:adrian@tabledadrian.com">adrian@tabledadrian.com</a> with preferred dates or priorities and we will respond within a day.
+                                <KeywordHighlighter text="Write to" keywords={KEYWORDS} variant="forest" />
+                                {" "}
+                                <a href="mailto:adrian@tabledadrian.com">adrian@tabledadrian.com</a>
+                                {" "}
+                                <KeywordHighlighter
+                                    text="with preferred dates or priorities and we will respond within a day."
+                                    keywords={KEYWORDS}
+                                    variant="forest"
+                                />
                             </KineticParagraph>
                         </article>
                         <article className="narrative-block">
                             <KineticHeading as="h2">When you are ready</KineticHeading>
                             <KineticParagraph>
-                                The booking calendar can be reopened instantly and deposits remain optional until you approve the documented menu and service plan.
+                                <KeywordHighlighter
+                                    text="The booking calendar can be reopened instantly and deposits remain optional until you approve the documented menu and service plan."
+                                    keywords={KEYWORDS}
+                                    variant="forest"
+                                />
                             </KineticParagraph>
                             <KineticParagraph>
-                                Membership keeps hosted dinners, pharmacist reviews, and household standards on cadence if you prefer to avoid rebooking each season.
+                                <KeywordHighlighter
+                                    text="Membership keeps hosted dinners, pharmacist reviews, and household standards on cadence if you prefer to avoid rebooking each season."
+                                    keywords={KEYWORDS}
+                                    variant="bronze"
+                                />
                             </KineticParagraph>
                         </article>
                     </div>
@@ -73,15 +118,23 @@ export default function CancelPage() {
                 <div className="editorial-container final-call">
                     <KineticHeading as="h2">Ready to continue?</KineticHeading>
                     <KineticParagraph>
-                        We will hold the calendar as soon as you confirm the new date. Start with an inquiry or move directly to membership to keep the cadence steady.
+                        <KeywordHighlighter
+                            text="We will hold the calendar as soon as you confirm the new date. Start with an inquiry or move directly to membership to keep the cadence steady."
+                            keywords={KEYWORDS}
+                            variant="forest"
+                        />
                     </KineticParagraph>
                     <div className="cta-row">
-                        <Link className="btn" href="/book">
-                            request a booking
-                        </Link>
-                        <Link className="btn ghost" href="/membership">
-                            explore membership
-                        </Link>
+                        <motion.span {...motionProps} className="inline-flex">
+                            <Link className="btn" href="/book" onClick={handleCta("request-booking", "/book")}>
+                                request a booking
+                            </Link>
+                        </motion.span>
+                        <motion.span {...motionProps} className="inline-flex">
+                            <Link className="btn ghost" href="/membership" onClick={handleCta("explore-membership", "/membership")}>
+                                explore membership
+                            </Link>
+                        </motion.span>
                     </div>
                 </div>
             </section>

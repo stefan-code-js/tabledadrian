@@ -17,8 +17,10 @@ import FactRow from "@/components/FactRow";
 import CardPanel from "@/components/CardPanel";
 import { images, type ImageAsset } from "@/data/images";
 import { ANALYTICS_EVENTS, trackEvent } from "@/lib/analytics";
+import HeroCinematic from "@/components/editorial/HeroCinematic";
 
 const KEYWORDS = ["private table", "Cote d'Azur", "seasonal", "membership", "consult", "chef's table"] as const;
+const HOME_KEYWORDS = ["private table", "membership", "consult", "chef's table", "Cote d'Azur"] as const;
 
 const heroAssets: Record<PageId | "default", ImageAsset> = {
     default: images.heroDefault,
@@ -77,6 +79,7 @@ const highlight = (text: string, variant: "forest" | "bronze" | "oxblood" = "for
 export function PageHero({ page }: { page: PageContent }) {
     const figure = heroFor(page);
     const location = `${page.slug}-hero`;
+    const isHome = page.id === "home";
 
     const handleHeroClick = (kind: "primary" | "secondary", href: string, label: string) => () => {
         trackEvent(ANALYTICS_EVENTS.heroCta, {
@@ -87,6 +90,28 @@ export function PageHero({ page }: { page: PageContent }) {
         });
     };
 
+    if (isHome) {
+        return (
+            <HeroCinematic
+                kicker="Private table / Cote d'Azur"
+                analyticsId="home-hero"
+                title="An evening written in quiet chapters"
+                summary={
+                    <KineticParagraph>
+                        <KeywordHighlighter
+                            text="Private dining on the Cote d'Azur, composed by Adrian and Antonia, moves through seasonal courses, disciplined service, and membership consults that travel with you."
+                            keywords={HOME_KEYWORDS}
+                            variant="bronze"
+                        />
+                    </KineticParagraph>
+                }
+                image={figure}
+                primaryAction={{ label: "Reserve a private table", href: "/contact" }}
+                secondaryAction={{ label: "Begin membership consult", href: "/consult" }}
+            />
+        );
+    }
+
     return (
         <section className="editorial-hero" id={anchor(page, "hero")}>
             <figure className="full-bleed hero-figure" data-parallax="8">
@@ -94,7 +119,7 @@ export function PageHero({ page }: { page: PageContent }) {
                     src={figure.src}
                     alt={figure.alt}
                     fill
-                    priority={figure.priority ?? page.id === "home"}
+                    priority={figure.priority ?? isHome}
                     sizes="100vw"
                     placeholder={figure.placeholder}
                     blurDataURL={figure.blurDataURL}

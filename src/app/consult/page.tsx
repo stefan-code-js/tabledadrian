@@ -1,5 +1,4 @@
-﻿import Image from "next/image";
-import type { Metadata } from "next";
+import Image from "next/image";
 import PayButton from "@/components/PayButton";
 import CardPanel from "@/components/CardPanel";
 import KineticHeading from "@/components/KineticHeading";
@@ -8,13 +7,13 @@ import KeywordHighlighter from "@/components/KeywordHighlighter";
 import FactRow from "@/components/FactRow";
 import CTABand from "@/components/CTABand";
 import { consultPackages, formatMoney, formatRange } from "@/lib/pricing";
+import { buildMetadataForPath } from "@/lib/metadata";
 
-export const metadata: Metadata = {
+export const metadata = buildMetadataForPath("/consult", {
     title: "Consult",
     description:
         "Pharmacist-led wellness and private-chef consulting by Antonia & Adrian. From focused intakes to 12-week concierge seasons for villas and yachts.",
-    alternates: { canonical: "/consult" },
-};
+});
 
 const HERO_IMAGE = {
     src: "/placeholder/hero-consult.svg",

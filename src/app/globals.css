@@ -75,6 +75,7 @@ html {
   background: var(--color-paper-soft);
   color: var(--color-ink);
   scroll-behavior: auto;
+  overflow-x: hidden;
 }
 
 body {
@@ -88,6 +89,7 @@ body {
   color: var(--color-ink);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+  overflow-x: hidden;
 }
 
 
@@ -323,7 +325,7 @@ h1, h2, h3, h4, h5, h6 {
 .menu-overlay {
   position: fixed;
   inset: 0;
-  z-index: 80;
+  z-index: 100;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -462,6 +464,114 @@ h1, h2, h3, h4, h5, h6 {
 .menu-overlay__link:focus-visible .menu-overlay__underline,
 .menu-overlay__link.is-active .menu-overlay__underline {
   transform: scaleX(1);
+}
+
+/* Command palette */
+.command-palette-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 110;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: clamp(1.5rem, 5vw, 3rem);
+  background: rgba(8, 7, 5, 0.65);
+  -webkit-backdrop-filter: blur(var(--blur-soft));
+  backdrop-filter: blur(var(--blur-soft));
+  overflow-y: auto;
+}
+
+.command-palette-modal {
+  position: relative;
+  display: grid;
+  gap: var(--space-3);
+  width: min(560px, 100%);
+  margin: auto;
+  background: var(--color-cream);
+  color: var(--color-ink);
+  border-radius: var(--radius-lg);
+  padding: clamp(1.75rem, 4vw, 2.75rem);
+  box-shadow: var(--shadow-deep);
+}
+
+.command-palette-input {
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid var(--line-subtle);
+  font-size: var(--step-0);
+  padding: 0 0 var(--space-2);
+  background: transparent;
+  color: var(--color-ink);
+}
+
+.command-palette-input:focus {
+  outline: none;
+  border-color: var(--color-forest);
+}
+
+.command-palette-results {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: var(--space-2);
+  max-height: 320px;
+  overflow-y: auto;
+}
+
+.command-palette-result {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  border: 1px solid var(--line-subtle);
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: var(--color-ink);
+  padding: var(--space-2) var(--space-3);
+  font-size: 0.92rem;
+  letter-spacing: 0.04em;
+  text-align: left;
+  transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
+}
+
+.command-palette-result:hover,
+.command-palette-result:focus-visible {
+  outline: none;
+  transform: translateY(-1px);
+  border-color: var(--color-forest);
+  background: rgba(31, 54, 40, 0.08);
+}
+
+.command-palette-empty {
+  margin: 0;
+  padding: var(--space-2);
+  font-size: 0.9rem;
+  color: var(--color-ink-muted);
+  text-align: center;
+  border: 1px dashed var(--line-subtle);
+  border-radius: var(--radius-md);
+}
+
+.command-palette-close {
+  position: absolute;
+  top: 1.1rem;
+  right: 1.1rem;
+  border: none;
+  background: transparent;
+  color: var(--color-ink-muted);
+  font-size: 1.6rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: color 160ms ease, transform 160ms ease;
+}
+
+.command-palette-close:hover,
+.command-palette-close:focus-visible {
+  color: var(--color-forest);
+  transform: rotate(6deg);
+  outline: none;
 }
 
 .menu-overlay__link.is-active {
@@ -2030,7 +2140,7 @@ hr {
 .footer-logos a:hover img{ transform: translateY(-1px); opacity:1; }
 
 /* Brand-specific tiny optical tweaks using your filenames */
-/* (All stay within ~Â±15% so the row still feels uniform) */
+/* (All stay within ~±15% so the row still feels uniform) */
 .footer-logos img[src*="stripe-4.svg"]{            transform: translateY(.5px) scale(1.12); }
 .footer-logos img[src*="visa-10.svg"]{             transform: translateY(.5px) scale(1.10); }
 .footer-logos img[src*="gronda-seeklogo.svg"]{     transform: translateY(.5px) scale(1.10); }

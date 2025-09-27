@@ -1,5 +1,5 @@
 ﻿import { NextResponse } from "next/server";
-import { getRequestContext } from "@cloudflare/next-on-pages";
+import { resolveCfEnv } from "@/lib/cloudflare";
 
 export const runtime = "edge";
 export const dynamic = "force-dynamic";
@@ -76,7 +76,7 @@ function toPayload(source: Record<string, string>): ReviewPayload {
     const name = (source.name || source.fullName || source["your-name"] || "").trim();
     const email = (source.email || source["your-email"] || "").trim();
     const score = Number(source.rating ?? source.stars ?? source.score ?? 0);
-    const comment = (source.comment || source.message || "").trim();
+    const comment = (source.comment || source.message || source.text || "").trim();
     const token = source["cf-turnstile-response"] || source.token || undefined;
 
     if (!name || !(score >= 1 && score <= 5)) {
@@ -93,6 +93,9 @@ function toPayload(source: Record<string, string>): ReviewPayload {
 }
 
 async function verifyTurnstile(token?: string, ip?: string): Promise<boolean> {
+    if (typeof process !== "undefined" && process.env.NODE_ENV === "test") {
+        return true;
+    }
     const secret = process.env.TURNSTILE_SECRET_KEY;
     if (!secret) {
         return true; // not configured, do not block submissions
@@ -180,8 +183,10 @@ export async function POST(req: Request) {
 
         await maybeEmail(payload);
 
-        const { env } = getRequestContext();
-        const kv = (env as { REVIEWS?: KvNamespaceLite }).REVIEWS;
+        const cfEnv = resolveCfEnv<{ REVIEWS?: KvNamespaceLite }>() ?? {};
+        const kv = cfEnv.REVIEWS;
+        let stats: Stats = { count: 1, sum: payload.rating, avg: payload.rating };
+
         if (kv) {
             let current: Stats = { count: 0, sum: 0, avg: 0 };
             const existing = await kv.get(STAT_KEY);
@@ -207,9 +212,17 @@ export async function POST(req: Request) {
             };
 
             await kv.put(STAT_KEY, JSON.stringify(next), { expirationTtl: 60 * 60 * 24 * 365 });
+            stats = next;
         }
 
-        return NextResponse.json({ ok: true });
+        const review = {
+            name: payload.name,
+            rating: payload.rating,
+            text: payload.comment ?? "",
+            createdAt: new Date().toISOString(),
+        };
+
+        return NextResponse.json({ ok: true, review, count: stats.count, avg: stats.avg });
     } catch (error) {
         const message = error instanceof Error ? error.message : "Unexpected error";
         return NextResponse.json({ ok: false, error: message }, { status: 400 });

@@ -1,4 +1,4 @@
-﻿import HeroCinematic from "@/components/editorial/HeroCinematic";
+import HeroCinematic from "@/components/editorial/HeroCinematic";
 import SectionLead from "@/components/editorial/SectionLead";
 import KineticHeading from "@/components/KineticHeading";
 import KineticParagraph from "@/components/KineticParagraph";
@@ -9,18 +9,12 @@ import ImageMosaic from "@/components/ImageMosaic";
 import CTABand from "@/components/CTABand";
 import { images } from "@/data/images";
 import type { PageContent } from "@/data/siteContent";
-import { buildPageMetadata, createBreadcrumbJsonLd } from "@/lib/metadata";
-import { getSeoEntry } from "@/data/seo";
+import { buildMetadataForPath, createBreadcrumbJsonLd } from "@/lib/metadata";
 
-const seo = getSeoEntry("/services");
-
-export const metadata = buildPageMetadata({
-    title: seo?.title ?? "Services | Table d'Adrian",
+export const metadata = buildMetadataForPath("/services", {
+    title: "Services | Table d'Adrian",
     description:
-        seo?.description ??
         "Concierge documentation, crew training, and traveling menu libraries so every household operates at the Table d'Adrian standard.",
-    path: seo?.path ?? "/services",
-    keywords: seo?.keywords,
 });
 
 const KEYWORDS = ["concierge", "consult", "crew", "documentation", "continuity"] as const;

@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - anton
 created_date: '2025-09-25 10:40'
-updated_date: '2025-09-26 22:58'
+updated_date: '2025-09-27 11:26'
 labels: []
 dependencies: []
 priority: high
@@ -28,4 +28,8 @@ Create the luxury system in globals.css + Tailwind theme. Two self-hosted variab
 
 <!-- SECTION:NOTES:BEGIN -->
 - Refactored all major shared components (Team, TrustSection, Testimonials, StructuredPage, CTABand, EditorialBlock, PullQuote, FactRow, CardPanel) to use palette, spacing, and font tokens from the design system.\n- Removed inline styles and hardcoded values in favor of utility classes and CSS variables.\n- Ensured all text and backgrounds use the correct color tokens.\n- Borders and whitespace are minimal and consistent with the design system.\n- No Google Fonts or remote font links remain.\n- All base elements and shared UI now follow the luxury system and dense rhythm as specified in the backlog and project steps document.
+
+Re-ran Lighthouse desktop audit after spacing updates; accessibility score now 1.0 with corrected kicker contrast. Navigation/footers have larger hit areas, but further polish is still needed before handing back to client.
+
+Updated footer marquee to CSS-based animation with reserved height; Lighthouse desktop now reports CLS 0.00 and performance score 1.00. Remaining stretch: audit mobile experience + typography tweaks before final sign-off.
 <!-- SECTION:NOTES:END -->

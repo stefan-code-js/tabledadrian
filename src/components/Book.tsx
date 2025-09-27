@@ -1,5 +1,11 @@
-﻿import Image from "next/image";
+import Image from "next/image";
 import Link from "next/link";
+import { motion } from "framer-motion";
+import KineticHeading from "@/components/KineticHeading";
+import KineticParagraph from "@/components/KineticParagraph";
+import KeywordHighlighter from "@/components/KeywordHighlighter";
+import { ANALYTICS_EVENTS, trackEvent } from "@/lib/analytics";
+import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 
 const CAL_HANDLE = process.env.NEXT_PUBLIC_CAL_LINK ?? "adrian-stefan";
 const CAL_URL = `https://cal.com/${CAL_HANDLE}`;
@@ -9,6 +15,8 @@ const heroImage = {
     src: "/placeholder/hero-book.svg",
     alt: "Soft light across a table laid with porcelain, glassware, and herbs ready for service.",
 };
+
+const KEYWORDS = ["private table", "membership", "chef's table", "seasonal", "consult"] as const;
 
 const briefingParagraphs = [
     "Bookings include a chef-led tasting menu, pharmacist-guided intake, and discreet crew who manage the evening end to end.",
@@ -24,6 +32,30 @@ const schedulingSteps = [
 ];
 
 export default function Book() {
+    const prefersReduced = usePrefersReducedMotion();
+    const motionProps = prefersReduced
+        ? { whileHover: undefined, whileTap: undefined }
+        : {
+              whileHover: { y: -3 },
+              whileTap: { scale: 0.97 },
+          } as const;
+
+    const trackHeroCta = (kind: "calendar" | "membership") => () => {
+        trackEvent(ANALYTICS_EVENTS.bookingCta, {
+            location: "book-hero",
+            kind,
+            href: kind === "calendar" ? CAL_URL : "/membership",
+        });
+    };
+
+    const trackFooterCta = (label: string, href: string) => () => {
+        trackEvent(ANALYTICS_EVENTS.ctaClick, {
+            location: "book-final",
+            kind: label,
+            href,
+        });
+    };
+
     return (
         <article className="editorial-page">
             <section className="editorial-hero">
@@ -38,18 +70,25 @@ export default function Book() {
                     />
                 </figure>
                 <div className="editorial-container hero-copy">
-                    <h1>Reserve your private table</h1>
-                    <p className="lead">
-                        Adrian and Antonia hold dates for villas, yachts, and Riviera salons. Choose your window, share your
-                        intentions, and we prepare the entire arc so the room settles into calm hospitality.
-                    </p>
+                    <KineticHeading as="h1">Reserve your private table</KineticHeading>
+                    <KineticParagraph className="lead">
+                        <KeywordHighlighter
+                            text="Adrian and Antonia hold dates for villas, yachts, and Riviera salons. Choose your window, share your intentions, and we prepare the entire arc so the room settles into calm hospitality."
+                            keywords={KEYWORDS}
+                            variant="bronze"
+                        />
+                    </KineticParagraph>
                     <div className="cta-row">
-                        <a className="btn" href={CAL_URL} target="_blank" rel="noreferrer">
-                            open booking calendar
-                        </a>
-                        <Link className="btn ghost" href="/membership">
-                            explore membership
-                        </Link>
+                        <motion.span {...motionProps} className="inline-flex">
+                            <a className="btn" href={CAL_URL} target="_blank" rel="noreferrer" onClick={trackHeroCta("calendar")}>
+                                open booking calendar
+                            </a>
+                        </motion.span>
+                        <motion.span {...motionProps} className="inline-flex">
+                            <Link className="btn ghost" href="/membership" onClick={trackHeroCta("membership")}>
+                                explore membership
+                            </Link>
+                        </motion.span>
                     </div>
                 </div>
                 <hr className="separator" />
@@ -59,22 +98,29 @@ export default function Book() {
                 <div className="editorial-container">
                     <div className="two-column">
                         <article className="narrative-block">
-                            <h2>What the evening includes</h2>
-                            {briefingParagraphs.map((paragraph) => (
-                                <p key={paragraph}>{paragraph}</p>
+                            <KineticHeading as="h2">What the evening includes</KineticHeading>
+                            {briefingParagraphs.map((paragraph, index) => (
+                                <KineticParagraph key={paragraph}>
+                                    <KeywordHighlighter
+                                        text={paragraph}
+                                        keywords={KEYWORDS}
+                                        variant={index % 2 === 0 ? "forest" : "bronze"}
+                                    />
+                                </KineticParagraph>
                             ))}
-                            <p>
-                                Questions ahead of service? Write to <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a> and
-                                we will align on every detail.
-                            </p>
+                            <KineticParagraph>
+                                Questions ahead of service? Write to <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a> and we will align on every detail.
+                            </KineticParagraph>
                         </article>
                         <article className="narrative-block">
-                            <h2>How booking unfolds</h2>
+                            <KineticHeading as="h2">How booking unfolds</KineticHeading>
                             <div className="process-flow">
                                 {schedulingSteps.map((step) => (
                                     <article key={step.title} className="process-step">
-                                        <h3>{step.title}</h3>
-                                        <p>{step.detail}</p>
+                                        <KineticHeading as="h3">{step.title}</KineticHeading>
+                                        <KineticParagraph>
+                                            <KeywordHighlighter text={step.detail} keywords={KEYWORDS} variant="forest" />
+                                        </KineticParagraph>
                                     </article>
                                 ))}
                             </div>
@@ -87,7 +133,7 @@ export default function Book() {
             <section className="editorial-section" id="booking-calendar">
                 <div className="editorial-container">
                     <div className="section-heading">
-                        <h2>Schedule now</h2>
+                        <KineticHeading as="h2">Schedule now</KineticHeading>
                     </div>
                     <div className="cal-embed">
                         <iframe
@@ -97,28 +143,34 @@ export default function Book() {
                             allow="fullscreen; geolocation *; microphone *; camera *"
                         />
                     </div>
-                    <p className="muted scheduling-note">
-                        Prefer to brief us before confirming? Submit the inquiry form and we will hold dates while we align on
-                        the menu.
-                    </p>
+                    <KineticParagraph className="muted scheduling-note">
+                        Prefer to brief us before confirming? Submit the inquiry form and we will hold dates while we align on the menu.
+                    </KineticParagraph>
                 </div>
                 <hr className="separator" />
             </section>
 
             <section className="editorial-section">
                 <div className="editorial-container final-call">
-                    <h2>Need an ongoing cadence?</h2>
-                    <p>
-                        Membership keeps pharmacist reviews, hosted dinners, and culinary documentation on the calendar so your
-                        standards stay consistent across every property.
-                    </p>
+                    <KineticHeading as="h2">Need an ongoing cadence?</KineticHeading>
+                    <KineticParagraph>
+                        <KeywordHighlighter
+                            text="Membership keeps pharmacist reviews, hosted dinners, and culinary documentation on the calendar so your standards stay consistent across every property."
+                            keywords={KEYWORDS}
+                            variant="bronze"
+                        />
+                    </KineticParagraph>
                     <div className="cta-row">
-                        <Link className="btn" href="/book">
-                            request a booking
-                        </Link>
-                        <Link className="btn ghost" href="/membership">
-                            explore membership
-                        </Link>
+                        <motion.span {...motionProps} className="inline-flex">
+                            <Link className="btn" href="/book" onClick={trackFooterCta("request-booking", "/book")}>
+                                request a booking
+                            </Link>
+                        </motion.span>
+                        <motion.span {...motionProps} className="inline-flex">
+                            <Link className="btn ghost" href="/membership" onClick={trackFooterCta("explore-membership", "/membership")}>
+                                explore membership
+                            </Link>
+                        </motion.span>
                     </div>
                 </div>
             </section>

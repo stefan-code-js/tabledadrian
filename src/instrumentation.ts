@@ -9,3 +9,5 @@ export function register() {
         debug: false,
     });
 }
+
+export const onRequestError = Sentry.captureRequestError;

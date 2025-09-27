@@ -11,6 +11,7 @@ import {
 } from "@/components/StructuredPage";
 import PricingCalculatorWidget from "@/components/PricingCalculatorWidget";
 import { createPageMetadata } from "@/lib/metadata";
+import KineticHeading from "@/components/KineticHeading";
 
 const page = sitePages.pricingCalculator;
 
@@ -27,7 +28,7 @@ export default function PricingCalculatorPage() {
             <section className="editorial-section" id={`${page.slug}-calculator`}>
                 <div className="editorial-container">
                     <div className="section-heading">
-                        <h2>Interactive calculator</h2>
+                        <KineticHeading as="h2">Interactive calculator</KineticHeading>
                     </div>
                     <PricingCalculatorWidget />
                 </div>

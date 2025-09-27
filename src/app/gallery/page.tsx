@@ -1,4 +1,4 @@
-﻿import { sitePages } from "@/data/siteContent";
+import { sitePages } from "@/data/siteContent";
 import {
     PageHero,
     ValueSection,
@@ -12,6 +12,7 @@ import {
 import LightboxGallery from "@/components/LightboxGallery";
 import { images } from "@/data/images";
 import { createPageMetadata } from "@/lib/metadata";
+import KineticHeading from "@/components/KineticHeading";
 
 const page = sitePages.gallery;
 
@@ -37,7 +38,7 @@ export default function GalleryPage() {
             <section className="editorial-section" id={`${page.slug}-gallery`}>
                 <div className="editorial-container">
                     <div className="section-heading">
-                        <h2>Gallery</h2>
+                        <KineticHeading as="h2">Gallery</KineticHeading>
                     </div>
                     <LightboxGallery images={galleryAssets} analyticsId="gallery-main" />
                 </div>

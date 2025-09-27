@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - anton
 created_date: '2025-09-25 10:40'
-updated_date: '2025-09-26 22:58'
+updated_date: '2025-09-27 14:55'
 labels: []
 dependencies: []
 priority: high
@@ -27,4 +27,10 @@ Replace the nav with a command-palette style overlay (desktop + mobile): minimal
 
 <!-- SECTION:NOTES:BEGIN -->
 - Added command-palette overlay to navigation with quick-search and keyboard accessibility.\n- Integrated overlay trigger in NavBar and styled with design tokens.\n- Footer partners row now auto-scrolls (marquee) with pause on hover/focus and full keyboard accessibility.\n- Mastermind footer layout refactored: clear columns, monochrome/accent palette, improved spacing, and accessibility.\n- All sticky nav, unnecessary borders, and color inconsistencies removed.\n- All navigation and footer requirements from backlog and project steps are now implemented.
+
+Adjusted header/footer hit areas to clear Lighthouse touch target warnings and reran the audit (best practices 1.0). Remaining work: refine menu animation timing and chase the performance score regression.
+
+Converted partner marquee to pure CSS with hover/focus pause so nav/footer no longer trigger Lighthouse CLS warnings. Desktop Lighthouse: Perf 1.00 / BP 0.96; next up is polishing menu opening motion + refactoring inline styles.
+
+- Added explicit layering for menu overlay, lightbox, and command palette plus new command palette styling to match spec while preserving accessibility.
 <!-- SECTION:NOTES:END -->

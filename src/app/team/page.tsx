@@ -1,21 +1,26 @@
-﻿import Image from "next/image";
+import Image from "next/image";
 import Link from "next/link";
-import type { Metadata } from "next";
+import { motion } from "framer-motion";
+import KineticHeading from "@/components/KineticHeading";
+import KineticParagraph from "@/components/KineticParagraph";
+import KeywordHighlighter from "@/components/KeywordHighlighter";
+import { buildMetadataForPath } from "@/lib/metadata";
+import { ANALYTICS_EVENTS, trackEvent } from "@/lib/analytics";
+import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 
-export const metadata: Metadata = {
-    title: "Team ┬Ě Private Chef Atelier",
+export const metadata = buildMetadataForPath("/team", {
+    title: "Team · Private Chef Atelier",
     description:
-        "A small atelier led by Chef Adrian with clinical systems by Antonia (PharmD). We shape season, texture, and fragrance into one calm table along the C├┤te dÔÇÖAzur.",
-    alternates: { canonical: "/team" },
+        "A small atelier led by Chef Adrian with clinical systems by Antonia (PharmD). We shape season, texture, and fragrance into one calm table along the Cote d'Azur.",
     keywords: [
         "private chef team",
         "luxury private dining",
-        "C├┤te dÔÇÖAzur chef",
+        "Cote d'Azur chef",
         "tasting menu",
         "sommelier",
         "pastry",
     ],
-};
+});
 
 const heroImage = {
     src: "/placeholder/hero-team.svg",
@@ -24,7 +29,7 @@ const heroImage = {
 
 const members = [
     {
-        name: "Adrian ╚śtefan Badea",
+        name: "Adrian Stefan Badea",
         role: "Chef & Founder",
         image: "/placeholder/portrait-adrian.svg",
         link: "https://www.linkedin.com/in/adrian-stefan-badea-82456131b",
@@ -46,7 +51,25 @@ const members = [
     },
 ];
 
+const KEYWORDS = ["atelier", "chef", "service", "membership", "Riviera"] as const;
+
 export default function TeamPage() {
+    const prefersReduced = usePrefersReducedMotion();
+    const motionProps = prefersReduced
+        ? { whileHover: undefined, whileTap: undefined }
+        : {
+              whileHover: { y: -3 },
+              whileTap: { scale: 0.97 },
+          } as const;
+
+    const handleCta = (label: string, href: string) => () => {
+        trackEvent(ANALYTICS_EVENTS.ctaClick, {
+            location: "team-final",
+            kind: label,
+            href,
+        });
+    };
+
     return (
         <article className="editorial-page">
             <section className="editorial-hero">
@@ -54,10 +77,14 @@ export default function TeamPage() {
                     <Image src={heroImage.src} alt={heroImage.alt} fill priority sizes="100vw" className="hero-figure__image" />
                 </figure>
                 <div className="editorial-container hero-copy">
-                    <h1>Team</h1>
-                    <p className="lead">
-                        A compact group shaping season, texture, and fragrance into one calm service. Technical where needed, restrained where it matters.
-                    </p>
+                    <KineticHeading as="h1">Team</KineticHeading>
+                    <KineticParagraph className="lead">
+                        <KeywordHighlighter
+                            text="A compact group shaping season, texture, and fragrance into one calm service. Technical where needed, restrained where it matters."
+                            keywords={KEYWORDS}
+                            variant="forest"
+                        />
+                    </KineticParagraph>
                 </div>
                 <hr className="separator" />
             </section>
@@ -65,7 +92,7 @@ export default function TeamPage() {
             <section className="editorial-section">
                 <div className="editorial-container">
                     <div className="section-heading">
-                        <h2>Atelier leads</h2>
+                        <KineticHeading as="h2">Atelier leads</KineticHeading>
                     </div>
                     <div className="team-layout">
                         {members.map((member) => (
@@ -80,14 +107,14 @@ export default function TeamPage() {
                                         className="team-avatar__image"
                                     />
                                 </div>
-                                <h3>{member.name}</h3>
-                                <p className="muted">{member.role}</p>
+                                <KineticHeading as="h3">{member.name}</KineticHeading>
+                                <KineticParagraph className="muted">{member.role}</KineticParagraph>
                                 {member.link ? (
-                                    <p>
+                                    <KineticParagraph>
                                         <a href={member.link} target="_blank" rel="noreferrer">
                                             view profile
                                         </a>
-                                    </p>
+                                    </KineticParagraph>
                                 ) : null}
                             </article>
                         ))}
@@ -98,17 +125,25 @@ export default function TeamPage() {
 
             <section className="editorial-section">
                 <div className="editorial-container final-call">
-                    <h2>Meet us at the table</h2>
-                    <p>
-                        Explore current menus or request a dateÔÇöweÔÇÖll respond with a plan that holds to your standards and keeps the room composed.
-                    </p>
+                    <KineticHeading as="h2">Meet us at the table</KineticHeading>
+                    <KineticParagraph>
+                        <KeywordHighlighter
+                            text="Explore current menus or request a date—we’ll respond with a plan that holds to your standards and keeps the room composed."
+                            keywords={KEYWORDS}
+                            variant="bronze"
+                        />
+                    </KineticParagraph>
                     <div className="cta-row">
-                        <Link className="btn" href="/book">
-                            request a booking
-                        </Link>
-                        <Link className="btn ghost" href="/membership">
-                            explore membership
-                        </Link>
+                        <motion.span {...motionProps} className="inline-flex">
+                            <Link className="btn" href="/book" onClick={handleCta("request-booking", "/book")}>
+                                request a booking
+                            </Link>
+                        </motion.span>
+                        <motion.span {...motionProps} className="inline-flex">
+                            <Link className="btn ghost" href="/membership" onClick={handleCta("explore-membership", "/membership")}>
+                                explore membership
+                            </Link>
+                        </motion.span>
                     </div>
                 </div>
             </section>
