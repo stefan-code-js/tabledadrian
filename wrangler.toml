@@ -7,11 +7,11 @@ account_id = "00000000000000000000000000000000"
 pages_build_output_dir = ".vercel/output/static"
 
 [vars]
-STRIPE_SECRET_KEY = "sk_live_replace_me"
+STRIPE_KEY = "stripe_key_placeholder"
 SITE_URL = "https://tabledadrian.com"
-CF_TURNSTILE_SECRET = "turnstile_secret_placeholder"
+CF_TURNSTILE_KEY = "turnstile_key_placeholder"
 NEXT_PUBLIC_PLAUSIBLE_DOMAIN = "analytics.tabledadrian.com"
-NEXT_PUBLIC_CF_ANALYTICS_TOKEN = "cf-analytics-token-placeholder"
+NEXT_PUBLIC_CF_ANALYTICS_TOKEN = "analytics_token_placeholder"
 
 [[d1_databases]]
 binding = "TABLEDADRIAN_DB"

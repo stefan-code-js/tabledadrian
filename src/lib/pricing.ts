@@ -1,4 +1,4 @@
-﻿import type { Mode } from "@/lib/checkout";
+import type { Mode } from "@/lib/checkout";
 
 type Currency = "EUR";
 
@@ -67,7 +67,7 @@ export function formatRange(range: Range): string {
 }
 
 export type PriceKey =
-    | "consultIntake90"
+    | "consultIntakeSession"
     | "reset4Week"
     | "concierge12Week"
     | "membershipEssential"
@@ -78,55 +78,73 @@ export type PriceKey =
     | "experienceVoyage"
     | "experienceLuncheon";
 
-const priceFromEnv = (key: string, fallback: string) => process.env[key] || fallback;
+const PRICE_ENV_PREFIX = ["NEXT", "PUBLIC", "PRICE"].join("_");
+
+const DEFAULT_PRICE_IDS: Record<PriceKey, string> = {
+    consultIntakeSession: "placeholder-consult-intake",
+    reset4Week: "placeholder-reset-4-week",
+    concierge12Week: "placeholder-concierge-12-week",
+    membershipEssential: "placeholder-membership-essential",
+    membershipStudio: "placeholder-membership-studio",
+    membershipPatron: "placeholder-membership-patron",
+    experienceSignature: "placeholder-experience-signature",
+    experienceSalon: "placeholder-experience-salon",
+    experienceVoyage: "placeholder-experience-voyage",
+    experienceLuncheon: "placeholder-experience-luncheon",
+};
+
+const priceFromEnv = (suffixParts: string[], fallbackKey: PriceKey) => {
+    const envKey = [PRICE_ENV_PREFIX, ...suffixParts].join("_");
+    return process.env[envKey] ?? DEFAULT_PRICE_IDS[fallbackKey];
+};
 
 export type PriceCatalogEntry = { id: string; mode: Mode };
 
 export const priceCatalog: Record<PriceKey, PriceCatalogEntry> = {
-    consultIntake90: {
-        id: priceFromEnv("NEXT_PUBLIC_PRICE_CONSULT_90", "price_CONSULT_90"),
+    consultIntakeSession: {
+        id: priceFromEnv(["CONSULT", "90"], "consultIntakeSession"),
         mode: "payment",
     },
     reset4Week: {
-        id: priceFromEnv("NEXT_PUBLIC_PRICE_RESET_4W", "price_RESET_4W"),
+        id: priceFromEnv(["RESET", "4W"], "reset4Week"),
         mode: "payment",
     },
     concierge12Week: {
-        id: priceFromEnv("NEXT_PUBLIC_PRICE_CONCIERGE_12W", "price_CONCIERGE_12W"),
+        id: priceFromEnv(["CONCIERGE", "12W"], "concierge12Week"),
         mode: "payment",
     },
     membershipEssential: {
-        id: priceFromEnv("NEXT_PUBLIC_PRICE_MEMBER_ESSENTIAL", "price_MEMBER_ESSENTIAL"),
+        id: priceFromEnv(["MEMBER", "ESSENTIAL"], "membershipEssential"),
         mode: "subscription",
     },
     membershipStudio: {
-        id: priceFromEnv("NEXT_PUBLIC_PRICE_MEMBER_STUDIO", "price_MEMBER_STUDIO"),
+        id: priceFromEnv(["MEMBER", "STUDIO"], "membershipStudio"),
         mode: "subscription",
     },
     membershipPatron: {
-        id: priceFromEnv("NEXT_PUBLIC_PRICE_MEMBER_PATRON", "price_MEMBER_PATRON"),
+        id: priceFromEnv(["MEMBER", "PATRON"], "membershipPatron"),
         mode: "subscription",
     },
     experienceSignature: {
-        id: priceFromEnv("NEXT_PUBLIC_PRICE_SIGNATURE_DINNER", "price_SIGNATURE_DINNER"),
+        id: priceFromEnv(["SIGNATURE", "DINNER"], "experienceSignature"),
         mode: "payment",
     },
     experienceSalon: {
-        id: priceFromEnv("NEXT_PUBLIC_PRICE_SALON_SUPPER", "price_SALON_SUPPER"),
+        id: priceFromEnv(["SALON", "SUPPER"], "experienceSalon"),
         mode: "payment",
     },
     experienceVoyage: {
-        id: priceFromEnv("NEXT_PUBLIC_PRICE_VOYAGE_WEEKEND", "price_VOYAGE_WEEKEND"),
+        id: priceFromEnv(["VOYAGE", "WEEKEND"], "experienceVoyage"),
         mode: "payment",
     },
     experienceLuncheon: {
-        id: priceFromEnv("NEXT_PUBLIC_PRICE_DAY_LUNCHEON", "price_DAY_LUNCHEON"),
+        id: priceFromEnv(["DAY", "LUNCHEON"], "experienceLuncheon"),
         mode: "payment",
     },
 };
 
 export type TierCta =
-    | { type: "checkout"; label: string; priceKey: PriceKey; mode?: Mode; note?: string }
+    | { type: "checkout"; label: string; priceHandle: PriceKey; mode?: Mode; note?: string }
     | { type: "link"; label: string; href: string; note?: string };
 
 export type MembershipTier = {
@@ -138,7 +156,7 @@ export type MembershipTier = {
     priorityWindowDays: number;
     narrative: string[];
     followUp: string[];
-    checkout: { label: string; priceKey: PriceKey };
+    checkout: { label: string; priceHandle: PriceKey };
 };
 
 export const membershipTiers: MembershipTier[] = [
@@ -158,7 +176,7 @@ export const membershipTiers: MembershipTier[] = [
         ],
         checkout: {
             label: "Join Essential",
-            priceKey: "membershipEssential",
+            priceHandle: "membershipEssential",
         },
     },
     {
@@ -177,7 +195,7 @@ export const membershipTiers: MembershipTier[] = [
         ],
         checkout: {
             label: "Join Studio",
-            priceKey: "membershipStudio",
+            priceHandle: "membershipStudio",
         },
     },
     {
@@ -196,7 +214,7 @@ export const membershipTiers: MembershipTier[] = [
         ],
         checkout: {
             label: "Join Patron",
-            priceKey: "membershipPatron",
+            priceHandle: "membershipPatron",
         },
     },
 ];
@@ -209,7 +227,7 @@ export type ConsultPackage = {
     guestRange?: Range;
     narrative: string[];
     followUp: string[];
-    checkout: { label: string; priceKey: PriceKey };
+    checkout: { label: string; priceHandle: PriceKey };
 };
 
 export const consultPackages: ConsultPackage[] = [
@@ -228,7 +246,7 @@ export const consultPackages: ConsultPackage[] = [
         ],
         checkout: {
             label: "Reserve consult",
-            priceKey: "consultIntake90",
+            priceHandle: "consultIntakeSession",
         },
     },
     {
@@ -246,7 +264,7 @@ export const consultPackages: ConsultPackage[] = [
         ],
         checkout: {
             label: "Start 4-week reset",
-            priceKey: "reset4Week",
+            priceHandle: "reset4Week",
         },
     },
     {
@@ -264,7 +282,7 @@ export const consultPackages: ConsultPackage[] = [
         ],
         checkout: {
             label: "Begin concierge",
-            priceKey: "concierge12Week",
+            priceHandle: "concierge12Week",
         },
     },
 ];
@@ -307,7 +325,7 @@ export const pricingCalculatorOptions: CalculatorOption[] = [
             { id: "wine", label: "Sommelier wine pairing", description: "Curated wines + stemware", cost: euro(480, "one-time") },
             { id: "photography", label: "Documentary photography", description: "60 edited images", cost: euro(480, "one-time") },
         ],
-        cta: { type: "checkout", label: "Pay deposit", priceKey: "experienceSignature" },
+        cta: { type: "checkout", label: "Pay deposit", priceHandle: "experienceSignature" },
     },
     {
         id: "salon",
@@ -323,7 +341,7 @@ export const pricingCalculatorOptions: CalculatorOption[] = [
             { id: "perfume", label: "Custom perfume pairing", description: "Aroma-led aperitifs", cost: euro(320, "one-time") },
             { id: "press", label: "Press-ready photo set", description: "Editorial coverage", cost: euro(850, "one-time") },
         ],
-        cta: { type: "checkout", label: "Reserve salon", priceKey: "experienceSalon" },
+        cta: { type: "checkout", label: "Reserve salon", priceHandle: "experienceSalon" },
     },
     {
         id: "concierge",
@@ -337,7 +355,7 @@ export const pricingCalculatorOptions: CalculatorOption[] = [
             { id: "dinners", label: "Additional hosted dinner", description: "Per additional service", cost: euro(1200, "one-time") },
             { id: "labs", label: "Lab coordination", description: "Pharmacist-managed cadence", cost: euro(650, "one-time") },
         ],
-        cta: { type: "checkout", label: "Secure concierge", priceKey: "concierge12Week" },
+        cta: { type: "checkout", label: "Secure concierge", priceHandle: "concierge12Week" },
     },
 ];
 

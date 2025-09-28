@@ -5,11 +5,11 @@ import type { PriceKey } from "@/lib/pricing";
 import { ANALYTICS_EVENTS, trackEvent } from "@/lib/analytics";
 
 type Props = {
-    priceKey: PriceKey;
+    priceHandle: PriceKey;
     children: React.ReactNode;
 };
 
-export default function PayButton({ priceKey, children }: Props) {
+export default function PayButton({ priceHandle, children }: Props) {
     const [busy, setBusy] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
@@ -17,12 +17,12 @@ export default function PayButton({ priceKey, children }: Props) {
         try {
             setBusy(true);
             setError(null);
-            trackEvent(ANALYTICS_EVENTS.bookingCta, { priceKey });
+            trackEvent(ANALYTICS_EVENTS.bookingCta, { priceHandle });
 
             const response = await fetch("/api/checkout", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ priceKey }),
+                body: JSON.stringify({ priceHandle }),
             });
 
             const data = (await response.json().catch(() => ({}))) as { url?: string; error?: string };
@@ -32,7 +32,7 @@ export default function PayButton({ priceKey, children }: Props) {
                 return;
             }
 
-            trackEvent(ANALYTICS_EVENTS.checkoutSuccess, { priceKey, redirect: data.url });
+            trackEvent(ANALYTICS_EVENTS.checkoutSuccess, { priceHandle, redirect: data.url });
             window.location.href = data.url;
         } catch (err) {
             setError(err instanceof Error ? err.message : "Unexpected error. Please retry.");

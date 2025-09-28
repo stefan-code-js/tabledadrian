@@ -14,7 +14,7 @@ const HEADERS = {
 };
 
 const requestSchema = z.object({
-    priceKey: z.string(),
+    priceHandle: z.string(),
 });
 
 function readEnv(env: Env | undefined, key: keyof Env): string | undefined {
@@ -41,11 +41,11 @@ export async function POST(request: NextRequest, context: RouteContext): Promise
 
     const parsed = requestSchema.safeParse(payload);
     if (!parsed.success) {
-        return Response.json({ error: "Missing price key." }, { status: 400, headers: HEADERS });
+        return Response.json({ error: "Missing price identifier." }, { status: 400, headers: HEADERS });
     }
 
-    const priceKey = parsed.data.priceKey as PriceKey;
-    const catalogEntry = priceCatalog[priceKey];
+    const priceHandle = parsed.data.priceHandle as PriceKey;
+    const catalogEntry = priceCatalog[priceHandle];
     if (!catalogEntry) {
         return Response.json({ error: "Unknown price." }, { status: 400, headers: HEADERS });
     }

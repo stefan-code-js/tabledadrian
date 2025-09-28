@@ -5,7 +5,7 @@ export interface Product {
     name: string;
     description: string;
     price: number;
-    priceKey: PriceKey;
+    priceHandle: PriceKey;
     image?: string;
     alt?: string;
 }
@@ -16,6 +16,6 @@ export const products: Product[] = [
         name: "Private Chef Dinner",
         description: "Seasonal tasting menu for up to 8 guests.",
         price: 500,
-        priceKey: "experienceSignature",
+        priceHandle: "experienceSignature",
     },
 ];

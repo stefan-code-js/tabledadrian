@@ -4,7 +4,7 @@ import { resolveCfEnv, getClientIp } from "@/lib/cloudflare";
 export const runtime = "edge";
 
 type Env = {
-    CF_TURNSTILE_SECRET?: string;
+    CF_TURNSTILE_KEY?: string;
     TURNSTILE_SECRET?: string;
     TURNSTILE_SECRET_KEY?: string;
     BOOKINGS_KV?: KVNamespace;
@@ -52,10 +52,10 @@ type BookingPayload = ParsedRequest["booking"];
 
 function resolveTurnstileSecret(env: Env): { secret?: string; debug: boolean } {
     const secret =
-        env.CF_TURNSTILE_SECRET ||
+        env.CF_TURNSTILE_KEY ||
         env.TURNSTILE_SECRET ||
         env.TURNSTILE_SECRET_KEY ||
-        (typeof process !== "undefined" ? process.env.CF_TURNSTILE_SECRET : undefined) ||
+        (typeof process !== "undefined" ? process.env.CF_TURNSTILE_KEY : undefined) ||
         (typeof process !== "undefined" ? process.env.TURNSTILE_SECRET : undefined) ||
         (typeof process !== "undefined" ? process.env.TURNSTILE_SECRET_KEY : undefined);
 

@@ -78,7 +78,7 @@ export default function ConsultPage() {
                                     ))}
                                     <FactRow facts={facts} />
                                     <div className="membership-card__cta">
-                                        <PayButton priceKey={pkg.checkout.priceKey}>
+                                        <PayButton priceHandle={pkg.checkout.priceHandle}>
                                             {pkg.checkout.label}
                                         </PayButton>
                                     </div>

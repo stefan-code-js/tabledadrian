@@ -14,6 +14,7 @@ type KineticHeadingProps = {
 
 export default function KineticHeading({ as: Component = "h2", children, className }: KineticHeadingProps) {
     const ref = useRef<HTMLHeadingElement | null>(null);
+    const accessibleLabel = typeof children === "string" ? children : undefined;
 
     useEffect(() => {
         const node = ref.current;
@@ -55,7 +56,7 @@ export default function KineticHeading({ as: Component = "h2", children, classNa
     const classes = ["kinetic-heading", className].filter(Boolean).join(" ");
 
     return (
-        <Component ref={ref} className={classes}>
+        <Component ref={ref} className={classes} aria-label={accessibleLabel} data-kinetic-text={accessibleLabel}>
             {children}
         </Component>
     );

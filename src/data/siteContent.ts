@@ -119,14 +119,15 @@ export const sitePages: Record<PageId, PageContent> = {
         path: "/",
         navLabel: "home",
         meta: {
-            title: "Table d'Adrian · Private chef Cote d'Azur",
+            title: "Table d'Adrian · Private chef Côte d’Azur",
             description:
                 "Ingredient-led tasting menus with pharmacist-designed wellness systems for villas, yachts, and salons along Antibes, Cannes, and Monaco.",
             canonical: "/",
             keywords: [
                 "table d'adrian",
                 "private chef riviera",
-                "cote d'azur private dining",
+                "côte d’azur private dining",
+                "cote d’azur private dining",
                 "tasting menu antibes",
                 "luxury private chef",
             ],
@@ -271,10 +272,11 @@ export const sitePages: Record<PageId, PageContent> = {
         meta: {
             title: "About · Table d'Adrian",
             description:
-                "Table d'Adrian is a private chef table on the Cote d'Azur led by Adrian and Antonia (PharmD). Ingredient-driven hospitality anchored in clinical intelligence and sourcing pedigree.",
+                "Table d'Adrian is a private chef table on the Côte d’Azur led by Adrian and Antonia (PharmD). Ingredient-driven hospitality anchored in clinical intelligence and sourcing pedigree.",
             canonical: "/about",
             keywords: [
-                "private chef Cote d'Azur",
+                "private chef Côte d’Azur",
+                "private chef Cote d’Azur",
                 "luxury private dining",
                 "tasting menu",
                 "longevity cuisine",
@@ -327,7 +329,7 @@ export const sitePages: Record<PageId, PageContent> = {
             title: "Pedigree & recognition",
             intro: "Our work spans Michelin kitchens, clinical research, and households that demand both wellness and wonder. We bring the same precision to private residences that we honed in brigades and clinical programs.",
             paragraphs: [
-                "EHL hospitality formation & Riviera residencies. Former clinical lead for metabolic programs. Featured in Financial Times, Monocle, Conde Nast Traveler. Consultants to leading wellness retreats. Trusted by family offices across the Cote d'Azur. Our partners return season after season because the documentation we deliver lets their teams perform at our standard.",
+                "EHL hospitality formation & Riviera residencies. Former clinical lead for metabolic programs. Featured in Financial Times, Monocle, Condé Nast Traveler. Consultants to leading wellness retreats. Trusted by family offices across the Côte d’Azur. Our partners return season after season because the documentation we deliver lets their teams perform at our standard.",
             ],
         },
         process: {
@@ -388,7 +390,7 @@ export const sitePages: Record<PageId, PageContent> = {
             items: [
                 { quote: "They hold space for performance and joy at the same time.", name: "Monocle", role: "Culture" },
                 { quote: "The Riviera's quiet standard for longevity-minded dining.", name: "FT Weekend", role: "How To Spend It" },
-                { quote: "They make elite hospitality livable for households.", name: "Conde Nast", role: "Traveler" },
+                { quote: "They make elite hospitality livable for households.", name: "Condé Nast", role: "Traveler" },
             ],
         },
         finalCta: {
@@ -406,7 +408,7 @@ export const sitePages: Record<PageId, PageContent> = {
         meta: {
             title: "Experiences & Menus · Table d'Adrian",
             description:
-                "Signature tastings, salon suppers, and voyage weekends engineered for villas, yachts, and retreats along the Cote d'Azur.",
+                "Signature tastings, salon suppers, and voyage weekends engineered for villas, yachts, and retreats along the Côte d’Azur.",
             canonical: "/experiences",
         },
         hero: {
@@ -777,7 +779,7 @@ export const sitePages: Record<PageId, PageContent> = {
         meta: {
             title: "Gallery · Table d'Adrian",
             description:
-                "Recent tables, ceramics, and atmospheres from villas, yachts, and salons across the Cote d'Azur.",
+                "Recent tables, ceramics, and atmospheres from villas, yachts, and salons across the Côte d’Azur.",
             canonical: "/gallery",
         },
         hero: {
@@ -1006,7 +1008,7 @@ export const sitePages: Record<PageId, PageContent> = {
             items: [
                 { quote: "Fragrance-forward hospitality with clinical clarity.", name: "Financial Times", role: "HTSI" },
                 { quote: "Every plate a quiet piece of theatre.", name: "Monocle", role: "Radio" },
-                { quote: "The Riviera's most considered private table.", name: "Conde Nast", role: "Traveler" },
+                { quote: "The Riviera's most considered private table.", name: "Condé Nast", role: "Traveler" },
             ],
         },
         finalCta: {

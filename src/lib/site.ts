@@ -33,13 +33,13 @@ export const site: SiteConfig = {
     url: "https://tabledadrian.com",
     locale: "en",
     description:
-        "Michelin-trained private chef - ingredient-led haute cuisine along the Cote d'Azur. Seasonal vegetables, seafood, and disciplined hospitality.",
+        "Michelin-trained private chef - ingredient-led haute cuisine along the Côte d’Azur. Seasonal vegetables, seafood, and disciplined hospitality.",
     email: "adrian@tabledadrian.com",
     telephone: "",
     address: {
         street: "",
         locality: "Antibes",
-        region: "Provence-Alpes-Cote d'Azur",
+        region: "Provence-Alpes-Côte d’Azur",
         postalCode: "",
         country: "FR",
     },
@@ -55,7 +55,8 @@ export const site: SiteConfig = {
         "Omnivore-friendly; vegetarian, vegan, and gluten-free menus are available on request.",
     keywords: [
         "table d'adrian",
-        "private chef cote d'azur",
+        "private chef côte d’azur",
+        "private chef cote d’azur",
         "fine dining tasting menu",
         "seafood tasting menu",
         "luxury private dining antibes",

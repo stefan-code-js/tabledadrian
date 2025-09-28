@@ -19,8 +19,23 @@ import { images, type ImageAsset } from "@/data/images";
 import { ANALYTICS_EVENTS, trackEvent } from "@/lib/analytics";
 import HeroCinematic from "@/components/editorial/HeroCinematic";
 
-const KEYWORDS = ["private table", "Cote d'Azur", "seasonal", "membership", "consult", "chef's table"] as const;
-const HOME_KEYWORDS = ["private table", "membership", "consult", "chef's table", "Cote d'Azur"] as const;
+const KEYWORDS = [
+    "private table",
+    "Côte d’Azur",
+    "Cote d’Azur",
+    "seasonal",
+    "membership",
+    "consult",
+    "chef's table",
+] as const;
+const HOME_KEYWORDS = [
+    "private table",
+    "membership",
+    "consult",
+    "chef's table",
+    "Côte d’Azur",
+    "Cote d’Azur",
+] as const;
 
 const heroAssets: Record<PageId | "default", ImageAsset> = {
     default: images.heroDefault,
@@ -50,7 +65,7 @@ type TierActionProps = {
 function TierAction({ cta, context }: TierActionProps) {
     if (cta.type === "checkout") {
         return (
-            <PayButton priceKey={cta.priceKey}>
+            <PayButton priceHandle={cta.priceHandle}>
                 {cta.label}
             </PayButton>
         );
@@ -93,13 +108,13 @@ export function PageHero({ page }: { page: PageContent }) {
     if (isHome) {
         return (
             <HeroCinematic
-                kicker="Private table / Cote d'Azur"
+                kicker="Private table / Côte d’Azur"
                 analyticsId="home-hero"
                 title="An evening written in quiet chapters"
                 summary={
                     <KineticParagraph>
                         <KeywordHighlighter
-                            text="Private dining on the Cote d'Azur, composed by Adrian and Antonia, moves through seasonal courses, disciplined service, and membership consults that travel with you."
+                            text="Private dining on the Côte d’Azur, composed by Adrian and Antonia, moves through seasonal courses, disciplined service, and membership consults that travel with you."
                             keywords={HOME_KEYWORDS}
                             variant="bronze"
                         />

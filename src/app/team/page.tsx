@@ -11,11 +11,12 @@ import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 export const metadata = buildMetadataForPath("/team", {
     title: "Team · Private Chef Atelier",
     description:
-        "A small atelier led by Chef Adrian with clinical systems by Antonia (PharmD). We shape season, texture, and fragrance into one calm table along the Cote d'Azur.",
+        "A small atelier led by Chef Adrian with clinical systems by Antonia (PharmD). We shape season, texture, and fragrance into one calm table along the Côte d’Azur.",
     keywords: [
         "private chef team",
         "luxury private dining",
-        "Cote d'Azur chef",
+        "Côte d’Azur chef",
+        "Cote d’Azur chef",
         "tasting menu",
         "sommelier",
         "pastry",

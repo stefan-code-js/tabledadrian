@@ -79,7 +79,7 @@ export default function MembershipPage() {
                                     ))}
                                     <FactRow facts={facts} />
                                     <div className="membership-card__cta">
-                                        <PayButton priceKey={tier.checkout.priceKey}>
+                                        <PayButton priceHandle={tier.checkout.priceHandle}>
                                             {tier.checkout.label}
                                         </PayButton>
                                     </div>

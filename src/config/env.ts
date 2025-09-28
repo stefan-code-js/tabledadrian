@@ -5,6 +5,16 @@ const required = (key: string) => {
     return v;
 };
 
+const requiredAny = (...keys: string[]) => {
+    for (const key of keys) {
+        const value = process.env[key];
+        if (value) {
+            return value;
+        }
+    }
+    throw new Error(`Missing env: one of ${keys.join(", ")}`);
+};
+
 // Non-secrets
 export const SITE_URL = process.env.SITE_URL || "https://tabledadrian.com";
 export const CAL_PUBLIC_LINK = process.env.CAL_PUBLIC_LINK || "https://cal.com/adrian-stefan";
@@ -12,8 +22,8 @@ export const INSTAGRAM_PROFILE_URL = process.env.INSTAGRAM_PROFILE_URL || "";
 export const LINKEDIN_PROFILE_URL = process.env.LINKEDIN_PROFILE_URL || "";
 
 // Stripe
-export const STRIPE_PUBLISHABLE_KEY = required("STRIPE_PUBLISHABLE_KEY");
-export const STRIPE_SECRET_KEY = required("STRIPE_SECRET_KEY");
+export const STRIPE_PUBLISHABLE_KEY = requiredAny("STRIPE_PUBLISHABLE_KEY", "STRIPE_PUBLIC_KEY", "NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY");
+export const STRIPE_SECRET_KEY = requiredAny("STRIPE_SECRET_KEY", "STRIPE_KEY");
 export const STRIPE_WEBHOOK_SECRET = process.env.STRIPE_WEBHOOK_SECRET || "";
 export const STRIPE_PRICE_SIGNATURE = process.env.STRIPE_PRICE_SIGNATURE || "";
 export const STRIPE_PRICE_MEMBERSHIP = process.env.STRIPE_PRICE_MEMBERSHIP || "";

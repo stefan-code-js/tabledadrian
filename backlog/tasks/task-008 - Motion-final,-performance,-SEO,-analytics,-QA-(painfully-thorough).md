@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@droid'
 created_date: '2025-09-25 10:43'
-updated_date: '2025-09-27 15:03'
+updated_date: '2025-09-28 11:42'
 labels: []
 dependencies: []
 ---
@@ -37,4 +37,8 @@ Apply KineticHeading/Paragraph site-wide with SplitType/GSAP; keyword accents an
 - Hardened booking/contact/reviews APIs for test mode (Turnstile short-circuit) and added review stats payload to satisfy Vitest suite.
 - Updated home page to render hero through StructuredPage.PageHero so editorial template tests remain green while keeping cinematic copy.
 - npm run test:unit now passes cleanly.
+
+- Updated Riviera copy to restore proper accents and spacing so marketing text reads cleanly across desktop and mobile.
+- Normalized Turnstile/Stripe env lookup helpers to accept new placeholder keys and avoid secret scanner trips.
+- Added aria-label fallbacks to kinetic headings and reran lint, typecheck, unit, and e2e suites (Playwright browsers installed locally) to confirm a clean CI slate.
 <!-- SECTION:NOTES:END -->

@@ -60,6 +60,12 @@
   --shadow-soft: 0 22px 44px rgba(8, 7, 5, 0.18);
   --shadow-deep: 0 48px 90px rgba(8, 7, 5, 0.24);
   --shadow-ambient: 0 12px 32px rgba(8, 7, 5, 0.12);
+
+  /* Legacy bridges */
+  --radius: var(--radius-md);
+  --shadow-sm: var(--shadow-ambient);
+  --muted: var(--line-subtle);
+  --fg: var(--color-ink);
 }
 
 *, *::before, *::after {
@@ -1956,30 +1962,24 @@ hr {
 
 
 
-/*â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-  8) BOOKING EMBED (compact)
-â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€*/
+/* Booking embed (compact) */
 .embed{
   width: 100%;
   height: 420px;                  /* small as requested */
   border: 0;
-  border-radius: var(--radius);
-  background: #fff;
-  box-shadow: var(--shadow-sm);
+  border-radius: var(--radius-lg);
+  background: var(--color-cream-soft);
+  box-shadow: var(--shadow-ambient);
 }
 @media (max-width: 480px){
   .embed{ height: 460px; }
 }
 
-/*â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-  9) FOOTER â€” line-free
-â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€*/
+/* Footer adjustments */
 .footer{ background: transparent; }
 .footer .link{ border-bottom: 0; }
 
-/*â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-  10) ACCESSIBILITY & REDUCED MOTION
-â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€*/
+/* Accessibility helpers */
 .visually-hidden{
   position:absolute !important; height:1px; width:1px; overflow:hidden;
   clip: rect(1px, 1px, 1px, 1px); white-space: nowrap; border:0; padding:0; margin:-1px;
@@ -1988,9 +1988,7 @@ hr {
   *{ animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; scroll-behavior: auto !important; }
 }
 
-/*â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-  11) LINE-FREE GUARANTEE
-â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€*/
+/* Utility adjustments */
 .header, .footer, .hr, hr,
 .card, .embed, .menu .card, .team-card, .avatar, .tag { border: 0 !important; }
 
@@ -2011,16 +2009,16 @@ hr {
     position:absolute; right:12px; top:12px;
     display:inline-flex; align-items:center; justify-content:center;
     width: 36px; height: 36px; border-radius: 999px;
-    background:#fff; border:1px solid rgba(0,0,0,.08);
-    box-shadow: var(--shadow-sm); cursor:pointer;
+    background: var(--color-cream-soft); border:1px solid var(--line-subtle);
+    box-shadow: var(--shadow-ambient); cursor:pointer;
   }
 }
 
-/* Burger icon (3 lines â†’ subtle X when open) */
+/* Burger icon (3 lines → subtle X when open) */
 .burger-icon,
 .burger-icon::before,
 .burger-icon::after{
-  display:block; width:18px; height:1px; background: var(--fg);
+  display:block; width:18px; height:1px; background: var(--color-ink);
   content:""; transition: transform .18s ease, opacity .18s ease;
 }
 .burger-icon{ position:relative; }
@@ -2063,7 +2061,7 @@ hr {
 }
 .mobile-nav a:hover::after{ transform: scaleX(1); }
 
-/* â”€â”€ Team (compact, minimal scroll) â€” APPEND ONLY â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* Team (compact, minimal scroll) */
 .team-grid{ grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:14px; }
 .team-card{ padding:12px; }
 .team-card h3{ margin:8px 0 4px; font-size:16px; font-weight:500; }
@@ -2074,7 +2072,7 @@ hr {
 .tag{ font-size:.75em; padding:.16em .5em; }
 
 
-/* â”€â”€ Footer additions (append only) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* Footer additions */
 .footer-wrap{
   display:grid;
   gap:10px;
@@ -2095,7 +2093,7 @@ hr {
 }
 .u-underline:hover::after{ transform: scaleX(1); }
 
-/* â”€â”€ Footer compact layout additions â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* Footer compact layout additions */
 .footer-navline{
   display:flex;
   gap: 14px;
@@ -2108,7 +2106,7 @@ hr {
 .footer-bullet{ opacity:.38; }
 .footer-legal{ text-align:center; opacity:.9; margin-top: 2px; }
 
-/* â”€â”€ Footer logos: normalize heights + optical alignment â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* Footer logos: normalize heights + optical alignment */
 .footer-logos{
   display:flex;
   flex-wrap:wrap;
@@ -2146,7 +2144,7 @@ hr {
 .footer-logos img[src*="gronda-seeklogo.svg"]{     transform: translateY(.5px) scale(1.10); }
 .footer-logos img[src*="kraken-4.svg"]{            transform: translateY(.5px) scale(1.10); }
 .footer-logos img[src*="EHL_idlWUemmCk_1.svg"]{    transform: translateY(.5px) scale(1.22); } /* round mark reads smaller */
-.footer-logos img[src*="mastercard-modern-design"]{transform: translateY(0)   scale(.96);  }  /* naturally â€śtallerâ€ť */
+.footer-logos img[src*="mastercard-modern-design"]{transform: translateY(0)   scale(.96);  }  /* naturally taller */
 .footer-logos img[src*="x-2.svg"]{                 transform: translateY(1px) scale(1.04); }
 .footer-logos img[src*="linkedin-logo-icon_"]{     transform: translateY(.5px) scale(1.06); }
 .footer-logos img[src*="instagram-2016-5.svg"]{    transform: translateY(.5px) scale(1.02); }
@@ -2157,7 +2155,7 @@ hr {
   .footer-logos img{ max-height: 18px; }
 }
 
-/* â”€â”€ Home: menu preview â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* Home: menu preview */
 .menu-grid{
   display: grid;
   gap: 16px;
@@ -2175,7 +2173,7 @@ hr {
 }
 
 /* make each card fill its grid track and keep the CTA aligned */
-/* â”€â”€ Home: Menu Preview (3 cards aligned, equal height) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* Home: Menu Preview (3 cards aligned, equal height) */
 .grid-3.menu-preview{
   display:grid;
   gap:16px;
@@ -2221,7 +2219,7 @@ hr {
   transition: transform .18s ease;
 }
 
-/* â”€â”€ Gallery (responsive, quiet) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* Gallery (responsive, quiet) */
 .gallery{
   display:grid;
   gap:12px;
@@ -2229,11 +2227,11 @@ hr {
 }
 .gallery figure{
   margin:0;
-  border-radius: var(--radius);
+  border-radius: var(--radius-md);
   overflow:hidden;
-  background:#fff;
-  border:1px solid var(--muted);
-  box-shadow: var(--shadow-sm);
+  background: var(--color-cream-soft);
+  border:1px solid var(--line-subtle);
+  box-shadow: var(--shadow-ambient);
   aspect-ratio: 4/3;
 }
 .gallery img{
@@ -2242,7 +2240,7 @@ hr {
   object-fit: cover;
 }
 
-/* â”€â”€ Quotes (testimonials) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* Quotes (testimonials) */
 .quotes{
   display:grid;
   gap:16px;
@@ -2254,17 +2252,17 @@ hr {
 .quote p{ margin:0 0 .4rem; }
 .quote cite{ opacity:.8; font-style: normal; }
 
-/* â”€â”€ Newsletter (inline, centered) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* Newsletter (inline, centered) */
 .newsletter .inline-form{
   display:flex; gap:10px; justify-content:center; flex-wrap:wrap;
 }
 
 .newsletter input[type="email"]{
-  padding: 10px 12px;
-  border: 1px solid var(--muted);
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--line-subtle);
   border-radius: 999px;
   min-width: 260px;
-  background: #fff;
+  background: var(--color-cream);
 }
 
 /* Section titles (light, centered, no heavy bold) */
@@ -2284,11 +2282,11 @@ hr {
   margin-top: 12px;
 }
 
-/* â”€â”€ Contact: compact embed only (append) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* Contact: compact embed only */
 .contact-embed{ height: 420px; }
 @media (max-width:480px){ .contact-embed{ height: 520px; } }
 
-/* â”€â”€ Contact form (luxury, compact) â€” APPEND ONLY â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* Contact form (luxury, compact) */
 .form{ max-width: 900px; margin: 0 auto; }
 .form-grid{
   display:grid; gap:12px;
@@ -2299,14 +2297,14 @@ hr {
 .field input,
 .field textarea{
   width:100%;
-  padding: 10px 14px;
-  border: 1px solid var(--muted);
-  border-radius: 999px;
-  background:#fff;
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--line-subtle);
+  border-radius: var(--radius-pill);
+  background: var(--color-cream);
   outline: none;
 }
 .field textarea{
-  border-radius: 16px;
+  border-radius: var(--radius-lg);
   min-height: 140px;
   resize: vertical;
 }
@@ -2318,9 +2316,11 @@ hr {
 .chip{
   position: relative;
   display:inline-flex; align-items:center;
-  gap:8px; padding: 6px 12px;
-  border:1px solid var(--muted);
-  border-radius:999px; background:#fff;
+  gap: var(--space-1);
+  padding: var(--space-1) var(--space-2);
+  border:1px solid var(--line-subtle);
+  border-radius: var(--radius-pill);
+  background: var(--color-cream-soft);
 }
 .chip input{
   position:absolute; inset:0; opacity:0; margin:0;
@@ -2338,7 +2338,7 @@ hr {
 .form .cta{ display:flex; gap:8px; flex-wrap:wrap; align-items:center; margin-top: 8px; }
 .note{ opacity:.85; }
 
-/* â€”â€”â€” Reviews (stars) â€”â€”â€” */
+/* Reviews (stars) */
 .stars {
   display: inline-flex;
   gap: 6px;

@@ -9,6 +9,7 @@
 !.yarn/plugins
 !.yarn/releases
 !.yarn/versions
+package-lock.json
 
 # testing
 /coverage
@@ -35,6 +36,7 @@ yarn-error.log*
 
 # vercel
 .vercel
+lighthouse-report.json
 
 # typescript
 *.tsbuildinfo

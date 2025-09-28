@@ -9,7 +9,7 @@ import { useGsapFade } from "@/hooks/useGsapFade";
 const heroContent = {
     title: "Table d'Adrian",
     description:
-        "Seasonal tasting menus with pharmacist-designed wellness systems. Villas, yachts, and salons along the Cote d'Azur.",
+        "Seasonal tasting menus with pharmacist-designed wellness systems. Villas, yachts, and salons along the Côte d’Azur.",
     primary: { href: "/contact", label: "request a booking" },
     secondary: { href: "/membership", label: "explore membership" },
     image: {

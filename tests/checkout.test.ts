@@ -9,10 +9,12 @@ describe("createCheckoutSession", () => {
             json: () => Promise.resolve({ id: "sess_1", url: "https://stripe.test" }),
         });
 
+        const key = "example_key";
+
         const session = await createCheckoutSession({
             priceId: "price_test",
             mode: "payment",
-            secretKey: "sk_test",
+            secretKey: key,
             successUrl: "https://test/success?session_id={CHECKOUT_SESSION_ID}",
             cancelUrl: "https://test/cancel",
             fetchImpl: fetchMock as any,

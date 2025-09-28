@@ -17,7 +17,14 @@ const page = sitePages.home;
 
 export const metadata = createPageMetadata(page);
 
-const HERO_KEYWORDS = ["private table", "membership", "consult", "chef's table", "Cote d'Azur"] as const;
+const HERO_KEYWORDS = [
+    "private table",
+    "membership",
+    "consult",
+    "chef's table",
+    "Côte d’Azur",
+    "Cote d’Azur",
+] as const;
 
 const EXPERIENCE_SECTIONS = [
     {
@@ -56,7 +63,7 @@ const EXPERIENCE_SECTIONS = [
 ] as const;
 
 const FACTS = [
-    { label: "Lead time", value: "14 days for Cote d'Azur residences" },
+    { label: "Lead time", value: "14 days for Côte d’Azur residences" },
     { label: "Service window", value: "Sunset through the final digestif" },
     { label: "Guest scope", value: "Four to twenty-four, chef's table intimacy" },
     { label: "Continuity", value: "Membership or seasonal consult" },

@@ -7,7 +7,7 @@ describe('products data', () => {
             expect(typeof p.id).toBe('string');
             expect(typeof p.name).toBe('string');
             expect(typeof p.price).toBe('number');
-            expect(typeof p.priceKey).toBe('string');
+        expect(typeof p.priceHandle).toBe('string');
         }
     });
 });

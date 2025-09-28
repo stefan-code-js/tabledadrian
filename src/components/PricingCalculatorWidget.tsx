@@ -16,7 +16,7 @@ import {
 function CTAButton({ cta }: { cta: TierCta }) {
     if (cta.type === "checkout") {
         return (
-            <PayButton priceKey={cta.priceKey}>
+            <PayButton priceHandle={cta.priceHandle}>
                 {cta.label}
             </PayButton>
         );
