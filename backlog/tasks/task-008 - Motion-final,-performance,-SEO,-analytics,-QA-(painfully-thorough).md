@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@droid'
 created_date: '2025-09-25 10:43'
-updated_date: '2025-09-28 11:42'
+updated_date: '2025-09-29 16:01'
 labels: []
 dependencies: []
 ---
@@ -41,4 +41,14 @@ Apply KineticHeading/Paragraph site-wide with SplitType/GSAP; keyword accents an
 - Updated Riviera copy to restore proper accents and spacing so marketing text reads cleanly across desktop and mobile.
 - Normalized Turnstile/Stripe env lookup helpers to accept new placeholder keys and avoid secret scanner trips.
 - Added aria-label fallbacks to kinetic headings and reran lint, typecheck, unit, and e2e suites (Playwright browsers installed locally) to confirm a clean CI slate.
+
+- Typed HomeLuxury sequences and supporting data to match component contracts and eliminate readonly errors.
+- Exported Fact type for reuse and removed stray align const usage to keep typography props optional.
+- Ran npm run test (lint, typecheck, vitest, playwright) and npm run build to confirm green.
+
+- Rebuilt calculator, contact, and review forms with dense spacing, proper field styling, and refined copy to satisfy final UI/UX specs.
+- Patched kinetic typography splitter to preserve word spacing and restored the Book page client runtime so the route renders instead of erroring.
+- Ran npm run lint to verify the updated components and styles.
+
+- Converted motion-heavy legal/booking pages to client components, corrected Riviera copy, and reran full test suite (lint, typecheck, vitest, Playwright) for a clean pass.
 <!-- SECTION:NOTES:END -->

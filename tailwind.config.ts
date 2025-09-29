@@ -22,7 +22,7 @@ const config: Config = {
                 accent: palette.forest,
             },
             fontFamily: {
-                serif: ["var(--font-serif)"],
+                serif: ["var(--font-display)"],
                 sans: ["var(--font-sans)"],
             },
             fontSize: {

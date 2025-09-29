@@ -1,4 +1,4 @@
-﻿type Fact = {
+﻿export type Fact = {
     label: string;
     value: string;
 };

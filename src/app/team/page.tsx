@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
@@ -16,7 +18,7 @@ export const metadata = buildMetadataForPath("/team", {
         "private chef team",
         "luxury private dining",
         "Côte d’Azur chef",
-        "Cote d’Azur chef",
+        "Côte d’Azur chef",
         "tasting menu",
         "sommelier",
         "pastry",

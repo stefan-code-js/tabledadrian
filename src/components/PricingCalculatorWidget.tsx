@@ -55,7 +55,7 @@ export default function PricingCalculatorWidget() {
 
     return (
         <div className="calculator">
-            <label className="calculator-field">
+            <label className="field calculator-field">
                 <span>Experience</span>
                 <select value={selectedId} onChange={(event) => handleOptionChange(event.target.value)}>
                     {pricingCalculatorOptions.map((opt) => (
@@ -66,11 +66,11 @@ export default function PricingCalculatorWidget() {
                 </select>
             </label>
 
-            <p className="muted" style={{ marginTop: 6 }}>
+            <p className="muted calculator-description">
                 {option.description}
             </p>
 
-            <label className="calculator-field">
+            <label className="field calculator-field">
                 <span>Guests</span>
                 <input
                     type="number"
@@ -80,16 +80,16 @@ export default function PricingCalculatorWidget() {
                 />
                 {option.includedGuests && option.perGuest ? (
                     <small className="muted">
-                        Includes {option.includedGuests} guests · {perGuestText}
+                        Includes {option.includedGuests} guests {" \u00B7 "}{perGuestText}
                     </small>
                 ) : null}
             </label>
 
             {option.enhancements.length ? (
-                <fieldset className="calculator-field">
+                <fieldset className="calculator-fieldset">
                     <legend>Add enhancements</legend>
                     {option.enhancements.map((enhancement) => (
-                        <label key={enhancement.id} className="addon">
+                        <label key={enhancement.id} className="calculator-addon">
                             <input
                                 type="checkbox"
                                 checked={Boolean(addons[enhancement.id])}
@@ -103,7 +103,7 @@ export default function PricingCalculatorWidget() {
                             <span>
                                 {enhancement.label}
                                 <small>
-                                    {enhancement.description} · {formatMoney(enhancement.cost, { includeCadence: false })}
+                                    {enhancement.description}{" \u00B7 "}{formatMoney(enhancement.cost, { includeCadence: false })}
                                 </small>
                             </span>
                         </label>
@@ -123,10 +123,10 @@ export default function PricingCalculatorWidget() {
                 ) : null}
             </div>
 
-            <div className="hero-ctas" style={{ marginTop: 16 }}>
+            <div className="hero-ctas calculator-actions">
                 <CTAButton cta={option.cta} />
                 <Link className="btn ghost" href={`/contact?context=${encodeURIComponent(option.id)}`}>
-                    send inquiry
+                    Send inquiry
                 </Link>
             </div>
         </div>

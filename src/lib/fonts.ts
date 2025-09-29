@@ -2,7 +2,7 @@
 
 export const serif = localFont({
     src: [{ path: "../../public/fonts/PlayfairDisplay-Variable.ttf", style: "normal", weight: "400 900" }],
-    variable: "--font-serif",
+    variable: "--font-display",
     display: "swap",
     fallback: ["Georgia", "Times New Roman", "serif"],
     preload: true,

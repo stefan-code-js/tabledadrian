@@ -87,37 +87,37 @@ export default function ContactForm({ context }: { context?: string }) {
 
     return (
         <form id="contact-form" className="form contact-form" onSubmit={onSubmit} onFocusCapture={handleFocus}>
-            <div className="grid-two">
-                <label>
+            <div className="form-grid">
+                <label className="field">
                     <span>Name</span>
                     <input name="name" autoComplete="name" required aria-required type="text" />
                 </label>
-                <label>
+                <label className="field">
                     <span>Email</span>
                     <input name="email" type="email" autoComplete="email" required aria-required />
                 </label>
             </div>
-            <div className="grid-two">
-                <label>
+            <div className="form-grid">
+                <label className="field">
                     <span>Guests</span>
                     <input name="guests" type="number" min={1} max={120} required aria-required />
                 </label>
-                <label>
+                <label className="field">
                     <span>Event date</span>
                     <input name="eventDate" type="date" required aria-required />
                 </label>
             </div>
-            <div className="grid-two">
-                <label>
+            <div className="form-grid">
+                <label className="field">
                     <span>Location</span>
                     <input name="location" placeholder="Antibes, Cannes, Monaco" />
                 </label>
-                <label>
+                <label className="field">
                     <span>Budget</span>
                     <input name="budget" placeholder="Approximate investment" />
                 </label>
             </div>
-            <label>
+            <label className="field">
                 <span>Intent / notes</span>
                 <textarea
                     name="message"
@@ -132,9 +132,9 @@ export default function ContactForm({ context }: { context?: string }) {
                     <input name="company" tabIndex={-1} autoComplete="off" />
                 </label>
             </div>
-            <div className="actions">
+            <div className="cta">
                 <button className="btn" type="submit" disabled={status === "submitting"}>
-                    {status === "submitting" ? "sending..." : "submit inquiry"}
+                    {status === "submitting" ? "sending..." : "Submit inquiry"}
                 </button>
             </div>
             {status === "error" ? (

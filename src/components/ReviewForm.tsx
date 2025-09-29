@@ -53,13 +53,13 @@ export default function ReviewForm() {
 
     return (
         <form onSubmit={handleSubmit} className="review-form">
-            <div className="grid">
-                <label>
-                    name
+            <div className="form-grid">
+                <label className="field">
+                    <span>Name</span>
                     <input name="name" type="text" required placeholder="Your full name" />
                 </label>
-                <label>
-                    email <span className="muted">(optional)</span>
+                <label className="field">
+                    <span>Email <span className="muted">(optional)</span></span>
                     <input name="email" type="email" placeholder="you@domain.com" />
                 </label>
             </div>
@@ -82,8 +82,8 @@ export default function ReviewForm() {
                 ))}
             </div>
 
-            <label>
-                comment
+            <label className="field">
+                <span>Comment</span>
                 <textarea name="comment" rows={4} placeholder="Tell us about your experience"></textarea>
             </label>
 
@@ -94,7 +94,7 @@ export default function ReviewForm() {
             />
 
             <button className="btn primary" disabled={state === "sending"}>
-                {state === "sending" ? "sending..." : "submit review"}
+                {state === "sending" ? "Sending..." : "Publish review"}
             </button>
 
             {state === "ok" ? (

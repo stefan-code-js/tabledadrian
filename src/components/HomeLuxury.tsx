@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import type { ReactNode } from "react";
 import KineticHeading from "@/components/KineticHeading";
 import KineticParagraph from "@/components/KineticParagraph";
 import KeywordHighlighter from "@/components/KeywordHighlighter";
@@ -9,8 +10,8 @@ import EditorialBlock from "@/components/EditorialBlock";
 import PullQuote from "@/components/PullQuote";
 import CTABand from "@/components/CTABand";
 import ImageMosaic from "@/components/ImageMosaic";
-import TestimonialCarousel from "@/components/TestimonialCarousel";
-import FactRow from "@/components/FactRow";
+import TestimonialCarousel, { type Testimonial } from "@/components/TestimonialCarousel";
+import FactRow, { type Fact } from "@/components/FactRow";
 import CardPanel from "@/components/CardPanel";
 import { images } from "@/data/images";
 import { ANALYTICS_EVENTS, trackEvent } from "@/lib/analytics";
@@ -22,7 +23,20 @@ const HERO_HIGHLIGHTS = [
     "consult",
 ] as const;
 
-const sequences = [
+type LuxurySequence = {
+    title: string;
+    kicker: string;
+    paragraphs: string[];
+    image: {
+        src: string;
+        alt: string;
+        aspect?: string;
+    };
+    align?: "left" | "right";
+    cta?: ReactNode;
+};
+
+const sequences: LuxurySequence[] = [
     {
         title: "Prepared provenance",
         kicker: "Chapter one",
@@ -48,7 +62,7 @@ const sequences = [
             alt: "Crew rehearsing plate placement before guests arrive.",
             aspect: "3 / 4",
         },
-        align: "right" as const,
+        align: "right",
         cta: (
             <Link
                 className="text-link"
@@ -79,9 +93,9 @@ const sequences = [
             aspect: "4 / 3",
         },
     },
-] as const;
+];
 
-const testimonials = [
+const testimonials: Testimonial[] = [
     {
         quote: "They anticipated every cue; our board assumed we had hosted together for years.",
         name: "Isabelle D.",
@@ -96,7 +110,7 @@ const testimonials = [
         name: "James M.",
         role: "Salon host",
     },
-] as const;
+];
 
 const mosaicImages = [
     images.homeGalleryOne,
@@ -105,12 +119,12 @@ const mosaicImages = [
     images.homeGalleryFour,
 ];
 
-const factRow = [
+const factRow: Fact[] = [
     { label: "Lead time", value: "14-day notice to hold calendar" },
     { label: "Service window", value: "Sunset through the final digestif" },
     { label: "Guest scope", value: "Four to twenty-four with chef's table pacing" },
     { label: "Continuity", value: "Seasonal consult or annual membership" },
-] as const;
+];
 
 export default function HomeLuxury() {
     const heroAsset = images.heroHome;
@@ -221,7 +235,7 @@ export default function HomeLuxury() {
             <CTABand
                 analyticsId="home-luxury-cta"
                 title="Reserve your chapter"
-                description="Share the date, guest profile, and venue. We return within the day with provisioning briefs, pacing notes, and the proposed crew." 
+                description="Share the date, guest profile, and venue. We return within the day with provisioning briefs, pacing notes, and the proposed crew."
                 primary={{ label: "Reserve a private table", href: "/contact" }}
                 secondary={{ label: "Speak with the chef", href: "/consult" }}
             />

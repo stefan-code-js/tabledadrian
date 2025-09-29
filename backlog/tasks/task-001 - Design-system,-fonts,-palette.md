@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - anton
 created_date: '2025-09-25 10:40'
-updated_date: '2025-09-27 11:26'
+updated_date: '2025-09-29 15:23'
 labels: []
 dependencies: []
 priority: high
@@ -32,4 +32,7 @@ Create the luxury system in globals.css + Tailwind theme. Two self-hosted variab
 Re-ran Lighthouse desktop audit after spacing updates; accessibility score now 1.0 with corrected kicker contrast. Navigation/footers have larger hit areas, but further polish is still needed before handing back to client.
 
 Updated footer marquee to CSS-based animation with reserved height; Lighthouse desktop now reports CLS 0.00 and performance score 1.00. Remaining stretch: audit mobile experience + typography tweaks before final sign-off.
+
+- Updated local font variables to expose --font-display per system spec and retargeted globals/tailwind to consume it.
+- Ran npm run lint to confirm design tokens stay consistent.
 <!-- SECTION:NOTES:END -->
