@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@droid'
 created_date: '2025-09-25 10:43'
-updated_date: '2025-09-29 16:01'
+updated_date: '2025-09-29 23:30'
 labels: []
 dependencies: []
 ---
@@ -51,4 +51,10 @@ Apply KineticHeading/Paragraph site-wide with SplitType/GSAP; keyword accents an
 - Ran npm run lint to verify the updated components and styles.
 
 - Converted motion-heavy legal/booking pages to client components, corrected Riviera copy, and reran full test suite (lint, typecheck, vitest, Playwright) for a clean pass.
+- Fixed all accessibility issues reported by the tests.
+- Refactored all pages and components to use the design system and Tailwind CSS.
+- Fixed all wording, spacing, and title issues to align with the design system.
+
+- Confirmed refined homepage/contact flows with full suite: npm run lint, npm run typecheck, npm run test:unit, npm run test:e2e, npm run build; Playwright navigation passes after CTA copy adjustments.
+- Attempted npm run cf:build (Cloudflare) but build aborts on Windows due to Vercel CLI limitation; recorded logs for follow-up.
 <!-- SECTION:NOTES:END -->

@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
@@ -54,10 +54,14 @@ export default function PricingCalculatorWidget() {
         : undefined;
 
     return (
-        <div className="calculator">
-            <label className="field calculator-field">
-                <span>Experience</span>
-                <select value={selectedId} onChange={(event) => handleOptionChange(event.target.value)}>
+        <div className="grid gap-space-4">
+            <label className="grid gap-space-1">
+                <span className="text-fluid-sm text-ink-muted">Experience</span>
+                <select
+                    className="w-full bg-cream-soft border-b border-ink-muted/20 focus:border-ink-muted transition-colors duration-300 ease-in-out py-space-2 px-space-1"
+                    value={selectedId}
+                    onChange={(event) => handleOptionChange(event.target.value)}
+                >
                     {pricingCalculatorOptions.map((opt) => (
                         <option key={opt.id} value={opt.id}>
                             {opt.name}
@@ -66,30 +70,31 @@ export default function PricingCalculatorWidget() {
                 </select>
             </label>
 
-            <p className="muted calculator-description">
+            <p className="text-ink-muted text-fluid-sm">
                 {option.description}
             </p>
 
-            <label className="field calculator-field">
-                <span>Guests</span>
+            <label className="grid gap-space-1">
+                <span className="text-fluid-sm text-ink-muted">Guests</span>
                 <input
+                    className="w-full bg-cream-soft border-b border-ink-muted/20 focus:border-ink-muted transition-colors duration-300 ease-in-out py-space-2 px-space-1"
                     type="number"
                     min={option.guestRange?.min ?? 1}
                     value={estimate.guestCount}
                     onChange={(event) => setGuestInput(Number(event.target.value) || 0)}
                 />
                 {option.includedGuests && option.perGuest ? (
-                    <small className="muted">
+                    <small className="text-ink-muted">
                         Includes {option.includedGuests} guests {" \u00B7 "}{perGuestText}
                     </small>
                 ) : null}
             </label>
 
             {option.enhancements.length ? (
-                <fieldset className="calculator-fieldset">
-                    <legend>Add enhancements</legend>
+                <fieldset className="grid gap-space-2">
+                    <legend className="text-fluid-sm text-ink-muted">Add enhancements</legend>
                     {option.enhancements.map((enhancement) => (
-                        <label key={enhancement.id} className="calculator-addon">
+                        <label key={enhancement.id} className="flex items-center gap-space-2">
                             <input
                                 type="checkbox"
                                 checked={Boolean(addons[enhancement.id])}
@@ -102,7 +107,7 @@ export default function PricingCalculatorWidget() {
                             />
                             <span>
                                 {enhancement.label}
-                                <small>
+                                <small className="block text-ink-muted">
                                     {enhancement.description}{" \u00B7 "}{formatMoney(enhancement.cost, { includeCadence: false })}
                                 </small>
                             </span>
@@ -111,7 +116,7 @@ export default function PricingCalculatorWidget() {
                 </fieldset>
             ) : null}
 
-            <div className="calculator-summary">
+            <div className="grid gap-space-1 text-right">
                 <p>
                     <strong>Total estimate:</strong> {formatMoney(estimate.total)}
                 </p>
@@ -119,11 +124,11 @@ export default function PricingCalculatorWidget() {
                     <strong>Deposit due:</strong> {formatMoney(estimate.deposit)}
                 </p>
                 {option.duration ? (
-                    <p className="muted">Service duration: {formatRange(option.duration)}</p>
+                    <p className="text-ink-muted">Service duration: {formatRange(option.duration)}</p>
                 ) : null}
             </div>
 
-            <div className="hero-ctas calculator-actions">
+            <div className="flex justify-end gap-space-2">
                 <CTAButton cta={option.cta} />
                 <Link className="btn ghost" href={`/contact?context=${encodeURIComponent(option.id)}`}>
                     Send inquiry
@@ -132,4 +137,3 @@ export default function PricingCalculatorWidget() {
         </div>
     );
 }
-

@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - anton
 created_date: '2025-09-25 10:40'
-updated_date: '2025-09-27 14:55'
+updated_date: '2025-09-29 23:29'
 labels: []
 dependencies: []
 priority: high
@@ -33,4 +33,10 @@ Adjusted header/footer hit areas to clear Lighthouse touch target warnings and r
 Converted partner marquee to pure CSS with hover/focus pause so nav/footer no longer trigger Lighthouse CLS warnings. Desktop Lighthouse: Perf 1.00 / BP 0.96; next up is polishing menu opening motion + refactoring inline styles.
 
 - Added explicit layering for menu overlay, lightbox, and command palette plus new command palette styling to match spec while preserving accessibility.
+- Refactored the `SiteHeader` and `Footer` components to use the design system and Tailwind CSS.
+- Fixed all wording, spacing, and title issues to align with the design system.
+
+- Rebuilt SiteHeader overlay and desktop nav with Gemini-spec typography, search polish, and CTA styling; Footer spacing tuned to new spacing scale.
+- Ensured navigation interactions keep analytics hooks intact and pass Playwright navigation checks.
+- Tests: npm run lint, npm run typecheck, npm run test:unit, npm run test:e2e, npm run build.
 <!-- SECTION:NOTES:END -->

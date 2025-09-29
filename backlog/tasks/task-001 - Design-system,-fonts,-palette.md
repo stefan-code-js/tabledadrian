@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - anton
 created_date: '2025-09-25 10:40'
-updated_date: '2025-09-29 15:23'
+updated_date: '2025-09-29 23:29'
 labels: []
 dependencies: []
 priority: high
@@ -35,4 +35,11 @@ Updated footer marquee to CSS-based animation with reserved height; Lighthouse d
 
 - Updated local font variables to expose --font-display per system spec and retargeted globals/tailwind to consume it.
 - Ran npm run lint to confirm design tokens stay consistent.
+- Refactored all pages and components to use the design system and Tailwind CSS.
+- Fixed all wording, spacing, and title issues to align with the design system.
+- Ensured all titles have space between the words.
+
+- Adopted Gemini layout refinements across structured pages (spacing utilities, serif headings) and introduced dedicated client wrappers for motion-heavy views while preserving metadata exports.
+- Verified design tokens remain consistent across about/consult/experiences/membership/services via refreshed hero + section stacks.
+- Tests: npm run lint, npm run typecheck, npm run test:unit, npm run test:e2e, npm run build (cf:build fails on Windows Vercel CLI; see logs).
 <!-- SECTION:NOTES:END -->

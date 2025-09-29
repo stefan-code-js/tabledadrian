@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - anton
 created_date: '2025-09-25 10:41'
-updated_date: '2025-09-26 12:02'
+updated_date: '2025-09-29 23:30'
 labels: []
 dependencies: []
 priority: high
@@ -21,3 +21,14 @@ Add components and motion primitives that remove the “card” look but allow m
 • Optional CardPanel (very minimal, borderless, soft shadow) for places where a “card” is justified.
 All components respect dense spacing, use our tokens, and output real paragraphs (no bullets/numbered lists).
 <!-- SECTION:DESCRIPTION:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+- Refactored all editorial components to use the design system and Tailwind CSS.
+- Fixed all wording, spacing, and title issues to align with the design system.
+
+- Reworked StructuredPage, editorial sections, and CTAs to the new Gemini vertical rhythm (space-y stacks, modern FactRow grids, refined testimonial carousel).
+- Added client-side page content components (Team/Cancel/Remove) so motion hooks stay client-only while server metadata remains valid.
+- Tests: npm run lint, npm run typecheck, npm run test:unit, npm run test:e2e, npm run build.
+<!-- SECTION:NOTES:END -->

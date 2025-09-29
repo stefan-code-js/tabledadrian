@@ -25,7 +25,7 @@ const SERVICE_LINES = [
         kicker: "Concierge command",
         title: "Residences choreographed",
         summary:
-            "We lead intake across stewards, private assistants, and household chefs so every villa or salon behaves like your Côte d’Azur flagship.",
+            "We lead intake across stewards, private assistants, and household chefs so every villa or salon behaves like your Cote d'Azur flagship.",
         detail:
             "From briefing florists to codifying wardrobe cues, our team stages the evening, rehearses the hand-offs, and leaves a playbook that sustains old-world ease without constant oversight.",
         image: images.sectionHomeValues,
@@ -57,7 +57,7 @@ const SERVICE_LINES = [
 
 const FACTS = [
     { label: "Engagement", value: "Four-week minimum for concierge or crew" },
-    { label: "Coverage", value: "Côte d’Azur, Riviera hinterland, Mediterranean charter" },
+    { label: "Coverage", value: "Cote d'Azur, Riviera hinterland, Mediterranean charter" },
     { label: "Deliverables", value: "Documentation suite, live drills, recording archive" },
     { label: "Support", value: "30-day direct line for refinement and emergencies" },
 ];
@@ -81,7 +81,7 @@ export default function ServicesPage() {
     const breadcrumbs = createBreadcrumbJsonLd(breadcrumbSource);
 
     return (
-        <main className="page page-services">
+        <main className="space-y-space-7">
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbs) }} />
 
             <HeroCinematic
@@ -102,7 +102,7 @@ export default function ServicesPage() {
                 secondaryAction={{ label: "Speak with the chef", href: "/consult" }}
             />
 
-            <div className="layout-measure section-stack">
+            <div className="w-full max-w-measure mx-auto space-y-space-7">
                 {SERVICE_LINES.map((line, index) => (
                     <SectionLead
                         key={line.slug}
@@ -152,4 +152,3 @@ export default function ServicesPage() {
         </main>
     );
 }
-
