@@ -9,6 +9,7 @@ export default defineConfig({
         setupFiles: ["./tests/vitest.setup.ts"],
         alias: {
             "@": path.resolve(__dirname, "src"),
+            "@sentry/nextjs": path.resolve(__dirname, "src/stubs/sentry.ts"),
         },
         coverage: {
             provider: "v8",
