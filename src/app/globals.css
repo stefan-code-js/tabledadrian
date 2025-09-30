@@ -68,6 +68,55 @@
   --fg: var(--color-ink);
 }
 
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-ink: #f4efe4;
+    --color-ink-soft: #d9d0bf;
+    --color-ink-muted: #b8ac98;
+    --color-cream: #181410;
+    --color-cream-soft: #1f1914;
+    --color-cream-strong: #221d17;
+    --color-neutral: #2b2620;
+    --color-paper: #0f0c08;
+    --color-paper-soft: #15110d;
+    --color-paper-strong: #1b1611;
+    --color-forest: #88c7a0;
+    --color-forest-soft: rgba(136, 199, 160, 0.52);
+    --color-bronze: #d3a46a;
+    --color-bronze-soft: rgba(211, 164, 106, 0.55);
+    --color-oxblood: #c15a55;
+    --color-oxblood-soft: rgba(193, 90, 85, 0.48);
+    --color-accent: #a8d7b6;
+    --color-accent-muted: rgba(168, 215, 182, 0.24);
+    --color-gold: var(--color-bronze);
+    --line-hairline: rgba(244, 239, 229, 0.22);
+    --line-subtle: rgba(244, 239, 229, 0.12);
+    --muted: var(--line-subtle);
+    --fg: var(--color-ink);
+  }
+
+  html {
+    color-scheme: dark;
+    background: var(--color-paper-soft);
+    color: var(--color-ink);
+  }
+
+  body {
+    background: var(--color-paper);
+    color: var(--color-ink);
+  }
+
+  body.theme-linen {
+    background: var(--color-paper-soft);
+  }
+
+  ::selection {
+    background: var(--color-bronze);
+    color: var(--color-paper);
+  }
+}
+
+
 *, *::before, *::after {
   box-sizing: border-box;
   border-width: 0;

@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@codex'
 created_date: '2025-09-25 10:43'
-updated_date: '2025-09-30 22:31'
+updated_date: '2025-09-30 22:38'
 labels: []
 dependencies: []
 ---
@@ -68,4 +68,7 @@ $- Standardised standalone + reviews-page forms on the shared luxury form grid, 
 - Removed the desktop header CTA to avoid overflow while keeping the hero CTA workflow and Playwright spec resilient.
 - Refreshed testimonial role contrast to meet WCAG 2.1 AA.
 - Tests: npm run test (lint, typecheck, vitest, playwright) ; npm run build.
+
+$- Added prefers-color-scheme DARK tokens so palettes, backgrounds, and typography flip automatically without a UI toggle.
+- Confirmed builds stay clean: npm run lint, npm run build.
 <!-- SECTION:NOTES:END -->
