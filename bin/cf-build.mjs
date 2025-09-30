@@ -37,6 +37,8 @@ function run(command, args) {
 ensureVercelProjectFile();
 run(process.execPath, [join(dirname(fileURLToPath(import.meta.url)), "patch-next-on-pages.mjs")]);
 run("npx", ["vercel", "build", "--yes"]);
+=======
+run("npx", ["vercel", "build"]);
 run("node", [
   "node_modules/@cloudflare/next-on-pages/bin/index.js",
   "--skip-build",
