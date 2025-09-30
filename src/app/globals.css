@@ -365,7 +365,7 @@ h1, h2, h3, h4, h5, h6 {
   font-size: 0.75rem;
   letter-spacing: 0.32em;
   text-transform: uppercase;
-  color: var(--color-ink-muted);
+  color: var(--color-ink);
 }
 
 .menu-overlay__close {
@@ -555,7 +555,7 @@ h1, h2, h3, h4, h5, h6 {
   margin: 0;
   padding: var(--space-2);
   font-size: 0.9rem;
-  color: var(--color-ink-muted);
+  color: var(--color-ink);
   text-align: center;
   border: 1px dashed var(--line-subtle);
   border-radius: var(--radius-md);
@@ -567,7 +567,7 @@ h1, h2, h3, h4, h5, h6 {
   right: 1.1rem;
   border: none;
   background: transparent;
-  color: var(--color-ink-muted);
+  color: var(--color-ink);
   font-size: 1.6rem;
   line-height: 1;
   cursor: pointer;
@@ -587,7 +587,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .menu-overlay__empty {
   font-size: var(--step-0);
-  color: var(--color-ink-muted);
+  color: var(--color-ink);
 }
 
 @media (min-width: 700px) {
@@ -640,7 +640,7 @@ h1, h2, h3, h4, h5, h6 {
   letter-spacing: 0.22em;
   text-transform: uppercase;
   font-size: 0.78rem;
-  color: var(--color-ink-muted);
+  color: var(--color-ink);
   white-space: nowrap;
   transition: color 160ms ease;
 }
@@ -670,7 +670,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .site-footer__copy {
   margin: 0 0 var(--space-2);
-  color: var(--color-ink-muted);
+  color: var(--color-ink);
 }
 
 .site-footer__col--manifesto p {
@@ -684,7 +684,7 @@ h1, h2, h3, h4, h5, h6 {
   font-size: 0.72rem;
   letter-spacing: 0.32em;
   text-transform: uppercase;
-  color: var(--color-ink-muted);
+  color: var(--color-ink);
   margin-bottom: var(--space-2);
   display: block;
 }
@@ -723,7 +723,7 @@ h1, h2, h3, h4, h5, h6 {
   font-size: 0.78rem;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--color-ink-muted);
+  color: var(--color-ink);
 }
 
 .site-footer__legal a {
@@ -1199,7 +1199,7 @@ h1, h2, h3, h4, h5, h6 {
   font-size: 0.78rem;
   letter-spacing: 0.3em;
   text-transform: uppercase;
-  color: var(--color-ink-muted);
+  color: var(--color-ink);
 }
 
 .pricing-grid {
@@ -1222,7 +1222,7 @@ h1, h2, h3, h4, h5, h6 {
   letter-spacing: 0.26em;
   font-size: 0.75rem;
   text-transform: uppercase;
-  color: var(--color-ink-muted);
+  color: var(--color-ink);
 }
 
 .pricing-card__price {
@@ -1236,7 +1236,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .pricing-note {
-  color: var(--color-ink-muted);
+  color: var(--color-ink);
 }
 
 .text-link {
@@ -1347,7 +1347,7 @@ h1, h2, h3, h4, h5, h6 {
   font-size: 0.75rem;
   letter-spacing: 0.28em;
   text-transform: uppercase;
-  color: var(--color-ink-muted);
+  color: var(--color-ink);
 }
 
 .editorial-block__title {
@@ -1406,7 +1406,7 @@ h1, h2, h3, h4, h5, h6 {
   font-size: 0.78rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--color-ink-muted);
+  color: var(--color-ink);
 }
 
 /* CTA band */
@@ -1515,7 +1515,7 @@ h1, h2, h3, h4, h5, h6 {
   font-size: 0.75rem;
   letter-spacing: 0.24em;
   text-transform: uppercase;
-  color: var(--color-ink-muted);
+  color: var(--color-ink);
 }
 
 /* Card panel */
@@ -1571,7 +1571,7 @@ h1, h2, h3, h4, h5, h6 {
   font-size: 0.72rem;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--color-ink-muted);
+  color: var(--color-ink);
 }
 
 .testimonial-carousel__controls {
@@ -1601,7 +1601,7 @@ h1, h2, h3, h4, h5, h6 {
   font-size: 0.72rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--color-ink-muted);
+  color: var(--color-ink);
 }
 
 /* Lightbox */
@@ -1697,7 +1697,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .lightbox__caption {
   margin: 0;
-  color: var(--color-ink-muted);
+  color: var(--color-ink);
   font-size: 0.82rem;
 }\n/* Utilities */
 .lead {
@@ -1864,7 +1864,7 @@ hr {
   text-transform: uppercase;
   letter-spacing: 0.3em;
   font-size: 0.72rem;
-  color: var(--color-ink-muted);
+  color: var(--color-ink);
   font-weight: 500;
 }
 
@@ -1883,7 +1883,7 @@ hr {
 
 .menu-header__link {
   position: relative;
-  color: var(--color-ink-muted);
+  color: var(--color-ink);
   text-transform: uppercase;
   font-size: 0.75rem;
   letter-spacing: 0.28em;
@@ -2469,7 +2469,7 @@ hr {
 .stars label {
   cursor: pointer;
   font-size: var(--step-2);
-  color: var(--color-ink-muted);
+  color: var(--color-ink);
   transition: color 160ms ease;
 }
 
@@ -2481,21 +2481,42 @@ hr {
 
 
 .review-form{
-  display:grid;
-  gap: var(--space-3);
+  width: 100%;
   max-width: 48rem;
 }
 
 .review-form .form-grid{
   gap: var(--space-2);
-  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+}
+
+.review-form__rating{
+  border: 0;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  align-items: center;
+}
+
+.review-form__rating .stars{
+  gap: 8px;
 }
 
 .review-form .cf-turnstile{
   margin-top: var(--space-1);
 }
 
-.review-form .btn{
-  justify-self:flex-start;
+.review-form .cta{
+  justify-content: flex-start;
 }
 
+.review-form .btn{
+  min-width: 12rem;
+}
+
+
+.reviews-column .review-form{
+  margin: 0;
+}

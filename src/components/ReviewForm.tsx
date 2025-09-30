@@ -1,6 +1,7 @@
-﻿"use client";
+"use client";
 
-import { FormEvent, Fragment, useState } from "react";
+import { FormEvent, Fragment, useRef, useState } from "react";
+import { ANALYTICS_EVENTS, trackEvent } from "@/lib/analytics";
 
 type SubmissionState = "idle" | "sending" | "ok" | "error";
 type ApiResponse = { ok?: boolean; error?: string };
@@ -12,20 +13,33 @@ export default function ReviewForm() {
     const [rating, setRating] = useState<RatingValue>(5);
     const [state, setState] = useState<SubmissionState>("idle");
     const [error, setError] = useState<string>("");
+    const startedRef = useRef(false);
+
+    function handleFocus() {
+        if (!startedRef.current) {
+            startedRef.current = true;
+            trackEvent(ANALYTICS_EVENTS.formStart, { form: "review", context: "standalone" });
+        }
+    }
 
     async function handleSubmit(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
         setState("sending");
         setError("");
 
-        const form = new FormData(event.currentTarget);
-        const token = (form.get("cf-turnstile-response") as string | null) ?? "";
+        const formElement = event.currentTarget;
+        const form = new FormData(formElement);
+        const token = ((form.get("cf-turnstile-response") as string | null) || "").trim();
+
+        const name = ((form.get("name") as string) || "").trim();
+        const email = ((form.get("email") as string) || "").trim();
+        const comment = ((form.get("comment") as string) || "").trim();
 
         const body = {
-            name: (form.get("name") as string) ?? "",
-            email: (form.get("email") as string) ?? "",
+            name,
+            email,
             rating,
-            comment: (form.get("comment") as string) ?? "",
+            comment,
             token,
         };
 
@@ -42,49 +56,75 @@ export default function ReviewForm() {
                 throw new Error(message);
             }
 
+            trackEvent(ANALYTICS_EVENTS.formSuccess, {
+                form: "review",
+                context: "standalone",
+                rating,
+            });
+
             setState("ok");
-            event.currentTarget.reset();
+            formElement.reset();
             setRating(5);
+            startedRef.current = false;
         } catch (err) {
+            const message = err instanceof Error ? err.message : "Unexpected error";
             setState("error");
-            setError(err instanceof Error ? err.message : "Unexpected error");
+            setError(message);
+            trackEvent(ANALYTICS_EVENTS.formError, {
+                form: "review",
+                context: "standalone",
+                reason: message,
+            });
         }
     }
 
     return (
-        <form onSubmit={handleSubmit} className="review-form">
+        <form
+            onSubmit={handleSubmit}
+            onFocusCapture={handleFocus}
+            className="form review-form"
+            aria-live="polite"
+        >
             <div className="form-grid">
                 <label className="field">
                     <span>Name</span>
-                    <input name="name" type="text" required placeholder="Your full name" />
+                    <input name="name" type="text" required placeholder="Your full name" autoComplete="name" />
                 </label>
                 <label className="field">
                     <span>Email <span className="muted">(optional)</span></span>
-                    <input name="email" type="email" placeholder="you@domain.com" />
+                    <input name="email" type="email" placeholder="you@domain.com" autoComplete="email" />
                 </label>
             </div>
 
-            <div className="stars" role="radiogroup" aria-label="rating">
-                {ratingOptions.map((option) => (
-                    <Fragment key={option}>
-                        <input
-                            id={`rate-${option}`}
-                            type="radio"
-                            name="rating"
-                            value={option}
-                            checked={rating === option}
-                            onChange={() => setRating(option)}
-                        />
-                        <label htmlFor={`rate-${option}`} aria-label={`${option} stars`}>
-                            {"\u2605"}
-                        </label>
-                    </Fragment>
-                ))}
-            </div>
+            <fieldset className="review-form__rating" aria-label="rating">
+                <legend className="sr-only">Rating</legend>
+                <div className="stars" role="radiogroup">
+                    {ratingOptions.map((option) => (
+                        <Fragment key={option}>
+                            <input
+                                id={`rate-${option}`}
+                                type="radio"
+                                name="rating"
+                                value={option}
+                                checked={rating === option}
+                                onChange={() => setRating(option)}
+                            />
+                            <label htmlFor={`rate-${option}`} aria-label={`${option} stars`}>
+                                {"\u2605"}
+                            </label>
+                        </Fragment>
+                    ))}
+                </div>
+            </fieldset>
 
             <label className="field">
                 <span>Comment</span>
-                <textarea name="comment" rows={4} placeholder="Tell us about your experience"></textarea>
+                <textarea
+                    name="comment"
+                    rows={4}
+                    placeholder="Tell us about your experience"
+                    required
+                />
             </label>
 
             <div
@@ -93,17 +133,19 @@ export default function ReviewForm() {
                 data-theme="light"
             />
 
-            <button className="btn primary" disabled={state === "sending"}>
-                {state === "sending" ? "Sending..." : "Publish review"}
-            </button>
+            <div className="cta">
+                <button className="btn" type="submit" disabled={state === "sending"}>
+                    {state === "sending" ? "Sending..." : "Publish review"}
+                </button>
+            </div>
 
             {state === "ok" ? (
-                <p className="sub" role="status">
-                    Thank you — your review was recorded.
+                <p className="ok" role="status">
+                    Thank you - your review was recorded.
                 </p>
             ) : null}
             {state === "error" ? (
-                <p className="sub" role="alert">
+                <p className="error" role="alert">
                     Error: {error}
                 </p>
             ) : null}

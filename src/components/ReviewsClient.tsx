@@ -1,6 +1,7 @@
 ﻿"use client";
 
 import React from "react";
+import { ANALYTICS_EVENTS, trackEvent } from "@/lib/analytics";
 
 export type Review = {
     id: string;
@@ -8,7 +9,7 @@ export type Review = {
     email?: string;
     text: string;
     rating: number;
-    createdAt: number;
+    createdAt: string;
 };
 
 type ApiSuccess = {
@@ -65,6 +66,8 @@ export default function ReviewsClient({ initialItems, initialCount, initialAvg }
     const [err, setErr] = React.useState<string | null>(null);
     const [ok, setOk] = React.useState<string | null>(null);
 
+    const formStartedRef = React.useRef(false);
+
     function recompute(newItems: Review[]) {
         if (newItems.length === 0) {
             setAvg(0);
@@ -77,6 +80,13 @@ export default function ReviewsClient({ initialItems, initialCount, initialAvg }
         setCount(newItems.length);
     }
 
+    function handleFormFocus() {
+        if (!formStartedRef.current) {
+            formStartedRef.current = true;
+            trackEvent(ANALYTICS_EVENTS.formStart, { form: "review", context: "reviews-page" });
+        }
+    }
+
     async function onSubmit(event: React.FormEvent) {
         event.preventDefault();
         setErr(null);
@@ -84,6 +94,11 @@ export default function ReviewsClient({ initialItems, initialCount, initialAvg }
 
         if (!name.trim() || !text.trim() || rating < 1) {
             setErr("Please add name, comment, and a rating.");
+            trackEvent(ANALYTICS_EVENTS.formError, {
+                form: "review",
+                context: "reviews-page",
+                reason: "validation",
+            });
             return;
         }
 
@@ -104,7 +119,12 @@ export default function ReviewsClient({ initialItems, initialCount, initialAvg }
             if (!response.ok || !data || !data.ok || !data.review) {
                 const message = data && "error" in data && data.error ? data.error : "Network error. Please try again.";
                 setErr(message);
-                setBusy(false);
+                trackEvent(ANALYTICS_EVENTS.formError, {
+                    form: "review",
+                    context: "reviews-page",
+                    reason: message,
+                    status: response.status,
+                });
                 return;
             }
 
@@ -123,13 +143,26 @@ export default function ReviewsClient({ initialItems, initialCount, initialAvg }
                 recompute(nextItems);
             }
 
+            trackEvent(ANALYTICS_EVENTS.formSuccess, {
+                form: "review",
+                context: "reviews-page",
+                rating,
+            });
+
             setOk("Thank you - your note is published.");
             setName("");
             setEmail("");
             setText("");
             setRating(0);
-        } catch {
-            setErr("Network error. Please try again.");
+        } catch (error) {
+            const message = "Network error. Please try again.";
+            const analyticsReason = error instanceof Error && error.message ? error.message : "network";
+            setErr(message);
+            trackEvent(ANALYTICS_EVENTS.formError, {
+                form: "review",
+                context: "reviews-page",
+                reason: analyticsReason,
+            });
         } finally {
             setBusy(false);
         }
@@ -171,7 +204,8 @@ export default function ReviewsClient({ initialItems, initialCount, initialAvg }
                     <h3>Leave a review</h3>
                     <p className="muted">Share a brief note about your experience.</p>
                 </header>
-                <fieldset className="stars-fieldset" aria-label="choose rating">
+                <fieldset className="review-form__rating" aria-label="choose rating">
+                    <legend className="sr-only">Rating</legend>
                     <div className="stars" role="radiogroup" aria-label="rating">
                         {[1, 2, 3, 4, 5].map((n) => (
                             <button
@@ -189,22 +223,42 @@ export default function ReviewsClient({ initialItems, initialCount, initialAvg }
                         ))}
                     </div>
                 </fieldset>
-                <form className="form" onSubmit={onSubmit}>
-                    <label>
+                <form className="form review-form" onSubmit={onSubmit} onFocusCapture={handleFormFocus} aria-live="polite">
+                    <label className="field">
                         <span>Name</span>
-                        <input value={name} onChange={(event) => setName(event.target.value)} required aria-required />
+                        <input
+                            value={name}
+                            onChange={(event) => setName(event.target.value)}
+                            required
+                            aria-required
+                            placeholder="Your full name"
+                            autoComplete="name"
+                        />
                     </label>
-                    <label>
+                    <label className="field">
                         <span>Email (optional)</span>
-                        <input value={email} onChange={(event) => setEmail(event.target.value)} type="email" />
+                        <input
+                            value={email}
+                            onChange={(event) => setEmail(event.target.value)}
+                            type="email"
+                            placeholder="you@domain.com"
+                            autoComplete="email"
+                        />
                     </label>
-                    <label>
+                    <label className="field">
                         <span>Message</span>
-                        <textarea value={text} onChange={(event) => setText(event.target.value)} rows={4} required />
+                        <textarea
+                            value={text}
+                            onChange={(event) => setText(event.target.value)}
+                            rows={4}
+                            required
+                            aria-required
+                            placeholder="Share highlights from your evening"
+                        />
                     </label>
 
-                    <div className="actions">
-                        <button className="btn" type="submit" disabled={busy}>
+                    <div className="cta">
+                        <button className="btn" type="submit" disabled={busy || rating < 1}>
                             {busy ? "sending..." : "publish review"}
                         </button>
                     </div>

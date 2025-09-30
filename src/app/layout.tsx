@@ -3,6 +3,8 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import React from "react";
 import Script from "next/script";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import SiteHeader from "@/components/SiteHeader";
 import AppMotionRoot from "@/components/AppMotionRoot";
 import Footer from "@/components/Footer";
@@ -64,6 +66,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                         data-cf-beacon={cfBeacon}
                     />
                 ) : null}
+                <Analytics />
+                <SpeedInsights />
                 <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }} />
                 <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessJsonLd) }} />
             </body>

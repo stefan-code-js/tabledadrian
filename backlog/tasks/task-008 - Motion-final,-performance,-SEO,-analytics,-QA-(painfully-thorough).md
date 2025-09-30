@@ -3,9 +3,9 @@ id: task-008
 title: 'Motion final, performance, SEO, analytics, QA (painfully thorough)'
 status: In Progress
 assignee:
-  - '@droid'
+  - '@codex'
 created_date: '2025-09-25 10:43'
-updated_date: '2025-09-29 23:49'
+updated_date: '2025-09-30 22:31'
 labels: []
 dependencies: []
 ---
@@ -19,11 +19,12 @@ Apply KineticHeading/Paragraph site-wide with SplitType/GSAP; keyword accents an
 ## Implementation Plan
 
 <!-- SECTION:PLAN:BEGIN -->
-1. Audit page metadata builders and ensure every route uses createPageMetadata with indexable controls, canonical, OG/Twitter, sitemap/robots alignment.
+$1. Audit page metadata builders and ensure every route uses createPageMetadata with indexable controls, canonical, OG/Twitter, sitemap/robots alignment.
 2. Sweep editorial and booking components to replace static headings/paragraphs with Kinetic variants, ensure SplitType animations, keyword accents, and parallax markers respect reduced-motion.
 3. Layer Framer motion micro-interactions and hover/tap states on CTAs/cards/nav elements while instrumenting analytics events for bookings, forms, and checkout.
 4. Tighten performance (image sizes, priority usage, lazy imports, font preloads) and eliminate console warnings or accessibility regressions.
 5. Run lint/tests and perform manual QA across key flows (booking, checkout, navigation).
+6. Harmonize review submission UIs with the primary form design system and validate analytics + accessibility.
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -60,4 +61,11 @@ Apply KineticHeading/Paragraph site-wide with SplitType/GSAP; keyword accents an
 
 - Verified navigation/footer fixes plus lighter imagery with full CI bundle (lint, typecheck, vitest, Playwright, build).
 - Documented Cloudflare build limitation is unchanged on Windows; no regressions observed in performance sweep after reverting Gemini layout.
+
+$- Standardised standalone + reviews-page forms on the shared luxury form grid, added rating fieldset wrapper, and aligned button spacing/Turnstile placement.
+- Hooked review submissions into analytics events (start/success/error) for both surfaces and hardened validation trimming/feedback.
+- Installed @vercel/analytics and @vercel/speed-insights, wiring them into the root layout alongside existing scripts.
+- Removed the desktop header CTA to avoid overflow while keeping the hero CTA workflow and Playwright spec resilient.
+- Refreshed testimonial role contrast to meet WCAG 2.1 AA.
+- Tests: npm run test (lint, typecheck, vitest, playwright) ; npm run build.
 <!-- SECTION:NOTES:END -->

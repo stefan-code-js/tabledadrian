@@ -142,10 +142,6 @@ export default function SiteHeader() {
         trackEvent(ANALYTICS_EVENTS.navClick, { href, label, section: "inline" });
     }, []);
 
-    const handleCtaClick = useCallback(() => {
-        trackEvent(ANALYTICS_EVENTS.bookingCta, { location: "header" });
-    }, []);
-
     return (
         <header className="menu-header">
             <div className="menu-header__inner">
@@ -169,9 +165,6 @@ export default function SiteHeader() {
                     })}
                 </nav>
                 <div className="menu-header__actions">
-                    <Link className="menu-header__cta" href="/contact" onClick={handleCtaClick}>
-                        Book a table
-                    </Link>
                     <button
                         ref={menuButtonRef}
                         type="button"

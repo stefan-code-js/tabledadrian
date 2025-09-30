@@ -14,8 +14,13 @@ test.describe("homepage", () => {
 
     test("navigates to contact from CTA", async ({ page }) => {
         await page.goto("/");
-        await page.getByRole("link", { name: "Reserve a private table" }).first().click();
-        await expect(page).toHaveURL(/\/contact$/);
+        const cta = page.getByRole("link", { name: "Reserve a private table" }).first();
+        await expect(cta).toHaveAttribute("href", "/contact");
+        await expect(cta).toBeVisible();
+        await Promise.all([
+            page.waitForURL(/\/contact$/),
+            cta.click(),
+        ]);
         await expect(page.getByRole("heading", { level: 1 })).toContainText("Contact");
     });
 });
