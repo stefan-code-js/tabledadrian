@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -38,8 +38,7 @@ const FOCUSABLE_SELECTOR = [
 
 export default function SiteHeader() {
     const pathname = usePathname();
-    const [isMenuActive, setMenuActive] = useState(false);
-    const [isOverlayVisible, setOverlayVisible] = useState(false);
+    const [isMenuOpen, setMenuOpen] = useState(false);
     const [searchTerm, setSearchTerm] = useState("");
     const overlayRef = useRef<HTMLDivElement | null>(null);
     const panelRef = useRef<HTMLDivElement | null>(null);
@@ -53,43 +52,23 @@ export default function SiteHeader() {
         return NAV_ITEMS.filter((item) => item.label.toLowerCase().includes(value));
     }, [searchTerm]);
 
-    const closeMenuImmediate = useCallback(() => {
-        setOverlayVisible(false);
-        setSearchTerm("");
-        document.body.classList.remove("no-scroll");
-        const last = lastFocusRef.current;
-        if (last) {
-            window.requestAnimationFrame(() => last.focus());
-            lastFocusRef.current = null;
-        }
-    }, []);
-
-    const closeMenu = useCallback(() => {
-        if (!isOverlayVisible) {
-            setMenuActive(false);
-            return;
-        }
-
-        trackEvent(ANALYTICS_EVENTS.menuToggle, { state: "close" });
-        setMenuActive(false);
-        closeMenuImmediate();
-    }, [isOverlayVisible, closeMenuImmediate]);
-
-    const openMenu = useCallback(() => {
-        lastFocusRef.current = (document.activeElement as HTMLElement) ?? null;
-        setMenuActive(true);
-        setOverlayVisible(true);
-        trackEvent(ANALYTICS_EVENTS.menuToggle, { state: "open" });
+    useEffect(() => {
+        return () => document.body.classList.remove("no-scroll");
     }, []);
 
     useEffect(() => {
-        if (!isOverlayVisible) {
+        if (!isMenuOpen) {
             document.body.classList.remove("no-scroll");
+            setSearchTerm("");
+            const node = lastFocusRef.current;
+            if (node) {
+                window.requestAnimationFrame(() => node.focus());
+                lastFocusRef.current = null;
+            }
             return;
         }
 
         document.body.classList.add("no-scroll");
-
         const overlay = overlayRef.current;
         if (!overlay) return;
 
@@ -100,7 +79,7 @@ export default function SiteHeader() {
         const handleKeyDown = (event: KeyboardEvent) => {
             if (event.key === "Escape") {
                 event.preventDefault();
-                closeMenu();
+                closeMenu(false);
                 return;
             }
             if (event.key === "Tab") {
@@ -122,26 +101,39 @@ export default function SiteHeader() {
 
         overlay.addEventListener("keydown", handleKeyDown);
         return () => overlay.removeEventListener("keydown", handleKeyDown);
-    }, [isOverlayVisible, closeMenu]);
+    }, [isMenuOpen]);
 
     useEffect(() => {
-        if (!isOverlayVisible) {
-            setSearchTerm("");
+        if (pathname && isMenuOpen) {
+            closeMenu(false);
         }
-    }, [isOverlayVisible]);
+    }, [pathname, isMenuOpen]);
 
-    useEffect(() => {
-        if (pathname && isOverlayVisible) {
-            closeMenuImmediate();
-        }
-    }, [pathname, isOverlayVisible, closeMenuImmediate]);
+    const openMenu = useCallback(() => {
+        lastFocusRef.current = (document.activeElement as HTMLElement) ?? null;
+        trackEvent(ANALYTICS_EVENTS.menuToggle, { state: "open" });
+        setMenuOpen(true);
+    }, []);
+
+    const closeMenu = useCallback((trackEventOnClose = true) => {
+        setMenuOpen((prev) => {
+            if (prev && trackEventOnClose) {
+                trackEvent(ANALYTICS_EVENTS.menuToggle, { state: "close" });
+            }
+            return false;
+        });
+    }, []);
 
     const handleToggle = () => {
-        if (isMenuActive || isOverlayVisible) {
-            closeMenu();
-        } else {
-            openMenu();
-        }
+        setMenuOpen((prev) => {
+            if (prev) {
+                trackEvent(ANALYTICS_EVENTS.menuToggle, { state: "close" });
+                return false;
+            }
+            lastFocusRef.current = (document.activeElement as HTMLElement) ?? null;
+            trackEvent(ANALYTICS_EVENTS.menuToggle, { state: "open" });
+            return true;
+        });
     };
 
     const handleNavClick = (href: string, label: string, section: "primary" | "featured") => {
@@ -189,7 +181,7 @@ export default function SiteHeader() {
                         className="menu-header__button"
                         aria-haspopup="dialog"
                         aria-controls="site-menu"
-                        aria-expanded={isOverlayVisible ? "true" : "false"}
+                        aria-expanded={isMenuOpen ? "true" : "false"}
                         onClick={handleToggle}
                     >
                         <Menu aria-hidden="true" size={18} />
@@ -198,7 +190,7 @@ export default function SiteHeader() {
                 </div>
             </div>
 
-            {isOverlayVisible ? (
+            {isMenuOpen ? (
                 <div id="site-menu" className="menu-overlay" ref={overlayRef}>
                     <div className="menu-overlay__panel" role="dialog" aria-modal="true" aria-label="Site menu" data-menu-panel ref={panelRef}>
                         <div className="menu-overlay__top">
@@ -207,7 +199,7 @@ export default function SiteHeader() {
                                 ref={closeButtonRef}
                                 type="button"
                                 className="menu-overlay__close"
-                                onClick={closeMenu}
+                                onClick={() => closeMenu()}
                                 aria-label="Close menu"
                             >
                                 <X aria-hidden="true" size={18} />
@@ -264,4 +256,3 @@ export default function SiteHeader() {
         </header>
     );
 }
-
