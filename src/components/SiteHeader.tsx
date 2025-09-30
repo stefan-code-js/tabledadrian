@@ -45,12 +45,22 @@ export default function SiteHeader() {
     const menuButtonRef = useRef<HTMLButtonElement | null>(null);
     const closeButtonRef = useRef<HTMLButtonElement | null>(null);
     const lastFocusRef = useRef<HTMLElement | null>(null);
+    const lastPathnameRef = useRef<string | null>(pathname ?? null);
 
     const filteredNavItems = useMemo(() => {
         const value = searchTerm.trim().toLowerCase();
         if (!value) return NAV_ITEMS;
         return NAV_ITEMS.filter((item) => item.label.toLowerCase().includes(value));
     }, [searchTerm]);
+
+    const closeMenu = useCallback((trackEventOnClose = true) => {
+        setMenuOpen((prev) => {
+            if (prev && trackEventOnClose) {
+                trackEvent(ANALYTICS_EVENTS.menuToggle, { state: "close" });
+            }
+            return false;
+        });
+    }, []);
 
     useEffect(() => {
         return () => document.body.classList.remove("no-scroll");
@@ -101,28 +111,15 @@ export default function SiteHeader() {
 
         overlay.addEventListener("keydown", handleKeyDown);
         return () => overlay.removeEventListener("keydown", handleKeyDown);
-    }, [isMenuOpen]);
+    }, [isMenuOpen, closeMenu]);
 
     useEffect(() => {
-        if (pathname && isMenuOpen) {
+        const previous = lastPathnameRef.current;
+        if (pathname && previous !== pathname && isMenuOpen) {
             closeMenu(false);
         }
-    }, [pathname, isMenuOpen]);
-
-    const openMenu = useCallback(() => {
-        lastFocusRef.current = (document.activeElement as HTMLElement) ?? null;
-        trackEvent(ANALYTICS_EVENTS.menuToggle, { state: "open" });
-        setMenuOpen(true);
-    }, []);
-
-    const closeMenu = useCallback((trackEventOnClose = true) => {
-        setMenuOpen((prev) => {
-            if (prev && trackEventOnClose) {
-                trackEvent(ANALYTICS_EVENTS.menuToggle, { state: "close" });
-            }
-            return false;
-        });
-    }, []);
+        lastPathnameRef.current = pathname;
+    }, [pathname, isMenuOpen, closeMenu]);
 
     const handleToggle = () => {
         setMenuOpen((prev) => {
