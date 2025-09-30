@@ -10,12 +10,13 @@
     "typecheck": "tsc --noEmit",
     "test": "npm run lint && npm run typecheck && npm run test:unit && npm run test:e2e",
     "clean": "rm -rf .next dist coverage playwright-report",
-    "cf:build": "npx --yes @cloudflare/next-on-pages@latest",
+    "cf:build": "node ./bin/cf-build.mjs",
     "test:unit": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
     "test:e2e": "playwright test",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "postinstall": "node ./bin/patch-next-on-pages.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.1",
@@ -60,7 +61,7 @@
   "lint-staged": {
     "*.{ts,tsx,js,jsx}": [
       "npm run lint -- --fix",
-      "npm run typecheck"
+      "bash -lc \"npm run typecheck\""
     ],
     "*.{css,scss,md}": [
       "npm run lint -- --fix"

@@ -1,0 +1,96 @@
+const noop = (..._args: any[]): undefined => undefined;
+
+const passthrough = <T extends (...args: any[]) => any>(handler: T): T => handler;
+
+const passthroughWithCallback = <T>(
+  _options: unknown,
+  callback: () => T,
+): T => callback();
+
+const asyncTrue = async () => true;
+
+const Sentry = {
+  init: noop,
+  flush: asyncTrue,
+  close: asyncTrue,
+  withScope: noop,
+  configureScope: noop,
+  captureException: noop,
+  captureMessage: noop,
+  captureCheckIn: noop,
+  captureEvent: noop,
+  captureFeedback: noop,
+  captureRequestError: noop,
+  captureRouterTransitionStart: noop,
+  wrapApiHandlerWithSentry: passthrough,
+  wrapRouteHandlerWithSentry: passthrough,
+  wrapAppDirRenderWithSentry: passthrough,
+  wrapGetServerSidePropsWithSentry: passthrough,
+  wrapGetStaticPropsWithSentry: passthrough,
+  wrapServerComponentWithSentry: passthrough,
+  wrapServerActionWithSentry: passthrough,
+  wrapClientComponentWithSentry: passthrough,
+  wrapMiddlewareWithSentry: passthrough,
+  withSentryConfig: <T>(mod: T) => mod,
+  withSentry: passthrough,
+  withSentrySpan: passthroughWithCallback,
+  startSpan: passthroughWithCallback,
+  startSpanManual: noop,
+  startInactiveSpan: noop,
+  continueTrace: passthroughWithCallback,
+  setTag: noop,
+  setExtra: noop,
+  setUser: noop,
+  getClient: () => undefined,
+  getCurrentHub: () => undefined,
+  setCurrentClient: noop,
+  addGlobalEventProcessor: noop,
+  getGlobalScope: () => undefined,
+  withIsolationScope: noop,
+  defaultIntegrations: [],
+};
+
+export type { };
+
+export const {
+  init,
+  flush,
+  close,
+  withScope,
+  configureScope,
+  captureException,
+  captureMessage,
+  captureCheckIn,
+  captureEvent,
+  captureFeedback,
+  captureRequestError,
+  captureRouterTransitionStart,
+  wrapApiHandlerWithSentry,
+  wrapRouteHandlerWithSentry,
+  wrapAppDirRenderWithSentry,
+  wrapGetServerSidePropsWithSentry,
+  wrapGetStaticPropsWithSentry,
+  wrapServerComponentWithSentry,
+  wrapServerActionWithSentry,
+  wrapClientComponentWithSentry,
+  wrapMiddlewareWithSentry,
+  withSentryConfig,
+  withSentry,
+  withSentrySpan,
+  startSpan,
+  startSpanManual,
+  startInactiveSpan,
+  continueTrace,
+  setTag,
+  setExtra,
+  setUser,
+  getClient,
+  getCurrentHub,
+  setCurrentClient,
+  addGlobalEventProcessor,
+  getGlobalScope,
+  withIsolationScope,
+  defaultIntegrations,
+} = Sentry;
+
+export default Sentry;

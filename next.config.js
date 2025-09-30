@@ -1,4 +1,18 @@
 ﻿/** @type {import('next').NextConfig} */
+const path = require('node:path');
+
+let hasSentry = true;
+
+try {
+    require.resolve('@sentry/nextjs/package.json');
+} catch (error) {
+    if (error && typeof error === 'object' && error.code === 'MODULE_NOT_FOUND') {
+        hasSentry = false;
+    } else {
+        throw error;
+    }
+}
+
 const nextConfig = {
     eslint: {
         ignoreDuringBuilds: true,
@@ -17,9 +31,26 @@ const nextConfig = {
             { source: '/bookings', destination: '/book', permanent: true },
         ];
     },
+    webpack(config) {
+        if (!hasSentry) {
+            config.resolve = config.resolve ?? {};
+            config.resolve.alias = config.resolve.alias ?? {};
+            if (!config.resolve.alias['@sentry/nextjs']) {
+                config.resolve.alias['@sentry/nextjs'] = path.join(
+                    __dirname,
+                    'src',
+                    'stubs',
+                    'sentry.ts',
+                );
+            }
+        }
+        return config;
+    },
 };
 
-const { withSentryConfig } = require('@sentry/nextjs');
+const withSentryConfig = hasSentry
+    ? require('@sentry/nextjs').withSentryConfig
+    : (config) => config;
 
 module.exports = withSentryConfig(
     nextConfig,
