@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - anton
 created_date: '2025-09-25 10:40'
-updated_date: '2025-09-29 23:29'
+updated_date: '2025-09-29 23:48'
 labels: []
 dependencies: []
 priority: high
@@ -38,5 +38,9 @@ Converted partner marquee to pure CSS with hover/focus pause so nav/footer no lo
 
 - Rebuilt SiteHeader overlay and desktop nav with Gemini-spec typography, search polish, and CTA styling; Footer spacing tuned to new spacing scale.
 - Ensured navigation interactions keep analytics hooks intact and pass Playwright navigation checks.
+- Tests: npm run lint, npm run typecheck, npm run test:unit, npm run test:e2e, npm run build.
+
+- Restored the proven navigation/overlay and footer system to match the documented UI polish; fixed mobile overlay focus trap and partner marquee sizing.
+- Ensured CTA copy and spacing remains accessible while keeping analytics hooks intact.
 - Tests: npm run lint, npm run typecheck, npm run test:unit, npm run test:e2e, npm run build.
 <!-- SECTION:NOTES:END -->

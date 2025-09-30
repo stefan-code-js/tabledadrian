@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import Link from "next/link";
 import { site } from "@/lib/site";
 import { useRef, useEffect } from "react";
@@ -53,10 +53,10 @@ export default function Footer() {
     const handleResume = () => { paused.current = false; };
 
     return (
-        <footer className="bg-cream-soft text-ink mt-space-7 pt-space-5 border-t border-ink-muted/20" role="contentinfo">
-            <div className="overflow-hidden mx-gutter mb-space-5 rounded-md bg-ink/5" aria-label="Selected partners and collaborators">
+        <footer className="site-footer bg-paper-soft text-ink" role="contentinfo" style={{ borderTop: '1px solid var(--line-hairline)', marginTop: '4rem', paddingTop: '2.5rem' }}>
+            <div className="site-footer__partners" aria-label="Selected partners and collaborators">
                 <div
-                    className="flex gap-space-4 w-max p-space-2"
+                    className="site-footer__partners-track"
                     ref={trackRef}
                     tabIndex={0}
                     onMouseEnter={handlePause}
@@ -64,7 +64,7 @@ export default function Footer() {
                     onFocus={handlePause}
                     onBlur={handleResume}
                     aria-label="Partner logos auto-scroll; pause on hover or focus"
-                    style={{ willChange: 'transform' }}
+                    style={{ display: 'flex', gap: '2.5rem', willChange: 'transform' }}
                 >
                     {[...partners, ...partners].map((item, index) => {
                         const key = `${item.name}-${index}`;
@@ -72,7 +72,7 @@ export default function Footer() {
                             return (
                                 <a
                                     key={key}
-                                    className="font-serif tracking-widest uppercase text-sm text-ink-muted whitespace-nowrap transition-colors duration-150 ease-in-out hover:text-forest focus-visible:text-forest outline-none"
+                                    className="site-footer__partner"
                                     href={item.href}
                                     target="_blank"
                                     rel="noreferrer"
@@ -83,7 +83,7 @@ export default function Footer() {
                             );
                         }
                         return (
-                            <span key={key} className="font-serif tracking-widest uppercase text-sm text-ink-muted whitespace-nowrap" tabIndex={0}>
+                            <span key={key} className="site-footer__partner" tabIndex={0}>
                                 {item.name}
                             </span>
                         );
@@ -91,24 +91,24 @@ export default function Footer() {
                 </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-space-5 items-start max-w-measure mx-auto px-gutter my-space-5">
-                <div className="text-ink">
-                    <p className="font-serif text-fluid-lg tracking-wider uppercase mb-space-2">Table d'Adrian</p>
-                    <p className="mb-space-1">
+            <div className="site-footer__grid" style={{ display: 'grid', gridTemplateColumns: '1fr 2fr 1fr', gap: '2.5rem', alignItems: 'start', margin: '2.5rem 0' }}>
+                <div className="site-footer__col site-footer__col--contact" style={{ color: 'var(--color-ink)' }}>
+                    <p className="site-footer__wordmark text-lg font-bold mb-2">Table d'Adrian</p>
+                    <p className="site-footer__copy mb-1">
                         <Link href={`mailto:${email}`} className="text-accent underline focus-visible:outline-accent">{email}</Link>
                     </p>
-                    <p className="text-ink-soft">Serving {site.serviceArea.join(", ")}</p>
+                    <p className="site-footer__copy text-ink-soft">Serving {site.serviceArea.join(", ")}</p>
                 </div>
 
-                <div className="text-ink-muted text-center italic text-fluid-lg leading-relaxed">
+                <div className="site-footer__col site-footer__col--manifesto" style={{ color: 'var(--color-ink-muted)', textAlign: 'center', fontStyle: 'italic', fontSize: '1.08rem', lineHeight: 1.6 }}>
                     <p>{manifesto}</p>
                 </div>
 
-                <div className="text-ink">
-                    <span className="font-semibold mb-space-2 block">Connect</span>
-                    <ul className="list-none p-0 m-0">
+                <div className="site-footer__col site-footer__col--links" style={{ color: 'var(--color-ink)' }}>
+                    <span className="site-footer__label font-semibold mb-2 block">Connect</span>
+                    <ul className="site-footer__list" style={{ listStyle: 'none', padding: 0, margin: 0 }}>
                         {socials.map((item) => (
-                            <li key={item.label} className="mb-space-1">
+                            <li key={item.label} className="mb-1">
                                 <Link href={item.href!} target={item.href?.startsWith("http") ? "_blank" : undefined} rel={item.href?.startsWith("http") ? "noreferrer" : undefined} className="text-accent underline focus-visible:outline-accent">
                                     {item.label}
                                 </Link>
@@ -118,9 +118,9 @@ export default function Footer() {
                 </div>
             </div>
 
-            <div className="text-ink text-sm flex justify-between items-center border-t border-ink-muted/20 pt-space-3 mt-space-3 px-gutter">
+            <div className="site-footer__legal" style={{ color: 'var(--color-ink-muted)', fontSize: '0.98rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '1px solid var(--line-hairline)', paddingTop: '1.2rem', marginTop: '1.2rem' }}>
                 <span>© {year} {site.name}</span>
-                <Link href="/remove" className="text-accent underline focus-visible:outline-accent" style={{textDecoration: 'underline'}}>Data preferences</Link>
+                <Link href="/remove" className="text-accent underline focus-visible:outline-accent">Data preferences</Link>
             </div>
         </footer>
     );

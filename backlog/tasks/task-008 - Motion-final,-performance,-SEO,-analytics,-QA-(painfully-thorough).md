@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@droid'
 created_date: '2025-09-25 10:43'
-updated_date: '2025-09-29 23:30'
+updated_date: '2025-09-29 23:49'
 labels: []
 dependencies: []
 ---
@@ -57,4 +57,7 @@ Apply KineticHeading/Paragraph site-wide with SplitType/GSAP; keyword accents an
 
 - Confirmed refined homepage/contact flows with full suite: npm run lint, npm run typecheck, npm run test:unit, npm run test:e2e, npm run build; Playwright navigation passes after CTA copy adjustments.
 - Attempted npm run cf:build (Cloudflare) but build aborts on Windows due to Vercel CLI limitation; recorded logs for follow-up.
+
+- Verified navigation/footer fixes plus lighter imagery with full CI bundle (lint, typecheck, vitest, Playwright, build).
+- Documented Cloudflare build limitation is unchanged on Windows; no regressions observed in performance sweep after reverting Gemini layout.
 <!-- SECTION:NOTES:END -->

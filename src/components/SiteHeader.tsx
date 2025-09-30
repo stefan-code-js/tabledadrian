@@ -190,12 +190,12 @@ export default function SiteHeader() {
     }, []);
 
     return (
-        <header className="relative z-30 bg-transparent p-space-2 px-gutter">
-            <div className="max-w-measure mx-auto flex items-center justify-between py-space-2">
-                <Link href="/" className="font-serif text-fluid-lg tracking-wider uppercase text-ink transition-colors duration-150 ease-in-out hover:text-forest focus-visible:outline-none">
+        <header className="menu-header">
+            <div className="menu-header__inner">
+                <Link href="/" className="menu-header__brand">
                     {site.shortName}
                 </Link>
-                <nav className="hidden lg:flex gap-space-4 ml-space-6 text-sm tracking-wider" aria-label="Primary">
+                <nav className="menu-header__nav" aria-label="Primary">
                     {NAV_ITEMS.map((item) => {
                         const isActive =
                             item.href === "/" ? pathname === "/" : pathname.startsWith(item.href);
@@ -203,7 +203,7 @@ export default function SiteHeader() {
                             <Link
                                 key={item.href}
                                 href={item.href}
-                                className={`relative text-ink-muted uppercase text-xs tracking-widest transition-colors duration-150 ease-in-out hover:text-ink ${isActive ? "is-active" : ""}`}
+                                className={`menu-header__link${isActive ? " is-active" : ""}`}
                                 onClick={() => handlePrimaryNavClick(item.href, item.label)}
                             >
                                 {item.label}
@@ -211,14 +211,14 @@ export default function SiteHeader() {
                         );
                     })}
                 </nav>
-                <div className="flex items-center gap-space-2 ml-auto">
-                    <Link className="hidden lg:inline-flex uppercase text-xs tracking-widest py-space-1 px-space-3 border border-ink-muted/20 rounded-pill transition-colors duration-150 ease-in-out hover:bg-ink hover:text-cream" href="/contact" onClick={handleCtaClick}>
+                <div className="menu-header__actions">
+                    <Link className="menu-header__cta" href="/contact" onClick={handleCtaClick}>
                         Book a table
                     </Link>
                     <button
                         ref={menuButtonRef}
                         type="button"
-                        className="lg:hidden inline-flex items-center gap-space-1 bg-transparent text-ink font-sans uppercase tracking-widest text-sm p-space-1 relative transition-colors duration-150 ease-in-out hover:text-forest focus-visible:outline-none"
+                        className="menu-header__button"
                         aria-haspopup="dialog"
                         aria-controls="site-menu"
                         aria-expanded={isMenuActive ? "true" : "false"}
@@ -231,21 +231,21 @@ export default function SiteHeader() {
             </div>
 
             {isOverlayVisible ? (
-                <div id="site-menu" className="fixed inset-0 z-100 flex items-center justify-center p-gutter bg-black/50 backdrop-blur-soft" ref={overlayRef}>
-                    <div className="relative w-full max-w-2xl bg-cream-soft text-ink rounded-lg p-space-5 shadow-deep grid gap-space-4" role="dialog" aria-modal="true" aria-label="Site menu" data-menu-panel ref={panelRef}>
-                        <div className="flex items-center justify-between gap-space-2">
-                            <span className="text-xs tracking-widest uppercase text-ink-muted">Navigation</span>
+                <div id="site-menu" className="menu-overlay" ref={overlayRef}>
+                    <div className="menu-overlay__panel" role="dialog" aria-modal="true" aria-label="Site menu" data-menu-panel ref={panelRef}>
+                        <div className="menu-overlay__top">
+                            <span className="menu-overlay__label">Navigation</span>
                             <button
                                 ref={closeButtonRef}
                                 type="button"
-                                className="inline-flex items-center justify-center bg-transparent text-ink text-lg leading-none p-1 rounded-xs transition-transform duration-150 ease-in-out hover:rotate-6 focus-visible:outline-none focus-visible:text-forest"
+                                className="menu-overlay__close"
                                 onClick={closeMenu}
                                 aria-label="Close menu"
                             >
                                 <X aria-hidden="true" size={18} />
                             </button>
                         </div>
-                        <div className="relative">
+                        <div className="menu-overlay__search">
                             <label className="sr-only" htmlFor="menu-search">
                                 Search menu
                             </label>
@@ -254,18 +254,17 @@ export default function SiteHeader() {
                                 data-menu-search
                                 type="search"
                                 placeholder="Filter destinations"
-                                className="w-full bg-transparent border-b border-ink-muted/20 py-2 text-base text-ink transition-colors duration-150 ease-in-out focus:outline-none focus:border-forest"
                                 value={searchTerm}
                                 onChange={(event) => setSearchTerm(event.target.value)}
                                 autoComplete="off"
                             />
                         </div>
-                        <div className="flex flex-wrap gap-space-2 py-space-1" aria-label="Featured actions">
+                        <div className="menu-overlay__featured" aria-label="Featured actions">
                             {FEATURED.map((item) => (
                                 <Link
                                     key={item.href}
                                     href={item.href}
-                                    className="flex-grow min-w-[220px] bg-ink text-cream-soft py-space-2 px-space-3 uppercase tracking-wider text-xs text-center rounded-md transition-transform duration-150 ease-in-out hover:-translate-y-0.5 hover:bg-forest focus-visible:outline-none focus-visible:bg-forest"
+                                    className="menu-overlay__featured-link"
                                     data-menu-item
                                     onClick={() => handleNavClick(item.href, item.label, "featured")}
                                 >
@@ -273,20 +272,20 @@ export default function SiteHeader() {
                                 </Link>
                             ))}
                         </div>
-                        <nav className="grid gap-space-3" aria-label="Primary">
+                        <nav className="menu-overlay__nav" aria-label="Primary">
                             {filteredNavItems.length === 0 ? (
-                                <p className="text-base text-ink-muted">No matches. Try another cue.</p>
+                                <p className="menu-overlay__empty">No matches. Try another cue.</p>
                             ) : (
                                 filteredNavItems.map((item) => (
                                     <Link
                                         key={item.href}
                                         href={item.href}
                                         data-menu-item
-                                        className={`relative block font-serif text-fluid-3xl leading-none text-ink no-underline pb-1 transition-colors duration-150 ease-in-out hover:text-forest focus-visible:outline-none focus-visible:text-forest ${pathname.startsWith(item.href) ? "is-active" : ""}`}
+                                        className={`menu-overlay__link${pathname.startsWith(item.href) ? " is-active" : ""}`}
                                         onClick={() => handleNavClick(item.href, item.label, "primary")}
                                     >
                                         <span>{item.label}</span>
-                                        <span aria-hidden="true" className="absolute left-0 bottom-0 h-px w-full bg-forest scale-x-0 origin-left transition-transform duration-200 ease-in-out group-hover:scale-x-100 group-focus:scale-x-100 is-active:scale-x-100" />
+                                        <span aria-hidden="true" className="menu-overlay__underline" />
                                     </Link>
                                 ))
                             )}
@@ -297,3 +296,4 @@ export default function SiteHeader() {
         </header>
     );
 }
+

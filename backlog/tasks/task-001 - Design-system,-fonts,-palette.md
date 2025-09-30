@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - anton
 created_date: '2025-09-25 10:40'
-updated_date: '2025-09-29 23:29'
+updated_date: '2025-09-29 23:48'
 labels: []
 dependencies: []
 priority: high
@@ -42,4 +42,8 @@ Updated footer marquee to CSS-based animation with reserved height; Lighthouse d
 - Adopted Gemini layout refinements across structured pages (spacing utilities, serif headings) and introduced dedicated client wrappers for motion-heavy views while preserving metadata exports.
 - Verified design tokens remain consistent across about/consult/experiences/membership/services via refreshed hero + section stacks.
 - Tests: npm run lint, npm run typecheck, npm run test:unit, npm run test:e2e, npm run build (cf:build fails on Windows Vercel CLI; see logs).
+
+- Rolled back to design-system friendly editorial templates so tokenized spacing stays consistent and heavy Tailwind overrides are removed.
+- Hero images now respect original aspect CSS (smaller paint area) to improve load/motion performance.
+- Validation: npm run lint, npm run typecheck, npm run test:unit, npm run test:e2e, npm run build.
 <!-- SECTION:NOTES:END -->

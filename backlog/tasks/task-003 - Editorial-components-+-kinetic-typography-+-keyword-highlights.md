@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - anton
 created_date: '2025-09-25 10:41'
-updated_date: '2025-09-29 23:30'
+updated_date: '2025-09-29 23:48'
 labels: []
 dependencies: []
 priority: high
@@ -30,5 +30,9 @@ All components respect dense spacing, use our tokens, and output real paragraphs
 
 - Reworked StructuredPage, editorial sections, and CTAs to the new Gemini vertical rhythm (space-y stacks, modern FactRow grids, refined testimonial carousel).
 - Added client-side page content components (Team/Cancel/Remove) so motion hooks stay client-only while server metadata remains valid.
+- Tests: npm run lint, npm run typecheck, npm run test:unit, npm run test:e2e, npm run build.
+
+- Reverted Gemini spacing experiment in favor of editorial stack; restored consistent containers across structured pages and hero sections.
+- Reduced hero image footprint (CSS-driven) and reinstated masonry to keep copy from overlapping.
 - Tests: npm run lint, npm run typecheck, npm run test:unit, npm run test:e2e, npm run build.
 <!-- SECTION:NOTES:END -->

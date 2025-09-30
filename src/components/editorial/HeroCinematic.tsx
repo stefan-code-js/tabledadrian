@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -68,8 +68,8 @@ export default function HeroCinematic({
                     src={asset.src}
                     alt={asset.alt}
                     fill
-                    priority={asset.priority ?? true}
-                    sizes="100vw"
+                    priority={Boolean(asset.priority)}
+                    sizes="(max-width: 900px) 100vw, 960px"
                     placeholder={asset.placeholder}
                     blurDataURL={asset.blurDataURL}
                     className="hero-cinematic__image"
@@ -130,3 +130,4 @@ function HeroLink({ label, href, variant, onClick, context }: HeroLinkProps) {
         </Link>
     );
 }
+

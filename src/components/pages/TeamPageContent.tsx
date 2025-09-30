@@ -44,10 +44,7 @@ export default function TeamPageContent() {
     const prefersReduced = usePrefersReducedMotion();
     const motionProps = prefersReduced
         ? { whileHover: undefined, whileTap: undefined }
-        : {
-              whileHover: { y: -3 },
-              whileTap: { scale: 0.97 },
-          } as const;
+        : ({ whileHover: { y: -3 }, whileTap: { scale: 0.97 } } as const);
 
     const handleCta = (label: string, href: string) => () => {
         trackEvent(ANALYTICS_EVENTS.ctaClick, {
@@ -58,81 +55,87 @@ export default function TeamPageContent() {
     };
 
     return (
-        <article className="space-y-space-7">
-            <section className="grid gap-space-5 pb-space-6">
-                <figure className="relative w-full h-[clamp(260px,45vw,420px)] overflow-hidden rounded-lg" data-parallax="8">
+        <article className="editorial-page">
+            <section className="editorial-hero">
+                <figure className="full-bleed hero-figure" data-parallax="8">
                     <Image
                         src={heroImage.src}
                         alt={heroImage.alt}
                         fill
-                        priority
-                        sizes="100vw"
-                        className="object-cover saturate-[0.85]"
+                        loading="lazy"
+                        sizes="(max-width: 900px) 100vw, 960px"
+                        className="hero-figure__image"
                     />
                 </figure>
-                <div className="w-full max-w-measure mx-auto space-y-space-4">
-                    <span className="text-xs tracking-widest uppercase text-ink-muted">Our atelier</span>
-                    <KineticHeading as="h1">Adrian, Antonia, and the Riviera cadre</KineticHeading>
+                <div className="editorial-container hero-copy">
+                    <KineticHeading as="h1">Team</KineticHeading>
+                    <KineticParagraph className="lead">
+                        <KeywordHighlighter
+                            text="A compact group shaping season, texture, and fragrance into one calm service. Technical where needed, restrained where it matters."
+                            keywords={KEYWORDS}
+                            variant="forest"
+                        />
+                    </KineticParagraph>
+                </div>
+                <hr className="separator" />
+            </section>
+
+            <section className="editorial-section">
+                <div className="editorial-container">
+                    <div className="section-heading">
+                        <KineticHeading as="h2">Atelier leads</KineticHeading>
+                    </div>
+                    <div className="team-layout">
+                        {members.map((member) => (
+                            <article key={member.name} className="team-profile">
+                                <div className="team-avatar">
+                                    <Image
+                                        src={member.image}
+                                        alt={member.name}
+                                        fill
+                                        sizes="(max-width: 900px) 100vw, 320px"
+                                        loading="lazy"
+                                        className="team-avatar__image"
+                                    />
+                                </div>
+                                <KineticHeading as="h3">{member.name}</KineticHeading>
+                                <KineticParagraph className="muted">{member.role}</KineticParagraph>
+                                {member.link ? (
+                                    <KineticParagraph>
+                                        <a href={member.link} target="_blank" rel="noreferrer">
+                                            view profile
+                                        </a>
+                                    </KineticParagraph>
+                                ) : null}
+                            </article>
+                        ))}
+                    </div>
+                </div>
+                <hr className="separator" />
+            </section>
+
+            <section className="editorial-section">
+                <div className="editorial-container final-call">
+                    <KineticHeading as="h2">Meet us at the table</KineticHeading>
                     <KineticParagraph>
                         <KeywordHighlighter
-                            text="The Côte d’Azur ateliers we steward carry private dining, clinical systems, and the small rituals that make service feel inevitable."
+                            text="Explore current menus or request a date—we’ll respond with a plan that holds to your standards and keeps the room composed."
                             keywords={KEYWORDS}
                             variant="bronze"
                         />
                     </KineticParagraph>
-                </div>
-            </section>
-
-            <section className="w-full max-w-measure mx-auto space-y-space-4">
-                <KineticHeading as="h2">Leadership</KineticHeading>
-                <div className="grid gap-space-4 md:grid-cols-2">
-                    {members.map((member) => (
-                        <article key={member.name} className="grid gap-space-2">
-                            <div className="relative h-64 overflow-hidden rounded-lg">
-                                <Image
-                                    src={member.image}
-                                    alt={member.name}
-                                    fill
-                                    sizes="(min-width: 768px) 50vw, 100vw"
-                                    className="object-cover"
-                                />
-                            </div>
-                            <div className="space-y-space-1">
-                                <KineticHeading as="h3">{member.name}</KineticHeading>
-                                <KineticParagraph>
-                                    <KeywordHighlighter text={member.role} keywords={KEYWORDS} variant="forest" />
-                                </KineticParagraph>
-                                {member.link ? (
-                                    <Link className="text-link" href={member.link} target="_blank" rel="noreferrer">
-                                        View profile
-                                    </Link>
-                                ) : null}
-                            </div>
-                        </article>
-                    ))}
-                </div>
-            </section>
-
-            <section className="w-full max-w-measure mx-auto space-y-space-4">
-                <KineticHeading as="h2">Expect calm stewardship</KineticHeading>
-                <KineticParagraph>
-                    <KeywordHighlighter
-                        text="Every booking arrives with mise, supplier briefs, timelines, and the documentation your household needs to glide through service."
-                        keywords={KEYWORDS}
-                        variant="forest"
-                    />
-                </KineticParagraph>
-                <div className="flex flex-wrap gap-space-2">
-                    <motion.span {...motionProps} className="inline-flex">
-                        <Link className="btn" href="/contact" onClick={handleCta("contact", "/contact")}>
-                            Contact the atelier
-                        </Link>
-                    </motion.span>
-                    <motion.span {...motionProps} className="inline-flex">
-                        <Link className="btn ghost" href="/membership" onClick={handleCta("membership", "/membership")}>
-                            Explore membership
-                        </Link>
-                    </motion.span>
+                    <div className="cta-row">
+                        <motion.span {...motionProps} className="inline-flex">
+                            <Link className="btn" href="/book" onClick={handleCta("request-booking", "/book")}>
+                                request a booking
+                            </Link>
+                        </motion.span>
+                        <motion.span {...motionProps} className="inline-flex">
+                            <Link className="btn ghost" href="/membership" onClick={handleCta("explore-membership", "/membership")}>
+                                explore membership
+                            </Link>
+                        </motion.span>
+                    </div>
                 </div>
             </section>
         </article>

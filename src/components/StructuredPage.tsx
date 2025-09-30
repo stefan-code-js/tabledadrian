@@ -5,7 +5,7 @@ import type { ReactNode } from "react";
 import type { PageContent, Tier, PageId } from "@/data/siteContent";
 import type { TierCta } from "@/lib/pricing";
 import PayButton from "@/components/PayButton";
-import { createProductJsonLd } from "@/lib/metadata";
+import { createBreadcrumbJsonLd, createProductJsonLd } from "@/lib/metadata";
 import KineticHeading from "@/components/KineticHeading";
 import KineticParagraph from "@/components/KineticParagraph";
 import KeywordHighlighter from "@/components/KeywordHighlighter";
@@ -21,7 +21,8 @@ import HeroCinematic from "@/components/editorial/HeroCinematic";
 
 const KEYWORDS = [
     "private table",
-    "Cote d'Azur",
+    "Côte d’Azur",
+    "Côte d’Azur",
     "seasonal",
     "membership",
     "consult",
@@ -32,7 +33,8 @@ const HOME_KEYWORDS = [
     "membership",
     "consult",
     "chef's table",
-    "Cote d'Azur",
+    "Côte d’Azur",
+    "Côte d’Azur",
 ] as const;
 
 const heroAssets: Record<PageId | "default", ImageAsset> = {
@@ -106,13 +108,13 @@ export function PageHero({ page }: { page: PageContent }) {
     if (isHome) {
         return (
             <HeroCinematic
-                kicker="Private table / Cote d'Azur"
+                kicker="Private table / Côte d’Azur"
                 analyticsId="home-hero"
                 title="An evening written in quiet chapters"
                 summary={
                     <KineticParagraph>
                         <KeywordHighlighter
-                            text="Private dining on the Cote d'Azur, composed by Adrian and Antonia, moves through seasonal courses, disciplined service, and membership consults that travel with you."
+                            text="Private dining on the Côte d’Azur, composed by Adrian and Antonia, moves through seasonal courses, disciplined service, and membership consults that travel with you."
                             keywords={HOME_KEYWORDS}
                             variant="bronze"
                         />
@@ -126,24 +128,24 @@ export function PageHero({ page }: { page: PageContent }) {
     }
 
     return (
-        <section className="grid gap-space-5 pb-space-6" id={anchor(page, "hero")}>
-            <figure className="relative w-full h-[clamp(260px,45vw,420px)] overflow-hidden rounded-lg" data-parallax="8">
+        <section className="editorial-hero" id={anchor(page, "hero")}>
+            <figure className="full-bleed hero-figure" data-parallax="8">
                 <Image
                     src={figure.src}
                     alt={figure.alt}
                     fill
-                    priority={figure.priority ?? isHome}
-                    sizes="100vw"
+                    priority={Boolean(figure.priority)}
+                    sizes="(max-width: 900px) 100vw, 960px"
                     placeholder={figure.placeholder}
                     blurDataURL={figure.blurDataURL}
-                    className="object-cover saturate-[0.85]"
+                    className="hero-figure__image"
                 />
             </figure>
-            <div className="w-full max-w-measure mx-auto space-y-space-4">
-                <span className="text-xs tracking-widest uppercase text-ink-muted">{page.hero?.title ?? page.navLabel}</span>
+            <div className="editorial-container hero-copy">
+                <span className="hero-kicker">{page.hero?.title ?? page.navLabel}</span>
                 <KineticHeading as="h1">{page.hero.title}</KineticHeading>
                 <KineticParagraph>{highlight(page.hero.description, "bronze")}</KineticParagraph>
-                <div className="flex flex-wrap gap-space-2">
+                <div className="cta-row">
                     <Link className="btn" href={page.hero.primaryCta.href} onClick={handleHeroClick("primary", page.hero.primaryCta.href, page.hero.primaryCta.label)}>
                         {page.hero.primaryCta.label}
                     </Link>
@@ -158,7 +160,7 @@ export function PageHero({ page }: { page: PageContent }) {
                     ) : null}
                 </div>
             </div>
-            <hr className="border-t border-ink-muted/20" />
+            <hr className="separator" />
         </section>
     );
 }
@@ -166,8 +168,8 @@ export function PageHero({ page }: { page: PageContent }) {
 export function ValueSection({ page }: { page: PageContent }) {
     const { values } = page;
     return (
-        <section className="space-y-space-6" id={anchor(page, "values")}>
-            <div className="w-full max-w-measure mx-auto">
+        <section className="editorial-section" id={anchor(page, "values")}>
+            <div className="editorial-container">
                 <KineticHeading as="h2">{values.title}</KineticHeading>
             </div>
             {values.cards.map((card, index) => (
@@ -186,7 +188,7 @@ export function ValueSection({ page }: { page: PageContent }) {
                     align={index % 2 === 0 ? "left" : "right"}
                 />
             ))}
-            <hr className="border-t border-ink-muted/20" />
+            <hr className="separator" />
         </section>
     );
 }
@@ -194,15 +196,17 @@ export function ValueSection({ page }: { page: PageContent }) {
 export function IncludedSection({ page }: { page: PageContent }) {
     const { included } = page;
     return (
-        <section className="w-full max-w-measure mx-auto space-y-space-4" id={anchor(page, "included")}>
-            <KineticHeading as="h2">{included.title}</KineticHeading>
-            {included.intro ? <KineticParagraph>{highlight(included.intro)}</KineticParagraph> : null}
-            <CardPanel>
-                {included.paragraphs.map((paragraph, index) => (
-                    <KineticParagraph key={index}>{highlight(paragraph, index % 2 === 0 ? "forest" : "bronze")}</KineticParagraph>
-                ))}
-            </CardPanel>
-            <hr className="border-t border-ink-muted/20" />
+        <section className="editorial-section" id={anchor(page, "included")}>
+            <div className="editorial-container">
+                <KineticHeading as="h2">{included.title}</KineticHeading>
+                {included.intro ? <KineticParagraph>{highlight(included.intro)}</KineticParagraph> : null}
+                <CardPanel>
+                    {included.paragraphs.map((paragraph, index) => (
+                        <KineticParagraph key={index}>{highlight(paragraph, index % 2 === 0 ? "forest" : "bronze")}</KineticParagraph>
+                    ))}
+                </CardPanel>
+            </div>
+            <hr className="separator" />
         </section>
     );
 }
@@ -214,10 +218,12 @@ export function ProcessSection({ page }: { page: PageContent }) {
         value: step.detail,
     }));
     return (
-        <section className="w-full max-w-measure mx-auto space-y-space-4" id={anchor(page, "process")}>
-            <KineticHeading as="h2">{process.title}</KineticHeading>
-            <FactRow facts={facts} />
-            <hr className="border-t border-ink-muted/20" />
+        <section className="editorial-section" id={anchor(page, "process")}>
+            <div className="editorial-container">
+                <KineticHeading as="h2">{process.title}</KineticHeading>
+                <FactRow facts={facts} />
+            </div>
+            <hr className="separator" />
         </section>
     );
 }
@@ -226,32 +232,34 @@ export function PricingSection({ page }: { page: PageContent }) {
     const { pricing } = page;
     if (!pricing.tiers.length) return null;
     return (
-        <section className="w-full max-w-measure mx-auto space-y-space-4" id={anchor(page, "pricing")}>
-            <KineticHeading as="h2">{pricing.title}</KineticHeading>
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-space-4">
-                {pricing.tiers.map((tier: Tier) => (
-                    <CardPanel key={tier.id} className="grid gap-space-2">
-                        <span className="text-xs tracking-widest uppercase text-ink-muted">{tier.title}</span>
-                        {tier.price ? <p className="font-serif text-fluid-2xl">{tier.price}</p> : null}
-                        {tier.description ? (
-                            <KineticParagraph>{highlight(tier.description, "bronze")}</KineticParagraph>
-                        ) : null}
-                        {tier.paragraphs.map((paragraph, index) => (
-                            <KineticParagraph key={index}>{highlight(paragraph)}</KineticParagraph>
-                        ))}
-                        {tier.details ? (
-                            <KineticParagraph>{highlight(tier.details.body, "oxblood")}</KineticParagraph>
-                        ) : null}
-                        <div className="mt-space-2">
-                            <TierAction cta={tier.cta} context={{ pageId: page.id, tierId: tier.id }} />
-                        </div>
-                    </CardPanel>
-                ))}
+        <section className="editorial-section" id={anchor(page, "pricing")}>
+            <div className="editorial-container">
+                <KineticHeading as="h2">{pricing.title}</KineticHeading>
+                <div className="pricing-grid">
+                    {pricing.tiers.map((tier: Tier) => (
+                        <CardPanel key={tier.id} className="pricing-card">
+                            <span className="pricing-card__kicker">{tier.title}</span>
+                            {tier.price ? <p className="pricing-card__price">{tier.price}</p> : null}
+                            {tier.description ? (
+                                <KineticParagraph>{highlight(tier.description, "bronze")}</KineticParagraph>
+                            ) : null}
+                            {tier.paragraphs.map((paragraph, index) => (
+                                <KineticParagraph key={index}>{highlight(paragraph)}</KineticParagraph>
+                            ))}
+                            {tier.details ? (
+                                <KineticParagraph>{highlight(tier.details.body, "oxblood")}</KineticParagraph>
+                            ) : null}
+                            <div className="pricing-card__cta">
+                                <TierAction cta={tier.cta} context={{ pageId: page.id, tierId: tier.id }} />
+                            </div>
+                        </CardPanel>
+                    ))}
+                </div>
+                {pricing.note ? (
+                    <KineticParagraph className="pricing-note">{highlight(pricing.note, "oxblood")}</KineticParagraph>
+                ) : null}
             </div>
-            {pricing.note ? (
-                <KineticParagraph className="text-ink-muted text-sm">{highlight(pricing.note, "oxblood")}</KineticParagraph>
-            ) : null}
-            <hr className="border-t border-ink-muted/20" />
+            <hr className="separator" />
         </section>
     );
 }
@@ -260,16 +268,18 @@ export function TestimonialsSection({ page }: { page: PageContent }) {
     const { testimonials } = page;
     if (!testimonials.items.length) return null;
     return (
-        <section className="w-full max-w-measure mx-auto space-y-space-4" id={anchor(page, "testimonials")}>
-            <KineticHeading as="h2">{testimonials.title}</KineticHeading>
-            <TestimonialCarousel
-                testimonials={testimonials.items.map((item) => ({
-                    quote: item.quote,
-                    name: item.name,
-                    role: item.role,
-                }))}
-            />
-            <hr className="border-t border-ink-muted/20" />
+        <section className="editorial-section" id={anchor(page, "testimonials")}>
+            <div className="editorial-container">
+                <KineticHeading as="h2">{testimonials.title}</KineticHeading>
+                <TestimonialCarousel
+                    testimonials={testimonials.items.map((item) => ({
+                        quote: item.quote,
+                        name: item.name,
+                        role: item.role,
+                    }))}
+                />
+            </div>
+            <hr className="separator" />
         </section>
     );
 }
@@ -277,15 +287,17 @@ export function TestimonialsSection({ page }: { page: PageContent }) {
 export function FinalCtaSection({ page, children }: { page: PageContent; children?: ReactNode }) {
     const { finalCta } = page;
     return (
-        <section className="w-full max-w-measure mx-auto" id={anchor(page, "cta")}>
-            <CTABand
-                analyticsId={`${page.slug}-final-cta`}
-                title={finalCta.title}
-                description={finalCta.description}
-                primary={finalCta.primary}
-                secondary={finalCta.secondary}
-            />
-            {children}
+        <section className="editorial-section" id={anchor(page, "cta")}>
+            <div className="editorial-container">
+                <CTABand
+                    analyticsId={`${page.slug}-final-cta`}
+                    title={finalCta.title}
+                    description={finalCta.description}
+                    primary={finalCta.primary}
+                    secondary={finalCta.secondary}
+                />
+                {children}
+            </div>
         </section>
     );
 }
@@ -299,3 +311,4 @@ export function PageStructuredData({ page }: { page: PageContent }) {
     if (!data) return null;
     return <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }} />;
 }
+

@@ -19,18 +19,20 @@ export const metadata = createPageMetadata(page);
 
 export default function PricingCalculatorPage() {
     return (
-        <article className="space-y-space-7">
+        <article className="editorial-page">
             <PageStructuredData page={page} />
             <PageHero page={page} />
             <ValueSection page={page} />
             <IncludedSection page={page} />
             <ProcessSection page={page} />
-            <section className="w-full max-w-measure mx-auto space-y-space-5" id={`${page.slug}-calculator`}>
-                <div className="max-w-xl">
-                    <KineticHeading as="h2">Interactive calculator</KineticHeading>
+            <section className="editorial-section" id={`${page.slug}-calculator`}>
+                <div className="editorial-container">
+                    <div className="section-heading">
+                        <KineticHeading as="h2">Interactive calculator</KineticHeading>
+                    </div>
+                    <PricingCalculatorWidget />
                 </div>
-                <PricingCalculatorWidget />
-                <hr className="border-t border-ink-muted/20" />
+                <hr className="separator" />
             </section>
             <PricingSection page={page} />
             <TestimonialsSection page={page} />

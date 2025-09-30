@@ -17,7 +17,7 @@ export const metadata = createPageMetadata(page);
 
 export default function ExperiencesPage() {
     return (
-        <article className="space-y-space-7">
+        <article className="editorial-page">
             <PageStructuredData page={page} />
             <PageHero page={page} />
             <ValueSection page={page} />
