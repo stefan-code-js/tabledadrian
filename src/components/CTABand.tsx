@@ -2,6 +2,8 @@
 import Link from "next/link";
 import type { MouseEvent } from "react";
 import { motion } from "framer-motion";
+import KineticHeading from "@/components/KineticHeading";
+import KineticParagraph from "@/components/KineticParagraph";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 import { ANALYTICS_EVENTS, trackEvent } from "@/lib/analytics";
 
@@ -53,8 +55,8 @@ export default function CTABand({ title, description, primary, secondary, analyt
         <section className={`${classes} bg-accent-muted py-6`}>
             <div className="cta-band__inner">
                 <div className="cta-band__copy">
-                    <h3 className="text-ink mb-2">{title}</h3>
-                    <p className="text-ink-soft mb-4">{description}</p>
+                    <KineticHeading as="h2" className="text-ink mb-2">{title}</KineticHeading>
+                    <KineticParagraph className="text-ink-soft mb-4">{description}</KineticParagraph>
                 </div>
                 <div className="cta-band__actions flex gap-3">
                     <motion.span {...motionProps} className="inline-flex">

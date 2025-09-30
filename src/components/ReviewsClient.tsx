@@ -1,7 +1,9 @@
-﻿"use client";
+"use client";
 
 import React from "react";
 import { ANALYTICS_EVENTS, trackEvent } from "@/lib/analytics";
+import KineticHeading from "@/components/KineticHeading";
+import KineticParagraph from "@/components/KineticParagraph";
 
 export type Review = {
     id: string;
@@ -172,13 +174,13 @@ export default function ReviewsClient({ initialItems, initialCount, initialAvg }
         <div className="reviews-layout">
             <section className="reviews-column" aria-live="polite">
                 <header className="reviews-column__header">
-                    <h3>Guest notes</h3>
-                    <p className="muted">
+                    <KineticHeading as="h2" className="reviews-column__heading">Guest notes</KineticHeading>
+                    <KineticParagraph className="muted">
                         {count} review{count === 1 ? "" : "s"} - average {avg.toFixed(1)}
-                    </p>
+                    </KineticParagraph>
                 </header>
                 {items.length === 0 ? (
-                    <p className="muted">Reviews will appear here when guests publish them.</p>
+                    <KineticParagraph className="muted">Reviews will appear here when guests publish them.</KineticParagraph>
                 ) : (
                     <div className="reviews-stack">
                         {items.map((review) => (
@@ -201,8 +203,8 @@ export default function ReviewsClient({ initialItems, initialCount, initialAvg }
 
             <section className="reviews-column">
                 <header className="reviews-column__header">
-                    <h3>Leave a review</h3>
-                    <p className="muted">Share a brief note about your experience.</p>
+                    <KineticHeading as="h3" className="reviews-column__heading">Leave a review</KineticHeading>
+                    <KineticParagraph className="muted">Share a brief note about your experience.</KineticParagraph>
                 </header>
                 <fieldset className="review-form__rating" aria-label="choose rating">
                     <legend className="sr-only">Rating</legend>

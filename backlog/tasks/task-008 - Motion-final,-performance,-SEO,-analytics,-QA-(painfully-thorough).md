@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@codex'
 created_date: '2025-09-25 10:43'
-updated_date: '2025-09-30 22:38'
+updated_date: '2025-09-30 23:04'
 labels: []
 dependencies: []
 ---
@@ -71,4 +71,8 @@ $- Standardised standalone + reviews-page forms on the shared luxury form grid, 
 
 $- Added prefers-color-scheme DARK tokens so palettes, backgrounds, and typography flip automatically without a UI toggle.
 - Confirmed builds stay clean: npm run lint, npm run build.
+
+$- Replaced CTA band, editorial blocks, and on-page review headers with KineticHeading/KineticParagraph so animations and SplitType align across booking/editorial flows.
+- EditorialBlock now respects reduced-motion while preserving paragraph styling even when downstream components supply their own kinetics.
+- Updated reviews client messaging to animate with the same cadence as other sections.
 <!-- SECTION:NOTES:END -->

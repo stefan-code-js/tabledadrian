@@ -1,7 +1,11 @@
-﻿"use client";
+"use client";
 import Image, { type StaticImageData } from "next/image";
+import { cloneElement, isValidElement, type ReactElement } from "react";
+import clsx from "clsx";
 import type { ReactNode } from "react";
 import type { ImageAsset } from "@/data/images";
+import KineticHeading from "@/components/KineticHeading";
+import KineticParagraph from "@/components/KineticParagraph";
 
 type EditorialImage =
     | ImageAsset
@@ -56,9 +60,7 @@ export default function EditorialBlock({
     align = "left",
     className,
 }: EditorialBlockProps) {
-    const classes = ["editorial-block", align === "right" ? "editorial-block--right" : "", className]
-        .filter(Boolean)
-        .join(" ");
+    const classes = clsx("editorial-block", align === "right" && "editorial-block--right", className);
 
     const resolved = resolveImage(image);
     const parallax = align === "right" ? 5 : 7;
@@ -85,14 +87,25 @@ export default function EditorialBlock({
             </div>
             <div className="editorial-block__copy">
                 {kicker ? <span className="editorial-block__kicker">{kicker}</span> : null}
-                <h2 className="editorial-block__title">{title}</h2>
-                {copy.map((paragraph, index) => (
-                    <div className="editorial-block__paragraph" key={index}>
-                        {paragraph}
-                    </div>
-                ))}
+                <KineticHeading as="h2" className="editorial-block__title">{title}</KineticHeading>
+                {copy.map((paragraph, index) => {
+                    if (isValidElement(paragraph) && paragraph.type === KineticParagraph) {
+                        const element = paragraph as ReactElement<{ className?: string }>;
+                        return cloneElement(element, {
+                            key: index,
+                            className: clsx("editorial-block__paragraph", element.props.className),
+                        });
+                    }
+                    return (
+                        <KineticParagraph key={index} className="editorial-block__paragraph">
+                            {paragraph}
+                        </KineticParagraph>
+                    );
+                })}
                 {cta ? <div className="editorial-block__cta">{cta}</div> : null}
             </div>
         </section>
     );
 }
+
+
