@@ -4,7 +4,6 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { loadGsap } from "@/lib/motion";
 import { ANALYTICS_EVENTS, trackEvent } from "@/lib/analytics";
 import { site } from "@/lib/site";
 
@@ -73,28 +72,7 @@ export default function SiteHeader() {
 
         trackEvent(ANALYTICS_EVENTS.menuToggle, { state: "close" });
         setMenuActive(false);
-
-        const overlay = overlayRef.current;
-        const panel = panelRef.current;
-        if (!overlay || !panel) {
-            closeMenuImmediate();
-            return;
-        }
-
-        void loadGsap().then((gsap) => {
-            if (!gsap || !overlayRef.current || !panelRef.current) {
-                closeMenuImmediate();
-                return;
-            }
-            const items = overlayRef.current.querySelectorAll<HTMLElement>("[data-menu-item]");
-            const tl = gsap.timeline({
-                defaults: { ease: "power2.inOut" },
-                onComplete: closeMenuImmediate,
-            });
-            tl.to(items, { y: -16, autoAlpha: 0, stagger: 0.04, duration: 0.18 }, 0);
-            tl.to(panelRef.current, { scale: 0.94, autoAlpha: 0, duration: 0.24 }, 0);
-            tl.to(overlayRef.current, { autoAlpha: 0, duration: 0.2 }, 0);
-        });
+        closeMenuImmediate();
     }, [isOverlayVisible, closeMenuImmediate]);
 
     const openMenu = useCallback(() => {
@@ -109,18 +87,8 @@ export default function SiteHeader() {
             document.body.classList.remove("no-scroll");
             return;
         }
-        document.body.classList.add("no-scroll");
 
-        void loadGsap().then((gsap) => {
-            if (!gsap || !overlayRef.current || !panelRef.current) {
-                return;
-            }
-            const items = overlayRef.current.querySelectorAll<HTMLElement>("[data-menu-item]");
-            gsap.set(overlayRef.current, { autoAlpha: 1 });
-            const tl = gsap.timeline({ defaults: { ease: "power2.out" } });
-            tl.fromTo(panelRef.current, { autoAlpha: 0, scale: 0.96 }, { autoAlpha: 1, scale: 1, duration: 0.32 });
-            tl.from(items, { y: 18, autoAlpha: 0, stagger: 0.05, duration: 0.28 }, "-=0.16");
-        });
+        document.body.classList.add("no-scroll");
 
         const overlay = overlayRef.current;
         if (!overlay) return;
@@ -221,7 +189,7 @@ export default function SiteHeader() {
                         className="menu-header__button"
                         aria-haspopup="dialog"
                         aria-controls="site-menu"
-                        aria-expanded={isMenuActive ? "true" : "false"}
+                        aria-expanded={isOverlayVisible ? "true" : "false"}
                         onClick={handleToggle}
                     >
                         <Menu aria-hidden="true" size={18} />

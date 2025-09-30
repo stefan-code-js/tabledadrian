@@ -1938,6 +1938,13 @@ hr {
     display: none;
   }
 }
+
+@media (max-width: 1023px) {
+  .menu-header__button {
+    display: inline-flex;
+  }
+}
+
 .layout-measure {
   width: min(var(--max-width), calc(100% - 2 * var(--gutter)));
   margin-inline: auto;

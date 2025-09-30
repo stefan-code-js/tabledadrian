@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - anton
 created_date: '2025-09-25 10:41'
-updated_date: '2025-09-29 23:48'
+updated_date: '2025-09-30 00:12'
 labels: []
 dependencies: []
 priority: high
@@ -35,4 +35,7 @@ All components respect dense spacing, use our tokens, and output real paragraphs
 - Reverted Gemini spacing experiment in favor of editorial stack; restored consistent containers across structured pages and hero sections.
 - Reduced hero image footprint (CSS-driven) and reinstated masonry to keep copy from overlapping.
 - Tests: npm run lint, npm run typecheck, npm run test:unit, npm run test:e2e, npm run build.
+
+- Restored structured hero layout and ensured image priorities/sizes align with perf budget (lazy load defaults, responsive widths).
+- Confirmed new layout passes lint, typecheck, e2e, and build checks.
 <!-- SECTION:NOTES:END -->
