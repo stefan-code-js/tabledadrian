@@ -18,6 +18,7 @@ export default defineConfig({
         reuseExistingServer: !process.env.CI,
         stdout: "pipe",
         stderr: "pipe",
+        timeout: process.env.CI ? 180_000 : 120_000,
     },
     projects: [
         {
