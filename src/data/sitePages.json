@@ -1,0 +1,1882 @@
+{
+    "home": {
+        "id": "home",
+        "slug": "home",
+        "path": "/",
+        "navLabel": "home",
+        "meta": {
+            "title": "Table d'Adrian – Private Chef & Bespoke Dining Worldwide",
+            "description": "Luxury private chef and bespoke dining by Chef Adrian in Monaco, Miami, New York City, Dubai, London, Courchevel, Geneva, and worldwide.",
+            "canonical": "/",
+            "keywords": [
+                "Table d'Adrian",
+                "luxury private chef",
+                "bespoke dining",
+                "chef Adrian",
+                "Monaco",
+                "Miami",
+                "New York City",
+                "Dubai",
+                "London",
+                "Courchevel",
+                "Geneva"
+            ]
+        },
+        "hero": {
+            "title": "Private Chef & Luxury Dining Experiences Worldwide",
+            "description": "Michelin-caliber gastronomy choreographed for villas, penthouses, yachts, and private jets across the globe.",
+            "primaryCta": {
+                "label": "request consultation",
+                "href": "/contact"
+            },
+            "secondaryCta": {
+                "label": "discover services",
+                "href": "/experiences"
+            }
+        },
+        "quickNav": [
+            {
+                "label": "experience",
+                "target": "values"
+            },
+            {
+                "label": "services",
+                "target": "included"
+            },
+            {
+                "label": "process",
+                "target": "process"
+            },
+            {
+                "label": "investment",
+                "target": "pricing"
+            },
+            {
+                "label": "voices",
+                "target": "testimonials"
+            },
+            {
+                "label": "contact",
+                "target": "cta"
+            }
+        ],
+        "values": {
+            "title": "Bespoke Private Chef Services",
+            "cards": [
+                {
+                    "title": "Immersive Gastronomy",
+                    "paragraphs": [
+                        "Menus choreographed for villas, penthouses, yachts, and private jets across Monaco, Miami, New York City, Dubai, London, Courchevel, Geneva, and worldwide.",
+                        "Seasonal terroir, Asian nuance, and Middle Eastern warmth interpreted through Michelin-caliber technique."
+                    ]
+                },
+                {
+                    "title": "Global Hospitality",
+                    "paragraphs": [
+                        "Multilingual sommeliers, butlers, florists, and mixologists ensure silent service and anticipatory care in every destination.",
+                        "Wellness, longevity, and indulgence harmonized through pharmacist-informed programming."
+                    ]
+                },
+                {
+                    "title": "Artistry & Logistics",
+                    "paragraphs": [
+                        "Tablescapes, music, lighting, rentals, and nondisclosure agreements orchestrated by the atelier.",
+                        "Post-event documentation, provisioning, and concierge follow-up keep households aligned between engagements."
+                    ]
+                }
+            ]
+        },
+        "included": {
+            "title": "What the Atelier Provides",
+            "paragraphs": [
+                "Discovery consultation capturing guest preferences, cultural notes, and wellness goals.",
+                "Menu design, wine pairings, florals, and styling bespoke to each location.",
+                "Culinary brigade, sommeliers, service staff, and coordinators trained in palace, yacht, and jet etiquette."
+            ]
+        },
+        "process": {
+            "title": "Experience Timeline",
+            "steps": [
+                {
+                    "title": "1. Discovery",
+                    "detail": "Share location, guest list, celebration tone, and scheduling requirements."
+                },
+                {
+                    "title": "2. Design",
+                    "detail": "Chef Adrian drafts tasting arcs and hospitality concepts aligned with your narrative."
+                },
+                {
+                    "title": "3. Production",
+                    "detail": "Atelier coordinates staffing, rentals, logistics, and travel across continents."
+                },
+                {
+                    "title": "4. Delivery",
+                    "detail": "White-glove execution with optional documentation and concierge follow-up."
+                }
+            ]
+        },
+        "pricing": {
+            "title": "Signature Experiences",
+            "tiers": [
+                {
+                    "id": "signature-tasting",
+                    "title": "Signature Tasting",
+                    "price": "from ?8,000",
+                    "description": "Twelve-course degustations for private residences and collectors worldwide.",
+                    "paragraphs": [],
+                    "cta": {
+                        "type": "link",
+                        "label": "request tasting",
+                        "href": "/contact"
+                    }
+                },
+                {
+                    "id": "performance-dinner",
+                    "title": "Performance Dinner",
+                    "price": "from ?12,000",
+                    "description": "Longevity-focused menus for leadership retreats, wellness residencies, and elite sport programs.",
+                    "paragraphs": [],
+                    "cta": {
+                        "type": "link",
+                        "label": "plan performance",
+                        "href": "/consult"
+                    }
+                },
+                {
+                    "id": "salon-supper",
+                    "title": "Salon Supper",
+                    "price": "from ?10,000",
+                    "description": "Family-style opulence for yachts, chalets, and penthouses with immersive storytelling.",
+                    "paragraphs": [],
+                    "cta": {
+                        "type": "link",
+                        "label": "host salon supper",
+                        "href": "/book"
+                    }
+                }
+            ],
+            "note": "Investment varies by destination, logistics, and requested services. Worldwide travel supported year-round."
+        },
+        "testimonials": {
+            "title": "Patron Reflections",
+            "items": [
+                {
+                    "quote": "A Michelin-caliber restaurant appeared inside our Monaco villa. Service was silent, choreography impeccable, and cuisine unforgettable.",
+                    "name": "Private host, Monaco"
+                },
+                {
+                    "quote": "Our New York corporate retreat became a sensory voyage that deepened relationships and inspired leadership.",
+                    "name": "CEO, global advisory firm"
+                },
+                {
+                    "quote": "The Dubai yacht residency delivered sunrise wellness menus and midnight indulgence without a single detail overlooked.",
+                    "name": "UHNW guest, GCC"
+                }
+            ]
+        },
+        "finalCta": {
+            "title": "Commission Table d'Adrian",
+            "description": "Limited engagements accepted each season to preserve artistry and intimacy. Share your vision and the atelier will respond within 24 hours.",
+            "primary": {
+                "label": "begin your journey",
+                "href": "/contact"
+            },
+            "secondary": {
+                "label": "schedule discovery",
+                "href": "/consult"
+            }
+        }
+    },
+    "about": {
+        "id": "about",
+        "slug": "about",
+        "path": "/about",
+        "navLabel": "about",
+        "meta": {
+            "title": "About Table d'Adrian",
+            "description": "Chef Adrian's Michelin heritage and the atelier behind bespoke private chef services worldwide.",
+            "canonical": "/about",
+            "keywords": [
+                "Table d'Adrian",
+                "luxury private chef",
+                "bespoke dining",
+                "chef Adrian",
+                "Monaco",
+                "Miami",
+                "New York City",
+                "Dubai",
+                "London",
+                "Courchevel",
+                "Geneva"
+            ]
+        },
+        "hero": {
+            "title": "Chef Adrian & The Atelier",
+            "description": "EHL-trained Chef Adrian distills experience from Michelin brigades into a roaming culinary atelier for UHNW hosts worldwide.",
+            "primaryCta": {
+                "label": "view services",
+                "href": "/experiences"
+            },
+            "secondaryCta": {
+                "label": "request biography",
+                "href": "/contact"
+            }
+        },
+        "quickNav": [
+            {
+                "label": "experience",
+                "target": "values"
+            },
+            {
+                "label": "services",
+                "target": "included"
+            },
+            {
+                "label": "process",
+                "target": "process"
+            },
+            {
+                "label": "investment",
+                "target": "pricing"
+            },
+            {
+                "label": "voices",
+                "target": "testimonials"
+            },
+            {
+                "label": "contact",
+                "target": "cta"
+            }
+        ],
+        "values": {
+            "title": "Bespoke Private Chef Services",
+            "cards": [
+                {
+                    "title": "Immersive Gastronomy",
+                    "paragraphs": [
+                        "Menus choreographed for villas, penthouses, yachts, and private jets across Monaco, Miami, New York City, Dubai, London, Courchevel, Geneva, and worldwide.",
+                        "Seasonal terroir, Asian nuance, and Middle Eastern warmth interpreted through Michelin-caliber technique."
+                    ]
+                },
+                {
+                    "title": "Global Hospitality",
+                    "paragraphs": [
+                        "Multilingual sommeliers, butlers, florists, and mixologists ensure silent service and anticipatory care in every destination.",
+                        "Wellness, longevity, and indulgence harmonized through pharmacist-informed programming."
+                    ]
+                },
+                {
+                    "title": "Artistry & Logistics",
+                    "paragraphs": [
+                        "Tablescapes, music, lighting, rentals, and nondisclosure agreements orchestrated by the atelier.",
+                        "Post-event documentation, provisioning, and concierge follow-up keep households aligned between engagements."
+                    ]
+                }
+            ]
+        },
+        "included": {
+            "title": "What the Atelier Provides",
+            "paragraphs": [
+                "Discovery consultation capturing guest preferences, cultural notes, and wellness goals.",
+                "Menu design, wine pairings, florals, and styling bespoke to each location.",
+                "Culinary brigade, sommeliers, service staff, and coordinators trained in palace, yacht, and jet etiquette."
+            ]
+        },
+        "process": {
+            "title": "Experience Timeline",
+            "steps": [
+                {
+                    "title": "1. Discovery",
+                    "detail": "Share location, guest list, celebration tone, and scheduling requirements."
+                },
+                {
+                    "title": "2. Design",
+                    "detail": "Chef Adrian drafts tasting arcs and hospitality concepts aligned with your narrative."
+                },
+                {
+                    "title": "3. Production",
+                    "detail": "Atelier coordinates staffing, rentals, logistics, and travel across continents."
+                },
+                {
+                    "title": "4. Delivery",
+                    "detail": "White-glove execution with optional documentation and concierge follow-up."
+                }
+            ]
+        },
+        "pricing": {
+            "title": "Signature Experiences",
+            "tiers": [
+                {
+                    "id": "signature-tasting",
+                    "title": "Signature Tasting",
+                    "price": "from ?8,000",
+                    "description": "Twelve-course degustations for private residences and collectors worldwide.",
+                    "paragraphs": [],
+                    "cta": {
+                        "type": "link",
+                        "label": "request tasting",
+                        "href": "/contact"
+                    }
+                },
+                {
+                    "id": "performance-dinner",
+                    "title": "Performance Dinner",
+                    "price": "from ?12,000",
+                    "description": "Longevity-focused menus for leadership retreats, wellness residencies, and elite sport programs.",
+                    "paragraphs": [],
+                    "cta": {
+                        "type": "link",
+                        "label": "plan performance",
+                        "href": "/consult"
+                    }
+                },
+                {
+                    "id": "salon-supper",
+                    "title": "Salon Supper",
+                    "price": "from ?10,000",
+                    "description": "Family-style opulence for yachts, chalets, and penthouses with immersive storytelling.",
+                    "paragraphs": [],
+                    "cta": {
+                        "type": "link",
+                        "label": "host salon supper",
+                        "href": "/book"
+                    }
+                }
+            ],
+            "note": "Investment varies by destination, logistics, and requested services. Worldwide travel supported year-round."
+        },
+        "testimonials": {
+            "title": "Patron Reflections",
+            "items": [
+                {
+                    "quote": "A Michelin-caliber restaurant appeared inside our Monaco villa. Service was silent, choreography impeccable, and cuisine unforgettable.",
+                    "name": "Private host, Monaco"
+                },
+                {
+                    "quote": "Our New York corporate retreat became a sensory voyage that deepened relationships and inspired leadership.",
+                    "name": "CEO, global advisory firm"
+                },
+                {
+                    "quote": "The Dubai yacht residency delivered sunrise wellness menus and midnight indulgence without a single detail overlooked.",
+                    "name": "UHNW guest, GCC"
+                }
+            ]
+        },
+        "finalCta": {
+            "title": "Commission Table d'Adrian",
+            "description": "Limited engagements accepted each season to preserve artistry and intimacy. Share your vision and the atelier will respond within 24 hours.",
+            "primary": {
+                "label": "begin your journey",
+                "href": "/contact"
+            },
+            "secondary": {
+                "label": "schedule discovery",
+                "href": "/consult"
+            }
+        }
+    },
+    "experiences": {
+        "id": "experiences",
+        "slug": "experiences",
+        "path": "/experiences",
+        "navLabel": "experiences",
+        "meta": {
+            "title": "Luxury Private Chef Experiences",
+            "description": "Signature tastings, performance dinners, salon suppers, and brand collaborations with Table d'Adrian.",
+            "canonical": "/experiences",
+            "keywords": [
+                "Table d'Adrian",
+                "luxury private chef",
+                "bespoke dining",
+                "chef Adrian",
+                "Monaco",
+                "Miami",
+                "New York City",
+                "Dubai",
+                "London",
+                "Courchevel",
+                "Geneva"
+            ]
+        },
+        "hero": {
+            "title": "Experiences Tailored to Your World",
+            "description": "Routes for private families, UHNW events, yachts, jets, and luxury maisons across Monaco, Miami, New York City, Dubai, London, Courchevel, Geneva, and beyond.",
+            "primaryCta": {
+                "label": "book experience",
+                "href": "/book"
+            },
+            "secondaryCta": {
+                "label": "consult atelier",
+                "href": "/consult"
+            }
+        },
+        "quickNav": [
+            {
+                "label": "experience",
+                "target": "values"
+            },
+            {
+                "label": "services",
+                "target": "included"
+            },
+            {
+                "label": "process",
+                "target": "process"
+            },
+            {
+                "label": "investment",
+                "target": "pricing"
+            },
+            {
+                "label": "voices",
+                "target": "testimonials"
+            },
+            {
+                "label": "contact",
+                "target": "cta"
+            }
+        ],
+        "values": {
+            "title": "Bespoke Private Chef Services",
+            "cards": [
+                {
+                    "title": "Immersive Gastronomy",
+                    "paragraphs": [
+                        "Menus choreographed for villas, penthouses, yachts, and private jets across Monaco, Miami, New York City, Dubai, London, Courchevel, Geneva, and worldwide.",
+                        "Seasonal terroir, Asian nuance, and Middle Eastern warmth interpreted through Michelin-caliber technique."
+                    ]
+                },
+                {
+                    "title": "Global Hospitality",
+                    "paragraphs": [
+                        "Multilingual sommeliers, butlers, florists, and mixologists ensure silent service and anticipatory care in every destination.",
+                        "Wellness, longevity, and indulgence harmonized through pharmacist-informed programming."
+                    ]
+                },
+                {
+                    "title": "Artistry & Logistics",
+                    "paragraphs": [
+                        "Tablescapes, music, lighting, rentals, and nondisclosure agreements orchestrated by the atelier.",
+                        "Post-event documentation, provisioning, and concierge follow-up keep households aligned between engagements."
+                    ]
+                }
+            ]
+        },
+        "included": {
+            "title": "What the Atelier Provides",
+            "paragraphs": [
+                "Discovery consultation capturing guest preferences, cultural notes, and wellness goals.",
+                "Menu design, wine pairings, florals, and styling bespoke to each location.",
+                "Culinary brigade, sommeliers, service staff, and coordinators trained in palace, yacht, and jet etiquette."
+            ]
+        },
+        "process": {
+            "title": "Experience Timeline",
+            "steps": [
+                {
+                    "title": "1. Discovery",
+                    "detail": "Share location, guest list, celebration tone, and scheduling requirements."
+                },
+                {
+                    "title": "2. Design",
+                    "detail": "Chef Adrian drafts tasting arcs and hospitality concepts aligned with your narrative."
+                },
+                {
+                    "title": "3. Production",
+                    "detail": "Atelier coordinates staffing, rentals, logistics, and travel across continents."
+                },
+                {
+                    "title": "4. Delivery",
+                    "detail": "White-glove execution with optional documentation and concierge follow-up."
+                }
+            ]
+        },
+        "pricing": {
+            "title": "Signature Experiences",
+            "tiers": [
+                {
+                    "id": "signature-tasting",
+                    "title": "Signature Tasting",
+                    "price": "from ?8,000",
+                    "description": "Twelve-course degustations for private residences and collectors worldwide.",
+                    "paragraphs": [],
+                    "cta": {
+                        "type": "link",
+                        "label": "request tasting",
+                        "href": "/contact"
+                    }
+                },
+                {
+                    "id": "performance-dinner",
+                    "title": "Performance Dinner",
+                    "price": "from ?12,000",
+                    "description": "Longevity-focused menus for leadership retreats, wellness residencies, and elite sport programs.",
+                    "paragraphs": [],
+                    "cta": {
+                        "type": "link",
+                        "label": "plan performance",
+                        "href": "/consult"
+                    }
+                },
+                {
+                    "id": "salon-supper",
+                    "title": "Salon Supper",
+                    "price": "from ?10,000",
+                    "description": "Family-style opulence for yachts, chalets, and penthouses with immersive storytelling.",
+                    "paragraphs": [],
+                    "cta": {
+                        "type": "link",
+                        "label": "host salon supper",
+                        "href": "/book"
+                    }
+                }
+            ],
+            "note": "Investment varies by destination, logistics, and requested services. Worldwide travel supported year-round."
+        },
+        "testimonials": {
+            "title": "Patron Reflections",
+            "items": [
+                {
+                    "quote": "A Michelin-caliber restaurant appeared inside our Monaco villa. Service was silent, choreography impeccable, and cuisine unforgettable.",
+                    "name": "Private host, Monaco"
+                },
+                {
+                    "quote": "Our New York corporate retreat became a sensory voyage that deepened relationships and inspired leadership.",
+                    "name": "CEO, global advisory firm"
+                },
+                {
+                    "quote": "The Dubai yacht residency delivered sunrise wellness menus and midnight indulgence without a single detail overlooked.",
+                    "name": "UHNW guest, GCC"
+                }
+            ]
+        },
+        "finalCta": {
+            "title": "Commission Table d'Adrian",
+            "description": "Limited engagements accepted each season to preserve artistry and intimacy. Share your vision and the atelier will respond within 24 hours.",
+            "primary": {
+                "label": "begin your journey",
+                "href": "/contact"
+            },
+            "secondary": {
+                "label": "schedule discovery",
+                "href": "/consult"
+            }
+        }
+    },
+    "products": {
+        "id": "products",
+        "slug": "products",
+        "path": "/products",
+        "navLabel": "pantry",
+        "meta": {
+            "title": "Pantry & Atelier Resources",
+            "description": "Guides, playbooks, and wellness protocols supporting Table d'Adrian households and crews worldwide.",
+            "canonical": "/products",
+            "keywords": [
+                "Table d'Adrian",
+                "luxury private chef",
+                "bespoke dining",
+                "chef Adrian",
+                "Monaco",
+                "Miami",
+                "New York City",
+                "Dubai",
+                "London",
+                "Courchevel",
+                "Geneva"
+            ]
+        },
+        "hero": {
+            "title": "Atelier Resources",
+            "description": "Digital toolkits and concierge support for estates, yachts, and partners maintaining Table d'Adrian standards between engagements.",
+            "primaryCta": {
+                "label": "download guides",
+                "href": "/products#guides"
+            },
+            "secondaryCta": {
+                "label": "request custom playbook",
+                "href": "/contact"
+            }
+        },
+        "quickNav": [
+            {
+                "label": "experience",
+                "target": "values"
+            },
+            {
+                "label": "services",
+                "target": "included"
+            },
+            {
+                "label": "process",
+                "target": "process"
+            },
+            {
+                "label": "investment",
+                "target": "pricing"
+            },
+            {
+                "label": "voices",
+                "target": "testimonials"
+            },
+            {
+                "label": "contact",
+                "target": "cta"
+            }
+        ],
+        "values": {
+            "title": "Bespoke Private Chef Services",
+            "cards": [
+                {
+                    "title": "Immersive Gastronomy",
+                    "paragraphs": [
+                        "Menus choreographed for villas, penthouses, yachts, and private jets across Monaco, Miami, New York City, Dubai, London, Courchevel, Geneva, and worldwide.",
+                        "Seasonal terroir, Asian nuance, and Middle Eastern warmth interpreted through Michelin-caliber technique."
+                    ]
+                },
+                {
+                    "title": "Global Hospitality",
+                    "paragraphs": [
+                        "Multilingual sommeliers, butlers, florists, and mixologists ensure silent service and anticipatory care in every destination.",
+                        "Wellness, longevity, and indulgence harmonized through pharmacist-informed programming."
+                    ]
+                },
+                {
+                    "title": "Artistry & Logistics",
+                    "paragraphs": [
+                        "Tablescapes, music, lighting, rentals, and nondisclosure agreements orchestrated by the atelier.",
+                        "Post-event documentation, provisioning, and concierge follow-up keep households aligned between engagements."
+                    ]
+                }
+            ]
+        },
+        "included": {
+            "title": "What the Atelier Provides",
+            "paragraphs": [
+                "Discovery consultation capturing guest preferences, cultural notes, and wellness goals.",
+                "Menu design, wine pairings, florals, and styling bespoke to each location.",
+                "Culinary brigade, sommeliers, service staff, and coordinators trained in palace, yacht, and jet etiquette."
+            ]
+        },
+        "process": {
+            "title": "Experience Timeline",
+            "steps": [
+                {
+                    "title": "1. Discovery",
+                    "detail": "Share location, guest list, celebration tone, and scheduling requirements."
+                },
+                {
+                    "title": "2. Design",
+                    "detail": "Chef Adrian drafts tasting arcs and hospitality concepts aligned with your narrative."
+                },
+                {
+                    "title": "3. Production",
+                    "detail": "Atelier coordinates staffing, rentals, logistics, and travel across continents."
+                },
+                {
+                    "title": "4. Delivery",
+                    "detail": "White-glove execution with optional documentation and concierge follow-up."
+                }
+            ]
+        },
+        "pricing": {
+            "title": "Signature Experiences",
+            "tiers": [
+                {
+                    "id": "signature-tasting",
+                    "title": "Signature Tasting",
+                    "price": "from ?8,000",
+                    "description": "Twelve-course degustations for private residences and collectors worldwide.",
+                    "paragraphs": [],
+                    "cta": {
+                        "type": "link",
+                        "label": "request tasting",
+                        "href": "/contact"
+                    }
+                },
+                {
+                    "id": "performance-dinner",
+                    "title": "Performance Dinner",
+                    "price": "from ?12,000",
+                    "description": "Longevity-focused menus for leadership retreats, wellness residencies, and elite sport programs.",
+                    "paragraphs": [],
+                    "cta": {
+                        "type": "link",
+                        "label": "plan performance",
+                        "href": "/consult"
+                    }
+                },
+                {
+                    "id": "salon-supper",
+                    "title": "Salon Supper",
+                    "price": "from ?10,000",
+                    "description": "Family-style opulence for yachts, chalets, and penthouses with immersive storytelling.",
+                    "paragraphs": [],
+                    "cta": {
+                        "type": "link",
+                        "label": "host salon supper",
+                        "href": "/book"
+                    }
+                }
+            ],
+            "note": "Investment varies by destination, logistics, and requested services. Worldwide travel supported year-round."
+        },
+        "testimonials": {
+            "title": "Patron Reflections",
+            "items": [
+                {
+                    "quote": "A Michelin-caliber restaurant appeared inside our Monaco villa. Service was silent, choreography impeccable, and cuisine unforgettable.",
+                    "name": "Private host, Monaco"
+                },
+                {
+                    "quote": "Our New York corporate retreat became a sensory voyage that deepened relationships and inspired leadership.",
+                    "name": "CEO, global advisory firm"
+                },
+                {
+                    "quote": "The Dubai yacht residency delivered sunrise wellness menus and midnight indulgence without a single detail overlooked.",
+                    "name": "UHNW guest, GCC"
+                }
+            ]
+        },
+        "finalCta": {
+            "title": "Commission Table d'Adrian",
+            "description": "Limited engagements accepted each season to preserve artistry and intimacy. Share your vision and the atelier will respond within 24 hours.",
+            "primary": {
+                "label": "begin your journey",
+                "href": "/contact"
+            },
+            "secondary": {
+                "label": "schedule discovery",
+                "href": "/consult"
+            }
+        }
+    },
+    "contact": {
+        "id": "contact",
+        "slug": "contact",
+        "path": "/contact",
+        "navLabel": "contact",
+        "meta": {
+            "title": "Contact Table d'Adrian",
+            "description": "Begin your culinary journey with Table d'Adrian across Monaco, Miami, New York City, Dubai, London, Courchevel, Geneva, and worldwide.",
+            "canonical": "/contact",
+            "keywords": [
+                "Table d'Adrian",
+                "luxury private chef",
+                "bespoke dining",
+                "chef Adrian",
+                "Monaco",
+                "Miami",
+                "New York City",
+                "Dubai",
+                "London",
+                "Courchevel",
+                "Geneva"
+            ]
+        },
+        "hero": {
+            "title": "Contact",
+            "description": "Submit your inquiry for Michelin-caliber private chef experiences tailored to your location and guests.",
+            "primaryCta": {
+                "label": "submit inquiry",
+                "href": "#contact-form"
+            },
+            "secondaryCta": {
+                "label": "schedule discovery call",
+                "href": "/consult"
+            }
+        },
+        "quickNav": [
+            {
+                "label": "experience",
+                "target": "values"
+            },
+            {
+                "label": "services",
+                "target": "included"
+            },
+            {
+                "label": "process",
+                "target": "process"
+            },
+            {
+                "label": "investment",
+                "target": "pricing"
+            },
+            {
+                "label": "voices",
+                "target": "testimonials"
+            },
+            {
+                "label": "contact",
+                "target": "cta"
+            }
+        ],
+        "values": {
+            "title": "Bespoke Private Chef Services",
+            "cards": [
+                {
+                    "title": "Immersive Gastronomy",
+                    "paragraphs": [
+                        "Menus choreographed for villas, penthouses, yachts, and private jets across Monaco, Miami, New York City, Dubai, London, Courchevel, Geneva, and worldwide.",
+                        "Seasonal terroir, Asian nuance, and Middle Eastern warmth interpreted through Michelin-caliber technique."
+                    ]
+                },
+                {
+                    "title": "Global Hospitality",
+                    "paragraphs": [
+                        "Multilingual sommeliers, butlers, florists, and mixologists ensure silent service and anticipatory care in every destination.",
+                        "Wellness, longevity, and indulgence harmonized through pharmacist-informed programming."
+                    ]
+                },
+                {
+                    "title": "Artistry & Logistics",
+                    "paragraphs": [
+                        "Tablescapes, music, lighting, rentals, and nondisclosure agreements orchestrated by the atelier.",
+                        "Post-event documentation, provisioning, and concierge follow-up keep households aligned between engagements."
+                    ]
+                }
+            ]
+        },
+        "included": {
+            "title": "What the Atelier Provides",
+            "paragraphs": [
+                "Discovery consultation capturing guest preferences, cultural notes, and wellness goals.",
+                "Menu design, wine pairings, florals, and styling bespoke to each location.",
+                "Culinary brigade, sommeliers, service staff, and coordinators trained in palace, yacht, and jet etiquette."
+            ]
+        },
+        "process": {
+            "title": "Experience Timeline",
+            "steps": [
+                {
+                    "title": "1. Discovery",
+                    "detail": "Share location, guest list, celebration tone, and scheduling requirements."
+                },
+                {
+                    "title": "2. Design",
+                    "detail": "Chef Adrian drafts tasting arcs and hospitality concepts aligned with your narrative."
+                },
+                {
+                    "title": "3. Production",
+                    "detail": "Atelier coordinates staffing, rentals, logistics, and travel across continents."
+                },
+                {
+                    "title": "4. Delivery",
+                    "detail": "White-glove execution with optional documentation and concierge follow-up."
+                }
+            ]
+        },
+        "pricing": {
+            "title": "Signature Experiences",
+            "tiers": [
+                {
+                    "id": "signature-tasting",
+                    "title": "Signature Tasting",
+                    "price": "from ?8,000",
+                    "description": "Twelve-course degustations for private residences and collectors worldwide.",
+                    "paragraphs": [],
+                    "cta": {
+                        "type": "link",
+                        "label": "request tasting",
+                        "href": "/contact"
+                    }
+                },
+                {
+                    "id": "performance-dinner",
+                    "title": "Performance Dinner",
+                    "price": "from ?12,000",
+                    "description": "Longevity-focused menus for leadership retreats, wellness residencies, and elite sport programs.",
+                    "paragraphs": [],
+                    "cta": {
+                        "type": "link",
+                        "label": "plan performance",
+                        "href": "/consult"
+                    }
+                },
+                {
+                    "id": "salon-supper",
+                    "title": "Salon Supper",
+                    "price": "from ?10,000",
+                    "description": "Family-style opulence for yachts, chalets, and penthouses with immersive storytelling.",
+                    "paragraphs": [],
+                    "cta": {
+                        "type": "link",
+                        "label": "host salon supper",
+                        "href": "/book"
+                    }
+                }
+            ],
+            "note": "Investment varies by destination, logistics, and requested services. Worldwide travel supported year-round."
+        },
+        "testimonials": {
+            "title": "Patron Reflections",
+            "items": [
+                {
+                    "quote": "A Michelin-caliber restaurant appeared inside our Monaco villa. Service was silent, choreography impeccable, and cuisine unforgettable.",
+                    "name": "Private host, Monaco"
+                },
+                {
+                    "quote": "Our New York corporate retreat became a sensory voyage that deepened relationships and inspired leadership.",
+                    "name": "CEO, global advisory firm"
+                },
+                {
+                    "quote": "The Dubai yacht residency delivered sunrise wellness menus and midnight indulgence without a single detail overlooked.",
+                    "name": "UHNW guest, GCC"
+                }
+            ]
+        },
+        "finalCta": {
+            "title": "Commission Table d'Adrian",
+            "description": "Limited engagements accepted each season to preserve artistry and intimacy. Share your vision and the atelier will respond within 24 hours.",
+            "primary": {
+                "label": "begin your journey",
+                "href": "/contact"
+            },
+            "secondary": {
+                "label": "schedule discovery",
+                "href": "/consult"
+            }
+        }
+    },
+    "gallery": {
+        "id": "gallery",
+        "slug": "gallery",
+        "path": "/gallery",
+        "navLabel": "gallery",
+        "meta": {
+            "title": "Gallery | Table d'Adrian",
+            "description": "Imagery from Michelin-caliber experiences staged by Table d'Adrian worldwide.",
+            "canonical": "/gallery",
+            "keywords": [
+                "Table d'Adrian",
+                "luxury private chef",
+                "bespoke dining",
+                "chef Adrian",
+                "Monaco",
+                "Miami",
+                "New York City",
+                "Dubai",
+                "London",
+                "Courchevel",
+                "Geneva"
+            ]
+        },
+        "hero": {
+            "title": "Gallery of Moments",
+            "description": "A curated look at villas, yachts, chalets, and penthouses transformed by Chef Adrian across Monaco, Miami, New York City, Dubai, London, Courchevel, Geneva, and beyond.",
+            "primaryCta": {
+                "label": "download media kit",
+                "href": "/press"
+            },
+            "secondaryCta": {
+                "label": "commission experience",
+                "href": "/contact"
+            }
+        },
+        "quickNav": [
+            {
+                "label": "experience",
+                "target": "values"
+            },
+            {
+                "label": "services",
+                "target": "included"
+            },
+            {
+                "label": "process",
+                "target": "process"
+            },
+            {
+                "label": "investment",
+                "target": "pricing"
+            },
+            {
+                "label": "voices",
+                "target": "testimonials"
+            },
+            {
+                "label": "contact",
+                "target": "cta"
+            }
+        ],
+        "values": {
+            "title": "Bespoke Private Chef Services",
+            "cards": [
+                {
+                    "title": "Immersive Gastronomy",
+                    "paragraphs": [
+                        "Menus choreographed for villas, penthouses, yachts, and private jets across Monaco, Miami, New York City, Dubai, London, Courchevel, Geneva, and worldwide.",
+                        "Seasonal terroir, Asian nuance, and Middle Eastern warmth interpreted through Michelin-caliber technique."
+                    ]
+                },
+                {
+                    "title": "Global Hospitality",
+                    "paragraphs": [
+                        "Multilingual sommeliers, butlers, florists, and mixologists ensure silent service and anticipatory care in every destination.",
+                        "Wellness, longevity, and indulgence harmonized through pharmacist-informed programming."
+                    ]
+                },
+                {
+                    "title": "Artistry & Logistics",
+                    "paragraphs": [
+                        "Tablescapes, music, lighting, rentals, and nondisclosure agreements orchestrated by the atelier.",
+                        "Post-event documentation, provisioning, and concierge follow-up keep households aligned between engagements."
+                    ]
+                }
+            ]
+        },
+        "included": {
+            "title": "What the Atelier Provides",
+            "paragraphs": [
+                "Discovery consultation capturing guest preferences, cultural notes, and wellness goals.",
+                "Menu design, wine pairings, florals, and styling bespoke to each location.",
+                "Culinary brigade, sommeliers, service staff, and coordinators trained in palace, yacht, and jet etiquette."
+            ]
+        },
+        "process": {
+            "title": "Experience Timeline",
+            "steps": [
+                {
+                    "title": "1. Discovery",
+                    "detail": "Share location, guest list, celebration tone, and scheduling requirements."
+                },
+                {
+                    "title": "2. Design",
+                    "detail": "Chef Adrian drafts tasting arcs and hospitality concepts aligned with your narrative."
+                },
+                {
+                    "title": "3. Production",
+                    "detail": "Atelier coordinates staffing, rentals, logistics, and travel across continents."
+                },
+                {
+                    "title": "4. Delivery",
+                    "detail": "White-glove execution with optional documentation and concierge follow-up."
+                }
+            ]
+        },
+        "pricing": {
+            "title": "Signature Experiences",
+            "tiers": [
+                {
+                    "id": "signature-tasting",
+                    "title": "Signature Tasting",
+                    "price": "from ?8,000",
+                    "description": "Twelve-course degustations for private residences and collectors worldwide.",
+                    "paragraphs": [],
+                    "cta": {
+                        "type": "link",
+                        "label": "request tasting",
+                        "href": "/contact"
+                    }
+                },
+                {
+                    "id": "performance-dinner",
+                    "title": "Performance Dinner",
+                    "price": "from ?12,000",
+                    "description": "Longevity-focused menus for leadership retreats, wellness residencies, and elite sport programs.",
+                    "paragraphs": [],
+                    "cta": {
+                        "type": "link",
+                        "label": "plan performance",
+                        "href": "/consult"
+                    }
+                },
+                {
+                    "id": "salon-supper",
+                    "title": "Salon Supper",
+                    "price": "from ?10,000",
+                    "description": "Family-style opulence for yachts, chalets, and penthouses with immersive storytelling.",
+                    "paragraphs": [],
+                    "cta": {
+                        "type": "link",
+                        "label": "host salon supper",
+                        "href": "/book"
+                    }
+                }
+            ],
+            "note": "Investment varies by destination, logistics, and requested services. Worldwide travel supported year-round."
+        },
+        "testimonials": {
+            "title": "Patron Reflections",
+            "items": [
+                {
+                    "quote": "A Michelin-caliber restaurant appeared inside our Monaco villa. Service was silent, choreography impeccable, and cuisine unforgettable.",
+                    "name": "Private host, Monaco"
+                },
+                {
+                    "quote": "Our New York corporate retreat became a sensory voyage that deepened relationships and inspired leadership.",
+                    "name": "CEO, global advisory firm"
+                },
+                {
+                    "quote": "The Dubai yacht residency delivered sunrise wellness menus and midnight indulgence without a single detail overlooked.",
+                    "name": "UHNW guest, GCC"
+                }
+            ]
+        },
+        "finalCta": {
+            "title": "Commission Table d'Adrian",
+            "description": "Limited engagements accepted each season to preserve artistry and intimacy. Share your vision and the atelier will respond within 24 hours.",
+            "primary": {
+                "label": "begin your journey",
+                "href": "/contact"
+            },
+            "secondary": {
+                "label": "schedule discovery",
+                "href": "/consult"
+            }
+        }
+    },
+    "press": {
+        "id": "press",
+        "slug": "press",
+        "path": "/press",
+        "navLabel": "press",
+        "meta": {
+            "title": "Press & Media",
+            "description": "Media assets and collaborations for Table d'Adrian private chef services.",
+            "canonical": "/press",
+            "keywords": [
+                "Table d'Adrian",
+                "luxury private chef",
+                "bespoke dining",
+                "chef Adrian",
+                "Monaco",
+                "Miami",
+                "New York City",
+                "Dubai",
+                "London",
+                "Courchevel",
+                "Geneva"
+            ]
+        },
+        "hero": {
+            "title": "Press & Media",
+            "description": "Resources for journalists, luxury maisons, and hospitality partners seeking insight into Table d'Adrian's global experiences.",
+            "primaryCta": {
+                "label": "download media kit",
+                "href": "/press#kit"
+            },
+            "secondaryCta": {
+                "label": "book interview",
+                "href": "/contact"
+            }
+        },
+        "quickNav": [
+            {
+                "label": "experience",
+                "target": "values"
+            },
+            {
+                "label": "services",
+                "target": "included"
+            },
+            {
+                "label": "process",
+                "target": "process"
+            },
+            {
+                "label": "investment",
+                "target": "pricing"
+            },
+            {
+                "label": "voices",
+                "target": "testimonials"
+            },
+            {
+                "label": "contact",
+                "target": "cta"
+            }
+        ],
+        "values": {
+            "title": "Bespoke Private Chef Services",
+            "cards": [
+                {
+                    "title": "Immersive Gastronomy",
+                    "paragraphs": [
+                        "Menus choreographed for villas, penthouses, yachts, and private jets across Monaco, Miami, New York City, Dubai, London, Courchevel, Geneva, and worldwide.",
+                        "Seasonal terroir, Asian nuance, and Middle Eastern warmth interpreted through Michelin-caliber technique."
+                    ]
+                },
+                {
+                    "title": "Global Hospitality",
+                    "paragraphs": [
+                        "Multilingual sommeliers, butlers, florists, and mixologists ensure silent service and anticipatory care in every destination.",
+                        "Wellness, longevity, and indulgence harmonized through pharmacist-informed programming."
+                    ]
+                },
+                {
+                    "title": "Artistry & Logistics",
+                    "paragraphs": [
+                        "Tablescapes, music, lighting, rentals, and nondisclosure agreements orchestrated by the atelier.",
+                        "Post-event documentation, provisioning, and concierge follow-up keep households aligned between engagements."
+                    ]
+                }
+            ]
+        },
+        "included": {
+            "title": "What the Atelier Provides",
+            "paragraphs": [
+                "Discovery consultation capturing guest preferences, cultural notes, and wellness goals.",
+                "Menu design, wine pairings, florals, and styling bespoke to each location.",
+                "Culinary brigade, sommeliers, service staff, and coordinators trained in palace, yacht, and jet etiquette."
+            ]
+        },
+        "process": {
+            "title": "Experience Timeline",
+            "steps": [
+                {
+                    "title": "1. Discovery",
+                    "detail": "Share location, guest list, celebration tone, and scheduling requirements."
+                },
+                {
+                    "title": "2. Design",
+                    "detail": "Chef Adrian drafts tasting arcs and hospitality concepts aligned with your narrative."
+                },
+                {
+                    "title": "3. Production",
+                    "detail": "Atelier coordinates staffing, rentals, logistics, and travel across continents."
+                },
+                {
+                    "title": "4. Delivery",
+                    "detail": "White-glove execution with optional documentation and concierge follow-up."
+                }
+            ]
+        },
+        "pricing": {
+            "title": "Signature Experiences",
+            "tiers": [
+                {
+                    "id": "signature-tasting",
+                    "title": "Signature Tasting",
+                    "price": "from ?8,000",
+                    "description": "Twelve-course degustations for private residences and collectors worldwide.",
+                    "paragraphs": [],
+                    "cta": {
+                        "type": "link",
+                        "label": "request tasting",
+                        "href": "/contact"
+                    }
+                },
+                {
+                    "id": "performance-dinner",
+                    "title": "Performance Dinner",
+                    "price": "from ?12,000",
+                    "description": "Longevity-focused menus for leadership retreats, wellness residencies, and elite sport programs.",
+                    "paragraphs": [],
+                    "cta": {
+                        "type": "link",
+                        "label": "plan performance",
+                        "href": "/consult"
+                    }
+                },
+                {
+                    "id": "salon-supper",
+                    "title": "Salon Supper",
+                    "price": "from ?10,000",
+                    "description": "Family-style opulence for yachts, chalets, and penthouses with immersive storytelling.",
+                    "paragraphs": [],
+                    "cta": {
+                        "type": "link",
+                        "label": "host salon supper",
+                        "href": "/book"
+                    }
+                }
+            ],
+            "note": "Investment varies by destination, logistics, and requested services. Worldwide travel supported year-round."
+        },
+        "testimonials": {
+            "title": "Patron Reflections",
+            "items": [
+                {
+                    "quote": "A Michelin-caliber restaurant appeared inside our Monaco villa. Service was silent, choreography impeccable, and cuisine unforgettable.",
+                    "name": "Private host, Monaco"
+                },
+                {
+                    "quote": "Our New York corporate retreat became a sensory voyage that deepened relationships and inspired leadership.",
+                    "name": "CEO, global advisory firm"
+                },
+                {
+                    "quote": "The Dubai yacht residency delivered sunrise wellness menus and midnight indulgence without a single detail overlooked.",
+                    "name": "UHNW guest, GCC"
+                }
+            ]
+        },
+        "finalCta": {
+            "title": "Commission Table d'Adrian",
+            "description": "Limited engagements accepted each season to preserve artistry and intimacy. Share your vision and the atelier will respond within 24 hours.",
+            "primary": {
+                "label": "begin your journey",
+                "href": "/contact"
+            },
+            "secondary": {
+                "label": "schedule discovery",
+                "href": "/consult"
+            }
+        }
+    },
+    "reviews": {
+        "id": "reviews",
+        "slug": "reviews",
+        "path": "/reviews",
+        "navLabel": "reviews",
+        "meta": {
+            "title": "Client Reviews",
+            "description": "Testimonials from hosts who commissioned Table d'Adrian worldwide.",
+            "canonical": "/reviews",
+            "keywords": [
+                "Table d'Adrian",
+                "luxury private chef",
+                "bespoke dining",
+                "chef Adrian",
+                "Monaco",
+                "Miami",
+                "New York City",
+                "Dubai",
+                "London",
+                "Courchevel",
+                "Geneva"
+            ]
+        },
+        "hero": {
+            "title": "Guest Reflections",
+            "description": "Hosts from Monaco to Dubai share how Table d'Adrian transformed their celebrations with Michelin-caliber hospitality.",
+            "primaryCta": {
+                "label": "submit review",
+                "href": "#reviews"
+            },
+            "secondaryCta": {
+                "label": "commission the atelier",
+                "href": "/contact"
+            }
+        },
+        "quickNav": [
+            {
+                "label": "experience",
+                "target": "values"
+            },
+            {
+                "label": "services",
+                "target": "included"
+            },
+            {
+                "label": "process",
+                "target": "process"
+            },
+            {
+                "label": "investment",
+                "target": "pricing"
+            },
+            {
+                "label": "voices",
+                "target": "testimonials"
+            },
+            {
+                "label": "contact",
+                "target": "cta"
+            }
+        ],
+        "values": {
+            "title": "Bespoke Private Chef Services",
+            "cards": [
+                {
+                    "title": "Immersive Gastronomy",
+                    "paragraphs": [
+                        "Menus choreographed for villas, penthouses, yachts, and private jets across Monaco, Miami, New York City, Dubai, London, Courchevel, Geneva, and worldwide.",
+                        "Seasonal terroir, Asian nuance, and Middle Eastern warmth interpreted through Michelin-caliber technique."
+                    ]
+                },
+                {
+                    "title": "Global Hospitality",
+                    "paragraphs": [
+                        "Multilingual sommeliers, butlers, florists, and mixologists ensure silent service and anticipatory care in every destination.",
+                        "Wellness, longevity, and indulgence harmonized through pharmacist-informed programming."
+                    ]
+                },
+                {
+                    "title": "Artistry & Logistics",
+                    "paragraphs": [
+                        "Tablescapes, music, lighting, rentals, and nondisclosure agreements orchestrated by the atelier.",
+                        "Post-event documentation, provisioning, and concierge follow-up keep households aligned between engagements."
+                    ]
+                }
+            ]
+        },
+        "included": {
+            "title": "What the Atelier Provides",
+            "paragraphs": [
+                "Discovery consultation capturing guest preferences, cultural notes, and wellness goals.",
+                "Menu design, wine pairings, florals, and styling bespoke to each location.",
+                "Culinary brigade, sommeliers, service staff, and coordinators trained in palace, yacht, and jet etiquette."
+            ]
+        },
+        "process": {
+            "title": "Experience Timeline",
+            "steps": [
+                {
+                    "title": "1. Discovery",
+                    "detail": "Share location, guest list, celebration tone, and scheduling requirements."
+                },
+                {
+                    "title": "2. Design",
+                    "detail": "Chef Adrian drafts tasting arcs and hospitality concepts aligned with your narrative."
+                },
+                {
+                    "title": "3. Production",
+                    "detail": "Atelier coordinates staffing, rentals, logistics, and travel across continents."
+                },
+                {
+                    "title": "4. Delivery",
+                    "detail": "White-glove execution with optional documentation and concierge follow-up."
+                }
+            ]
+        },
+        "pricing": {
+            "title": "Signature Experiences",
+            "tiers": [
+                {
+                    "id": "signature-tasting",
+                    "title": "Signature Tasting",
+                    "price": "from ?8,000",
+                    "description": "Twelve-course degustations for private residences and collectors worldwide.",
+                    "paragraphs": [],
+                    "cta": {
+                        "type": "link",
+                        "label": "request tasting",
+                        "href": "/contact"
+                    }
+                },
+                {
+                    "id": "performance-dinner",
+                    "title": "Performance Dinner",
+                    "price": "from ?12,000",
+                    "description": "Longevity-focused menus for leadership retreats, wellness residencies, and elite sport programs.",
+                    "paragraphs": [],
+                    "cta": {
+                        "type": "link",
+                        "label": "plan performance",
+                        "href": "/consult"
+                    }
+                },
+                {
+                    "id": "salon-supper",
+                    "title": "Salon Supper",
+                    "price": "from ?10,000",
+                    "description": "Family-style opulence for yachts, chalets, and penthouses with immersive storytelling.",
+                    "paragraphs": [],
+                    "cta": {
+                        "type": "link",
+                        "label": "host salon supper",
+                        "href": "/book"
+                    }
+                }
+            ],
+            "note": "Investment varies by destination, logistics, and requested services. Worldwide travel supported year-round."
+        },
+        "testimonials": {
+            "title": "Patron Reflections",
+            "items": [
+                {
+                    "quote": "A Michelin-caliber restaurant appeared inside our Monaco villa. Service was silent, choreography impeccable, and cuisine unforgettable.",
+                    "name": "Private host, Monaco"
+                },
+                {
+                    "quote": "Our New York corporate retreat became a sensory voyage that deepened relationships and inspired leadership.",
+                    "name": "CEO, global advisory firm"
+                },
+                {
+                    "quote": "The Dubai yacht residency delivered sunrise wellness menus and midnight indulgence without a single detail overlooked.",
+                    "name": "UHNW guest, GCC"
+                }
+            ]
+        },
+        "finalCta": {
+            "title": "Commission Table d'Adrian",
+            "description": "Limited engagements accepted each season to preserve artistry and intimacy. Share your vision and the atelier will respond within 24 hours.",
+            "primary": {
+                "label": "begin your journey",
+                "href": "/contact"
+            },
+            "secondary": {
+                "label": "schedule discovery",
+                "href": "/consult"
+            }
+        }
+    },
+    "adminLeads": {
+        "id": "adminLeads",
+        "slug": "adminLeads",
+        "path": "/admin/leads",
+        "navLabel": "lead inbox",
+        "meta": {
+            "title": "Lead Management",
+            "description": "Internal lead dashboard for Table d'Adrian concierge operations.",
+            "canonical": "/admin/leads",
+            "keywords": [
+                "Table d'Adrian",
+                "luxury private chef",
+                "bespoke dining",
+                "chef Adrian",
+                "Monaco",
+                "Miami",
+                "New York City",
+                "Dubai",
+                "London",
+                "Courchevel",
+                "Geneva"
+            ]
+        },
+        "hero": {
+            "title": "Lead Concierge Dashboard",
+            "description": "Secure portal for monitoring inquiries, proposals, and bookings across global markets.",
+            "primaryCta": {
+                "label": "view inquiries",
+                "href": "#inbox"
+            },
+            "secondaryCta": {
+                "label": "update status",
+                "href": "#pipeline"
+            }
+        },
+        "quickNav": [
+            {
+                "label": "experience",
+                "target": "values"
+            },
+            {
+                "label": "services",
+                "target": "included"
+            },
+            {
+                "label": "process",
+                "target": "process"
+            },
+            {
+                "label": "investment",
+                "target": "pricing"
+            },
+            {
+                "label": "voices",
+                "target": "testimonials"
+            },
+            {
+                "label": "contact",
+                "target": "cta"
+            }
+        ],
+        "values": {
+            "title": "Bespoke Private Chef Services",
+            "cards": [
+                {
+                    "title": "Immersive Gastronomy",
+                    "paragraphs": [
+                        "Menus choreographed for villas, penthouses, yachts, and private jets across Monaco, Miami, New York City, Dubai, London, Courchevel, Geneva, and worldwide.",
+                        "Seasonal terroir, Asian nuance, and Middle Eastern warmth interpreted through Michelin-caliber technique."
+                    ]
+                },
+                {
+                    "title": "Global Hospitality",
+                    "paragraphs": [
+                        "Multilingual sommeliers, butlers, florists, and mixologists ensure silent service and anticipatory care in every destination.",
+                        "Wellness, longevity, and indulgence harmonized through pharmacist-informed programming."
+                    ]
+                },
+                {
+                    "title": "Artistry & Logistics",
+                    "paragraphs": [
+                        "Tablescapes, music, lighting, rentals, and nondisclosure agreements orchestrated by the atelier.",
+                        "Post-event documentation, provisioning, and concierge follow-up keep households aligned between engagements."
+                    ]
+                }
+            ]
+        },
+        "included": {
+            "title": "What the Atelier Provides",
+            "paragraphs": [
+                "Discovery consultation capturing guest preferences, cultural notes, and wellness goals.",
+                "Menu design, wine pairings, florals, and styling bespoke to each location.",
+                "Culinary brigade, sommeliers, service staff, and coordinators trained in palace, yacht, and jet etiquette."
+            ]
+        },
+        "process": {
+            "title": "Experience Timeline",
+            "steps": [
+                {
+                    "title": "1. Discovery",
+                    "detail": "Share location, guest list, celebration tone, and scheduling requirements."
+                },
+                {
+                    "title": "2. Design",
+                    "detail": "Chef Adrian drafts tasting arcs and hospitality concepts aligned with your narrative."
+                },
+                {
+                    "title": "3. Production",
+                    "detail": "Atelier coordinates staffing, rentals, logistics, and travel across continents."
+                },
+                {
+                    "title": "4. Delivery",
+                    "detail": "White-glove execution with optional documentation and concierge follow-up."
+                }
+            ]
+        },
+        "pricing": {
+            "title": "Signature Experiences",
+            "tiers": [
+                {
+                    "id": "signature-tasting",
+                    "title": "Signature Tasting",
+                    "price": "from ?8,000",
+                    "description": "Twelve-course degustations for private residences and collectors worldwide.",
+                    "paragraphs": [],
+                    "cta": {
+                        "type": "link",
+                        "label": "request tasting",
+                        "href": "/contact"
+                    }
+                },
+                {
+                    "id": "performance-dinner",
+                    "title": "Performance Dinner",
+                    "price": "from ?12,000",
+                    "description": "Longevity-focused menus for leadership retreats, wellness residencies, and elite sport programs.",
+                    "paragraphs": [],
+                    "cta": {
+                        "type": "link",
+                        "label": "plan performance",
+                        "href": "/consult"
+                    }
+                },
+                {
+                    "id": "salon-supper",
+                    "title": "Salon Supper",
+                    "price": "from ?10,000",
+                    "description": "Family-style opulence for yachts, chalets, and penthouses with immersive storytelling.",
+                    "paragraphs": [],
+                    "cta": {
+                        "type": "link",
+                        "label": "host salon supper",
+                        "href": "/book"
+                    }
+                }
+            ],
+            "note": "Investment varies by destination, logistics, and requested services. Worldwide travel supported year-round."
+        },
+        "testimonials": {
+            "title": "Patron Reflections",
+            "items": [
+                {
+                    "quote": "A Michelin-caliber restaurant appeared inside our Monaco villa. Service was silent, choreography impeccable, and cuisine unforgettable.",
+                    "name": "Private host, Monaco"
+                },
+                {
+                    "quote": "Our New York corporate retreat became a sensory voyage that deepened relationships and inspired leadership.",
+                    "name": "CEO, global advisory firm"
+                },
+                {
+                    "quote": "The Dubai yacht residency delivered sunrise wellness menus and midnight indulgence without a single detail overlooked.",
+                    "name": "UHNW guest, GCC"
+                }
+            ]
+        },
+        "finalCta": {
+            "title": "Commission Table d'Adrian",
+            "description": "Limited engagements accepted each season to preserve artistry and intimacy. Share your vision and the atelier will respond within 24 hours.",
+            "primary": {
+                "label": "begin your journey",
+                "href": "/contact"
+            },
+            "secondary": {
+                "label": "schedule discovery",
+                "href": "/consult"
+            }
+        }
+    },
+    "pricingCalculator": {
+        "id": "pricingCalculator",
+        "slug": "pricingCalculator",
+        "path": "/pricing-calculator",
+        "navLabel": "calculator",
+        "meta": {
+            "title": "Investment Calculator",
+            "description": "Estimate budgets for Table d'Adrian private chef experiences worldwide.",
+            "canonical": "/pricing-calculator",
+            "keywords": [
+                "Table d'Adrian",
+                "luxury private chef",
+                "bespoke dining",
+                "chef Adrian",
+                "Monaco",
+                "Miami",
+                "New York City",
+                "Dubai",
+                "London",
+                "Courchevel",
+                "Geneva"
+            ]
+        },
+        "hero": {
+            "title": "Investment Calculator",
+            "description": "Forecast budgets for residences, yachts, jets, and luxury collaborations with Chef Adrian's atelier.",
+            "primaryCta": {
+                "label": "calculate investment",
+                "href": "#calculator"
+            },
+            "secondaryCta": {
+                "label": "request proposal",
+                "href": "/contact"
+            }
+        },
+        "quickNav": [
+            {
+                "label": "experience",
+                "target": "values"
+            },
+            {
+                "label": "services",
+                "target": "included"
+            },
+            {
+                "label": "process",
+                "target": "process"
+            },
+            {
+                "label": "investment",
+                "target": "pricing"
+            },
+            {
+                "label": "voices",
+                "target": "testimonials"
+            },
+            {
+                "label": "contact",
+                "target": "cta"
+            }
+        ],
+        "values": {
+            "title": "Bespoke Private Chef Services",
+            "cards": [
+                {
+                    "title": "Immersive Gastronomy",
+                    "paragraphs": [
+                        "Menus choreographed for villas, penthouses, yachts, and private jets across Monaco, Miami, New York City, Dubai, London, Courchevel, Geneva, and worldwide.",
+                        "Seasonal terroir, Asian nuance, and Middle Eastern warmth interpreted through Michelin-caliber technique."
+                    ]
+                },
+                {
+                    "title": "Global Hospitality",
+                    "paragraphs": [
+                        "Multilingual sommeliers, butlers, florists, and mixologists ensure silent service and anticipatory care in every destination.",
+                        "Wellness, longevity, and indulgence harmonized through pharmacist-informed programming."
+                    ]
+                },
+                {
+                    "title": "Artistry & Logistics",
+                    "paragraphs": [
+                        "Tablescapes, music, lighting, rentals, and nondisclosure agreements orchestrated by the atelier.",
+                        "Post-event documentation, provisioning, and concierge follow-up keep households aligned between engagements."
+                    ]
+                }
+            ]
+        },
+        "included": {
+            "title": "What the Atelier Provides",
+            "paragraphs": [
+                "Discovery consultation capturing guest preferences, cultural notes, and wellness goals.",
+                "Menu design, wine pairings, florals, and styling bespoke to each location.",
+                "Culinary brigade, sommeliers, service staff, and coordinators trained in palace, yacht, and jet etiquette."
+            ]
+        },
+        "process": {
+            "title": "Experience Timeline",
+            "steps": [
+                {
+                    "title": "1. Discovery",
+                    "detail": "Share location, guest list, celebration tone, and scheduling requirements."
+                },
+                {
+                    "title": "2. Design",
+                    "detail": "Chef Adrian drafts tasting arcs and hospitality concepts aligned with your narrative."
+                },
+                {
+                    "title": "3. Production",
+                    "detail": "Atelier coordinates staffing, rentals, logistics, and travel across continents."
+                },
+                {
+                    "title": "4. Delivery",
+                    "detail": "White-glove execution with optional documentation and concierge follow-up."
+                }
+            ]
+        },
+        "pricing": {
+            "title": "Signature Experiences",
+            "tiers": [
+                {
+                    "id": "signature-tasting",
+                    "title": "Signature Tasting",
+                    "price": "from ?8,000",
+                    "description": "Twelve-course degustations for private residences and collectors worldwide.",
+                    "paragraphs": [],
+                    "cta": {
+                        "type": "link",
+                        "label": "request tasting",
+                        "href": "/contact"
+                    }
+                },
+                {
+                    "id": "performance-dinner",
+                    "title": "Performance Dinner",
+                    "price": "from ?12,000",
+                    "description": "Longevity-focused menus for leadership retreats, wellness residencies, and elite sport programs.",
+                    "paragraphs": [],
+                    "cta": {
+                        "type": "link",
+                        "label": "plan performance",
+                        "href": "/consult"
+                    }
+                },
+                {
+                    "id": "salon-supper",
+                    "title": "Salon Supper",
+                    "price": "from ?10,000",
+                    "description": "Family-style opulence for yachts, chalets, and penthouses with immersive storytelling.",
+                    "paragraphs": [],
+                    "cta": {
+                        "type": "link",
+                        "label": "host salon supper",
+                        "href": "/book"
+                    }
+                }
+            ],
+            "note": "Investment varies by destination, logistics, and requested services. Worldwide travel supported year-round."
+        },
+        "testimonials": {
+            "title": "Patron Reflections",
+            "items": [
+                {
+                    "quote": "A Michelin-caliber restaurant appeared inside our Monaco villa. Service was silent, choreography impeccable, and cuisine unforgettable.",
+                    "name": "Private host, Monaco"
+                },
+                {
+                    "quote": "Our New York corporate retreat became a sensory voyage that deepened relationships and inspired leadership.",
+                    "name": "CEO, global advisory firm"
+                },
+                {
+                    "quote": "The Dubai yacht residency delivered sunrise wellness menus and midnight indulgence without a single detail overlooked.",
+                    "name": "UHNW guest, GCC"
+                }
+            ]
+        },
+        "finalCta": {
+            "title": "Commission Table d'Adrian",
+            "description": "Limited engagements accepted each season to preserve artistry and intimacy. Share your vision and the atelier will respond within 24 hours.",
+            "primary": {
+                "label": "begin your journey",
+                "href": "/contact"
+            },
+            "secondary": {
+                "label": "schedule discovery",
+                "href": "/consult"
+            }
+        }
+    }
+}

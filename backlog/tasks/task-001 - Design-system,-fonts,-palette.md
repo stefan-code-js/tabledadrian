@@ -1,11 +1,11 @@
 ---
 id: task-001
 title: 'Design system, fonts, palette'
-status: In Progress
+status: Done
 assignee:
   - anton
 created_date: '2025-09-25 10:40'
-updated_date: '2025-09-29 23:48'
+updated_date: '2025-10-01 21:59'
 labels: []
 dependencies: []
 priority: high
@@ -17,6 +17,19 @@ priority: high
 Design system, fonts, palette (old-money + accents) + dense rhythm
 Create the luxury system in globals.css + Tailwind theme. Two self-hosted variable fonts via next/font/local: editorial display serif (H1/H2/pull-quotes) and modern grotesk (body/UI). Expose --font-display, --font-sans. Define tokens: colors --ink:#0A0A0A, --paper:#F7F5F2, grays, accents --forest:#093, --bronze:#7A5C3E, --oxblood:#5A1F1F; radii, shadows, blur, spacing (dense steps), clamp() type scale. Kill visible borders; hairlines only when essential. No dead whitespace: set a tight vertical rhythm (e.g., 6/9/12/18/24/36 px). Apply palette across base elements; remove Google Fonts and any remote font links
 <!-- SECTION:DESCRIPTION:END -->
+
+## Acceptance Criteria
+<!-- AC:BEGIN -->
+- [x] #1 Two local variable fonts implemented via next/font/local with proper preloading
+- [x] #2 CSS variables --font-display and --font-sans exposed and used throughout
+- [x] #3 Complete color palette with ink, cream, forest, bronze, oxblood tokens defined
+- [x] #4 Typography scale with clamp() responsive sizing implemented
+- [x] #5 Dense spacing rhythm with consistent vertical spacing
+- [x] #6 Radii, shadows, blur, and spacing tokens defined
+- [x] #7 No visible borders, hairlines only when essential
+- [x] #8 All Google Fonts and remote font links removed
+- [x] #9 Design system applied across all base elements and components
+<!-- AC:END -->
 
 ## Implementation Plan
 

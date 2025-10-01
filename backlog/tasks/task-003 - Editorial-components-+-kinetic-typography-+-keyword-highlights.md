@@ -1,11 +1,11 @@
 ---
 id: task-003
 title: Editorial components + kinetic typography + keyword highlights
-status: In Progress
+status: Done
 assignee:
   - anton
 created_date: '2025-09-25 10:41'
-updated_date: '2025-09-30 00:12'
+updated_date: '2025-10-01 22:00'
 labels: []
 dependencies: []
 priority: high
@@ -21,6 +21,19 @@ Add components and motion primitives that remove the “card” look but allow m
 • Optional CardPanel (very minimal, borderless, soft shadow) for places where a “card” is justified.
 All components respect dense spacing, use our tokens, and output real paragraphs (no bullets/numbered lists).
 <!-- SECTION:DESCRIPTION:END -->
+
+## Acceptance Criteria
+<!-- AC:BEGIN -->
+- [x] #1 KineticHeading & KineticParagraph with SplitType/GSAP ScrollTrigger animations
+- [x] #2 KeywordHighlighter with forest|bronze|oxblood variants and scroll-in animations
+- [x] #3 EditorialBlock component with image-left/right + copy layout
+- [x] #4 PullQuote component with proper attribution and styling
+- [x] #5 CTABand component with motion interactions and analytics
+- [x] #6 All components respect dense spacing and use design tokens
+- [x] #7 Components output real paragraphs, no bullets/numbered lists
+- [x] #8 Motion gated by prefers-reduced-motion
+- [x] #9 Optional CardPanel for minimal card needs
+<!-- AC:END -->
 
 ## Implementation Notes
 

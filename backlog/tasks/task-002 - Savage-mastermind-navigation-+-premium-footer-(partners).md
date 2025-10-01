@@ -1,11 +1,11 @@
 ---
 id: task-002
 title: Savage mastermind navigation + premium footer (partners)
-status: In Progress
+status: Done
 assignee:
   - anton
 created_date: '2025-09-25 10:40'
-updated_date: '2025-09-30 00:12'
+updated_date: '2025-10-01 21:59'
 labels: []
 dependencies: []
 priority: high
@@ -16,6 +16,19 @@ priority: high
 <!-- SECTION:DESCRIPTION:BEGIN -->
 Replace the nav with a command-palette style overlay (desktop + mobile): minimal header bar with “Menu”. Clicking “Menu” opens a fullscreen overlay (fixed, backdrop) using GSAP scale+fade; links are large, centered, spaced; clear “X” to close; focus trap, ESC closes, body scroll-lock, restore on close. Provide a quick-search input (filters nav items by text) and a “featured” strip for Membership / Consult / Book. Active route underline using usePathname(). No sticky nav. Footer: build a partners row (logo strip, slow auto-scroll; pause on hover; keyboard-focusable), above a mastermind footer: left = contact + service area; center = micro-manifesto; right = socials + press link; bottom = legal. All monochrome + accents; no borders; elegant rules only where needed.
 <!-- SECTION:DESCRIPTION:END -->
+
+## Acceptance Criteria
+<!-- AC:BEGIN -->
+- [x] #1 Command-palette style overlay navigation with fullscreen backdrop
+- [x] #2 Quick-search input that filters nav items by text
+- [x] #3 Featured strip for Membership/Consult/Book with proper styling
+- [x] #4 Focus trap, ESC closes, body scroll-lock, restore on close
+- [x] #5 Active route underline using usePathname()
+- [x] #6 No sticky nav - minimal header bar with Menu button
+- [x] #7 Partners row with logo strip, slow auto-scroll, pause on hover
+- [x] #8 Mastermind footer: contact + service area, micro-manifesto, socials + press
+- [x] #9 All monochrome + accents, no borders, elegant rules only where needed
+<!-- AC:END -->
 
 ## Implementation Plan
 
