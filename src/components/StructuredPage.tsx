@@ -18,6 +18,8 @@ import CardPanel from "@/components/CardPanel";
 import { images, type ImageAsset } from "@/data/images";
 import { ANALYTICS_EVENTS, trackEvent } from "@/lib/analytics";
 import HeroCinematic from "@/components/editorial/HeroCinematic";
+import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
+import { motion } from "framer-motion";
 
 const KEYWORDS = [
     "private table",
@@ -63,11 +65,22 @@ type TierActionProps = {
 };
 
 function TierAction({ cta, context }: TierActionProps) {
+
+    const prefersReduced = usePrefersReducedMotion();
+    const motionProps = prefersReduced
+        ? {}
+        : {
+              whileHover: { y: -3 },
+              whileTap: { scale: 0.97 },
+          } as const;
+
     if (cta.type === "checkout") {
         return (
-            <PayButton priceHandle={cta.priceHandle}>
-                {cta.label}
-            </PayButton>
+            <motion.div className="inline-flex" {...motionProps}>
+                <PayButton priceHandle={cta.priceHandle}>
+                    {cta.label}
+                </PayButton>
+            </motion.div>
         );
     }
 
@@ -81,9 +94,11 @@ function TierAction({ cta, context }: TierActionProps) {
     };
 
     return (
-        <Link className="text-link text-accent" href={cta.href} onClick={handleClick}>
-            {cta.label}
-        </Link>
+        <motion.span className="inline-flex" {...motionProps}>
+            <Link className="text-link text-accent" href={cta.href} onClick={handleClick}>
+                {cta.label}
+            </Link>
+        </motion.span>
     );
 }
 

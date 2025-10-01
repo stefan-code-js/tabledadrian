@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@codex'
 created_date: '2025-09-25 10:43'
-updated_date: '2025-09-30 23:04'
+updated_date: '2025-10-01 10:15'
 labels: []
 dependencies: []
 ---
@@ -75,4 +75,6 @@ $- Added prefers-color-scheme DARK tokens so palettes, backgrounds, and typograp
 $- Replaced CTA band, editorial blocks, and on-page review headers with KineticHeading/KineticParagraph so animations and SplitType align across booking/editorial flows.
 - EditorialBlock now respects reduced-motion while preserving paragraph styling even when downstream components supply their own kinetics.
 - Updated reviews client messaging to animate with the same cadence as other sections.
+
+$- Extended pricing TierAction to wrap checkout/link CTAs in Framer motion spans that respect prefers-reduced-motion while keeping analytics hooks intact.
 <!-- SECTION:NOTES:END -->
