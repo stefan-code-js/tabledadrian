@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@codex'
 created_date: '2025-09-25 10:43'
-updated_date: '2025-10-01 10:15'
+updated_date: '2025-10-01 10:29'
 labels: []
 dependencies: []
 ---
@@ -77,4 +77,7 @@ $- Replaced CTA band, editorial blocks, and on-page review headers with KineticH
 - Updated reviews client messaging to animate with the same cadence as other sections.
 
 $- Extended pricing TierAction to wrap checkout/link CTAs in Framer motion spans that respect prefers-reduced-motion while keeping analytics hooks intact.
+
+$- Converted About teaser and Menus showcase to the kinetic typography/motion system with reduced-motion fallbacks and analytics wiring.
+- Wrapped HeroCinematic CTA links in motion spans so hero actions share the same hover/tap micro-interactions as the rest of the site.
 <!-- SECTION:NOTES:END -->

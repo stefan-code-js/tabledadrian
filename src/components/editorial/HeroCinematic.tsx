@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { motion } from "framer-motion";
 import { cva } from "class-variance-authority";
 import { twMerge } from "tailwind-merge";
 import type { MouseEvent, ReactNode } from "react";
@@ -10,6 +11,7 @@ import KineticParagraph from "@/components/KineticParagraph";
 import { getImage, type ImageAsset, type ImageSlug } from "@/data/images";
 import type { ButtonVariant, HeroTone } from "@/lib/theme";
 import { ANALYTICS_EVENTS, trackEvent } from "@/lib/analytics";
+import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 
 const heroRoot = cva(
     "hero-cinematic relative isolate overflow-hidden",
@@ -114,6 +116,14 @@ type HeroLinkProps = HeroCinematicAction & {
 };
 
 function HeroLink({ label, href, variant, onClick, context }: HeroLinkProps) {
+    const prefersReduced = usePrefersReducedMotion();
+    const motionProps = prefersReduced
+        ? {}
+        : {
+              whileHover: { y: -3 },
+              whileTap: { scale: 0.97 },
+          } as const;
+
     const handleClick = (event: MouseEvent<HTMLAnchorElement>) => {
         trackEvent(ANALYTICS_EVENTS.heroCta, {
             location: context.location,
@@ -125,9 +135,11 @@ function HeroLink({ label, href, variant, onClick, context }: HeroLinkProps) {
     };
 
     return (
-        <Link className={variant === "ghost" ? "btn ghost" : "btn"} href={href} onClick={handleClick}>
-            {label}
-        </Link>
+        <motion.span className="inline-flex" {...motionProps}>
+            <Link className={variant === "ghost" ? "btn ghost" : "btn"} href={href} onClick={handleClick}>
+                {label}
+            </Link>
+        </motion.span>
     );
 }
 

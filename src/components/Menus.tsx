@@ -1,4 +1,12 @@
-﻿import Link from "next/link";
+
+"use client";
+
+import Link from "next/link";
+import { motion } from "framer-motion";
+import KineticHeading from "@/components/KineticHeading";
+import KineticParagraph from "@/components/KineticParagraph";
+import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
+import { ANALYTICS_EVENTS, trackEvent } from "@/lib/analytics";
 
 const menus = [
     {
@@ -10,7 +18,7 @@ const menus = [
             "Clarified broths, cultured creams, and charcoal-kissed mains move quietly so conversation leads while the experience feels precise.",
             "Crew manages rentals, lighting, and discreet resets. Documentation stays behind so your household can repeat the rhythm when we depart.",
         ],
-        note: "Best for 6–12 guests · deposit confirms date",
+        note: "Best for 6-12 guests  deposit confirms date",
     },
     {
         id: "performance",
@@ -21,7 +29,7 @@ const menus = [
             "Ferments, luminous carbohydrates, and measured protein keep guests buoyant. Service includes supplementation guidance and pantry prep for the next day.",
             "Ideal for leadership teams balancing demanding calendars with disciplined nutrition cues.",
         ],
-        note: "Best for 6–10 guests · includes intake with Antonia",
+        note: "Best for 6-10 guests  includes intake with Antonia",
     },
     {
         id: "salon",
@@ -32,45 +40,65 @@ const menus = [
             "Seasonal platters arrive in waves with quiet annotations from the crew. Wine pairing and florals are coordinated as required.",
             "Designed for private galleries and penthouse salons where ease matters more than theatre.",
         ],
-        note: "Best for 8–16 guests · documentation for household crew provided",
+        note: "Best for 8-16 guests  documentation for household crew provided",
     },
-];
+] as const;
 
 export default function Menus() {
+    const prefersReduced = usePrefersReducedMotion();
+    const motionProps = prefersReduced
+        ? {}
+        : {
+              whileHover: { y: -3 },
+              whileTap: { scale: 0.97 },
+          } as const;
+
+    const handleCta = (menuId: string, intent: "booking" | "membership", href: string) => () => {
+        const event = intent === "booking" ? ANALYTICS_EVENTS.bookingCta : ANALYTICS_EVENTS.ctaClick;
+        trackEvent(event, {
+            location: "menus",
+            menu: menuId,
+            href,
+            intent,
+        });
+    };
+
     return (
         <section className="editorial-section" id="menu">
             <div className="editorial-container">
                 <div className="section-heading">
-                    <h2>Menus</h2>
-                    <p>
-                        Every service is choreographed for the venue. Choose the arc that fits your guests, then we tailor the
-                        menu after a private intake.
-                    </p>
+                    <KineticHeading as="h2">Menus</KineticHeading>
+                    <KineticParagraph>
+                        Every service is choreographed for the venue. Choose the arc that fits your guests, then we tailor the menu after a private intake.
+                    </KineticParagraph>
                 </div>
                 <div className="two-column">
                     {menus.map((menu) => (
                         <article key={menu.id} className="narrative-block">
-                            <h3>{menu.title}</h3>
-                            <p>{menu.summary}</p>
+                            <KineticHeading as="h3">{menu.title}</KineticHeading>
+                            <KineticParagraph>{menu.summary}</KineticParagraph>
                             {menu.body.map((paragraph) => (
-                                <p key={paragraph}>{paragraph}</p>
+                                <KineticParagraph key={paragraph}>{paragraph}</KineticParagraph>
                             ))}
-                            <p className="muted small">{menu.note}</p>
+                            <KineticParagraph className="muted small">{menu.note}</KineticParagraph>
                             <div className="cta-row">
-                                <Link className="btn" href="/book">
-                                    request a booking
-                                </Link>
-                                <Link className="btn ghost" href="/membership">
-                                    explore membership
-                                </Link>
+                                <motion.span className="inline-flex" {...motionProps}>
+                                    <Link className="btn" href="/book" onClick={handleCta(menu.id, "booking", "/book")}>
+                                        request a booking
+                                    </Link>
+                                </motion.span>
+                                <motion.span className="inline-flex" {...motionProps}>
+                                    <Link className="btn ghost" href="/membership" onClick={handleCta(menu.id, "membership", "/membership")}>
+                                        explore membership
+                                    </Link>
+                                </motion.span>
                             </div>
                         </article>
                     ))}
                 </div>
-                <p className="muted note">
-                    Looking for a longer cadence? Membership locks in hosted dinners and pharmacist oversight across the
-                    season.
-                </p>
+                <KineticParagraph className="muted note">
+                    Looking for a longer cadence? Membership locks in hosted dinners and pharmacist oversight across the season.
+                </KineticParagraph>
             </div>
             <hr className="separator" />
         </section>
