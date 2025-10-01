@@ -1,4 +1,4 @@
-﻿
+
 :root {
   /* Palette */
   --color-black: #080705;
@@ -890,7 +890,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .home-hero__content .kicker,
 .home-hero__content .lede {
-  color: rgba(247, 243, 236, 0.8);
+    color: rgba(247, 243, 236, 0.95);
 }
 
 .home-hero__actions {
@@ -921,7 +921,7 @@ h1, h2, h3, h4, h5, h6 {
   font-size: 0.72rem;
   letter-spacing: 0.32em;
   text-transform: uppercase;
-  color: rgba(247, 243, 236, 0.6);
+  color: rgba(247, 243, 236, 0.85);
 }
 
 .home-hero__metrics dd {
@@ -1223,7 +1223,7 @@ h1, h2, h3, h4, h5, h6 {
   text-transform: uppercase;
   font-size: 0.78rem;
   margin-bottom: var(--space-2);
-  color: rgba(246,241,230,0.74);
+  color: rgba(246,241,230,0.92);
 }
 
 .home-editorial__actions {
@@ -1481,7 +1481,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .cta-band__copy p {
   margin: 0;
-  color: rgba(246, 241, 230, 0.82);
+  color: rgba(246, 241, 230, 0.95);
 }
 
 .cta-band__actions {
@@ -1508,7 +1508,7 @@ h1, h2, h3, h4, h5, h6 {
 .cta-band__button--secondary {
   background: transparent;
   outline: 1px solid rgba(246, 241, 230, 0.35);
-  color: rgba(246, 241, 230, 0.85);
+  color: rgba(246, 241, 230, 0.95);
 }
 
 .cta-band__button:hover,
@@ -1855,7 +1855,7 @@ hr {
   font-size: 0.75rem;
   display: block;
   margin-bottom: var(--space-2);
-  color: rgba(247, 243, 236, 0.75);
+  color: rgba(247, 243, 236, 0.92);
 }
 
 .hero-cinematic__actions {
