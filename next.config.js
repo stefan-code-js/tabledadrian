@@ -26,7 +26,8 @@ const nextConfig = {
             { source: '/pricing', destination: '/pricing-calculator', permanent: true },
             { source: '/calculator', destination: '/pricing-calculator', permanent: true },
             { source: '/products', destination: '/services', permanent: true },
-            { source: '/memberships', destination: '/membership', permanent: true },
+            { source: '/residency', destination: '/membership', permanent: true },
+            { source: '/residencies', destination: '/membership', permanent: true },
             { source: '/join', destination: '/membership', permanent: true },
             { source: '/bookings', destination: '/book', permanent: true },
         ];

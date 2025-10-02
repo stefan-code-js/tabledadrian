@@ -41,7 +41,7 @@ const IMAGE_DEFINITIONS = {
     },
     heroMembership: {
         src: "/placeholder/hero-membership.svg",
-        alt: "Salon dining room prepared for a membership evening.",
+        alt: "Salon dining room prepared for a private chef membership soirée with clinical wellness notes at each setting.",
         aspectRatio: "4 / 3",
     },
     heroConsult: {

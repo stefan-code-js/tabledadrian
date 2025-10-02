@@ -53,11 +53,11 @@ const entries: SeoEntry[] = [
     },
     {
         path: "/membership",
-        title: "Membership | Table d'Adrian",
+        title: "Membership Programs | Table d'Adrian",
         description:
-            "Seasonal membership that carries your table standards across villas and voyages with on-call crew, cellar pairing ladders, and documentation updates.",
+            "Private chef memberships delivering Michelin artistry, PharmD-directed wellness, and global concierge support for villas, yachts, and penthouses across Monaco, Dubai, London, and New York.",
         changeFrequency: "monthly",
-        priority: 0.75,
+        priority: 0.8,
     },
     {
         path: "/pricing-calculator",

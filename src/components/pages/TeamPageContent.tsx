@@ -17,28 +17,39 @@ const heroImage = {
 const members = [
     {
         name: "Adrian Stefan Badea",
-        role: "Chef & Founder",
+        role: "Chef-Patron & Founder",
         image: "/placeholder/portrait-adrian.svg",
         link: "https://www.linkedin.com/in/adrian-stefan-badea-82456131b",
+        bio: "Michelin-trained private chef orchestrating cinematic dining for Monaco villas, Dubai penthouses, and Mayfair salons.",
     },
     {
         name: "Antonia Badea, PharmD",
-        role: "Clinical Systems",
+        role: "Clinical Gastronomy Director",
         image: "/placeholder/portrait-antonia.svg",
+        bio: "PharmD strategist translating biomarker data, supplementation plans, and longevity protocols into indulgent menus.",
     },
     {
         name: "Claire Dupont",
-        role: "Sommelier",
+        role: "Head Sommelier",
         image: "/placeholder/portrait-claire.svg",
+        bio: "Curates Old World cellars, zero-proof pairings, and yacht-friendly libraries for UHNW hosts worldwide.",
     },
     {
         name: "Julien Marchand",
-        role: "Pastry",
+        role: "Pastry & Rituals",
         image: "/placeholder/portrait-julien.svg",
+        bio: "Designs patisserie moments, fasting breaks, and sunrise boulangerie service tailored to each household.",
     },
 ];
 
-const KEYWORDS = ["atelier", "chef", "service", "membership", "Riviera"] as const;
+const KEYWORDS = [
+    "atelier",
+    "private chef",
+    "PharmD",
+    "wellness",
+    "Riviera",
+    "luxury hospitality",
+] as const;
 
 export default function TeamPageContent() {
     const prefersReduced = usePrefersReducedMotion();
@@ -68,10 +79,10 @@ export default function TeamPageContent() {
                     />
                 </figure>
                 <div className="editorial-container hero-copy">
-                    <KineticHeading as="h1">Team</KineticHeading>
+                    <KineticHeading as="h1">The Atelier Team</KineticHeading>
                     <KineticParagraph className="lead">
                         <KeywordHighlighter
-                            text="A compact group shaping season, texture, and fragrance into one calm service. Technical where needed, restrained where it matters."
+                            text="A PharmD-led private chef collective aligning clinical wellness, Michelin artistry, and silent service across Monaco, Dubai, London, Miami, and New York."
                             keywords={KEYWORDS}
                             variant="forest"
                         />
@@ -100,6 +111,11 @@ export default function TeamPageContent() {
                                 </div>
                                 <KineticHeading as="h3">{member.name}</KineticHeading>
                                 <KineticParagraph className="muted">{member.role}</KineticParagraph>
+                                {member.bio ? (
+                                    <KineticParagraph>
+                                        <KeywordHighlighter text={member.bio} keywords={KEYWORDS} variant="bronze" />
+                                    </KineticParagraph>
+                                ) : null}
                                 {member.link ? (
                                     <KineticParagraph>
                                         <a href={member.link} target="_blank" rel="noreferrer">
@@ -119,7 +135,7 @@ export default function TeamPageContent() {
                     <KineticHeading as="h2">Meet us at the table</KineticHeading>
                     <KineticParagraph>
                         <KeywordHighlighter
-                            text="Explore current menus or request a date—we’ll respond with a plan that holds to your standards and keeps the room composed."
+                            text="Explore PharmD-approved menus or request a date—we will choreograph cuisine, wellness, and service so your residences, yachts, and jets feel effortlessly composed."
                             keywords={KEYWORDS}
                             variant="bronze"
                         />
@@ -132,7 +148,7 @@ export default function TeamPageContent() {
                         </motion.span>
                         <motion.span {...motionProps} className="inline-flex">
                             <Link className="btn ghost" href="/membership" onClick={handleCta("explore-membership", "/membership")}>
-                                explore membership
+                                explore memberships
                             </Link>
                         </motion.span>
                     </div>

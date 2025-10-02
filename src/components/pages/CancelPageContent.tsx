@@ -9,7 +9,7 @@ import KeywordHighlighter from "@/components/KeywordHighlighter";
 import { ANALYTICS_EVENTS, trackEvent } from "@/lib/analytics";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 
-const KEYWORDS = ["booking", "membership", "calendar", "table"] as const;
+const KEYWORDS = ["booking", "membership", "calendar", "table", "private chef"] as const;
 
 const heroImage = {
     src: "/placeholder/hero-cancel.svg",
@@ -17,8 +17,8 @@ const heroImage = {
 };
 
 const reassuranceParagraphs = [
-    "No charges were made and your calendar remains open. When you are ready, we can hold the date again and finalize the details.",
-    "Adrian and Antonia are available to answer any menu or logistics questions so the next confirmation feels effortless.",
+    "No charges were made and your private chef engagement remains on hold. When you are ready, we will reserve the calendar again and tailor the PharmD intake to your new timing.",
+    "Adrian and Antonia are available to align on cuisine, wellness protocols, and logistics so the next confirmation feels effortless for your household, yacht, or jet.",
 ];
 
 export default function CancelPageContent() {
@@ -49,10 +49,10 @@ export default function CancelPageContent() {
                     />
                 </figure>
                 <div className="editorial-container hero-copy">
-                    <KineticHeading as="h1">Payment canceled</KineticHeading>
+                    <KineticHeading as="h1">Private chef payment canceled</KineticHeading>
                     <KineticParagraph>
                         <KeywordHighlighter
-                            text="Your table remains unbooked for now. Return when the timing suits you."
+                            text="Your PharmD-guided table remains unbooked for now. Return when the timing suits your guests and destinations."
                             keywords={KEYWORDS}
                             variant="forest"
                         />
@@ -85,14 +85,14 @@ export default function CancelPageContent() {
                             <KineticHeading as="h2">When you are ready</KineticHeading>
                             <KineticParagraph>
                                 <KeywordHighlighter
-                                    text="The booking calendar can be reopened instantly and deposits remain optional until you approve the documented menu and service plan."
+                                    text="The booking calendar can be reopened instantly and deposits remain optional until you approve the documented menu, wellness cadence, and service plan."
                                     keywords={KEYWORDS}
                                     variant="forest"
                                 />
                             </KineticParagraph>
                             <KineticParagraph>
                                 <KeywordHighlighter
-                                    text="Membership keeps hosted dinners, pharmacist reviews, and household standards on cadence if you prefer to avoid rebooking each season."
+                                    text="Membership programs keep hosted dinners, PharmD reviews, and household standards on cadence if you prefer to avoid rebooking each villa or yacht each season."
                                     keywords={KEYWORDS}
                                     variant="bronze"
                                 />
@@ -108,7 +108,7 @@ export default function CancelPageContent() {
                     <KineticHeading as="h2">Ready to continue?</KineticHeading>
                     <KineticParagraph>
                         <KeywordHighlighter
-                            text="We will hold the calendar as soon as you confirm the new date. Start with an inquiry or move directly to membership to keep the cadence steady."
+                            text="We will hold the calendar as soon as you confirm the new date. Start with an inquiry or move directly to a membership to keep your PharmD-guided culinary cadence steady across every residence."
                             keywords={KEYWORDS}
                             variant="forest"
                         />
@@ -121,7 +121,7 @@ export default function CancelPageContent() {
                         </motion.span>
                         <motion.span {...motionProps} className="inline-flex">
                             <Link className="btn ghost" href="/membership" onClick={handleCta("explore-membership", "/membership")}>
-                                explore membership
+                                explore memberships
                             </Link>
                         </motion.span>
                     </div>

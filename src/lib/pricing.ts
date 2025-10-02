@@ -114,15 +114,15 @@ export const priceCatalog: Record<PriceKey, PriceCatalogEntry> = {
         mode: "payment",
     },
     membershipEssential: {
-        id: priceFromEnv(["MEMBER", "ESSENTIAL"], "membershipEssential"),
+        id: priceFromEnv(["MEMBERSHIP", "ESSENTIAL"], "membershipEssential"),
         mode: "subscription",
     },
     membershipStudio: {
-        id: priceFromEnv(["MEMBER", "STUDIO"], "membershipStudio"),
+        id: priceFromEnv(["MEMBERSHIP", "STUDIO"], "membershipStudio"),
         mode: "subscription",
     },
     membershipPatron: {
-        id: priceFromEnv(["MEMBER", "PATRON"], "membershipPatron"),
+        id: priceFromEnv(["MEMBERSHIP", "PATRON"], "membershipPatron"),
         mode: "subscription",
     },
     experienceSignature: {
@@ -147,7 +147,7 @@ export type TierCta =
     | { type: "checkout"; label: string; priceHandle: PriceKey; mode?: Mode; note?: string }
     | { type: "link"; label: string; href: string; note?: string };
 
-export type MembershipTier = {
+export type MembershipProgram = {
     id: string;
     name: string;
     investment: Money;
@@ -159,61 +159,61 @@ export type MembershipTier = {
     checkout: { label: string; priceHandle: PriceKey };
 };
 
-export const membershipTiers: MembershipTier[] = [
+export const membershipPrograms: MembershipProgram[] = [
     {
         id: "membership-essential",
-        name: "Essential",
+        name: "Essential Membership",
         investment: { amount: 650, currency: "EUR", cadence: "monthly" },
         guestRange: { min: 4, max: 12, unit: "guest" },
         hostedDinners: { min: 2, unit: "dinner" },
         priorityWindowDays: 7,
         narrative: [
-            "Quarterly pharmacist reviews, culinary rewrites, and mise documentation keep the household aligned without overwhelming staff.",
-            "Seasonal menu books, grocery matrices, and two hosted dinners each year maintain ceremony even in demanding weeks.",
+            "Quarterly PharmD reviews, clinical nutrition briefs, and mise documentation keep the household team aligned without overwhelming service cadence.",
+            "Seasonal tasting books, Riviera-to-New York provisioning matrices, and two hosted tableaus each year maintain ceremony even during demanding travel weeks.",
         ],
         followUp: [
-            "Business-hour concierge with seven-day first holds ensures the table is ready when you are.",
+            "Business-hour concierge with seven-day first holds ensures the table is choreographed the moment you summon guests.",
         ],
         checkout: {
-            label: "Join Essential",
+            label: "Reserve Essential Membership",
             priceHandle: "membershipEssential",
         },
     },
     {
         id: "membership-studio",
-        name: "Studio",
+        name: "Studio Membership",
         investment: { amount: 1350, currency: "EUR", cadence: "monthly" },
         guestRange: { min: 6, max: 18, unit: "guest" },
         hostedDinners: { min: 18, unit: "dinner" },
         priorityWindowDays: 14,
         narrative: [
-            "Monthly pharmacist and chef touchpoints deliver rapid refinements, pantry audits, and an expanded culinary library for the household team.",
-            "Hosted dinners land into a fourteen-day priority window so the calendar stays generous without losing precision.",
+            "Monthly PharmD and chef touchpoints deliver rapid refinements, pantry audits, and an expanded culinary library for the household brigade.",
+            "Hosted tableaus land into a fourteen-day priority window so the calendar stays generous without losing precision across Monaco, London, and Dubai.",
         ],
         followUp: [
-            "Encrypted rapid-response messaging keeps momentum between services, even when travel shifts the script.",
+            "Encrypted rapid-response messaging keeps momentum between services, even when Gulfstream itineraries shift the script.",
         ],
         checkout: {
-            label: "Join Studio",
+            label: "Reserve Studio Membership",
             priceHandle: "membershipStudio",
         },
     },
     {
         id: "membership-patron",
-        name: "Patron",
-        investment: { amount: 3500, currency: "EUR", cadence: "monthly" },
+        name: "Patron Membership",
+        investment: { amount: 2850, currency: "EUR", cadence: "monthly" },
         guestRange: { min: 8, max: 24, unit: "guest" },
-        hostedDinners: { min: 50, unit: "dinner" },
+        hostedDinners: { min: 36, unit: "dinner" },
         priorityWindowDays: 30,
         narrative: [
-            "Weekly pharmacist and chef touchpoints produce executive-level menu books, unlimited revisions, and discreet coaching for household or yacht crews.",
-            "Every gathering receives first holds up to thirty days out with a six-hour on-call line for last-minute pivots.",
+            "Every month Chef Adrian and Antonia conduct in-person calibrations, cellular wellness programming, and immersive tasting development across your global properties.",
+            "Private aviation provisioning, yacht soirées, and couture brand collaborations are authored so each engagement feels like a once-in-a-lifetime commission.",
         ],
         followUp: [
-            "For relentless calendars where the private table is part theatre, part wellness protocol, we keep delight continuous.",
+            "24/7 concierge, embedded household training, and white-glove sourcing across continents keep the experience seamless for family offices and estate managers.",
         ],
         checkout: {
-            label: "Join Patron",
+            label: "Reserve Patron Membership",
             priceHandle: "membershipPatron",
         },
     },

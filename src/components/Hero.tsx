@@ -9,9 +9,9 @@ import { useGsapFade } from "@/hooks/useGsapFade";
 const heroContent = {
     title: "Table d'Adrian",
     description:
-        "Seasonal tasting menus with pharmacist-designed wellness systems. Villas, yachts, and salons along the Côte d’Azur.",
+        "Michelin-caliber private chef experiences for villas, yachts, and salons worldwide with pharmacist-led wellness systems.",
     primary: { href: "/contact", label: "request a booking" },
-    secondary: { href: "/membership", label: "explore membership" },
+    secondary: { href: "/membership", label: "explore memberships" },
     image: {
         src: "/placeholder/hero-home.svg",
         alt: "Ivory table dressed with stoneware, herbs, and candlelight awaiting guests.",

@@ -16,7 +16,7 @@ export const metadata = buildMetadataForPath("/success", {
     indexable: false,
 });
 
-const KEYWORDS = ["booking", "membership", "service", "cadence", "table"] as const;
+const KEYWORDS = ["booking", "membership", "service", "cadence", "table", "PharmD"] as const;
 
 const heroImage = {
     src: "/placeholder/hero-success.svg",
@@ -199,7 +199,7 @@ export default async function SuccessPage({
                     <KineticHeading as="h2">Extend the relationship</KineticHeading>
                     <KineticParagraph>
                         <KeywordHighlighter
-                            text="Membership keeps pharmacist oversight, hosted dinners, and culinary documentation on cadence so every property feels consistent. Share your next intention and we will design the plan."
+                            text="Membership programs keep PharmD oversight, hosted dinners, and culinary documentation on cadence so every property feels consistent. Share your next intention and we will design the plan."
                             keywords={KEYWORDS}
                             variant="bronze"
                         />
@@ -209,7 +209,7 @@ export default async function SuccessPage({
                             share another date
                         </Link>
                         <Link className="btn ghost" href="/membership">
-                            explore membership
+                            explore memberships
                         </Link>
                     </div>
                 </div>

@@ -1,7 +1,7 @@
 const faqs = [
     {
         q: "How do I book a service?",
-        a: "Select the experience, membership, or consult tier that suits your household. Complete checkout and we will confirm a discovery call within one business day to align on timing and particulars.",
+        a: "Select the experience, membership program, or consult tier that suits your household. Complete checkout and we will confirm a discovery call within one business day to align on timing and particulars.",
     },
     {
         q: "Do you offer refunds?",
@@ -33,7 +33,7 @@ const faqs = [
     },
     {
         q: "How far ahead should we book?",
-        a: "Peak summer weekends fill six to eight weeks in advance. Shoulder season engagements can usually be confirmed within a fortnight, though membership clients receive priority scheduling.",
+        a: "Peak summer weekends fill six to eight weeks in advance. Shoulder season engagements can usually be confirmed within a fortnight, though membership patrons receive priority scheduling.",
     },
     {
         q: "Can you collaborate with our medical team?",
@@ -44,8 +44,8 @@ const faqs = [
         a: "Our sommelier partners build pairings that complement the menu architecture. We can work with your cellar, source specific vintages, or curate non-alcoholic flights that mirror the structure of the evening.",
     },
     {
-        q: "What support do members receive between events?",
-        a: "Membership grants messaging access for pantry and wellness questions, quarterly planning sessions, and priority booking for seasonal residencies so the experience extends well beyond dinner service.",
+        q: "What support do membership patrons receive between events?",
+        a: "Membership programs grant messaging access for pantry and wellness questions, quarterly planning sessions, and priority booking for seasonal engagements so the experience extends well beyond dinner service.",
     },
 ];
 
