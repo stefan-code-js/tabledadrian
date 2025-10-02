@@ -7,7 +7,7 @@ import { addOrder } from "@/lib/orders";
 
 export const runtime = "edge";
 
-type Env = { STRIPE_SECRET_KEY?: string };
+type Env = { STRIPE_SECRET_KEY?: string; STRIPE_KEY?: string };
 
 const HEADERS = {
     "Cache-Control": "no-store",
@@ -17,15 +17,28 @@ const requestSchema = z.object({
     priceHandle: z.string(),
 });
 
-function readEnv(env: Env | undefined, key: keyof Env): string | undefined {
-    const value = env?.[key];
-    if (typeof value === "string" && value.length) {
-        return value;
+const STRIPE_SECRET_KEYS: (keyof Env | keyof NodeJS.ProcessEnv)[] = [
+    "STRIPE_SECRET_KEY",
+    "STRIPE_KEY",
+];
+
+function readEnv(env: Env | undefined, keys: typeof STRIPE_SECRET_KEYS): string | undefined {
+    for (const key of keys) {
+        const value = env?.[key as keyof Env];
+        if (typeof value === "string" && value.length) {
+            return value;
+        }
     }
+
     if (typeof process !== "undefined" && process.env) {
-        const fallback = process.env[key];
-        return typeof fallback === "string" && fallback.length ? fallback : undefined;
+        for (const key of keys) {
+            const fallback = process.env[key];
+            if (typeof fallback === "string" && fallback.length) {
+                return fallback;
+            }
+        }
     }
+
     return undefined;
 }
 
@@ -54,7 +67,7 @@ export async function POST(request: NextRequest, context: RouteContext): Promise
     const successUrl = `${origin}/success?session_id={CHECKOUT_SESSION_ID}`;
     const cancelUrl = `${origin}/cancel`;
 
-    const secret = readEnv(context.env, "STRIPE_SECRET_KEY");
+    const secret = readEnv(context.env, STRIPE_SECRET_KEYS);
 
     if (!secret) {
         const mockSessionId = `cs_test_mock_${crypto.randomUUID()}`;
