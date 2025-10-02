@@ -183,7 +183,7 @@ export async function POST(req: Request) {
 
         await maybeEmail(payload);
 
-        const cfEnv = resolveCfEnv<{ REVIEWS?: KvNamespaceLite }>() ?? {};
+        const cfEnv = (await resolveCfEnv<{ REVIEWS?: KvNamespaceLite }>()) ?? {};
         const kv = cfEnv.REVIEWS;
         let stats: Stats = { count: 1, sum: payload.rating, avg: payload.rating };
 

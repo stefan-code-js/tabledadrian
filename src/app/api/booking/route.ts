@@ -153,7 +153,7 @@ async function persistBooking(env: Env, booking: BookingPayload, ip: string): Pr
 }
 
 export async function POST(req: Request, context: RouteContext): Promise<Response> {
-    const env = resolveCfEnv<Env>(context.env) ?? EMPTY_ENV;
+    const env = (await resolveCfEnv<Env>(context.env)) ?? EMPTY_ENV;
 
     let body: unknown;
     try {

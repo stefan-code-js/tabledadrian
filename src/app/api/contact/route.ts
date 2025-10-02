@@ -79,7 +79,7 @@ async function rateLimit(env: Env, ip: string) {
 }
 
 export async function POST(req: Request, context: RouteContext): Promise<Response> {
-    const env: Env = resolveCfEnv<Env>(context.env) ?? {};
+    const env: Env = (await resolveCfEnv<Env>(context.env)) ?? {};
 
     try {
         const json = await req.json();
