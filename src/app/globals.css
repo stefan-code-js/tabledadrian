@@ -1516,6 +1516,32 @@ h1, h2, h3, h4, h5, h6 {
   transform: translateY(-2px);
 }
 
+@media (prefers-color-scheme: dark) {
+  .cta-band__inner {
+    background: var(--color-paper-strong);
+    color: var(--color-ink);
+  }
+
+  .cta-band__copy p {
+    color: rgba(244, 239, 229, 0.88);
+  }
+
+  .cta-band__button--primary {
+    background: var(--color-ink);
+    color: var(--color-paper);
+  }
+
+  .cta-band__button--secondary {
+    outline-color: rgba(244, 239, 229, 0.5);
+    color: var(--color-ink);
+  }
+
+  .cta-band__button--secondary:hover,
+  .cta-band__button--secondary:focus-visible {
+    background: rgba(244, 239, 229, 0.12);
+  }
+}
+
 /* Image mosaic */
 .image-mosaic {
   display: grid;
@@ -1586,12 +1612,12 @@ h1, h2, h3, h4, h5, h6 {
 
 .testimonial-carousel__viewport {
   position: relative;
+  display: grid;
   min-height: 220px;
 }
 
 .testimonial-carousel__slide {
-  position: absolute;
-  inset: 0;
+  grid-area: 1 / 1;
   display: grid;
   place-content: center;
   text-align: center;

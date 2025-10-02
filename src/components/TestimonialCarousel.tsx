@@ -41,7 +41,7 @@ export default function TestimonialCarousel({ testimonials, intervalMs = 7000, c
     return (
         <section className={classes} aria-label="Guest testimonials">
             <div className="testimonial-carousel__viewport">
-                <AnimatePresence mode="wait">
+                <AnimatePresence initial={false}>
                     <motion.figure
                         key={index}
                         className="testimonial-carousel__slide"
