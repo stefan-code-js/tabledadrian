@@ -18,6 +18,8 @@ const requestSchema = z.object({
     priceHandle: z.string(),
 });
 
+
+
 const STRIPE_SECRET_KEYS = ["STRIPE_SECRET_KEY", "STRIPE_KEY"] as const;
 
 const processStripeSecretKey =
@@ -33,6 +35,13 @@ function readEnv(env: Env | undefined): string | undefined {
         if (typeof value === "string" && value.length) {
             return value;
         }
+    }    }
+
+    return processStripeSecretKey && processStripeSecretKey.length
+        ? processStripeSecretKey
+        : processStripeKey && processStripeKey.length
+          ? processStripeKey
+          : undefined;
     }
 
     return processStripeSecretKey && processStripeSecretKey.length
@@ -40,6 +49,32 @@ function readEnv(env: Env | undefined): string | undefined {
         : processStripeKey && processStripeKey.length
           ? processStripeKey
           : undefined;
+
+const STRIPE_SECRET_KEYS: (keyof Env | keyof NodeJS.ProcessEnv)[] = [
+    "STRIPE_SECRET_KEY",
+    "STRIPE_KEY",
+];
+
+function readEnv(env: Env | undefined, keys: typeof STRIPE_SECRET_KEYS): string | undefined {
+    for (const key of keys) {
+        const value = env?.[key as keyof Env];
+        if (typeof value === "string" && value.length) {
+            return value;
+        }
+    }
+
+    if (typeof process !== "undefined" && process.env) {
+        for (const key of keys) {
+            const fallback = process.env[key];
+            if (typeof fallback === "string" && fallback.length) {
+                return fallback;
+            }
+        }
+    }
+
+    return undefined;
+  
+ 
 }
 
 type RouteContext = { params: Promise<Record<string, string>> } & { env?: Env };
@@ -67,8 +102,17 @@ export async function POST(request: NextRequest, context: RouteContext): Promise
     const successUrl = `${origin}/success?session_id={CHECKOUT_SESSION_ID}`;
     const cancelUrl = `${origin}/cancel`;
 
+
     const env = await resolveCfEnv<Env>(context.env);
     const secret = readEnv(env);
+
+
+    const env = resolveCfEnv<Env>(context.env);
+    const secret = readEnv(env);
+
+    const secret = readEnv(context.env, STRIPE_SECRET_KEYS);
+
+
 
     if (!secret) {
         const mockSessionId = `cs_test_mock_${crypto.randomUUID()}`;
