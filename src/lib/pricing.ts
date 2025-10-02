@@ -81,14 +81,14 @@ export type PriceKey =
 const PRICE_ENV_PREFIX = ["NEXT", "PUBLIC", "PRICE"].join("_");
 
 const DEFAULT_PRICE_IDS: Record<PriceKey, string> = {
-    consultIntakeSession: "placeholder-consult-intake",
-    reset4Week: "placeholder-reset-4-week",
-    concierge12Week: "placeholder-concierge-12-week",
-    membershipEssential: "placeholder-membership-essential",
-    membershipStudio: "placeholder-membership-studio",
-    membershipPatron: "placeholder-membership-patron",
-    experienceSignature: "placeholder-experience-signature",
-    experienceSalon: "placeholder-experience-salon",
+    consultIntakeSession: "price_1SDka9EPPoDjlHN1rM0RVZDo",
+    reset4Week: "price_1SDkaHEPPoDjlHN130cEmvIT",
+    concierge12Week: "price_1SDkaQEPPoDjlHN1URoycHP3",
+    membershipEssential: "price_1SDkZkEPPoDjlHN1pOyha8lH",
+    membershipStudio: "price_1SDkZtEPPoDjlHN1rAtiEFqs",
+    membershipPatron: "price_1SDka0EPPoDjlHN14JsQvxJF",
+    experienceSignature: "price_1SDkayEPPoDjlHN1I1ZTDr67",
+    experienceSalon: "price_1SDkb6EPPoDjlHN1Nvqr4WRe",
     experienceVoyage: "placeholder-experience-voyage",
     experienceLuncheon: "placeholder-experience-luncheon",
 };
