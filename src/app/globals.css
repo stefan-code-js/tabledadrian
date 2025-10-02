@@ -70,9 +70,9 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --color-ink: #f4efe4;
-    --color-ink-soft: #d9d0bf;
-    --color-ink-muted: #b8ac98;
+    --color-ink: #000000;
+    --color-ink-soft: #1a1a1a;
+    --color-ink-muted: #333333;
     --color-cream: #12291c;
     --color-cream-soft: #163222;
     --color-cream-strong: #1a3928;
@@ -80,14 +80,14 @@
     --color-paper: #1f3628;
     --color-paper-soft: #223c2d;
     --color-paper-strong: #254132;
-    --color-forest: #88c7a0;
-    --color-forest-soft: rgba(136, 199, 160, 0.52);
+    --color-forest: #ff8c00;
+    --color-forest-soft: rgba(255, 140, 0, 0.52);
     --color-bronze: #d3a46a;
     --color-bronze-soft: rgba(211, 164, 106, 0.55);
     --color-oxblood: #c15a55;
     --color-oxblood-soft: rgba(193, 90, 85, 0.48);
-    --color-accent: #a8d7b6;
-    --color-accent-muted: rgba(168, 215, 182, 0.24);
+    --color-accent: #ff8c00;
+    --color-accent-muted: rgba(255, 140, 0, 0.24);
     --color-gold: var(--color-bronze);
     --line-hairline: rgba(244, 239, 229, 0.22);
     --line-subtle: rgba(244, 239, 229, 0.12);
