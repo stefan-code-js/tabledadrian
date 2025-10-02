@@ -66,8 +66,27 @@ function getStripeSecret(): string | undefined {
         return processStripeSecretKey;
     }
 
+
     if (processStripeKey && processStripeKey.length) {
         return processStripeKey;
+
+const STRIPE_SECRET_ENV_KEYS = ["STRIPE_SECRET_KEY", "STRIPE_KEY"] as const;
+
+function getStripeSecret(): string | undefined {
+    const env = getEnv();
+    for (const key of STRIPE_SECRET_ENV_KEYS) {
+        const fromEnv = env?.[key];
+        if (typeof fromEnv === "string" && fromEnv.length) {
+            return fromEnv;
+        }
+    }
+
+    for (const key of STRIPE_SECRET_ENV_KEYS) {
+        const fallback = getProcessEnv(key);
+        if (typeof fallback === "string" && fallback.length) {
+            return fallback;
+        }
+
     }
 
     return undefined;
