@@ -2308,9 +2308,9 @@ hr {
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
 }
 .quote{
-  padding: 18px 20px;
+  padding: 1rem;
 }
-.quote p{ margin:0 0 .4rem; }
+.quote p{ margin:0 0 .4rem; overflow-wrap: break-word; }
 .quote cite{ opacity:.8; font-style: normal; }
 
 /* Newsletter (inline, centered) */

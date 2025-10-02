@@ -12,10 +12,10 @@
 const entries: SeoEntry[] = [
     {
         path: "/",
-        title: "Table d'Adrian | Private dining on the Riviera",
+        title: "Table d'Adrian – Luxury Private Chef & Bespoke Dining Worldwide",
         description:
-            "Private chef table for villas, yachts, and salons across Antibes, Cannes, and Monaco. Seasonal tasting menus and service choreography led by Adrian and Antonia.",
-        keywords: ["private chef riviera", "table d'adrian", "cote d'azur dining", "tasting menu antibes"],
+            "Globally acclaimed private chef service by Chef Adrian. Exclusive in-home dining, luxury events, and Michelin-caliber gastronomic experiences in Monaco, NYC, Dubai & more.",
+        keywords: ["private chef", "personal chef", "luxury dining", "bespoke events", "in-home chef", "chef for hire", "gastronomic experiences", "private chef Monaco", "private chef New York", "private chef Miami", "private chef Dubai", "yacht chef", "villa chef", "table d'adrian"],
         priority: 1,
         changeFrequency: "monthly",
     },

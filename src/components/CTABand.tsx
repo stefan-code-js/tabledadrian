@@ -52,16 +52,16 @@ export default function CTABand({ title, description, primary, secondary, analyt
     };
 
     return (
-        <section className={`${classes} bg-accent-muted py-6`}>
+        <section className={`${classes} py-6`}>
             <div className="cta-band__inner">
                 <div className="cta-band__copy">
-                    <KineticHeading as="h2" className="text-ink mb-2">{title}</KineticHeading>
-                    <KineticParagraph className="text-ink-soft mb-4">{description}</KineticParagraph>
+                    <KineticHeading as="h2" className="mb-2">{title}</KineticHeading>
+                    <KineticParagraph className="mb-4">{description}</KineticParagraph>
                 </div>
                 <div className="cta-band__actions flex gap-3">
                     <motion.span {...motionProps} className="inline-flex">
                         <Link
-                            className="cta-band__button cta-band__button--primary bg-accent text-paper px-5 py-2 rounded-md shadow-soft"
+                            className="cta-band__button cta-band__button--primary px-5 py-2 rounded-md shadow-soft"
                             href={primary.href}
                             onClick={handleClick("primary", primary.href, primary.label, primary.onClick)}
                         >
@@ -71,7 +71,7 @@ export default function CTABand({ title, description, primary, secondary, analyt
                     {secondary ? (
                         <motion.span {...motionProps} className="inline-flex">
                             <Link
-                                className="cta-band__button cta-band__button--secondary bg-paper text-accent px-5 py-2 rounded-md border border-accent"
+                                className="cta-band__button cta-band__button--secondary px-5 py-2 rounded-md border"
                                 href={secondary.href}
                                 onClick={handleClick("secondary", secondary.href, secondary.label, secondary.onClick)}
                             >
