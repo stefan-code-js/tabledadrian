@@ -194,7 +194,7 @@ export const navGroups: NavGroup[] = [
         label: "services",
         href: sitePages.experiences.path,
         description:
-            "Book private dining, ongoing membership, or targeted consulting. Every route begins with a detailed discovery call.",
+            "Book private dining, continuing membership support, or targeted consulting. Every route begins with a detailed discovery call.",
         links: [
             { href: "/book", label: "book" },
             { href: "/membership", label: "membership" },

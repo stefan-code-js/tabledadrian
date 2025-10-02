@@ -9,7 +9,14 @@ import KeywordHighlighter from "@/components/KeywordHighlighter";
 import { ANALYTICS_EVENTS, trackEvent } from "@/lib/analytics";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 
-const KEYWORDS = ["privacy", "data", "booking", "membership", "records"] as const;
+const KEYWORDS = [
+    "privacy",
+    "data",
+    "private chef",
+    "PharmD",
+    "culinary documentation",
+    "membership",
+] as const;
 
 export default function RemovePageContent() {
     const prefersReduced = usePrefersReducedMotion();
@@ -34,11 +41,11 @@ export default function RemovePageContent() {
                     </Reveal>
                     <Reveal>
                         <KineticParagraph className="lead">
-                            <KeywordHighlighter
-                                text="We take privacy seriously. Use the options below to request deletion of any personal information you have shared, including messages, booking requests, and review submissions. We’ll confirm completion via email."
-                                keywords={KEYWORDS}
-                                variant="forest"
-                            />
+                                <KeywordHighlighter
+                                    text="We take privacy seriously. Use the options below to request deletion of private chef dossiers, PharmD intake notes, booking requests, and review submissions. We’ll confirm completion via email."
+                                    keywords={KEYWORDS}
+                                    variant="forest"
+                                />
                         </KineticParagraph>
                     </Reveal>
                 </div>
@@ -52,7 +59,7 @@ export default function RemovePageContent() {
                             <KineticHeading as="h2">Immediate removal</KineticHeading>
                             <KineticParagraph>
                                 <KeywordHighlighter
-                                    text="Email us from the address you used and include any relevant context (e.g., message date, phone number, or booking reference). We will remove all associated records and confirm within one business day."
+                                    text="Email us from the address you used and include any relevant context (e.g., tasting date, villa location, yacht name, or booking reference). We will remove all associated records and confirm within one business day."
                                     keywords={KEYWORDS}
                                     variant="bronze"
                                 />
@@ -65,10 +72,11 @@ export default function RemovePageContent() {
                         <Reveal className="narrative-block">
                             <KineticHeading as="h2">What we delete</KineticHeading>
                             <ul>
-                                <li>Contact messages and lead records</li>
-                                <li>Booking requests and confirmations</li>
-                                <li>Reviews you submitted</li>
-                                <li>Any analytics identifiers we control</li>
+                                <li>Contact messages and concierge lead records</li>
+                                <li>Private chef bookings, proposals, and confirmations</li>
+                                <li>PharmD intake forms, supplementation logs, and wellness questionnaires</li>
+                                <li>Reviews, testimonials, and media consent you submitted</li>
+                                <li>Any analytics identifiers or service documentation we control</li>
                             </ul>
                             <KineticParagraph className="small muted">
                                 Note: Payment providers (e.g., Stripe) may retain limited records to meet legal and accounting obligations. We request redaction wherever possible.

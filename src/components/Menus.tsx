@@ -89,7 +89,7 @@ export default function Menus() {
                                 </motion.span>
                                 <motion.span className="inline-flex" {...motionProps}>
                                     <Link className="btn ghost" href="/membership" onClick={handleCta(menu.id, "membership", "/membership")}>
-                                        explore membership
+                                        explore memberships
                                     </Link>
                                 </motion.span>
                             </div>
@@ -97,7 +97,7 @@ export default function Menus() {
                     ))}
                 </div>
                 <KineticParagraph className="muted note">
-                    Looking for a longer cadence? Membership locks in hosted dinners and pharmacist oversight across the season.
+                    Looking for a longer cadence? Membership programs lock in hosted dinners and PharmD oversight across the season.
                 </KineticParagraph>
             </div>
             <hr className="separator" />

@@ -18,73 +18,88 @@ const page = sitePages.home;
 export const metadata = createPageMetadata(page);
 
 const HERO_KEYWORDS = [
-    "private table",
-    "membership",
-    "consult",
-    "chef's table",
-    "Côte d’Azur",
-    "Cote d’Azur",
+    "Table d'Adrian",
+    "private chef",
+    "luxury dining",
+    "bespoke events",
+    "Monaco",
+    "Dubai",
+    "New York City",
+    "yacht",
 ] as const;
 
 const EXPERIENCE_SECTIONS = [
     {
-        slug: "provenance",
-        kicker: "Chapter one",
-        title: "Provenance ledgers",
+        slug: "experience",
+        kicker: "The experience",
+        title: "Commissioned culinary storytelling",
         summary:
-            "Every residence begins with ledger work: pantry audit, cellar intent, linen inventory, and staff cadence.",
+            "A Table d'Adrian evening transforms villas, penthouses, yachts, and private jets into ephemeral dining rooms choreographed around your guests.",
         detail:
-            "Those notes become a service narrative shared with florists, fishmongers, and sommeliers so the evening lands with the ease of a long-held ritual.",
+            "Lighting, porcelain, crystal, and pacing are art-directed so conversation flows without interruption while Michelin-caliber cuisine interprets terroir, seasonal markets, and cultural inspirations with poise.",
         image: images.sectionHomeValues,
         align: "left" as const,
     },
     {
-        slug: "service",
-        kicker: "Chapter two",
-        title: "Service in quiet motion",
+        slug: "services",
+        kicker: "Services & offerings",
+        title: "Private chef engagements without compromise",
         summary:
-            "Each pour, course, and room reset is choreographed; the host only notices the serenity left in the wake.",
+            "The atelier designs bespoke occasions for residences, yachts, chalets, corporate salons, and brand collaborations across Monaco, Miami, New York City, Dubai, London, Courchevel, and Geneva.",
         detail:
-            "Membership clients receive the same crew of chefs, captains, and stewards wherever they convene: villa, yacht, or alpine chalet, without renegotiating standards.",
+            "Private in-home chef services for intimate celebrations; gala-scale luxury dining for UHNW events; culinary residencies for yachts and private jets; and gastronomic storytelling for luxury maisons are orchestrated by sommeliers, butlers, florists, and mixologists fluent in palace etiquette.",
         image: images.sectionHomeIncluded,
         align: "right" as const,
     },
     {
-        slug: "memory",
-        kicker: "Chapter three",
-        title: "Ledger of memory",
+        slug: "journey",
+        kicker: "Chef Adrian's journey",
+        title: "Michelin pedigree, global discretion",
         summary:
-            "Digestifs conclude with documentation: temperatures, varietals, seating preferences, and hosts' after-notes.",
+            "Chef Adrian is an EHL alumnus whose craft matured at Hotel du Cap-Eden-Roc, K2 Palace, Mondrian Cannes, luxury cruises, and private Dior dinners.",
         detail:
-            "The archive travels with you; the next invitation reads like a reply to the previous evening rather than a restart.",
+            "This foundation powers a chef-for-hire trusted by UHNW families and iconic brands to deliver Michelin-level gastronomy anywhere, supported by service captains, sommeliers, and artisans who anticipate every gesture.",
         image: images.sectionHomeTestimonials,
         align: "left" as const,
+    },
+    {
+        slug: "reach",
+        kicker: "Global reach",
+        title: "Destinations served worldwide",
+        summary:
+            "Table d'Adrian operates from the French Riviera while hosting celebrations across the Americas, Europe, the Middle East, and select Asian destinations.",
+        detail:
+            "Monaco & the Côte d’Azur, Miami & Palm Beach, New York City & the Northeast, Dubai & Abu Dhabi, London & alpine retreats in Courchevel and Geneva, plus bespoke engagements in Los Cabos, Riviera Maya, Singapore, and Hong Kong receive identical atelier-level preparation.",
+        image: images.sectionHomeIncluded,
+        align: "right" as const,
     },
 ] as const;
 
 const FACTS = [
-    { label: "Lead time", value: "14 days for Côte d’Azur residences" },
-    { label: "Service window", value: "Sunset through the final digestif" },
-    { label: "Guest scope", value: "Four to twenty-four, chef's table intimacy" },
-    { label: "Continuity", value: "Membership or seasonal consult" },
+    { label: "Languages", value: "English, French, Italian, Arabic, Spanish on request" },
+    { label: "Service scope", value: "Private chef, yacht dining, UHNW events, luxury brand collaborations" },
+    { label: "Destinations", value: "Monaco, Miami, New York City, Dubai, London, Courchevel, Geneva, worldwide" },
+    { label: "Response", value: "Discovery call scheduled within 24 hours of inquiry" },
 ];
 
 const TESTIMONIALS: Testimonial[] = [
     {
         quote:
-            "The evening felt choreographed yet unforced; our board believed we had done it for years. Their deck log keeps every note intact between cities.",
+            "Table d'Adrian transformed our Monaco villa into a Michelin dining room—service was silent, choreography impeccable, and cuisine unforgettable.",
         name: "Isabelle D.",
-        role: "Monaco residence manager",
+        role: "Residence manager, Monaco",
     },
     {
         quote:
-            "Membership erased all friction in the galley. Provisioning briefs, wellness notes, and cellar pairings arrive as one narrative.",
+            "Our Palm Beach yacht membership flowed from sunrise wellness menus to midnight indulgence without a single detail overlooked.",
         name: "Captain Laurent B.",
+        role: "Superyacht captain",
     },
     {
-        quote: "It is the only private chef service where even the stillness feels intentional.",
+        quote:
+            "The New York leadership retreat became an immersive culinary journey that deepened relationships and inspired strategy.",
         name: "James M.",
-        role: "Salon host",
+        role: "Global advisory CEO",
     },
 ] as const;
 
@@ -130,9 +145,9 @@ export default function HomePage() {
                 ))}
 
                 <PullQuote
-                    quote="A cinematic dinner where every gesture is deliberate, every service cue rehearsed, every guest allowed to belong."
-                    attribution="Adrian Badea"
-                    role="Chef-Patron"
+                    quote="Every commission is a bespoke gastronomic story—the cuisine, service, and atmosphere composed to honor the host's narrative."
+                    attribution="Chef Adrian"
+                    role="Executive Private Chef"
                 />
 
                 <FactRow facts={FACTS} />
@@ -143,8 +158,8 @@ export default function HomePage() {
 
                 <CTABand
                     analyticsId="home-cta"
-                    title="Reserve your chapter"
-                    description="Share date, guest profile, and venue. We respond within the day with provisioning briefs, service choreography, and the dramatis personae of your evening."
+                    title="Begin your culinary journey"
+                    description="Share your celebration, guest profile, and destination. The atelier responds within 24 hours with a tailored proposal, logistics timeline, and culinary direction."
                     primary={{ label: "Reserve a private table", href: "/contact" }}
                     secondary={{ label: "Speak with the chef", href: "/consult" }}
                 />

@@ -23,7 +23,7 @@ const NAV_ITEMS = [
 
 const FEATURED = [
     { href: "/contact", label: "Book a table" },
-    { href: "/membership", label: "Begin membership consult" },
+    { href: "/membership", label: "Plan a membership" },
     { href: "/consult", label: "Schedule a strategy call" },
 ] as const;
 

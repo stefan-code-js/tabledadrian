@@ -18,7 +18,7 @@ const heroImage = {
     alt: "Soft light across a table laid with porcelain, glassware, and herbs ready for service.",
 };
 
-const KEYWORDS = ["private table", "membership", "chef's table", "seasonal", "consult"] as const;
+const KEYWORDS = ["Table d'Adrian", "private chef", "membership", "PharmD", "yacht", "bespoke dining"] as const;
 
 const briefingParagraphs = [
     "Bookings include a chef-led tasting menu, pharmacist-guided intake, and discreet crew who manage the evening end to end.",
@@ -88,7 +88,7 @@ export default function Book() {
                         </motion.span>
                         <motion.span {...motionProps} className="inline-flex">
                             <Link className="btn ghost" href="/membership" onClick={trackHeroCta("membership")}>
-                                explore membership
+                                explore memberships
                             </Link>
                         </motion.span>
                     </div>
@@ -157,7 +157,7 @@ export default function Book() {
                     <KineticHeading as="h2">Need an ongoing cadence?</KineticHeading>
                     <KineticParagraph>
                         <KeywordHighlighter
-                            text="Membership keeps pharmacist reviews, hosted dinners, and culinary documentation on the calendar so your standards stay consistent across every property."
+                            text="Membership programs keep PharmD reviews, hosted dinners, and culinary documentation on the calendar so your standards stay consistent across every property."
                             keywords={KEYWORDS}
                             variant="bronze"
                         />
@@ -170,7 +170,7 @@ export default function Book() {
                         </motion.span>
                         <motion.span {...motionProps} className="inline-flex">
                             <Link className="btn ghost" href="/membership" onClick={trackFooterCta("explore-membership", "/membership")}>
-                                explore membership
+                                explore memberships
                             </Link>
                         </motion.span>
                     </div>

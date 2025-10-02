@@ -73,13 +73,13 @@
     --color-ink: #f4efe4;
     --color-ink-soft: #d9d0bf;
     --color-ink-muted: #b8ac98;
-    --color-cream: #181410;
-    --color-cream-soft: #1f1914;
-    --color-cream-strong: #221d17;
-    --color-neutral: #2b2620;
-    --color-paper: #0f0c08;
-    --color-paper-soft: #15110d;
-    --color-paper-strong: #1b1611;
+    --color-cream: #12291c;
+    --color-cream-soft: #163222;
+    --color-cream-strong: #1a3928;
+    --color-neutral: #213c2c;
+    --color-paper: #1f3628;
+    --color-paper-soft: #223c2d;
+    --color-paper-strong: #254132;
     --color-forest: #88c7a0;
     --color-forest-soft: rgba(136, 199, 160, 0.52);
     --color-bronze: #d3a46a;
@@ -97,7 +97,7 @@
 
   html {
     color-scheme: dark;
-    background: var(--color-paper-soft);
+    background: var(--color-paper);
     color: var(--color-ink);
   }
 
@@ -1022,19 +1022,19 @@ h1, h2, h3, h4, h5, h6 {
   text-transform: uppercase;
 }
 
-.home-residency__intro {
+.home-membership__intro {
   max-width: 680px;
   margin-bottom: clamp(2rem, 5vw, 3rem);
 }
 
 
 
-.home-residency__grid {
+.home-membership__grid {
   display: grid;
   gap: clamp(1.8rem, 4vw, 2.5rem);
 }
 
-.home-residency__grid article {
+.home-membership__grid article {
   padding: 1.6rem 1.8rem;
   border-radius: var(--radius-md);
   border: 1px solid rgba(26, 32, 29, 0.14);
@@ -1042,7 +1042,7 @@ h1, h2, h3, h4, h5, h6 {
   box-shadow: 0 18px 36px rgba(26, 32, 29, 0.08);
 }
 
-.home-residency__grid h3 {
+.home-membership__grid h3 {
   font-size: 1rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -1084,7 +1084,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 @media (min-width: 960px) {
-  .home-residency__grid {
+  .home-membership__grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
@@ -2568,4 +2568,28 @@ hr {
 
 .reviews-column .review-form{
   margin: 0;
+}
+
+.program-grid{
+  display: grid;
+  gap: var(--space-5);
+}
+
+@media (min-width: 900px){
+  .program-grid{
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.program-card{
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.program-card__cta{
+  display: flex;
+  gap: var(--space-2);
+  align-items: center;
+  flex-wrap: wrap;
 }

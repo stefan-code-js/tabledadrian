@@ -17,10 +17,11 @@ import { images } from "@/data/images";
 import { ANALYTICS_EVENTS, trackEvent } from "@/lib/analytics";
 
 const HERO_HIGHLIGHTS = [
-    "private table",
-    "seasonal",
+    "Table d'Adrian",
+    "private chef",
     "membership",
-    "consult",
+    "PharmD",
+    "bespoke dining",
 ] as const;
 
 type LuxurySequence = {
@@ -123,7 +124,7 @@ const factRow: Fact[] = [
     { label: "Lead time", value: "14-day notice to hold calendar" },
     { label: "Service window", value: "Sunset through the final digestif" },
     { label: "Guest scope", value: "Four to twenty-four with chef's table pacing" },
-    { label: "Continuity", value: "Seasonal consult or annual membership" },
+    { label: "Continuity", value: "Membership consults and seasonal retainers" },
 ];
 
 export default function HomeLuxury() {
@@ -167,7 +168,7 @@ export default function HomeLuxury() {
                     <KineticHeading as="h1">An evening written in quiet chapters</KineticHeading>
                     <KineticParagraph>
                         <KeywordHighlighter
-                            text="Our private table carries seasonal courses, disciplined service, and membership consults that travel wherever you host."
+                            text="Our private chef atelier carries seasonal courses, disciplined service, and membership consults that travel wherever you host."
                             keywords={HERO_HIGHLIGHTS}
                             variant="bronze"
                         />
@@ -210,14 +211,14 @@ export default function HomeLuxury() {
                     <KineticHeading as="h3">Membership ledgers</KineticHeading>
                     <KineticParagraph>
                         <KeywordHighlighter
-                            text="Seasonal membership keeps pantry standards, crew briefings, and menu revisions aligned without repeating checklists."
-                            keywords={["membership", "private table"]}
+                            text="Membership programs keep pantry standards, crew briefings, and menu revisions aligned without repeating checklists."
+                            keywords={["membership", "private chef", "PharmD"]}
                             variant="forest"
                         />
                     </KineticParagraph>
                     <div className="home-editorial__card-actions">
-                        <Link className="btn" href="/membership" onClick={handleCardCta("primary", "/membership", "View membership")}>
-                            View membership
+                        <Link className="btn" href="/membership" onClick={handleCardCta("primary", "/membership", "View membership programs")}>
+                            View membership programs
                         </Link>
                         <Link className="btn ghost" href="/consult" onClick={handleCardCta("secondary", "/consult", "Schedule consult")}>
                             Schedule consult

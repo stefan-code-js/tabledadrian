@@ -22,21 +22,21 @@ import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 import { motion } from "framer-motion";
 
 const KEYWORDS = [
-    "private table",
-    "Côte d’Azur",
-    "Côte d’Azur",
-    "seasonal",
-    "membership",
-    "consult",
-    "chef's table",
+    "Table d'Adrian",
+    "private chef",
+    "luxury dining",
+    "bespoke events",
+    "gastronomic",
+    "Monaco",
+    "Dubai",
 ] as const;
 const HOME_KEYWORDS = [
-    "private table",
-    "membership",
-    "consult",
-    "chef's table",
-    "Côte d’Azur",
-    "Côte d’Azur",
+    "Table d'Adrian",
+    "private chef",
+    "luxury dining",
+    "bespoke events",
+    "Monaco",
+    "Dubai",
 ] as const;
 
 const heroAssets: Record<PageId | "default", ImageAsset> = {
@@ -123,13 +123,13 @@ export function PageHero({ page }: { page: PageContent }) {
     if (isHome) {
         return (
             <HeroCinematic
-                kicker="Private table / Côte d’Azur"
+                kicker="Table d'Adrian / Private Chef"
                 analyticsId="home-hero"
-                title="An evening written in quiet chapters"
+                title="Private chef experiences without borders"
                 summary={
                     <KineticParagraph>
                         <KeywordHighlighter
-                            text="Private dining on the Côte d’Azur, composed by Adrian and Antonia, moves through seasonal courses, disciplined service, and membership consults that travel with you."
+                            text="Table d'Adrian delivers Michelin-caliber private chef experiences for villas, penthouses, yachts, and private jets worldwide—tailoring every course to your guests, culture, and celebration."
                             keywords={HOME_KEYWORDS}
                             variant="bronze"
                         />
@@ -137,7 +137,7 @@ export function PageHero({ page }: { page: PageContent }) {
                 }
                 image={figure}
                 primaryAction={{ label: "Reserve a private table", href: "/contact" }}
-                secondaryAction={{ label: "Begin membership consult", href: "/consult" }}
+                secondaryAction={{ label: "Explore services", href: "/experiences" }}
             />
         );
     }

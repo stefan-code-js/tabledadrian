@@ -20,7 +20,7 @@ const HERO_IMAGE = {
     alt: "Consultation notes beside herbs and citrus on a marble counter.",
 };
 
-const KEYWORDS = ["consult", "membership", "chef's table", "seasonal"] as const;
+const KEYWORDS = ["consult", "membership", "private chef", "clinical wellness", "Monaco", "Dubai"] as const;
 
 const INTRO = [
     "We stabilise post-meal fatigue, reactive snacking, and restless sleep by translating clinical insight into daily menus and mise that feel luxurious.",
@@ -48,7 +48,7 @@ export default function ConsultPage() {
             <section className="editorial-section">
                 <div className="editorial-container">
                     <KineticHeading as="h2">Consulting paths</KineticHeading>
-                    <div className="membership-grid">
+                    <div className="program-grid">
                         {consultPackages.map((pkg, index) => {
                             const facts = [
                                 { label: "Investment", value: formatMoney(pkg.investment) },
@@ -56,7 +56,7 @@ export default function ConsultPage() {
                                 pkg.guestRange ? { label: "Guest scope", value: formatRange(pkg.guestRange) } : null,
                             ].filter(Boolean) as { label: string; value: string }[];
                             return (
-                                <CardPanel key={pkg.id} className="membership-card">
+                                <CardPanel key={pkg.id} className="program-card">
                                     <KineticHeading as="h3">{pkg.name}</KineticHeading>
                                     {pkg.narrative.map((paragraph, pIndex) => (
                                         <KineticParagraph key={pIndex}>
@@ -77,7 +77,7 @@ export default function ConsultPage() {
                                         </KineticParagraph>
                                     ))}
                                     <FactRow facts={facts} />
-                                    <div className="membership-card__cta">
+                                    <div className="program-card__cta">
                                         <PayButton priceHandle={pkg.checkout.priceHandle}>
                                             {pkg.checkout.label}
                                         </PayButton>
