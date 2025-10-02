@@ -62,15 +62,14 @@ function getStripeSecret(): string | undefined {
         }
     }
 
-    if (processStripeSecretKey && processStripeSecretKey.length) {
-        return processStripeSecretKey;
-    }
-
-
-    if (processStripeKey && processStripeKey.length) {
-        return processStripeKey;
-
 const STRIPE_SECRET_ENV_KEYS = ["STRIPE_SECRET_KEY", "STRIPE_KEY"] as const;
+
+const processStripeSecretKey =
+    typeof process !== "undefined" && typeof process.env !== "undefined"
+        ? process.env.STRIPE_SECRET_KEY
+        : undefined;
+const processStripeKey =
+    typeof process !== "undefined" && typeof process.env !== "undefined" ? process.env.STRIPE_KEY : undefined;
 
 function getStripeSecret(): string | undefined {
     const env = getEnv();
