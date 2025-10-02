@@ -125,7 +125,7 @@ export function PageHero({ page }: { page: PageContent }) {
             <HeroCinematic
                 kicker="Table d'Adrian / Private Chef"
                 analyticsId="home-hero"
-                title="Private chef experiences without borders"
+                title="An evening written in quiet chapters"
                 summary={
                     <KineticParagraph>
                         <KeywordHighlighter
