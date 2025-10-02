@@ -33,6 +33,13 @@ function readEnv(env: Env | undefined): string | undefined {
         if (typeof value === "string" && value.length) {
             return value;
         }
+    }    }
+
+    return processStripeSecretKey && processStripeSecretKey.length
+        ? processStripeSecretKey
+        : processStripeKey && processStripeKey.length
+          ? processStripeKey
+          : undefined;
     }
 
     return processStripeSecretKey && processStripeSecretKey.length
@@ -68,6 +75,7 @@ export async function POST(request: NextRequest, context: RouteContext): Promise
     const cancelUrl = `${origin}/cancel`;
 
     const secret = readEnv(context.env);
+
 
     if (!secret) {
         const mockSessionId = `cs_test_mock_${crypto.randomUUID()}`;

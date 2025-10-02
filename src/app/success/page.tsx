@@ -53,8 +53,13 @@ const processStripeSecretKey =
 const processStripeKey =
     typeof process !== "undefined" && typeof process.env !== "undefined" ? process.env.STRIPE_KEY : undefined;
 
+
+async function getStripeSecret(): Promise<string | undefined> {
+    const env = await resolveCfEnv<Env>();
+
 function getStripeSecret(): string | undefined {
     const env = resolveCfEnv<Env>();
+
     for (const key of STRIPE_SECRET_ENV_KEYS) {
         const fromEnv = env?.[key];
         if (typeof fromEnv === "string" && fromEnv.length) {
@@ -87,6 +92,7 @@ function getStripeSecret(): string | undefined {
         }
 
     }
+
 
     return undefined;
 }
@@ -126,7 +132,7 @@ export default async function SuccessPage({
     const sessionId = resolvedParams?.session_id;
     const localOrder = sessionId ? getOrder(sessionId) : undefined;
 
-    const secret = sessionId ? getStripeSecret() : undefined;
+    const secret = sessionId ? await getStripeSecret() : undefined;
     const stripe = sessionId && !localOrder && secret ? await fetchStripeSummary(sessionId, secret) : null;
 
     const amount = stripe?.amount_total ? (stripe.amount_total / 100).toLocaleString("en-GB") : undefined;
