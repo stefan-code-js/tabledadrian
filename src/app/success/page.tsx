@@ -1,12 +1,14 @@
 import Image from "next/image";
 import Link from "next/link";
-import { getRequestContext } from "@cloudflare/next-on-pages";
 import KineticHeading from "@/components/KineticHeading";
 import KineticParagraph from "@/components/KineticParagraph";
 import CheckoutSuccessBeacon from "@/components/CheckoutSuccessBeacon";
 import { getOrder } from "@/lib/orders";
 import { buildMetadataForPath } from "@/lib/metadata";
 import KeywordHighlighter from "@/components/KeywordHighlighter";
+import { resolveCfEnv } from "@/lib/cloudflare";
+
+type Env = { STRIPE_SECRET_KEY?: string; STRIPE_KEY?: string };
 
 export const runtime = "edge";
 
@@ -42,27 +44,31 @@ const followUpSteps = [
     },
 ];
 
-let cachedEnv: Record<string, unknown> | undefined;
+const STRIPE_SECRET_ENV_KEYS = ["STRIPE_SECRET_KEY", "STRIPE_KEY"] as const;
 
-function getEnv(): Record<string, unknown> | undefined {
-    if (cachedEnv !== undefined) {
-        return cachedEnv;
-    }
-    try {
-        cachedEnv = getRequestContext().env as Record<string, unknown>;
-    } catch {
-        cachedEnv = undefined;
-    }
-    return cachedEnv;
-}
+const processStripeSecretKey =
+    typeof process !== "undefined" && typeof process.env !== "undefined"
+        ? process.env.STRIPE_SECRET_KEY
+        : undefined;
+const processStripeKey =
+    typeof process !== "undefined" && typeof process.env !== "undefined" ? process.env.STRIPE_KEY : undefined;
 
-function getProcessEnv(key: string): string | undefined {
-    if (typeof process === "undefined" || typeof process.env === "undefined") {
-        return undefined;
+function getStripeSecret(): string | undefined {
+    const env = resolveCfEnv<Env>();
+    for (const key of STRIPE_SECRET_ENV_KEYS) {
+        const fromEnv = env?.[key];
+        if (typeof fromEnv === "string" && fromEnv.length) {
+            return fromEnv;
+        }
     }
-    const value = process.env[key as keyof NodeJS.ProcessEnv];
-    return typeof value === "string" ? value : undefined;
-}
+
+    if (processStripeSecretKey && processStripeSecretKey.length) {
+        return processStripeSecretKey;
+    }
+
+
+    if (processStripeKey && processStripeKey.length) {
+        return processStripeKey;
 
 const STRIPE_SECRET_ENV_KEYS = ["STRIPE_SECRET_KEY", "STRIPE_KEY"] as const;
 
@@ -80,6 +86,7 @@ function getStripeSecret(): string | undefined {
         if (typeof fallback === "string" && fallback.length) {
             return fallback;
         }
+
     }
 
     return undefined;
