@@ -56,21 +56,33 @@ function getEnv(): Record<string, unknown> | undefined {
     return cachedEnv;
 }
 
-function getProcessEnv(key: string): string | undefined {
-    if (typeof process === "undefined" || typeof process.env === "undefined") {
-        return undefined;
-    }
-    const value = process.env[key as keyof NodeJS.ProcessEnv];
-    return typeof value === "string" ? value : undefined;
-}
+const STRIPE_SECRET_ENV_KEYS = ["STRIPE_SECRET_KEY", "STRIPE_KEY"] as const;
+
+const processStripeSecretKey =
+    typeof process !== "undefined" && typeof process.env !== "undefined"
+        ? process.env.STRIPE_SECRET_KEY
+        : undefined;
+const processStripeKey =
+    typeof process !== "undefined" && typeof process.env !== "undefined" ? process.env.STRIPE_KEY : undefined;
 
 function getStripeSecret(): string | undefined {
     const env = getEnv();
-    const fromEnv = env?.STRIPE_SECRET_KEY;
-    if (typeof fromEnv === "string" && fromEnv.length) {
-        return fromEnv;
+    for (const key of STRIPE_SECRET_ENV_KEYS) {
+        const fromEnv = env?.[key];
+        if (typeof fromEnv === "string" && fromEnv.length) {
+            return fromEnv;
+        }
     }
-    return getProcessEnv("STRIPE_SECRET_KEY");
+
+    if (processStripeSecretKey && processStripeSecretKey.length) {
+        return processStripeSecretKey;
+    }
+
+    if (processStripeKey && processStripeKey.length) {
+        return processStripeKey;
+    }
+
+    return undefined;
 }
 
 async function fetchStripeSummary(sessionId: string, secret: string) {
