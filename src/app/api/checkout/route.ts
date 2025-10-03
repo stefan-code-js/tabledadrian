@@ -4,7 +4,7 @@ import * as Sentry from "@sentry/nextjs";
 import { createCheckoutSession } from "@/lib/checkout";
 import { priceCatalog, type PriceKey } from "@/lib/pricing";
 import { addOrder } from "@/lib/orders";
-import { resolveCfEnv } from "@/lib/cloudflare";
+import { resolveStripeSecret } from "@/lib/stripe";
 
 export const runtime = "edge";
 
@@ -17,30 +17,6 @@ const HEADERS = {
 const requestSchema = z.object({
     priceHandle: z.string(),
 });
-
-const STRIPE_SECRET_KEYS = ["STRIPE_SECRET_KEY", "STRIPE_KEY"] as const;
-
-const processStripeSecretKey =
-    typeof process !== "undefined" && typeof process.env !== "undefined"
-        ? process.env.STRIPE_SECRET_KEY
-        : undefined;
-const processStripeKey =
-    typeof process !== "undefined" && typeof process.env !== "undefined" ? process.env.STRIPE_KEY : undefined;
-
-function readEnv(env: Env | undefined): string | undefined {
-    for (const key of STRIPE_SECRET_KEYS) {
-        const value = env?.[key];
-        if (typeof value === "string" && value.length) {
-            return value;
-        }
-    }
-
-    return processStripeSecretKey && processStripeSecretKey.length
-        ? processStripeSecretKey
-        : processStripeKey && processStripeKey.length
-          ? processStripeKey
-          : undefined;
-}
 
 type RouteContext = { params: Promise<Record<string, string>> } & { env?: Env };
 
@@ -67,7 +43,7 @@ export async function POST(request: NextRequest, context: RouteContext): Promise
     const successUrl = `${origin}/success?session_id={CHECKOUT_SESSION_ID}`;
     const cancelUrl = `${origin}/cancel`;
 
-    const secret = readEnv(context.env);
+    const secret = resolveStripeSecret(context.env);
 
     if (!secret) {
         return Response.json({ error: "Stripe secret key not found." }, { status: 500, headers: HEADERS });
