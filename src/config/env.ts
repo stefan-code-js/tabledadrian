@@ -1,4 +1,5 @@
 // src/config/env.ts
+import { sanitizeStripeSecret } from "@/lib/stripe";
 const required = (key: string) => {
     const v = process.env[key];
     if (!v) throw new Error(`Missing env: ${key}`);
@@ -22,8 +23,17 @@ export const INSTAGRAM_PROFILE_URL = process.env.INSTAGRAM_PROFILE_URL || "";
 export const LINKEDIN_PROFILE_URL = process.env.LINKEDIN_PROFILE_URL || "";
 
 // Stripe
-export const STRIPE_PUBLISHABLE_KEY = requiredAny("STRIPE_PUBLISHABLE_KEY", "STRIPE_PUBLIC_KEY", "NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY");
-export const STRIPE_SECRET_KEY = requiredAny("STRIPE_SECRET_KEY", "STRIPE_KEY");
+export const STRIPE_PUBLISHABLE_KEY = requiredAny(
+    "STRIPE_PUBLISHABLE_KEY",
+    "STRIPE_PUBLIC_KEY",
+    "NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY",
+);
+const resolvedStripeSecret = requiredAny("STRIPE_SECRET_KEY", "STRIPE_KEY");
+const sanitizedStripeSecret = sanitizeStripeSecret(resolvedStripeSecret);
+if (!sanitizedStripeSecret) {
+    throw new Error("Missing env: one of STRIPE_SECRET_KEY, STRIPE_KEY");
+}
+export const STRIPE_SECRET_KEY = sanitizedStripeSecret;
 export const STRIPE_WEBHOOK_SECRET = process.env.STRIPE_WEBHOOK_SECRET || "";
 export const STRIPE_PRICE_SIGNATURE = process.env.STRIPE_PRICE_SIGNATURE || "";
 export const STRIPE_PRICE_MEMBERSHIP = process.env.STRIPE_PRICE_MEMBERSHIP || "";
