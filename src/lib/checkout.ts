@@ -24,7 +24,7 @@ export async function createCheckoutSession({
     if (!secretKey) {
         throw new Error("Stripe key missing");
     }
-    console.log(`Creating Stripe checkout session with priceId: ${priceId}`);
+
 
     const body = new URLSearchParams({
         mode,
