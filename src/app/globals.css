@@ -1595,10 +1595,15 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Card panel */
 .card-panel {
-  background: rgba(246, 241, 230, 0.78);
+  background: var(--color-bronze-soft);
+  color: var(--color-ink);
   border-radius: var(--radius-lg);
   padding: var(--space-4);
   box-shadow: var(--shadow-ambient);
+}
+
+.card-panel p {
+  color: var(--color-ink-soft);
 }
 
 /* Testimonial carousel */
@@ -2007,15 +2012,15 @@ hr {
 
 @media (min-width: 1024px) {
   .menu-header__nav {
-    display: flex;
+    display: none;
   }
 
   .menu-header__cta {
-    display: inline-flex;
+    display: none;
   }
 
   .menu-header__button {
-    display: none;
+    display: inline-flex;
   }
 }
 
@@ -2599,6 +2604,7 @@ hr {
 .program-grid{
   display: grid;
   gap: var(--space-5);
+  align-items: stretch;
 }
 
 @media (min-width: 900px){
@@ -2611,11 +2617,30 @@ hr {
   display: flex;
   flex-direction: column;
   gap: var(--space-3);
+  height: 100%;
+}
+
+.program-card__body{
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  flex: 1;
+}
+
+.program-card__body > *{
+  margin: 0;
+}
+
+.program-card__body .fact-row{
+  margin-top: auto;
 }
 
 .program-card__cta{
   display: flex;
+  justify-content: center;
   gap: var(--space-2);
-  align-items: center;
   flex-wrap: wrap;
+  margin-top: var(--space-3);
+  padding-top: var(--space-2);
+  border-top: 1px solid rgba(8, 7, 5, 0.14);
 }
