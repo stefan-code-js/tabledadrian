@@ -70,27 +70,27 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --color-ink: #000000;
-    --color-ink-soft: #1a1a1a;
-    --color-ink-muted: #333333;
-    --color-cream: #12291c;
-    --color-cream-soft: #163222;
-    --color-cream-strong: #1a3928;
-    --color-neutral: #213c2c;
-    --color-paper: #1f3628;
-    --color-paper-soft: #223c2d;
-    --color-paper-strong: #254132;
-    --color-forest: #ff8c00;
-    --color-forest-soft: rgba(255, 140, 0, 0.52);
-    --color-bronze: #d3a46a;
-    --color-bronze-soft: rgba(211, 164, 106, 0.55);
-    --color-oxblood: #c15a55;
-    --color-oxblood-soft: rgba(193, 90, 85, 0.48);
-    --color-accent: #ff8c00;
-    --color-accent-muted: rgba(255, 140, 0, 0.24);
+    --color-ink: #dcd7c9;
+    --color-ink-soft: #c8c2b4;
+    --color-ink-muted: #a9a394;
+    --color-cream: #2c3639;
+    --color-cream-soft: #343f42;
+    --color-cream-strong: #222b2d;
+    --color-neutral: #3f4f46;
+    --color-paper: #2c3639;
+    --color-paper-soft: #343f42;
+    --color-paper-strong: #222b2d;
+    --color-forest: #e3a36b;
+    --color-forest-soft: rgba(227, 163, 107, 0.56);
+    --color-bronze: #d3b48c;
+    --color-bronze-soft: rgba(211, 180, 140, 0.48);
+    --color-oxblood: #8c4f3a;
+    --color-oxblood-soft: rgba(140, 79, 58, 0.46);
+    --color-accent: #e3a36b;
+    --color-accent-muted: rgba(227, 163, 107, 0.24);
     --color-gold: var(--color-bronze);
-    --line-hairline: rgba(244, 239, 229, 0.22);
-    --line-subtle: rgba(244, 239, 229, 0.12);
+    --line-hairline: rgba(220, 215, 201, 0.24);
+    --line-subtle: rgba(220, 215, 201, 0.12);
     --muted: var(--line-subtle);
     --fg: var(--color-ink);
   }
@@ -1595,10 +1595,15 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Card panel */
 .card-panel {
-  background: rgba(246, 241, 230, 0.78);
+  background: var(--color-bronze-soft);
+  color: var(--color-ink);
   border-radius: var(--radius-lg);
   padding: var(--space-4);
   box-shadow: var(--shadow-ambient);
+}
+
+.card-panel p {
+  color: var(--color-ink-soft);
 }
 
 /* Testimonial carousel */
@@ -2007,15 +2012,15 @@ hr {
 
 @media (min-width: 1024px) {
   .menu-header__nav {
-    display: flex;
+    display: none;
   }
 
   .menu-header__cta {
-    display: inline-flex;
+    display: none;
   }
 
   .menu-header__button {
-    display: none;
+    display: inline-flex;
   }
 }
 
@@ -2599,6 +2604,7 @@ hr {
 .program-grid{
   display: grid;
   gap: var(--space-5);
+  align-items: stretch;
 }
 
 @media (min-width: 900px){
@@ -2611,11 +2617,30 @@ hr {
   display: flex;
   flex-direction: column;
   gap: var(--space-3);
+  height: 100%;
+}
+
+.program-card__body{
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  flex: 1;
+}
+
+.program-card__body > *{
+  margin: 0;
+}
+
+.program-card__body .fact-row{
+  margin-top: auto;
 }
 
 .program-card__cta{
   display: flex;
+  justify-content: center;
   gap: var(--space-2);
-  align-items: center;
   flex-wrap: wrap;
+  margin-top: var(--space-3);
+  padding-top: var(--space-2);
+  border-top: 1px solid rgba(8, 7, 5, 0.14);
 }

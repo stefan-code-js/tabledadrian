@@ -21,8 +21,10 @@ export async function createCheckoutSession({
     cancelUrl,
     fetchImpl = fetch,
 }: CreateCheckoutSessionOptions): Promise<StripeSession> {
-    if (!secretKey) {
-        throw new Error("Stripe key missing");
+    const sanitizedSecretKey = secretKey.trim();
+
+    if (!sanitizedSecretKey.length) {
+        throw new Error("Stripe key missing or invalid.");
     }
 
 
@@ -38,7 +40,7 @@ export async function createCheckoutSession({
     const response = await fetchImpl("https://api.stripe.com/v1/checkout/sessions", {
         method: "POST",
         headers: {
-            Authorization: `Bearer ${secretKey}`,
+            Authorization: `Bearer ${sanitizedSecretKey}`,
             "Content-Type": "application/x-www-form-urlencoded",
         },
         body,
