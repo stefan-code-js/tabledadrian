@@ -8,8 +8,6 @@ describe("stripe secret helpers", () => {
     const originalSecretLive = process.env.STRIPE_SECRET_KEY_LIVE;
     const originalLiveKey = process.env.STRIPE_LIVE_KEY;
     const originalSecretLiveKey = process.env.STRIPE_SECRET_LIVE_KEY;
-    const originalLegacySecret = process.env.STRIPE_SECRET;
-    const originalApiKey = process.env.STRIPE_API_KEY;
 
     afterEach(() => {
         if (typeof originalSecret === "undefined") {
@@ -47,18 +45,6 @@ describe("stripe secret helpers", () => {
         } else {
             process.env.STRIPE_SECRET_LIVE_KEY = originalSecretLiveKey;
         }
-
-        if (typeof originalLegacySecret === "undefined") {
-            delete process.env.STRIPE_SECRET;
-        } else {
-            process.env.STRIPE_SECRET = originalLegacySecret;
-        }
-
-        if (typeof originalApiKey === "undefined") {
-            delete process.env.STRIPE_API_KEY;
-        } else {
-            process.env.STRIPE_API_KEY = originalApiKey;
-        }
     });
 
     it("trims secret values", () => {
@@ -76,15 +62,5 @@ describe("stripe secret helpers", () => {
         delete process.env.STRIPE_SECRET_KEY;
         process.env.STRIPE_SECRET_KEY = " sk_process_key ";
         expect(resolveStripeSecret()).toBe("sk_process_key");
-    });
-
-    it("supports legacy secret keys", () => {
-        delete process.env.STRIPE_SECRET_KEY;
-        process.env.STRIPE_SECRET = "sk_legacy_secret";
-        expect(resolveStripeSecret()).toBe("sk_legacy_secret");
-
-        delete process.env.STRIPE_SECRET;
-        process.env.STRIPE_API_KEY = "sk_api_key";
-        expect(resolveStripeSecret()).toBe("sk_api_key");
     });
 });

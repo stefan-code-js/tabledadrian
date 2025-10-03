@@ -43,8 +43,7 @@ export async function POST(request: NextRequest, context: RouteContext): Promise
     const successUrl = `${origin}/success?session_id={CHECKOUT_SESSION_ID}`;
     const cancelUrl = `${origin}/cancel`;
 
-    const envBindings = context?.env ?? (context as { context?: { env?: Env } }).context?.env;
-    const secret = resolveStripeSecret(envBindings) ?? resolveStripeSecret();
+    const secret = resolveStripeSecret(context.env);
 
     if (!secret) {
         return Response.json({ error: "Stripe secret key not found." }, { status: 500, headers: HEADERS });
