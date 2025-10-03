@@ -81,16 +81,16 @@ export type PriceKey =
 const PRICE_ENV_PREFIX = ["NEXT", "PUBLIC", "PRICE"].join("_");
 
 const DEFAULT_PRICE_IDS: Record<PriceKey, string> = {
-    consultIntakeSession: "price_1SDka9EPPoDjlHN1rM0RVZDo",
-    reset4Week: "price_1SDkaHEPPoDjlHN130cEmvIT",
-    concierge12Week: "price_1SDkaQEPPoDjlHN1URoycHP3",
-    membershipEssential: "price_1SDkZkEPPoDjlHN1pOyha8lH",
-    membershipStudio: "price_1SDkZtEPPoDjlHN1rAtiEFqs",
-    membershipPatron: "price_1SDka0EPPoDjlHN14JsQvxJF",
-    experienceSignature: "price_1SDkayEPPoDjlHN1I1ZTDr67",
-    experienceSalon: "price_1SDkb6EPPoDjlHN1Nvqr4WRe",
-    experienceVoyage: "placeholder-experience-voyage",
-    experienceLuncheon: "placeholder-experience-luncheon",
+    consultIntakeSession: "price_1SE9yFEPPoDjlHN1IJZQQXIL",
+    reset4Week: "price_1SE9yVEPPoDjlHN15ar1Lm98",
+    concierge12Week: "price_1SE9yjEPPoDjlHN1pv95GQp4",
+    membershipEssential: "price_1SE9wrEPPoDjlHN1J9KxVyRu",
+    membershipStudio: "price_1SE9wzEPPoDjlHN14y49G28D",
+    membershipPatron: "price_1SE9xNEPPoDjlHN1psl9XMm8",
+    experienceSignature: "price_1SE9xXEPPoDjlHN1GRBMsXw1",
+    experienceSalon: "price_1SE9xgEPPoDjlHN1vwqqj6WW",
+    experienceVoyage: "price_1SEA29EPPoDjlHN1ioJ9YRKj",
+    experienceLuncheon: "price_1SEA2JEPPoDjlHN1rQoKUfZc",
 };
 
 const priceFromEnv = (suffixParts: string[], fallbackKey: PriceKey) => {

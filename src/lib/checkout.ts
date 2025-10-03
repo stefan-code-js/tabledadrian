@@ -32,7 +32,7 @@ export async function createCheckoutSession({
         "line_items[0][quantity]": "1",
         success_url: successUrl,
         cancel_url: cancelUrl,
-        automatic_tax: "enabled",
+        "automatic_tax[enabled]": "true",
     });
 
     const response = await fetchImpl("https://api.stripe.com/v1/checkout/sessions", {
