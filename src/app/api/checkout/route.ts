@@ -70,10 +70,7 @@ export async function POST(request: NextRequest, context: RouteContext): Promise
     const secret = readEnv(context.env);
 
     if (!secret) {
-        const mockSessionId = `cs_test_mock_${crypto.randomUUID()}`;
-        const mockUrl = `${origin}/success?session_id=${mockSessionId}`;
-        addOrder({ sessionId: mockSessionId, priceId: catalogEntry.id, mode: catalogEntry.mode });
-        return Response.json({ url: mockUrl, mock: true }, { headers: HEADERS });
+        return Response.json({ error: "Stripe secret key not found." }, { status: 500, headers: HEADERS });
     }
 
     try {
