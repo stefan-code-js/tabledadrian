@@ -67,26 +67,28 @@ export default function MembershipPage() {
                             ];
                             return (
                                 <CardPanel key={tier.id} className="program-card">
-                                    <KineticHeading as="h3">{tier.name}</KineticHeading>
-                                    {tier.narrative.map((paragraph, pIndex) => (
-                                        <KineticParagraph key={pIndex}>
-                                            <KeywordHighlighter
-                                                text={paragraph}
-                                                keywords={KEYWORDS}
-                                                variant={index % 2 === 0 ? "forest" : "bronze"}
-                                            />
-                                        </KineticParagraph>
-                                    ))}
-                                    {tier.followUp.map((paragraph, fIndex) => (
-                                        <KineticParagraph key={`follow-${fIndex}`}>
-                                            <KeywordHighlighter
-                                                text={paragraph}
-                                                keywords={KEYWORDS}
-                                                variant={index % 2 === 0 ? "bronze" : "forest"}
-                                            />
-                                        </KineticParagraph>
-                                    ))}
-                                    <FactRow facts={facts} />
+                                    <div className="program-card__body">
+                                        <KineticHeading as="h3">{tier.name}</KineticHeading>
+                                        {tier.narrative.map((paragraph, pIndex) => (
+                                            <KineticParagraph key={pIndex}>
+                                                <KeywordHighlighter
+                                                    text={paragraph}
+                                                    keywords={KEYWORDS}
+                                                    variant={index % 2 === 0 ? "forest" : "bronze"}
+                                                />
+                                            </KineticParagraph>
+                                        ))}
+                                        {tier.followUp.map((paragraph, fIndex) => (
+                                            <KineticParagraph key={`follow-${fIndex}`}>
+                                                <KeywordHighlighter
+                                                    text={paragraph}
+                                                    keywords={KEYWORDS}
+                                                    variant={index % 2 === 0 ? "bronze" : "forest"}
+                                                />
+                                            </KineticParagraph>
+                                        ))}
+                                        <FactRow facts={facts} />
+                                    </div>
                                     <div className="program-card__cta">
                                         <PayButton priceHandle={tier.checkout.priceHandle}>{tier.checkout.label}</PayButton>
                                     </div>

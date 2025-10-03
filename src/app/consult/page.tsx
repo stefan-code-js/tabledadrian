@@ -57,26 +57,28 @@ export default function ConsultPage() {
                             ].filter(Boolean) as { label: string; value: string }[];
                             return (
                                 <CardPanel key={pkg.id} className="program-card">
-                                    <KineticHeading as="h3">{pkg.name}</KineticHeading>
-                                    {pkg.narrative.map((paragraph, pIndex) => (
-                                        <KineticParagraph key={pIndex}>
-                                            <KeywordHighlighter
-                                                text={paragraph}
-                                                keywords={KEYWORDS}
-                                                variant={index % 2 === 0 ? "forest" : "bronze"}
-                                            />
-                                        </KineticParagraph>
-                                    ))}
-                                    {pkg.followUp.map((paragraph, fIndex) => (
-                                        <KineticParagraph key={`follow-${fIndex}`}>
-                                            <KeywordHighlighter
-                                                text={paragraph}
-                                                keywords={KEYWORDS}
-                                                variant={index % 2 === 0 ? "bronze" : "forest"}
-                                            />
-                                        </KineticParagraph>
-                                    ))}
-                                    <FactRow facts={facts} />
+                                    <div className="program-card__body">
+                                        <KineticHeading as="h3">{pkg.name}</KineticHeading>
+                                        {pkg.narrative.map((paragraph, pIndex) => (
+                                            <KineticParagraph key={pIndex}>
+                                                <KeywordHighlighter
+                                                    text={paragraph}
+                                                    keywords={KEYWORDS}
+                                                    variant={index % 2 === 0 ? "forest" : "bronze"}
+                                                />
+                                            </KineticParagraph>
+                                        ))}
+                                        {pkg.followUp.map((paragraph, fIndex) => (
+                                            <KineticParagraph key={`follow-${fIndex}`}>
+                                                <KeywordHighlighter
+                                                    text={paragraph}
+                                                    keywords={KEYWORDS}
+                                                    variant={index % 2 === 0 ? "bronze" : "forest"}
+                                                />
+                                            </KineticParagraph>
+                                        ))}
+                                        <FactRow facts={facts} />
+                                    </div>
                                     <div className="program-card__cta">
                                         <PayButton priceHandle={pkg.checkout.priceHandle}>
                                             {pkg.checkout.label}

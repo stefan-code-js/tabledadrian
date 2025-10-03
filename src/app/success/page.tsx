@@ -6,9 +6,7 @@ import CheckoutSuccessBeacon from "@/components/CheckoutSuccessBeacon";
 import { getOrder } from "@/lib/orders";
 import { buildMetadataForPath } from "@/lib/metadata";
 import KeywordHighlighter from "@/components/KeywordHighlighter";
-import { resolveCfEnv } from "@/lib/cloudflare";
-
-type Env = { STRIPE_SECRET_KEY?: string; STRIPE_KEY?: string };
+import { resolveStripeSecret } from "@/lib/stripe";
 
 export const runtime = "edge";
 
@@ -44,46 +42,8 @@ const followUpSteps = [
     },
 ];
 
-const STRIPE_SECRET_ENV_KEYS = ["STRIPE_SECRET_KEY", "STRIPE_KEY"] as const;
-
-const processStripeSecretKey =
-    typeof process !== "undefined" && typeof process.env !== "undefined"
-        ? process.env.STRIPE_SECRET_KEY
-        : undefined;
-const processStripeKey =
-    typeof process !== "undefined" && typeof process.env !== "undefined" ? process.env.STRIPE_KEY : undefined;
-
-function getProcessEnv(key: (typeof STRIPE_SECRET_ENV_KEYS)[number]): string | undefined {
-    if (key === "STRIPE_SECRET_KEY") {
-        return processStripeSecretKey;
-    }
-    if (key === "STRIPE_KEY") {
-        return processStripeKey;
-    }
-    if (typeof process !== "undefined" && typeof process.env !== "undefined") {
-        const value = process.env[key];
-        return typeof value === "string" ? value : undefined;
-    }
-    return undefined;
-}
-
 function getStripeSecret(): string | undefined {
-    const env = resolveCfEnv<Env>();
-    for (const key of STRIPE_SECRET_ENV_KEYS) {
-        const fromEnv = env?.[key];
-        if (typeof fromEnv === "string" && fromEnv.length) {
-            return fromEnv;
-        }
-    }
-
-    for (const key of STRIPE_SECRET_ENV_KEYS) {
-        const fallback = getProcessEnv(key);
-        if (typeof fallback === "string" && fallback.length) {
-            return fallback;
-        }
-    }
-
-    return undefined;
+    return resolveStripeSecret();
 }
 
 async function fetchStripeSummary(sessionId: string, secret: string) {

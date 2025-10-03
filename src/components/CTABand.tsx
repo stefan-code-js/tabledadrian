@@ -58,10 +58,10 @@ export default function CTABand({ title, description, primary, secondary, analyt
                     <KineticHeading as="h2" className="mb-2">{title}</KineticHeading>
                     <KineticParagraph className="mb-4">{description}</KineticParagraph>
                 </div>
-                <div className="cta-band__actions flex gap-3">
-                    <motion.span {...motionProps} className="inline-flex">
+                <div className="cta-band__actions">
+                    <motion.span {...motionProps} className="cta-band__action">
                         <Link
-                            className="cta-band__button cta-band__button--primary px-5 py-2 rounded-md shadow-soft"
+                            className="cta-band__button cta-band__button--primary shadow-soft"
                             href={primary.href}
                             onClick={handleClick("primary", primary.href, primary.label, primary.onClick)}
                         >
@@ -69,9 +69,9 @@ export default function CTABand({ title, description, primary, secondary, analyt
                         </Link>
                     </motion.span>
                     {secondary ? (
-                        <motion.span {...motionProps} className="inline-flex">
+                        <motion.span {...motionProps} className="cta-band__action">
                             <Link
-                                className="cta-band__button cta-band__button--secondary px-5 py-2 rounded-md border"
+                                className="cta-band__button cta-band__button--secondary"
                                 href={secondary.href}
                                 onClick={handleClick("secondary", secondary.href, secondary.label, secondary.onClick)}
                             >
