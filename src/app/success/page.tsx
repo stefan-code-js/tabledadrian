@@ -53,26 +53,22 @@ const processStripeSecretKey =
 const processStripeKey =
     typeof process !== "undefined" && typeof process.env !== "undefined" ? process.env.STRIPE_KEY : undefined;
 
+function getProcessEnv(key: (typeof STRIPE_SECRET_ENV_KEYS)[number]): string | undefined {
+    if (key === "STRIPE_SECRET_KEY") {
+        return processStripeSecretKey;
+    }
+    if (key === "STRIPE_KEY") {
+        return processStripeKey;
+    }
+    if (typeof process !== "undefined" && typeof process.env !== "undefined") {
+        const value = process.env[key];
+        return typeof value === "string" ? value : undefined;
+    }
+    return undefined;
+}
+
 function getStripeSecret(): string | undefined {
     const env = resolveCfEnv<Env>();
-    for (const key of STRIPE_SECRET_ENV_KEYS) {
-        const fromEnv = env?.[key];
-        if (typeof fromEnv === "string" && fromEnv.length) {
-            return fromEnv;
-        }
-    }
-
-const STRIPE_SECRET_ENV_KEYS = ["STRIPE_SECRET_KEY", "STRIPE_KEY"] as const;
-
-const processStripeSecretKey =
-    typeof process !== "undefined" && typeof process.env !== "undefined"
-        ? process.env.STRIPE_SECRET_KEY
-        : undefined;
-const processStripeKey =
-    typeof process !== "undefined" && typeof process.env !== "undefined" ? process.env.STRIPE_KEY : undefined;
-
-function getStripeSecret(): string | undefined {
-    const env = getEnv();
     for (const key of STRIPE_SECRET_ENV_KEYS) {
         const fromEnv = env?.[key];
         if (typeof fromEnv === "string" && fromEnv.length) {
@@ -85,7 +81,6 @@ function getStripeSecret(): string | undefined {
         if (typeof fallback === "string" && fallback.length) {
             return fallback;
         }
-
     }
 
     return undefined;
