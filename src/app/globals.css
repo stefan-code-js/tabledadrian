@@ -394,6 +394,7 @@ h1, h2, h3, h4, h5, h6 {
 .menu-overlay__panel {
   position: relative;
   width: min(720px, 100%);
+  box-sizing: border-box;
   background: var(--color-cream-soft);
   color: var(--color-ink);
   border-radius: var(--radius-lg);
@@ -496,6 +497,7 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--color-ink);
   text-decoration: none;
   padding-bottom: 0.4rem;
+  overflow-wrap: anywhere;
 }
 
 .menu-overlay__link .menu-overlay__underline {
