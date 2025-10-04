@@ -270,6 +270,40 @@ export default function NavBar() {
 
     const closeMobile = useCallback(() => setMobileOpen(false), []);
 
+    const mobileBody = (
+        <div className="nav-mobile__body">
+            <p id="mobile-navigation-title" className={`nav-mobile__title ${sans.className}`}>
+                Navigation
+            </p>
+            {navGroups.map((group) => (
+                <div key={`mobile-${group.id}`} className="nav-mobile__group">
+                    <p className={`nav-mobile__heading ${sans.className}`}>{group.label}</p>
+                    <p className="nav-mobile__summary">{group.summary}</p>
+                    <ul>
+                        {group.links.map((link) => (
+                            <li key={`mobile-${group.id}-${link.href}`}>
+                                <Link
+                                    href={link.href}
+                                    className={`nav-mobile__link ${serif.className}`}
+                                    onClick={closeMobile}
+                                >
+                                    {link.label}
+                                </Link>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+            ))}
+            <Link
+                href={ctaLink.href}
+                className={`nav-mobile__cta ${serif.className}`}
+                onClick={closeMobile}
+            >
+                {ctaLink.label}
+            </Link>
+        </div>
+    );
+
     const handleGroupBlur = (event: FocusEvent<HTMLDivElement>) => {
         if (event.currentTarget.contains(event.relatedTarget as Node | null)) {
             return;
@@ -283,7 +317,7 @@ export default function NavBar() {
             <header className="nav-shell">
             <div className="nav-shell__inner">
                 <Link href="/" className={`nav-brand ${serif.className}`}>
-                    Table d’Adrian
+                    Table d'Adrian
                 </Link>
 
                 <MotionNav
@@ -292,87 +326,101 @@ export default function NavBar() {
                     ref={desktopNavRef}
                 >
                     <div className="nav-desktop__wrap">
-                        {navGroups.map((group) => (
-                            <div
-                                key={group.id}
-                                className="nav-group"
-                                onMouseEnter={() => {
-                                    setActiveGroup(group.id);
-                                    setHighlight(group.id);
-                                }}
-                                onMouseLeave={() => {
-                                    setActiveGroup(defaultGroup ?? null);
-                                    setHighlight(defaultGroup ?? null);
-                                }}
-                                onFocus={() => {
-                                    setActiveGroup(group.id);
-                                    setHighlight(group.id);
-                                }}
-                                onBlur={handleGroupBlur}
-                            >
-                                <button
-                                    ref={(node) => setGroupNode(group.id, node)}
-                                    type="button"
-                                    className={`nav-group__label ${sans.className}`}
-                                    aria-expanded={activeGroup === group.id ? "true" : "false"}
+                        {navGroups.map((group) => {
+                            const panelId = `nav-panel-${group.id}`;
+                            const labelId = `nav-group-label-${group.id}`;
+                            const isActive = activeGroup === group.id;
+                            const panelContent = (
+                                <>
+                                    <p className="nav-panel__summary">{group.summary}</p>
+                                    <ul className="nav-panel__links">
+                                        {group.links.map((link) => (
+                                            <li key={link.href}>
+                                                <Link
+                                                    href={link.href}
+                                                    className={`nav-panel__link ${serif.className}`}
+                                                >
+                                                    {link.label}
+                                                </Link>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </>
+                            );
+
+                            return (
+                                <div
+                                    key={group.id}
+                                    className="nav-group"
+                                    onMouseEnter={() => {
+                                        setActiveGroup(group.id);
+                                        setHighlight(group.id);
+                                    }}
+                                    onMouseLeave={() => {
+                                        setActiveGroup(defaultGroup ?? null);
+                                        setHighlight(defaultGroup ?? null);
+                                    }}
+                                    onFocus={() => {
+                                        setActiveGroup(group.id);
+                                        setHighlight(group.id);
+                                    }}
+                                    onBlur={handleGroupBlur}
                                 >
-                                    <span>{group.label}</span>
-                                </button>
-                                {AnimatePresence ? (
-                                    <AnimatePresence>
-                                        {activeGroup === group.id && (
-                                            <MotionSection
-                                                key={group.id}
+                                    <button
+                                        id={labelId}
+                                        ref={(node) => setGroupNode(group.id, node)}
+                                        type="button"
+                                        className={`nav-group__label ${sans.className}`}
+                                        aria-expanded={isActive ? "true" : "false"}
+                                        aria-controls={panelId}
+                                        aria-haspopup="true"
+                                    >
+                                        <span>{group.label}</span>
+                                    </button>
+                                    {AnimatePresence ? (
+                                        <AnimatePresence>
+                                            {isActive && (
+                                                <MotionSection
+                                                    key={group.id}
+                                                    id={panelId}
+                                                    aria-labelledby={labelId}
+                                                    role="group"
+                                                    className="nav-panel"
+                                                    initial={prefersReducedMotion ? false : { opacity: 0, y: 12 }}
+                                                    animate={{ opacity: 1, y: 0 }}
+                                                    exit={
+                                                        prefersReducedMotion
+                                                            ? { opacity: 0, transitionEnd: { pointerEvents: "none" } }
+                                                            : {
+                                                                  opacity: 0,
+                                                                  y: 6,
+                                                                  transitionEnd: { pointerEvents: "none" },
+                                                              }
+                                                    }
+                                                    transition={{
+                                                        duration: prefersReducedMotion ? 0 : 0.24,
+                                                        ease: [0.16, 0.84, 0.44, 1],
+                                                    }}
+                                                >
+                                                    {panelContent}
+                                                </MotionSection>
+                                            )}
+                                        </AnimatePresence>
+                                    ) : (
+                                        isActive && (
+                                            <section
+                                                id={panelId}
+                                                aria-labelledby={labelId}
+                                                role="group"
                                                 className="nav-panel"
-                                                initial={prefersReducedMotion ? false : { opacity: 0, y: 12 }}
-                                                animate={{ opacity: 1, y: 0 }}
-                                                exit={
-                                                    prefersReducedMotion
-                                                        ? { opacity: 0, transitionEnd: { pointerEvents: "none" } }
-                                                        : { opacity: 0, y: 6, transitionEnd: { pointerEvents: "none" } }
-                                                }
-                                                transition={{
-                                                    duration: prefersReducedMotion ? 0 : 0.24,
-                                                    ease: [0.16, 0.84, 0.44, 1],
-                                                }}
                                             >
-                                                <p className="nav-panel__summary">{group.summary}</p>
-                                                <ul className="nav-panel__links">
-                                                    {group.links.map((link) => (
-                                                        <li key={link.href}>
-                                                            <Link
-                                                                href={link.href}
-                                                                className={`nav-panel__link ${serif.className}`}
-                                                            >
-                                                                {link.label}
-                                                            </Link>
-                                                        </li>
-                                                    ))}
-                                                </ul>
-                                            </MotionSection>
-                                        )}
-                                    </AnimatePresence>
-                                ) : (
-                                    activeGroup === group.id && (
-                                        <section className="nav-panel">
-                                            <p className="nav-panel__summary">{group.summary}</p>
-                                            <ul className="nav-panel__links">
-                                                {group.links.map((link) => (
-                                                    <li key={link.href}>
-                                                        <Link
-                                                            href={link.href}
-                                                            className={`nav-panel__link ${serif.className}`}
-                                                        >
-                                                            {link.label}
-                                                        </Link>
-                                                    </li>
-                                                ))}
-                                            </ul>
-                                        </section>
-                                    )
-                                )}
-                            </div>
-                        ))}
+                                                {panelContent}
+                                            </section>
+                                        )
+                                    )}
+                                </div>
+                            );
+                        })}
                         {indicatorState.visible && (
                             <MotionSpan className="nav-indicator" {...indicatorProps} />
                         )}
@@ -399,9 +447,11 @@ export default function NavBar() {
                     type="button"
                     className="nav-command-palette-btn"
                     aria-label="Open command palette"
+                    aria-keyshortcuts="Control+K"
+                    title="Open command palette (Ctrl+K)"
                     onClick={() => setPaletteOpen(true)}
                 >
-                    <span className="nav-command-palette-icon">⌘K</span>
+                    <span className="nav-command-palette-icon">{"Ctrl\u2009K"}</span>
                 </button>
             </div>
 
@@ -414,38 +464,12 @@ export default function NavBar() {
                             className="nav-mobile"
                             role="dialog"
                             aria-modal="true"
+                            aria-labelledby="mobile-navigation-title"
                             initial={prefersReducedMotion ? false : { opacity: 0 }}
                             animate={{ opacity: 1 }}
                             exit={prefersReducedMotion ? { opacity: 0 } : { opacity: 0 }}
                         >
-                            <div className="nav-mobile__body">
-                                {navGroups.map((group) => (
-                                    <div key={`mobile-${group.id}`} className="nav-mobile__group">
-                                        <p className={`nav-mobile__heading ${sans.className}`}>{group.label}</p>
-                                        <p className="nav-mobile__summary">{group.summary}</p>
-                                        <ul>
-                                            {group.links.map((link) => (
-                                                <li key={`mobile-${group.id}-${link.href}`}>
-                                                    <Link
-                                                        href={link.href}
-                                                        className={`nav-mobile__link ${serif.className}`}
-                                                        onClick={closeMobile}
-                                                    >
-                                                        {link.label}
-                                                    </Link>
-                                                </li>
-                                            ))}
-                                        </ul>
-                                    </div>
-                                ))}
-                                <Link
-                                    href={ctaLink.href}
-                                    className={`nav-mobile__cta ${serif.className}`}
-                                    onClick={closeMobile}
-                                >
-                                    {ctaLink.label}
-                                </Link>
-                            </div>
+                            {mobileBody}
                         </MotionDiv>
                     )}
                 </AnimatePresence>
@@ -457,40 +481,16 @@ export default function NavBar() {
                         className="nav-mobile"
                         role="dialog"
                         aria-modal="true"
+                        aria-labelledby="mobile-navigation-title"
                     >
-                        <div className="nav-mobile__body">
-                            {navGroups.map((group) => (
-                                <div key={`mobile-${group.id}`} className="nav-mobile__group">
-                                    <p className={`nav-mobile__heading ${sans.className}`}>{group.label}</p>
-                                    <p className="nav-mobile__summary">{group.summary}</p>
-                                    <ul>
-                                        {group.links.map((link) => (
-                                            <li key={`mobile-${group.id}-${link.href}`}>
-                                                <Link
-                                                    href={link.href}
-                                                    className={`nav-mobile__link ${serif.className}`}
-                                                    onClick={closeMobile}
-                                                >
-                                                    {link.label}
-                                                </Link>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </div>
-                            ))}
-                            <Link
-                                href={ctaLink.href}
-                                className={`nav-mobile__cta ${serif.className}`}
-                                onClick={closeMobile}
-                            >
-                                {ctaLink.label}
-                            </Link>
-                        </div>
+                        {mobileBody}
                     </div>
                 )
             )}
+
         </header>
             <CommandPalette open={paletteOpen} onClose={() => setPaletteOpen(false)} onNavigate={handlePaletteNavigate} />
         </>
     );
 }
+

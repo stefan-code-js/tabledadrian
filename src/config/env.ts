@@ -28,10 +28,17 @@ export const STRIPE_PUBLISHABLE_KEY = requiredAny(
     "STRIPE_PUBLIC_KEY",
     "NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY",
 );
-const resolvedStripeSecret = requiredAny("STRIPE_SECRET_KEY", "STRIPE_KEY");
+const resolvedStripeSecret = requiredAny(
+    "STRIPE_SECRET_KEY",
+    "STRIPE_KEY",
+    "STRIPE_LIVE_SECRET_KEY",
+    "STRIPE_SECRET_KEY_LIVE",
+    "STRIPE_LIVE_KEY",
+    "STRIPE_SECRET_LIVE_KEY",
+);
 const sanitizedStripeSecret = sanitizeStripeSecret(resolvedStripeSecret);
 if (!sanitizedStripeSecret) {
-    throw new Error("Missing env: one of STRIPE_SECRET_KEY, STRIPE_KEY");
+    throw new Error("Missing env: one of STRIPE_SECRET_KEY, STRIPE_KEY, STRIPE_LIVE_SECRET_KEY, STRIPE_SECRET_KEY_LIVE, STRIPE_LIVE_KEY, STRIPE_SECRET_LIVE_KEY");
 }
 export const STRIPE_SECRET_KEY = sanitizedStripeSecret;
 export const STRIPE_WEBHOOK_SECRET = process.env.STRIPE_WEBHOOK_SECRET || "";

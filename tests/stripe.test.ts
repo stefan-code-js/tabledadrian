@@ -1,5 +1,5 @@
 import { describe, expect, it, afterEach } from "vitest";
-import { resolveStripeSecret, sanitizeStripeSecret } from "../src/lib/stripe";
+import { resolveStaticStripeSecret, resolveStripeSecret, sanitizeStripeSecret } from "../src/lib/stripe";
 
 describe("stripe secret helpers", () => {
     const originalSecret = process.env.STRIPE_SECRET_KEY;
@@ -63,4 +63,11 @@ describe("stripe secret helpers", () => {
         process.env.STRIPE_SECRET_KEY = " sk_process_key ";
         expect(resolveStripeSecret()).toBe("sk_process_key");
     });
+    it("falls back to compile-time env references", () => {
+        delete process.env.STRIPE_SECRET_KEY;
+        delete process.env.STRIPE_KEY;
+        process.env.STRIPE_LIVE_SECRET_KEY = " sk_build_secret ";
+        expect(resolveStaticStripeSecret()).toBe("sk_build_secret");
+    });
 });
+

@@ -19,6 +19,21 @@ export function sanitizeStripeSecret(value: string | undefined): string | undefi
     return trimmed.length ? trimmed : undefined;
 }
 
+export function resolveStaticStripeSecret(): string | undefined {
+    try {
+        const secret =
+            process.env.STRIPE_SECRET_KEY ||
+            process.env.STRIPE_KEY ||
+            process.env.STRIPE_LIVE_SECRET_KEY ||
+            process.env.STRIPE_SECRET_KEY_LIVE ||
+            process.env.STRIPE_LIVE_KEY ||
+            process.env.STRIPE_SECRET_LIVE_KEY;
+        return sanitizeStripeSecret(secret);
+    } catch {
+        return undefined;
+    }
+}
+
 export function resolveStripeSecret(env?: StripeSecretEnv): string | undefined {
     const resolvedEnv = resolveCfEnv(env);
 
@@ -36,6 +51,11 @@ export function resolveStripeSecret(env?: StripeSecretEnv): string | undefined {
                 return fallback;
             }
         }
+    }
+
+    const staticSecret = resolveStaticStripeSecret();
+    if (staticSecret) {
+        return staticSecret;
     }
 
     return undefined;

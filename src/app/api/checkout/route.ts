@@ -1,14 +1,14 @@
-﻿import { NextRequest } from "next/server";
+import { NextRequest } from "next/server";
 import { z } from "zod";
 import * as Sentry from "@sentry/nextjs";
 import { createCheckoutSession } from "@/lib/checkout";
 import { priceCatalog, type PriceKey } from "@/lib/pricing";
 import { addOrder } from "@/lib/orders";
-import { resolveStripeSecret } from "@/lib/stripe";
+import { resolveStripeSecret, type StripeSecretEnv } from "@/lib/stripe";
 
 export const runtime = "edge";
 
-type Env = { STRIPE_SECRET_KEY?: string; STRIPE_KEY?: string };
+type Env = StripeSecretEnv;
 
 const HEADERS = {
     "Cache-Control": "no-store",
