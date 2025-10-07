@@ -394,6 +394,7 @@ h1, h2, h3, h4, h5, h6 {
 .menu-overlay__panel {
   position: relative;
   width: min(720px, 100%);
+  box-sizing: border-box;
   background: var(--color-cream-soft);
   color: var(--color-ink);
   border-radius: var(--radius-lg);
@@ -496,6 +497,7 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--color-ink);
   text-decoration: none;
   padding-bottom: 0.4rem;
+  overflow-wrap: anywhere;
 }
 
 .menu-overlay__link .menu-overlay__underline {
@@ -1341,6 +1343,8 @@ h1, h2, h3, h4, h5, h6 {
 
 .keyword-highlighter .keyword-accent {
   font-style: normal;
+  font-size: 1em;
+  font-weight: inherit;
   position: relative;
   display: inline-block;
   padding: 0 0.1em;
@@ -1845,7 +1849,7 @@ hr {
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  padding: clamp(3rem, 8vw, 7rem) clamp(1.5rem, 6vw, 5rem);
+  padding: clamp(2.75rem, 7vw, 6.5rem) clamp(1.25rem, 5vw, 4.5rem);
   border-radius: var(--radius-lg);
   overflow: hidden;
   position: relative;
@@ -1882,7 +1886,7 @@ hr {
 .hero-cinematic__content {
   position: relative;
   z-index: 1;
-  width: min(640px, 90vw);
+  width: min(640px, 100%);
   -webkit-backdrop-filter: blur(18px) saturate(120%);
   backdrop-filter: blur(18px) saturate(120%);
   background: rgba(8, 7, 5, 0.36);
@@ -1914,15 +1918,16 @@ hr {
 
 @media (max-width: 768px) {
   .hero-cinematic {
-    padding: clamp(2.5rem, 10vw, 3.5rem);
+    padding: clamp(1.75rem, 6vw, 2.75rem);
     border-radius: 0;
   }
 
   .hero-cinematic__content {
     width: 100%;
+    max-width: 100%;
     background: rgba(8, 7, 5, 0.5);
-  -webkit-backdrop-filter: blur(12px) saturate(125%);
-  backdrop-filter: blur(12px) saturate(125%);
+    -webkit-backdrop-filter: blur(12px) saturate(125%);
+    backdrop-filter: blur(12px) saturate(125%);
   }
 }
 .section-lead {
