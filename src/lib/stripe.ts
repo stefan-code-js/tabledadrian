@@ -19,14 +19,28 @@ export function sanitizeStripeSecret(value: string | undefined): string | undefi
     return trimmed.length ? trimmed : undefined;
 }
 
+const BUILD_TIME_STRIPE_SECRET_ENV: StripeSecretEnv = (() => {
+    const result: StripeSecretEnv = {};
+    for (const key of STRIPE_SECRET_ENV_KEYS) {
+        const candidate = sanitizeStripeSecret(process?.env?.[key as keyof NodeJS.ProcessEnv]);
+        if (candidate) {
+            result[key] = candidate;
+        }
+    }
+    return result;
+})();
+
+function readSecretFromProcessEnv(key: (typeof STRIPE_SECRET_ENV_KEYS)[number]): string | undefined {
+    if (typeof process !== "undefined" && typeof process.env !== "undefined") {
+        return process.env[key];
+    }
+    return BUILD_TIME_STRIPE_SECRET_ENV[key];
+}
+
 export function resolveStaticStripeSecret(): string | undefined {
     try {
-        if (typeof process === "undefined" || typeof process.env === "undefined") {
-            return undefined;
-        }
-
         for (const key of STRIPE_SECRET_ENV_KEYS) {
-            const candidate = sanitizeStripeSecret(process.env[key]);
+            const candidate = sanitizeStripeSecret(readSecretFromProcessEnv(key));
             if (candidate) {
                 return candidate;
             }
