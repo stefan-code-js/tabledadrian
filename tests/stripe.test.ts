@@ -78,6 +78,12 @@ describe("stripe secret helpers", () => {
         expect(resolveStripeSecret()).toBe("sk_process_key");
     });
 
+    it("falls back to process env even when an empty context env is provided", () => {
+        delete process.env.STRIPE_SECRET_KEY;
+        process.env.STRIPE_SECRET_KEY = " sk_process_key_context ";
+        expect(resolveStripeSecret({})).toBe("sk_process_key_context");
+    });
+
     it("accepts alternative secret key bindings", () => {
         const secret = resolveStripeSecret({ STRIPE_SECRET: " sk_alt_secret " });
         expect(secret).toBe("sk_alt_secret");

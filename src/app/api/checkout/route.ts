@@ -4,6 +4,7 @@ import * as Sentry from "@sentry/nextjs";
 import { createCheckoutSession } from "@/lib/checkout";
 import { priceCatalog, type PriceKey } from "@/lib/pricing";
 import { addOrder } from "@/lib/orders";
+import { resolveCfEnv } from "@/lib/cloudflare";
 import { resolveStripeSecret, type StripeSecretEnv } from "@/lib/stripe";
 
 export const runtime = "nodejs";
@@ -22,7 +23,7 @@ type RouteContext = { params: Promise<Record<string, string>> } & { env?: Env };
 
 export async function POST(request: NextRequest, context: RouteContext): Promise<Response> {
     const cfContext = context as RouteContext & { cloudflare?: { env?: Env } };
-    const env = cfContext.env ?? cfContext.cloudflare?.env;
+    const env = resolveCfEnv<Env>(cfContext.env ?? cfContext.cloudflare?.env);
 
     let payload: unknown;
     try {
