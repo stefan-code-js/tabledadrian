@@ -4,9 +4,10 @@ import * as Sentry from "@sentry/nextjs";
 import { createCheckoutSession } from "@/lib/checkout";
 import { priceCatalog, type PriceKey } from "@/lib/pricing";
 import { addOrder } from "@/lib/orders";
+import { resolveCfEnv } from "@/lib/cloudflare";
 import { resolveStripeSecret, type StripeSecretEnv } from "@/lib/stripe";
 
-export const runtime = "edge";
+export const runtime = "nodejs";
 
 type Env = StripeSecretEnv;
 
@@ -21,6 +22,9 @@ const requestSchema = z.object({
 type RouteContext = { params: Promise<Record<string, string>> } & { env?: Env };
 
 export async function POST(request: NextRequest, context: RouteContext): Promise<Response> {
+    const cfContext = context as RouteContext & { cloudflare?: { env?: Env } };
+    const env = resolveCfEnv<Env>(cfContext.env ?? cfContext.cloudflare?.env);
+
     let payload: unknown;
     try {
         payload = await request.json();
@@ -43,7 +47,7 @@ export async function POST(request: NextRequest, context: RouteContext): Promise
     const successUrl = `${origin}/success?session_id={CHECKOUT_SESSION_ID}`;
     const cancelUrl = `${origin}/cancel`;
 
-    const secret = resolveStripeSecret(context.env);
+    const secret = resolveStripeSecret(env);
 
     if (!secret) {
         return Response.json({ error: "Stripe secret key not found." }, { status: 500, headers: HEADERS });

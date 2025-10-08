@@ -8,6 +8,8 @@ describe("stripe secret helpers", () => {
     const originalSecretLive = process.env.STRIPE_SECRET_KEY_LIVE;
     const originalLiveKey = process.env.STRIPE_LIVE_KEY;
     const originalSecretLiveKey = process.env.STRIPE_SECRET_LIVE_KEY;
+    const originalStripeSecret = process.env.STRIPE_SECRET;
+    const originalStripeLiveSecret = process.env.STRIPE_LIVE_SECRET;
 
     afterEach(() => {
         if (typeof originalSecret === "undefined") {
@@ -45,6 +47,18 @@ describe("stripe secret helpers", () => {
         } else {
             process.env.STRIPE_SECRET_LIVE_KEY = originalSecretLiveKey;
         }
+
+        if (typeof originalStripeSecret === "undefined") {
+            delete process.env.STRIPE_SECRET;
+        } else {
+            process.env.STRIPE_SECRET = originalStripeSecret;
+        }
+
+        if (typeof originalStripeLiveSecret === "undefined") {
+            delete process.env.STRIPE_LIVE_SECRET;
+        } else {
+            process.env.STRIPE_LIVE_SECRET = originalStripeLiveSecret;
+        }
     });
 
     it("trims secret values", () => {
@@ -62,6 +76,17 @@ describe("stripe secret helpers", () => {
         delete process.env.STRIPE_SECRET_KEY;
         process.env.STRIPE_SECRET_KEY = " sk_process_key ";
         expect(resolveStripeSecret()).toBe("sk_process_key");
+    });
+
+    it("falls back to process env even when an empty context env is provided", () => {
+        delete process.env.STRIPE_SECRET_KEY;
+        process.env.STRIPE_SECRET_KEY = " sk_process_key_context ";
+        expect(resolveStripeSecret({})).toBe("sk_process_key_context");
+    });
+
+    it("accepts alternative secret key bindings", () => {
+        const secret = resolveStripeSecret({ STRIPE_SECRET: " sk_alt_secret " });
+        expect(secret).toBe("sk_alt_secret");
     });
     it("falls back to compile-time env references", () => {
         delete process.env.STRIPE_SECRET_KEY;
