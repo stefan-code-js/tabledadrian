@@ -1,5 +1,6 @@
-import { describe, expect, it, afterEach } from "vitest";
+import { describe, expect, it, afterEach, vi } from "vitest";
 import { resolveStaticStripeSecret, resolveStripeSecret, sanitizeStripeSecret } from "../src/lib/stripe";
+import * as cloudflare from "@/lib/cloudflare";
 
 describe("stripe secret helpers", () => {
     const originalSecret = process.env.STRIPE_SECRET_KEY;
@@ -8,6 +9,8 @@ describe("stripe secret helpers", () => {
     const originalSecretLive = process.env.STRIPE_SECRET_KEY_LIVE;
     const originalLiveKey = process.env.STRIPE_LIVE_KEY;
     const originalSecretLiveKey = process.env.STRIPE_SECRET_LIVE_KEY;
+    const originalStripeSecret = process.env.STRIPE_SECRET;
+    const originalStripeLiveSecret = process.env.STRIPE_LIVE_SECRET;
 
     afterEach(() => {
         if (typeof originalSecret === "undefined") {
@@ -45,6 +48,20 @@ describe("stripe secret helpers", () => {
         } else {
             process.env.STRIPE_SECRET_LIVE_KEY = originalSecretLiveKey;
         }
+
+        if (typeof originalStripeSecret === "undefined") {
+            delete process.env.STRIPE_SECRET;
+        } else {
+            process.env.STRIPE_SECRET = originalStripeSecret;
+        }
+
+        if (typeof originalStripeLiveSecret === "undefined") {
+            delete process.env.STRIPE_LIVE_SECRET;
+        } else {
+            process.env.STRIPE_LIVE_SECRET = originalStripeLiveSecret;
+        }
+
+        vi.restoreAllMocks();
     });
 
     it("trims secret values", () => {
@@ -62,6 +79,16 @@ describe("stripe secret helpers", () => {
         delete process.env.STRIPE_SECRET_KEY;
         process.env.STRIPE_SECRET_KEY = " sk_process_key ";
         expect(resolveStripeSecret()).toBe("sk_process_key");
+    });
+
+    it("accepts alternative secret key bindings", () => {
+        const secret = resolveStripeSecret({ STRIPE_SECRET: " sk_alt_secret " });
+        expect(secret).toBe("sk_alt_secret");
+    });
+
+    it("uses Cloudflare bindings when no context env is provided", () => {
+        vi.spyOn(cloudflare, "resolveCfEnv").mockReturnValue({ STRIPE_SECRET_KEY: " sk_cf_secret " });
+        expect(resolveStripeSecret()).toBe("sk_cf_secret");
     });
     it("falls back to compile-time env references", () => {
         delete process.env.STRIPE_SECRET_KEY;

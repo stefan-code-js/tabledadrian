@@ -1985,6 +1985,7 @@ hr {
   font-size: 0.95rem;
   color: rgba(8, 7, 5, 0.58);
 }
+
 .menu-header__nav {
   display: none;
   gap: 1.6rem;
@@ -2044,15 +2045,11 @@ hr {
 
 @media (min-width: 1024px) {
   .menu-header__nav {
-    display: none;
-  }
-
-  .menu-header__cta {
-    display: none;
+    display: flex;
   }
 
   .menu-header__button {
-    display: inline-flex;
+    display: none;
   }
 }
 
