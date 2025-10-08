@@ -1,5 +1,3 @@
-import { resolveCfEnv } from "./cloudflare";
-
 export const STRIPE_SECRET_ENV_KEYS = [
     "STRIPE_SECRET_KEY",
     "STRIPE_KEY",
