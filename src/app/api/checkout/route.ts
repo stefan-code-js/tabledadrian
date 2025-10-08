@@ -23,7 +23,7 @@ type RouteContext = { params: Promise<Record<string, string>> } & { env?: Env };
 
 export async function POST(request: NextRequest, context: RouteContext): Promise<Response> {
     const cfContext = context as RouteContext & { cloudflare?: { env?: Env } };
-    const env = cfContext.env ?? cfContext.cloudflare?.env;
+    const env = resolveCfEnv(cfContext.env ?? cfContext.cloudflare?.env);
 
     let payload: unknown;
     try {

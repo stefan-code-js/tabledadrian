@@ -6,7 +6,8 @@ import CheckoutSuccessBeacon from "@/components/CheckoutSuccessBeacon";
 import { getOrder } from "@/lib/orders";
 import { buildMetadataForPath } from "@/lib/metadata";
 import KeywordHighlighter from "@/components/KeywordHighlighter";
-import { resolveStripeSecret } from "@/lib/stripe";
+import { resolveStripeSecret, type StripeSecretEnv } from "@/lib/stripe";
+import { resolveCfEnv } from "@/lib/cloudflare";
 
 export const runtime = "edge";
 
@@ -43,7 +44,8 @@ const followUpSteps = [
 ];
 
 function getStripeSecret(): string | undefined {
-    return resolveStripeSecret();
+    const env = resolveCfEnv<StripeSecretEnv>();
+    return resolveStripeSecret(env);
 }
 
 async function fetchStripeSummary(sessionId: string, secret: string) {
