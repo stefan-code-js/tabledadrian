@@ -5,7 +5,7 @@ import globals from 'globals';
 
 export default [
   {
-    ignores: ['node_modules/**', '.next/**', 'dist/**', 'coverage/**', 'chrome-devtools-mcp/**', 'src/app/api/contact/route.ts', 'next-env.d.ts'],
+    ignores: ['node_modules/**', '.next/**', 'dist/**', 'coverage/**', 'chrome-devtools-mcp/**', '.venv/**', 'src/app/api/contact/route.ts', 'next-env.d.ts'],
   },
   {
     languageOptions: {
