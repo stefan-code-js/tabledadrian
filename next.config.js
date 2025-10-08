@@ -19,6 +19,7 @@ const nextConfig = {
     },
     images: {
         formats: ['image/avif', 'image/webp'],
+        unoptimized: true,
     },
     async redirects() {
         return [
