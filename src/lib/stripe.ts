@@ -1,5 +1,3 @@
-import { resolveCfEnv } from "./cloudflare";
-
 export const STRIPE_SECRET_ENV_KEYS = [
     "STRIPE_SECRET_KEY",
     "STRIPE_KEY",
@@ -37,9 +35,16 @@ export function resolveStaticStripeSecret(): string | undefined {
 }
 
 export function resolveStripeSecret(env?: StripeSecretEnv): string | undefined {
-    const resolvedEnv = env ?? resolveCfEnv<StripeSecretEnv>();
+    const sources: StripeSecretEnv[] = [];
 
-    const sources: Array<StripeSecretEnv | undefined> = [resolvedEnv];
+    if (env) {
+        sources.push(env);
+    }
+
+    const resolvedEnv = resolveCfEnv(env);
+    if (resolvedEnv && resolvedEnv !== env) {
+        sources.push(resolvedEnv);
+    }
 
     if (typeof process !== "undefined" && typeof process.env !== "undefined") {
         sources.push(process.env as StripeSecretEnv);
@@ -47,9 +52,9 @@ export function resolveStripeSecret(env?: StripeSecretEnv): string | undefined {
 
     for (const source of sources) {
         for (const key of STRIPE_SECRET_ENV_KEYS) {
-            const candidate = sanitizeStripeSecret(source?.[key]);
-            if (candidate) {
-                return candidate;
+            const resolved = sanitizeStripeSecret(source?.[key]);
+            if (resolved) {
+                return resolved;
             }
         }
     }
