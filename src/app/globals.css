@@ -2695,7 +2695,7 @@ hr {
 .nav-desktop__wrap {
   display: flex;
   align-items: center;
-  gap: clamp(0.75rem, 1.8vw, 2.2rem);
+  gap: clamp(0.75rem, 1.6vw, 2rem);
   position: relative;
 }
 .nav-group {
@@ -2708,7 +2708,7 @@ hr {
   border: none;
   background: transparent;
   padding: var(--space-2) var(--space-1);
-  font-size: var(--step--1);
+  font-size: clamp(0.85rem, 0.8rem + 0.2vw, 0.95rem);
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.12em;
@@ -2730,24 +2730,36 @@ hr {
 }
 .nav-panel {
   position: absolute;
-  left: 0;
+  left: 50%;
   top: calc(100% + 0.5rem);
-  min-width: max(16rem, 100%);
+  translate: -50% 0;
+  width: min(24rem, calc(100vw - 3rem));
   background: var(--color-paper);
   background: color-mix(in srgb, var(--color-paper) 88%, transparent);
   border: 1px solid var(--line-subtle);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-ambient);
-  padding: var(--space-3) var(--space-4);
+  padding: var(--space-3) clamp(1.5rem, 3vw, var(--space-4));
   display: grid;
   gap: var(--space-2);
   color: var(--fg);
   z-index: 5;
+  text-align: center;
+}
+.nav-panel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--line-subtle) 35%, transparent);
 }
 .nav-panel__summary {
   margin: 0;
-  font-size: var(--step--1);
+  font-size: clamp(0.85rem, 0.8rem + 0.15vw, var(--step--1));
   color: var(--color-ink-muted);
+  margin-inline: auto;
+  max-width: 20rem;
 }
 .nav-panel__links {
   display: grid;
@@ -2755,12 +2767,15 @@ hr {
   list-style: none;
   margin: 0;
   padding: 0;
+  justify-items: center;
 }
 .nav-panel__link {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 0.4rem;
-  font-size: var(--step-0);
+  width: 100%;
+  font-size: clamp(1rem, 0.95rem + 0.25vw, 1.15rem);
   text-decoration: none;
   color: var(--fg);
   padding: 0.25rem 0;
@@ -2966,6 +2981,14 @@ hr {
   }
   .nav-desktop__wrap {
     display: none;
+  }
+}
+
+@supports not (translate: 0) {
+  .nav-panel {
+    left: 0;
+    right: 0;
+    margin-inline: auto;
   }
 }
 
