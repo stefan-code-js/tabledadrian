@@ -1,6 +1,6 @@
 ﻿"use client";
 
-import Image from "next/image";
+import Image from "@/components/StaticImage";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import KineticHeading from "@/components/KineticHeading";
@@ -130,3 +130,4 @@ export default function CancelPageContent() {
         </article>
     );
 }
+

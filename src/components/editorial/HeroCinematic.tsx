@@ -1,6 +1,6 @@
-"use client";
+﻿"use client";
 
-import Image from "next/image";
+import Image from "@/components/StaticImage";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { cva } from "class-variance-authority";
@@ -142,4 +142,5 @@ function HeroLink({ label, href, variant, onClick, context }: HeroLinkProps) {
         </motion.span>
     );
 }
+
 

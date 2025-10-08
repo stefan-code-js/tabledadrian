@@ -1,5 +1,5 @@
 ﻿"use client";
-import Image from "next/image";
+import Image from "@/components/StaticImage";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import type { PageContent, Tier, PageId } from "@/data/siteContent";
@@ -326,4 +326,5 @@ export function PageStructuredData({ page }: { page: PageContent }) {
     if (!data) return null;
     return <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }} />;
 }
+
 

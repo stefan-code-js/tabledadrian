@@ -1,6 +1,6 @@
-"use client";
+﻿"use client";
 
-import Image from "next/image";
+import Image from "@/components/StaticImage";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import KineticHeading from "@/components/KineticHeading";
@@ -243,3 +243,4 @@ export default function HomeLuxury() {
         </article>
     );
 }
+

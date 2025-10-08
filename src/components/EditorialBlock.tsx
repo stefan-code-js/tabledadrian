@@ -1,5 +1,6 @@
-"use client";
-import Image, { type StaticImageData } from "next/image";
+﻿"use client";
+import Image from "@/components/StaticImage";
+import type { StaticImageData } from "next/image";
 import { cloneElement, isValidElement, type ReactElement } from "react";
 import clsx from "clsx";
 import type { ReactNode } from "react";
@@ -107,5 +108,6 @@ export default function EditorialBlock({
         </section>
     );
 }
+
 
 

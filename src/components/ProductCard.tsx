@@ -1,4 +1,4 @@
-﻿import Image from "next/image";
+﻿import Image from "@/components/StaticImage";
 import PayButton from "./PayButton";
 import type { Product } from "@/data/products";
 
@@ -27,3 +27,4 @@ export default function ProductCard({ product }: { product: Product }) {
         </article>
     );
 }
+

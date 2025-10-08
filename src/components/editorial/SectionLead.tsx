@@ -1,4 +1,4 @@
-﻿import Image from "next/image";
+﻿import Image from "@/components/StaticImage";
 import { cva } from "class-variance-authority";
 import { twMerge } from "tailwind-merge";
 import type { ReactNode } from "react";
@@ -93,3 +93,4 @@ export default function SectionLead({
         </section>
     );
 }
+

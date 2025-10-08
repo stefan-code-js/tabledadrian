@@ -1,4 +1,4 @@
-﻿import Image from "next/image";
+﻿import Image from "@/components/StaticImage";
 import type { ImageAsset } from "@/data/images";
 
 type ImageMosaicProps = {
@@ -40,3 +40,4 @@ export default function ImageMosaic({ images, className, sizes = DEFAULT_SIZES }
         </div>
     );
 }
+

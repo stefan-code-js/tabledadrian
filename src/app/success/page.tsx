@@ -1,4 +1,4 @@
-import Image from "next/image";
+﻿import Image from "@/components/StaticImage";
 import Link from "next/link";
 import KineticHeading from "@/components/KineticHeading";
 import KineticParagraph from "@/components/KineticParagraph";
@@ -192,3 +192,4 @@ export default async function SuccessPage({
         </article>
     );
 }
+

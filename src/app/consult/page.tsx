@@ -1,4 +1,4 @@
-import Image from "next/image";
+﻿import Image from "@/components/StaticImage";
 import PayButton from "@/components/PayButton";
 import CardPanel from "@/components/CardPanel";
 import KineticHeading from "@/components/KineticHeading";
@@ -106,3 +106,4 @@ export default function ConsultPage() {
         </article>
     );
 }
+

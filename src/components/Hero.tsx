@@ -1,6 +1,6 @@
 ﻿"use client";
 
-import Image from "next/image";
+import Image from "@/components/StaticImage";
 import Link from "next/link";
 import { useMemo } from "react";
 import { useEditorialMotion } from "@/hooks/useEditorialMotion";
@@ -101,3 +101,4 @@ export default function Hero() {
         </section>
     );
 }
+
