@@ -319,6 +319,7 @@ h1, h2, h3, h4, h5, h6 {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: var(--space-2);
   padding-block: var(--space-2);
 }
 
@@ -2044,8 +2045,24 @@ hr {
 }
 
 @media (min-width: 1024px) {
+  .menu-header__inner {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: clamp(1rem, 2vw, 2.5rem);
+  }
+
   .menu-header__nav {
     display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: clamp(1rem, 2vw, 1.6rem);
+    margin-left: 0;
+  }
+
+  .menu-header__actions {
+    margin-left: 0;
+    justify-content: flex-end;
   }
 
   .menu-header__button {
@@ -2486,6 +2503,7 @@ hr {
 
 .calculator{
   margin-top: var(--space-3);
+  margin-inline: auto;
   padding: var(--space-5);
   border-radius: var(--radius-lg);
   background: var(--color-paper);
