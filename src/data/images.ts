@@ -14,29 +14,29 @@ type ImageDefinition = {
 
 const IMAGE_DEFINITIONS = {
     heroDefault: {
-        src: "/gallery/0D1EA119-6D65-43D8-8FA2-2FCB20ADCFBE.jpg",
-        alt: "Golden morning light casting long shadows across a private dining table.",
+        src: "/placeholder/hero-default.svg",
+        alt: "Illustration of a sun-dappled private dining table.",
         aspectRatio: "3 / 2",
     },
     heroHome: {
-        src: "/gallery/IMG_3856.JPG",
-        alt: "Table d’Adrian crest floating above a candlelit dining room.",
+        src: "/placeholder/hero-home.svg",
+        alt: "Stylised crest floating above a candlelit dining salon.",
         aspectRatio: "16 / 9",
         priority: true,
     },
     heroAbout: {
-        src: "/gallery/B8FBB31E-B185-4FD6-B6AD-C694DE95E5D8.jpg",
-        alt: "Chefs coordinating at the pass inside a stainless kitchen.",
+        src: "/placeholder/hero-about.svg",
+        alt: "Illustration of the atelier brigade coordinating service.",
         aspectRatio: "16 / 9",
     },
     heroExperiences: {
-        src: "/gallery/D40AFFC1-3D32-49CF-9FC3-0D7DCD661645.jpg",
-        alt: "Lobster course finished at the table beside a chilled wine pairing.",
+        src: "/placeholder/hero-experiences.svg",
+        alt: "Graphic collage of tasting menu experiences.",
         aspectRatio: "21 / 16",
     },
     heroServices: {
-        src: "/gallery/975422A7-4688-46A3-B590-BD389A70A75B.jpg",
-        alt: "Chef pouring herb velouté into a composed garden course.",
+        src: "/placeholder/hero-products.svg",
+        alt: "Illustration of bespoke services, tools, and tasting menus.",
         aspectRatio: "3 / 2",
     },
     heroMembership: {
@@ -45,8 +45,8 @@ const IMAGE_DEFINITIONS = {
         aspectRatio: "4 / 3",
     },
     heroConsult: {
-        src: "/gallery/A10D18FD-4036-474F-B1F3-73430DE9F744.jpg",
-        alt: "Artichoke hearts and Amalfi lemon prepared for strategy tasting.",
+        src: "/placeholder/hero-consult.svg",
+        alt: "Illustration of consultation notes beside seasonal produce sketches.",
         aspectRatio: "3 / 2",
     },
     heroPricing: {
@@ -105,29 +105,29 @@ const IMAGE_DEFINITIONS = {
         aspectRatio: "4 / 5",
     },
     homeGalleryOne: {
-        src: "/gallery/975422A7-4688-46A3-B590-BD389A70A75B.jpg",
-        alt: "Chef finishing a verdant garden course with herb velouté.",
+        src: "/placeholder/gallery-01.svg",
+        alt: "Abstract illustration of plated greens and herbs.",
         caption: "Garden herb velouté, brassica blooms, pickled radish",
         width: 1600,
         height: 1067,
     },
     homeGalleryTwo: {
-        src: "/gallery/D40AFFC1-3D32-49CF-9FC3-0D7DCD661645.jpg",
-        alt: "Signature crustacean course served beside chilled white wine.",
+        src: "/placeholder/gallery-02.svg",
+        alt: "Illustrated crustacean course with chilled pairing.",
         caption: "Butter-poached lobster, saffron bisque, Riesling pairing",
         width: 1600,
         height: 1067,
     },
     homeGalleryThree: {
-        src: "/gallery/0D1EA119-6D65-43D8-8FA2-2FCB20ADCFBE.jpg",
-        alt: "Sun-washed terrace table with seasonal arrangements.",
+        src: "/placeholder/gallery-03.svg",
+        alt: "Stylised terrace scene with seasonal arrangements.",
         caption: "Sunlit aperitif terrace, rosemary smoke, Riviera citrus",
         width: 1600,
         height: 1067,
     },
     homeGalleryFour: {
-        src: "/gallery/B8FBB31E-B185-4FD6-B6AD-C694DE95E5D8.jpg",
-        alt: "Chef brigade working the pass for evening service.",
+        src: "/placeholder/gallery-04.svg",
+        alt: "Illustration of the brigade finishing courses at the pass.",
         caption: "Coordinated service pass, precision plating, brigade briefings",
         width: 1600,
         height: 1067,
