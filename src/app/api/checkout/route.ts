@@ -7,7 +7,7 @@ import { addOrder } from "@/lib/orders";
 import { resolveCfEnv } from "@/lib/cloudflare";
 import { resolveStripeSecret, type StripeSecretEnv } from "@/lib/stripe";
 
-export const runtime = "nodejs";
+export const runtime = "edge";
 
 type Env = StripeSecretEnv;
 

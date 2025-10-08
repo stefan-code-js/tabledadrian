@@ -13,8 +13,8 @@ const heroContent = {
     primary: { href: "/contact", label: "request a booking" },
     secondary: { href: "/membership", label: "explore memberships" },
     image: {
-        src: "/placeholder/hero-home.svg",
-        alt: "Ivory table dressed with stoneware, herbs, and candlelight awaiting guests.",
+        src: "/gallery/A10D18FD-4036-474F-B1F3-73430DE9F744.jpg",
+        alt: "Chef Adrian finishing a plated course on a marble pass.",
     },
 };
 

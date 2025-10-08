@@ -16,7 +16,7 @@ export const metadata = buildMetadataForPath("/membership", {
 });
 
 const HERO_IMAGE = {
-    src: "/placeholder/hero-membership.svg",
+    src: "/gallery/B8FBB31E-B185-4FD6-B6AD-C694DE95E5D8.jpg",
     alt: "Candlelit salon table awaiting a private chef membership soirée.",
 };
 

@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -10,7 +10,7 @@ import { ANALYTICS_EVENTS, trackEvent } from "@/lib/analytics";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 
 const heroImage = {
-    src: "/placeholder/hero-team.svg",
+    src: "/gallery/B8FBB31E-B185-4FD6-B6AD-C694DE95E5D8.jpg",
     alt: "Team preparing ingredients in a calm kitchen with daylight.",
 };
 
@@ -135,7 +135,7 @@ export default function TeamPageContent() {
                     <KineticHeading as="h2">Meet us at the table</KineticHeading>
                     <KineticParagraph>
                         <KeywordHighlighter
-                            text="Explore PharmD-approved menus or request a date—we will choreograph cuisine, wellness, and service so your residences, yachts, and jets feel effortlessly composed."
+                            text="Explore PharmD-approved menus or request a date�we will choreograph cuisine, wellness, and service so your residences, yachts, and jets feel effortlessly composed."
                             keywords={KEYWORDS}
                             variant="bronze"
                         />

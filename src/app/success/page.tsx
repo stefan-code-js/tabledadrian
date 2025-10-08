@@ -20,8 +20,8 @@ export const metadata = buildMetadataForPath("/success", {
 const KEYWORDS = ["booking", "membership", "service", "cadence", "table", "PharmD"] as const;
 
 const heroImage = {
-    src: "/placeholder/hero-success.svg",
-    alt: "Chef wiping the rim of a porcelain plate before service in a calm kitchen.",
+    src: "/gallery/IMG_3520.JPG",
+    alt: "Candlelit salon dressed for a private celebration after booking.",
 };
 
 const followUpSteps = [

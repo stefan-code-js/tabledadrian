@@ -14,8 +14,8 @@ const CAL_URL = `https://cal.com/${CAL_HANDLE}`;
 const CONTACT_EMAIL = process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "adrian@tabledadrian.com";
 
 const heroImage = {
-    src: "/placeholder/hero-book.svg",
-    alt: "Soft light across a table laid with porcelain, glassware, and herbs ready for service.",
+    src: "/gallery/IMG_3477(1).JPG",
+    alt: "Line of plated tasting courses staged beside stemware ahead of service.",
 };
 
 const KEYWORDS = ["Table d'Adrian", "private chef", "membership", "PharmD", "yacht", "bespoke dining"] as const;

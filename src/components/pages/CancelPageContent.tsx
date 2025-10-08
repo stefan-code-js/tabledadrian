@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -12,7 +12,7 @@ import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 const KEYWORDS = ["booking", "membership", "calendar", "table", "private chef"] as const;
 
 const heroImage = {
-    src: "/placeholder/hero-cancel.svg",
+    src: "/gallery/IMG_3090.JPG",
     alt: "Notebook, pen, and citrus on a marble counter awaiting notes for the next booking.",
 };
 
