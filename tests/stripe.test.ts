@@ -1,5 +1,6 @@
-import { describe, expect, it, afterEach } from "vitest";
+import { describe, expect, it, afterEach, vi } from "vitest";
 import { resolveStaticStripeSecret, resolveStripeSecret, sanitizeStripeSecret } from "../src/lib/stripe";
+import * as cloudflare from "@/lib/cloudflare";
 
 describe("stripe secret helpers", () => {
     const originalSecret = process.env.STRIPE_SECRET_KEY;
