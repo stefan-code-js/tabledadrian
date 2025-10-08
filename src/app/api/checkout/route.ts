@@ -6,7 +6,7 @@ import { priceCatalog, type PriceKey } from "@/lib/pricing";
 import { addOrder } from "@/lib/orders";
 import { resolveStripeSecret, type StripeSecretEnv } from "@/lib/stripe";
 
-export const runtime = "edge";
+export const runtime = "nodejs";
 
 type Env = StripeSecretEnv;
 
