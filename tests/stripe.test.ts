@@ -1,4 +1,4 @@
-import { describe, expect, it, afterEach } from "vitest";
+import { describe, expect, it, afterEach, vi } from "vitest";
 import { resolveStaticStripeSecret, resolveStripeSecret, sanitizeStripeSecret } from "../src/lib/stripe";
 
 describe("stripe secret helpers", () => {
@@ -8,6 +8,8 @@ describe("stripe secret helpers", () => {
     const originalSecretLive = process.env.STRIPE_SECRET_KEY_LIVE;
     const originalLiveKey = process.env.STRIPE_LIVE_KEY;
     const originalSecretLiveKey = process.env.STRIPE_SECRET_LIVE_KEY;
+    const originalStripeSecret = process.env.STRIPE_SECRET;
+    const originalStripeLiveSecret = process.env.STRIPE_LIVE_SECRET;
 
     afterEach(() => {
         if (typeof originalSecret === "undefined") {
@@ -45,6 +47,20 @@ describe("stripe secret helpers", () => {
         } else {
             process.env.STRIPE_SECRET_LIVE_KEY = originalSecretLiveKey;
         }
+
+        if (typeof originalStripeSecret === "undefined") {
+            delete process.env.STRIPE_SECRET;
+        } else {
+            process.env.STRIPE_SECRET = originalStripeSecret;
+        }
+
+        if (typeof originalStripeLiveSecret === "undefined") {
+            delete process.env.STRIPE_LIVE_SECRET;
+        } else {
+            process.env.STRIPE_LIVE_SECRET = originalStripeLiveSecret;
+        }
+
+        vi.restoreAllMocks();
     });
 
     it("trims secret values", () => {
@@ -62,6 +78,23 @@ describe("stripe secret helpers", () => {
         delete process.env.STRIPE_SECRET_KEY;
         process.env.STRIPE_SECRET_KEY = " sk_process_key ";
         expect(resolveStripeSecret()).toBe("sk_process_key");
+    });
+
+    it("accepts alternative secret key bindings", () => {
+        const secret = resolveStripeSecret({ STRIPE_SECRET: " sk_alt_secret " });
+        expect(secret).toBe("sk_alt_secret");
+    });
+
+    it("reads process env alternative bindings", () => {
+        delete process.env.STRIPE_SECRET_KEY;
+        process.env.STRIPE_SECRET = " sk_process_alt ";
+        expect(resolveStripeSecret()).toBe("sk_process_alt");
+    });
+
+    it("supports static alternative bindings", () => {
+        delete process.env.STRIPE_SECRET_KEY;
+        process.env.STRIPE_SECRET = " sk_static_alt ";
+        expect(resolveStaticStripeSecret()).toBe("sk_static_alt");
     });
     it("falls back to compile-time env references", () => {
         delete process.env.STRIPE_SECRET_KEY;

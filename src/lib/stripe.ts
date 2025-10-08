@@ -1,5 +1,3 @@
-import { resolveCfEnv } from "./cloudflare";
-
 export const STRIPE_SECRET_ENV_KEYS = [
     "STRIPE_SECRET_KEY",
     "STRIPE_KEY",
@@ -7,6 +5,8 @@ export const STRIPE_SECRET_ENV_KEYS = [
     "STRIPE_SECRET_KEY_LIVE",
     "STRIPE_LIVE_KEY",
     "STRIPE_SECRET_LIVE_KEY",
+    "STRIPE_SECRET",
+    "STRIPE_LIVE_SECRET",
 ] as const;
 
 export type StripeSecretEnv = Partial<Record<(typeof STRIPE_SECRET_ENV_KEYS)[number], string>>;
@@ -21,34 +21,39 @@ export function sanitizeStripeSecret(value: string | undefined): string | undefi
 
 export function resolveStaticStripeSecret(): string | undefined {
     try {
-        const secret =
-            process.env.STRIPE_SECRET_KEY ||
-            process.env.STRIPE_KEY ||
-            process.env.STRIPE_LIVE_SECRET_KEY ||
-            process.env.STRIPE_SECRET_KEY_LIVE ||
-            process.env.STRIPE_LIVE_KEY ||
-            process.env.STRIPE_SECRET_LIVE_KEY;
-        return sanitizeStripeSecret(secret);
+        if (typeof process === "undefined" || typeof process.env === "undefined") {
+            return undefined;
+        }
+
+        for (const key of STRIPE_SECRET_ENV_KEYS) {
+            const candidate = sanitizeStripeSecret(process.env[key]);
+            if (candidate) {
+                return candidate;
+            }
+        }
+
+        return undefined;
     } catch {
         return undefined;
     }
 }
 
 export function resolveStripeSecret(env?: StripeSecretEnv): string | undefined {
-    const resolvedEnv = resolveCfEnv(env);
+    const sources: Array<StripeSecretEnv | undefined> = [];
 
-    for (const key of STRIPE_SECRET_ENV_KEYS) {
-        const fromEnv = sanitizeStripeSecret(resolvedEnv?.[key]);
-        if (fromEnv) {
-            return fromEnv;
-        }
+    if (env) {
+        sources.push(env);
     }
 
     if (typeof process !== "undefined" && typeof process.env !== "undefined") {
+        sources.push(process.env as StripeSecretEnv);
+    }
+
+    for (const source of sources) {
         for (const key of STRIPE_SECRET_ENV_KEYS) {
-            const fallback = sanitizeStripeSecret(process.env[key]);
-            if (fallback) {
-                return fallback;
+            const candidate = sanitizeStripeSecret(source?.[key]);
+            if (candidate) {
+                return candidate;
             }
         }
     }
