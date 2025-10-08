@@ -21,29 +21,28 @@ export function sanitizeStripeSecret(value: string | undefined): string | undefi
 
 export function resolveStaticStripeSecret(): string | undefined {
     try {
-        const secret =
-            process.env.STRIPE_SECRET_KEY ||
-            process.env.STRIPE_KEY ||
-            process.env.STRIPE_LIVE_SECRET_KEY ||
-            process.env.STRIPE_SECRET_KEY_LIVE ||
-            process.env.STRIPE_LIVE_KEY ||
-            process.env.STRIPE_SECRET_LIVE_KEY;
-        return sanitizeStripeSecret(secret);
+        if (typeof process === "undefined" || typeof process.env === "undefined") {
+            return undefined;
+        }
+
+        for (const key of STRIPE_SECRET_ENV_KEYS) {
+            const candidate = sanitizeStripeSecret(process.env[key]);
+            if (candidate) {
+                return candidate;
+            }
+        }
+
+        return undefined;
     } catch {
         return undefined;
     }
 }
 
 export function resolveStripeSecret(env?: StripeSecretEnv): string | undefined {
-    const sources: StripeSecretEnv[] = [];
+    const sources: Array<StripeSecretEnv | undefined> = [];
 
     if (env) {
         sources.push(env);
-    }
-
-    const resolvedEnv = resolveCfEnv(env);
-    if (resolvedEnv && resolvedEnv !== env) {
-        sources.push(resolvedEnv);
     }
 
     if (typeof process !== "undefined" && typeof process.env !== "undefined") {
@@ -52,9 +51,9 @@ export function resolveStripeSecret(env?: StripeSecretEnv): string | undefined {
 
     for (const source of sources) {
         for (const key of STRIPE_SECRET_ENV_KEYS) {
-            const resolved = sanitizeStripeSecret(source?.[key]);
-            if (resolved) {
-                return resolved;
+            const candidate = sanitizeStripeSecret(source?.[key]);
+            if (candidate) {
+                return candidate;
             }
         }
     }

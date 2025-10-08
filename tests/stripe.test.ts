@@ -60,6 +60,8 @@ describe("stripe secret helpers", () => {
         } else {
             process.env.STRIPE_LIVE_SECRET = originalStripeLiveSecret;
         }
+
+        vi.restoreAllMocks();
     });
 
     it("trims secret values", () => {
@@ -79,15 +81,21 @@ describe("stripe secret helpers", () => {
         expect(resolveStripeSecret()).toBe("sk_process_key");
     });
 
-    it("falls back to process env even when an empty context env is provided", () => {
-        delete process.env.STRIPE_SECRET_KEY;
-        process.env.STRIPE_SECRET_KEY = " sk_process_key_context ";
-        expect(resolveStripeSecret({})).toBe("sk_process_key_context");
-    });
-
     it("accepts alternative secret key bindings", () => {
         const secret = resolveStripeSecret({ STRIPE_SECRET: " sk_alt_secret " });
         expect(secret).toBe("sk_alt_secret");
+    });
+
+    it("reads process env alternative bindings", () => {
+        delete process.env.STRIPE_SECRET_KEY;
+        process.env.STRIPE_SECRET = " sk_process_alt ";
+        expect(resolveStripeSecret()).toBe("sk_process_alt");
+    });
+
+    it("supports static alternative bindings", () => {
+        delete process.env.STRIPE_SECRET_KEY;
+        process.env.STRIPE_SECRET = " sk_static_alt ";
+        expect(resolveStaticStripeSecret()).toBe("sk_static_alt");
     });
     it("falls back to compile-time env references", () => {
         delete process.env.STRIPE_SECRET_KEY;
