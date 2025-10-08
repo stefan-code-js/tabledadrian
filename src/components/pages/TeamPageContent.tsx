@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -135,7 +135,7 @@ export default function TeamPageContent() {
                     <KineticHeading as="h2">Meet us at the table</KineticHeading>
                     <KineticParagraph>
                         <KeywordHighlighter
-                            text="Explore PharmD-approved menus or request a date�we will choreograph cuisine, wellness, and service so your residences, yachts, and jets feel effortlessly composed."
+                            text="Explore PharmD-approved menus or request a date—we will choreograph cuisine, wellness, and service so your residences, yachts, and jets feel effortlessly composed."
                             keywords={KEYWORDS}
                             variant="bronze"
                         />
