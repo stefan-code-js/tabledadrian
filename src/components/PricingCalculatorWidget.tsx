@@ -13,10 +13,12 @@ import {
     type TierCta,
 } from "@/lib/pricing";
 
-function CTAButton({ cta }: { cta: TierCta }) {
+type CheckoutPayload = Record<string, unknown>;
+
+function CTAButton({ cta, payload }: { cta: TierCta; payload?: CheckoutPayload }) {
     if (cta.type === "checkout") {
         return (
-            <PayButton priceHandle={cta.priceHandle}>
+            <PayButton priceHandle={cta.priceHandle} checkoutPayload={payload}>
                 {cta.label}
             </PayButton>
         );
@@ -41,6 +43,22 @@ export default function PricingCalculatorWidget() {
     );
 
     const estimate = useMemo(() => estimatePricing(option, guestInput, selectedAddons), [option, guestInput, selectedAddons]);
+
+    const checkoutPayload = useMemo<CheckoutPayload>(
+        () => ({
+            calculator: {
+                optionId: option.id,
+                guests: estimate.guestCount,
+                addons: selectedAddons,
+            },
+            summary: {
+                total: estimate.total.amount,
+                deposit: estimate.deposit.amount,
+                currency: estimate.total.currency,
+            },
+        }),
+        [option.id, estimate.guestCount, estimate.total.amount, estimate.total.currency, estimate.deposit.amount, selectedAddons]
+    );
 
     const handleOptionChange = (value: string) => {
         const next = getCalculatorOption(value);
@@ -124,7 +142,10 @@ export default function PricingCalculatorWidget() {
             </div>
 
             <div className="hero-ctas calculator-actions">
-                <CTAButton cta={option.cta} />
+                <CTAButton
+                    cta={option.cta}
+                    payload={option.cta.type === "checkout" ? checkoutPayload : undefined}
+                />
                 <Link className="btn ghost" href={`/contact?context=${encodeURIComponent(option.id)}`}>
                     Send inquiry
                 </Link>

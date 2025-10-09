@@ -1,4 +1,4 @@
-﻿import Image from "@/components/StaticImage";
+import Image from "@/components/StaticImage";
 import Link from "next/link";
 import KineticHeading from "@/components/KineticHeading";
 import KineticParagraph from "@/components/KineticParagraph";
@@ -18,6 +18,9 @@ export const metadata = buildMetadataForPath("/success", {
 });
 
 const KEYWORDS = ["booking", "membership", "service", "cadence", "table", "PharmD"] as const;
+
+const formatCurrency = (amount: number, currency: string) =>
+    new Intl.NumberFormat("en-GB", { style: "currency", currency }).format(amount);
 
 const heroImage = {
     src: "/gallery/IMG_3520.JPG",
@@ -89,10 +92,15 @@ export default async function SuccessPage({
     const amount = stripe?.amount_total ? (stripe.amount_total / 100).toLocaleString("en-GB") : undefined;
     const currency = stripe?.currency?.toUpperCase();
 
-    const paymentMessage = localOrder
-        ? `Order ${localOrder.priceId} confirmed. A receipt is on its way.`
-        : amount && currency
-          ? `Payment of ${currency} ${amount} confirmed. Your receipt will arrive by email within minutes.`
+    const localAmount =
+        localOrder?.amount && localOrder.currency ? formatCurrency(localOrder.amount, localOrder.currency) : undefined;
+
+    const paymentMessage = localAmount
+        ? `Payment of ${localAmount} confirmed. A receipt is on its way.`
+        : localOrder?.priceId
+          ? `Order ${localOrder.priceId} confirmed. A receipt is on its way.`
+          : amount && currency
+            ? `Payment of ${currency} ${amount} confirmed. Your receipt will arrive by email within minutes.`
           : "Your payment was received. We will send intake notes and scheduling details shortly.";
 
     return (

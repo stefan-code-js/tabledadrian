@@ -3,14 +3,14 @@ import { createCheckoutSession } from "../src/lib/checkout";
 import { getOrder } from "../src/lib/orders";
 
 describe("createCheckoutSession", () => {
-    it("records order and returns url", async () => {
+    it("records order and returns url for price based checkout", async () => {
         const fetchMock = vi.fn().mockResolvedValue({
             ok: true,
             json: () => Promise.resolve({ id: "sess_1", url: "https://stripe.test" }),
         });
 
         const session = await createCheckoutSession({
-            priceId: "price_test",
+            lineItems: [{ type: "price", priceId: "price_test" }],
             mode: "payment",
             secretKey: "example_key",
             successUrl: "https://test/success?session_id={CHECKOUT_SESSION_ID}",
@@ -19,17 +19,27 @@ describe("createCheckoutSession", () => {
         });
 
         expect(session.url).toBe("https://stripe.test");
-        expect(getOrder("sess_1")).toBeTruthy();
+        const order = getOrder("sess_1");
+        expect(order).toBeTruthy();
+        expect(order?.priceId).toBe("price_test");
     });
 
-    it("trims the secret key before sending the request", async () => {
+    it("supports custom line items and trims the secret key", async () => {
         const fetchMock = vi.fn().mockResolvedValue({
             ok: true,
-            json: () => Promise.resolve({ id: "sess_trimmed" }),
+            json: () => Promise.resolve({ id: "sess_custom" }),
         });
 
         await createCheckoutSession({
-            priceId: "price_trim",
+            lineItems: [
+                {
+                    type: "custom",
+                    amount: 1250,
+                    currency: "EUR",
+                    name: "Custom Deposit",
+                    description: "Guests: 10",
+                },
+            ],
             mode: "payment",
             secretKey: "  sk_test_trim  ",
             successUrl: "https://test/success?session_id={CHECKOUT_SESSION_ID}",
@@ -44,5 +54,13 @@ describe("createCheckoutSession", () => {
             }),
             method: "POST",
         });
+
+        const params = fetchMock.mock.calls[0][1].body as URLSearchParams;
+        expect(params.get("line_items[0][price_data][unit_amount]")).toBe(String(1250 * 100));
+
+        const order = getOrder("sess_custom");
+        expect(order?.amount).toBe(1250);
+        expect(order?.currency).toBe("EUR");
     });
 });
+

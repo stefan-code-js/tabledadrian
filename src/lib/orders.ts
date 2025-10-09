@@ -1,7 +1,10 @@
 export interface Order {
     sessionId: string;
-    priceId: string;
-    mode: 'payment' | 'subscription';
+    mode: "payment" | "subscription";
+    priceId?: string;
+    amount?: number;
+    currency?: string;
+    metadata?: Record<string, string>;
 }
 
 const orders = new Map<string, Order>();

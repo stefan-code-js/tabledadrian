@@ -1,9 +1,12 @@
 import { NextRequest } from "next/server";
 import { z } from "zod";
-import * as Sentry from "@sentry/nextjs";
 import { createCheckoutSession } from "@/lib/checkout";
-import { priceCatalog, type PriceKey } from "@/lib/pricing";
-import { addOrder } from "@/lib/orders";
+import {
+    priceCatalog,
+    pricingCalculatorOptions,
+    estimatePricing,
+    type PriceKey,
+} from "@/lib/pricing";
 import { resolveCfEnv } from "@/lib/cloudflare";
 import { resolveStripeSecret, type StripeSecretEnv } from "@/lib/stripe";
 
@@ -15,9 +18,29 @@ const HEADERS = {
     "Cache-Control": "no-store",
 };
 
+const calculatorSchema = z.object({
+    optionId: z.string(),
+    guests: z.number().int().min(1).max(200),
+    addons: z.array(z.string()).optional(),
+});
+
 const requestSchema = z.object({
     priceHandle: z.string(),
+    payload: z
+        .object({
+            calculator: calculatorSchema.optional(),
+        })
+        .optional(),
 });
+
+const DEPOSIT_HANDLES = new Set<PriceKey>(
+    pricingCalculatorOptions
+        .map((option) => (option.cta.type === "checkout" ? option.cta.priceHandle : null))
+        .filter((handle): handle is PriceKey => Boolean(handle))
+);
+
+const formatAddons = (labels: string[]): string =>
+    labels.length ? labels.join(", ") : "none";
 
 type RouteContext = { params: Promise<Record<string, string>> } & { env?: Env };
 
@@ -37,8 +60,12 @@ export async function POST(request: NextRequest, context: RouteContext): Promise
         return Response.json({ error: "Missing price identifier." }, { status: 400, headers: HEADERS });
     }
 
-    const priceHandle = parsed.data.priceHandle as PriceKey;
-    const catalogEntry = priceCatalog[priceHandle];
+    const { priceHandle } = parsed.data;
+    if (!(priceHandle in priceCatalog)) {
+        return Response.json({ error: "Unknown price." }, { status: 400, headers: HEADERS });
+    }
+
+    const catalogEntry = priceCatalog[priceHandle as PriceKey];
     if (!catalogEntry) {
         return Response.json({ error: "Unknown price." }, { status: 400, headers: HEADERS });
     }
@@ -54,13 +81,74 @@ export async function POST(request: NextRequest, context: RouteContext): Promise
     }
 
     try {
-        const session = await createCheckoutSession({
-            priceId: catalogEntry.id,
-            mode: catalogEntry.mode,
-            secretKey: secret,
-            successUrl,
-            cancelUrl,
-        });
+        const isDynamicDeposit = DEPOSIT_HANDLES.has(priceHandle as PriceKey);
+        let session;
+
+        if (isDynamicDeposit) {
+            const calculatorPayload = parsed.data.payload?.calculator;
+            if (!calculatorPayload) {
+                return Response.json({ error: "Calculator payload missing." }, { status: 400, headers: HEADERS });
+            }
+
+            const option = pricingCalculatorOptions.find((opt) => opt.id === calculatorPayload.optionId);
+            if (!option || option.cta.type !== "checkout" || option.cta.priceHandle !== priceHandle) {
+                return Response.json({ error: "Invalid calculator option." }, { status: 400, headers: HEADERS });
+            }
+
+            const validAddonSet = new Set(option.enhancements.map((enhancement) => enhancement.id));
+            const safeAddons = (calculatorPayload.addons ?? []).filter((addon) => validAddonSet.has(addon));
+            const addonLabels = option.enhancements
+                .filter((enhancement) => safeAddons.includes(enhancement.id))
+                .map((enhancement) => enhancement.label);
+            const estimate = estimatePricing(option, calculatorPayload.guests, safeAddons);
+            const depositAmount = estimate.deposit.amount;
+            const depositCurrency = estimate.deposit.currency;
+
+            session = await createCheckoutSession({
+                lineItems: [
+                    {
+                        type: "custom",
+                        amount: depositAmount,
+                        currency: depositCurrency,
+                        name: `Deposit – ${option.name}`,
+                        description: `Guests: ${estimate.guestCount}. Enhancements: ${formatAddons(
+                            addonLabels
+                        )}.`,
+                    },
+                ],
+                mode: catalogEntry.mode,
+                secretKey: secret,
+                successUrl,
+                cancelUrl,
+                metadata: {
+                    price_handle: priceHandle,
+                    calculator_option_id: option.id,
+                    guest_count: String(estimate.guestCount),
+                    addons: safeAddons.join(",") || "none",
+                    addon_labels: formatAddons(addonLabels),
+                    total_amount: estimate.total.amount.toString(),
+                    total_currency: estimate.total.currency,
+                    deposit_amount: depositAmount.toString(),
+                    deposit_currency: depositCurrency,
+                },
+            });
+        } else {
+            session = await createCheckoutSession({
+                lineItems: [
+                    {
+                        type: "price",
+                        priceId: catalogEntry.id,
+                    },
+                ],
+                mode: catalogEntry.mode,
+                secretKey: secret,
+                successUrl,
+                cancelUrl,
+                metadata: {
+                    price_handle: priceHandle,
+                },
+            });
+        }
 
         const redirectUrl = session.url ?? `${origin}/success?session_id=${session.id}`;
         return Response.json({ url: redirectUrl }, { headers: HEADERS });

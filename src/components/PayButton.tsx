@@ -4,12 +4,15 @@ import { useState } from "react";
 import type { PriceKey } from "@/lib/pricing";
 import { ANALYTICS_EVENTS, trackEvent } from "@/lib/analytics";
 
+type CheckoutPayload = Record<string, unknown>;
+
 type Props = {
     priceHandle: PriceKey;
     children: React.ReactNode;
+    checkoutPayload?: CheckoutPayload;
 };
 
-export default function PayButton({ priceHandle, children }: Props) {
+export default function PayButton({ priceHandle, children, checkoutPayload }: Props) {
     const [busy, setBusy] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
@@ -22,7 +25,7 @@ export default function PayButton({ priceHandle, children }: Props) {
             const response = await fetch("/api/checkout", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ priceHandle }),
+                body: JSON.stringify({ priceHandle, payload: checkoutPayload }),
             });
 
             const data = (await response.json().catch(() => ({}))) as { url?: string; error?: string };
