@@ -182,6 +182,7 @@ export function PageHero({ page }: { page: PageContent }) {
 
 export function ValueSection({ page }: { page: PageContent }) {
     const { values } = page;
+    const valueAssets: ImageAsset[] = [images.valueFocus, images.valuePrecision, images.valueDocumentation];
     return (
         <section className="editorial-section" id={anchor(page, "values")}>
             <div className="editorial-container">
@@ -195,11 +196,7 @@ export function ValueSection({ page }: { page: PageContent }) {
                     copy={card.paragraphs.map((paragraph, idx) => (
                         <KineticParagraph key={idx}>{highlight(paragraph, index % 2 === 0 ? "forest" : "bronze")}</KineticParagraph>
                     ))}
-                    image={{
-                        src: index % 2 === 0 ? "/placeholder/section-home-values.svg" : "/placeholder/section-products-values.svg",
-                        alt: card.title,
-                        aspect: index % 2 === 0 ? "4 / 5" : "3 / 4",
-                    }}
+                    image={valueAssets[index % valueAssets.length]}
                     align={index % 2 === 0 ? "left" : "right"}
                 />
             ))}

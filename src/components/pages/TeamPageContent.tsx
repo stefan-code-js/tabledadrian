@@ -8,36 +8,42 @@ import KineticParagraph from "@/components/KineticParagraph";
 import KeywordHighlighter from "@/components/KeywordHighlighter";
 import { ANALYTICS_EVENTS, trackEvent } from "@/lib/analytics";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
+import { images, type ImageAsset } from "@/data/images";
 
-const heroImage = {
-    src: "/gallery/B8FBB31E-B185-4FD6-B6AD-C694DE95E5D8.jpg",
-    alt: "Team preparing ingredients in a calm kitchen with daylight.",
+const heroImage = images.heroMembership;
+
+type MemberProfile = {
+    name: string;
+    role: string;
+    image: ImageAsset;
+    link?: string;
+    bio: string;
 };
 
-const members = [
+const members: MemberProfile[] = [
     {
         name: "Adrian Stefan Badea",
         role: "Chef-Patron & Founder",
-        image: "/placeholder/portrait-adrian.svg",
+        image: images.portraitAdrian,
         link: "https://www.linkedin.com/in/adrian-stefan-badea-82456131b",
         bio: "Michelin-trained private chef orchestrating cinematic dining for Monaco villas, Dubai penthouses, and Mayfair salons.",
     },
     {
         name: "Antonia Badea, PharmD",
         role: "Clinical Gastronomy Director",
-        image: "/placeholder/portrait-antonia.svg",
+        image: images.portraitAntonia,
         bio: "PharmD strategist translating biomarker data, supplementation plans, and longevity protocols into indulgent menus.",
     },
     {
         name: "Claire Dupont",
         role: "Head Sommelier",
-        image: "/placeholder/portrait-claire.svg",
+        image: images.portraitClaire,
         bio: "Curates Old World cellars, zero-proof pairings, and yacht-friendly libraries for UHNW hosts worldwide.",
     },
     {
         name: "Julien Marchand",
         role: "Pastry & Rituals",
-        image: "/placeholder/portrait-julien.svg",
+        image: images.portraitJulien,
         bio: "Designs patisserie moments, fasting breaks, and sunrise boulangerie service tailored to each household.",
     },
 ];
@@ -75,6 +81,8 @@ export default function TeamPageContent() {
                         fill
                         loading="lazy"
                         sizes="(max-width: 900px) 100vw, 960px"
+                        placeholder={heroImage.placeholder}
+                        blurDataURL={heroImage.blurDataURL}
                         className="hero-figure__image"
                     />
                 </figure>
@@ -101,11 +109,13 @@ export default function TeamPageContent() {
                             <article key={member.name} className="team-profile">
                                 <div className="team-avatar">
                                     <Image
-                                        src={member.image}
-                                        alt={member.name}
+                                        src={member.image.src}
+                                        alt={member.image.alt}
                                         fill
                                         sizes="(max-width: 900px) 100vw, 320px"
                                         loading="lazy"
+                                        placeholder={member.image.placeholder}
+                                        blurDataURL={member.image.blurDataURL}
                                         className="team-avatar__image"
                                     />
                                 </div>

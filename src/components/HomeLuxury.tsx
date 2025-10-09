@@ -13,7 +13,7 @@ import ImageMosaic from "@/components/ImageMosaic";
 import TestimonialCarousel, { type Testimonial } from "@/components/TestimonialCarousel";
 import FactRow, { type Fact } from "@/components/FactRow";
 import CardPanel from "@/components/CardPanel";
-import { images } from "@/data/images";
+import { images, type ImageAsset } from "@/data/images";
 import { ANALYTICS_EVENTS, trackEvent } from "@/lib/analytics";
 
 const HERO_HIGHLIGHTS = [
@@ -28,11 +28,7 @@ type LuxurySequence = {
     title: string;
     kicker: string;
     paragraphs: string[];
-    image: {
-        src: string;
-        alt: string;
-        aspect?: string;
-    };
+    image: ImageAsset;
     align?: "left" | "right";
     cta?: ReactNode;
 };
@@ -45,11 +41,7 @@ const sequences: LuxurySequence[] = [
             "We begin with a concise audit of pantry, cellar, and service cadence so the household aligns before guests arrive.",
             "Vendors receive the same brief, ensuring linens, florals, and produce land without repeats or omissions.",
         ],
-        image: {
-            src: "/placeholder/section-home-values.svg",
-            alt: "Pantry mise details recorded for service.",
-            aspect: "4 / 5",
-        },
+        image: images.luxurySequenceOne,
     },
     {
         title: "Quiet choreography",
@@ -58,11 +50,7 @@ const sequences: LuxurySequence[] = [
             "Rehearsed cues govern pours, service swaps, and room resets so the host only notices how calm the evening feels.",
             "Membership consults carry the same standard across villas, yachts, and city apartments without renegotiating expectations.",
         ],
-        image: {
-            src: "/placeholder/section-home-included.svg",
-            alt: "Crew rehearsing plate placement before guests arrive.",
-            aspect: "3 / 4",
-        },
+        image: images.luxurySequenceTwo,
         align: "right",
         cta: (
             <Link
@@ -88,11 +76,7 @@ const sequences: LuxurySequence[] = [
             "After dessert we document temperatures, pacing notes, and guest preferences so the next gathering begins at the same polish.",
             "The ledger moves with you, allowing each invitation to continue the previous conversation instead of restarting logistics.",
         ],
-        image: {
-            src: "/placeholder/section-home-testimonials.svg",
-            alt: "Hosts reviewing a concise service ledger.",
-            aspect: "4 / 3",
-        },
+        image: images.luxurySequenceThree,
     },
 ];
 

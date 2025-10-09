@@ -10,6 +10,7 @@ import { site } from "@/lib/site";
 const NAV_ITEMS = [
     { href: "/", label: "Home" },
     { href: "/about", label: "Story" },
+    { href: "/team", label: "Team" },
     { href: "/experiences", label: "Experiences" },
     { href: "/services", label: "Services" },
     { href: "/membership", label: "Membership" },
