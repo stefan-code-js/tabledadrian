@@ -1,9 +1,7 @@
-import NextImage, { type ImageLoaderProps, type ImageProps } from "next/image";
+import NextImage, { type ImageProps } from "next/image";
 
-const passthroughLoader = ({ src }: ImageLoaderProps): string => src;
-
-type StaticImageProps = Omit<ImageProps, "loader"> & { loader?: never };
+type StaticImageProps = Omit<ImageProps, "loader">;
 
 export default function StaticImage(props: StaticImageProps) {
-    return <NextImage {...props} loader={passthroughLoader} unoptimized />;
+    return <NextImage {...props} unoptimized />;
 }
