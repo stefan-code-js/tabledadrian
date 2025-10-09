@@ -12,7 +12,7 @@ import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 const KEYWORDS = ["booking", "membership", "calendar", "table", "private chef"] as const;
 
 const heroImage = {
-    src: "/gallery/IMG_3090.JPG",
+    src: "/gallery/IMG_3090.webp",
     alt: "Notebook, pen, and citrus on a marble counter awaiting notes for the next booking.",
 };
 
@@ -130,4 +130,5 @@ export default function CancelPageContent() {
         </article>
     );
 }
+
 

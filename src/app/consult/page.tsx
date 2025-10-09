@@ -16,7 +16,7 @@ export const metadata = buildMetadataForPath("/consult", {
 });
 
 const HERO_IMAGE = {
-    src: "/gallery/D40AFFC1-3D32-49CF-9FC3-0D7DCD661645.jpg",
+    src: "/gallery/D40AFFC1-3D32-49CF-9FC3-0D7DCD661645.webp",
     alt: "Consultation notes beside herbs and citrus on a marble counter.",
 };
 
@@ -106,4 +106,5 @@ export default function ConsultPage() {
         </article>
     );
 }
+
 

@@ -13,7 +13,7 @@ const heroContent = {
     primary: { href: "/contact", label: "request a booking" },
     secondary: { href: "/membership", label: "explore memberships" },
     image: {
-        src: "/gallery/A10D18FD-4036-474F-B1F3-73430DE9F744.jpg",
+        src: "/gallery/A10D18FD-4036-474F-B1F3-73430DE9F744.webp",
         alt: "Chef Adrian finishing a plated course on a marble pass.",
     },
 };
@@ -101,4 +101,5 @@ export default function Hero() {
         </section>
     );
 }
+
 

@@ -1,4 +1,4 @@
-import type { TierCta } from "@/lib/pricing";
+﻿import type { TierCta } from "@/lib/pricing";
 
 import sitePagesJson from "./sitePages.json";
 
@@ -252,7 +252,7 @@ export const galleryImages: GalleryImage[] = [
 
     {
 
-        src: "/gallery/A10D18FD-4036-474F-B1F3-73430DE9F744.jpg",
+        src: "/gallery/A10D18FD-4036-474F-B1F3-73430DE9F744.webp",
 
         alt: "Chef Adrian finishing an amuse-bouche with citrus and herbs.",
 
@@ -266,7 +266,7 @@ export const galleryImages: GalleryImage[] = [
 
     {
 
-        src: "/gallery/975422A7-4688-46A3-B590-BD389A70A75B.jpg",
+        src: "/gallery/975422A7-4688-46A3-B590-BD389A70A75B.webp",
 
         alt: "Garden herb veloute finished with edible flowers and citrus.",
 
@@ -280,7 +280,7 @@ export const galleryImages: GalleryImage[] = [
 
     {
 
-        src: "/gallery/D40AFFC1-3D32-49CF-9FC3-0D7DCD661645.jpg",
+        src: "/gallery/D40AFFC1-3D32-49CF-9FC3-0D7DCD661645.webp",
 
         alt: "Butter-poached lobster plated with saffron bisque.",
 
@@ -294,7 +294,7 @@ export const galleryImages: GalleryImage[] = [
 
     {
 
-        src: "/gallery/B8FBB31E-B185-4FD6-B6AD-C694DE95E5D8.jpg",
+        src: "/gallery/B8FBB31E-B185-4FD6-B6AD-C694DE95E5D8.webp",
 
         alt: "Evening brigade briefing under warm pass lights.",
 
@@ -308,7 +308,7 @@ export const galleryImages: GalleryImage[] = [
 
     {
 
-        src: "/gallery/0D1EA119-6D65-43D8-8FA2-2FCB20ADCFBE.jpg",
+        src: "/gallery/0D1EA119-6D65-43D8-8FA2-2FCB20ADCFBE.webp",
 
         alt: "Sunlit aperitif table dressed with crystal and citrus.",
 
@@ -322,7 +322,7 @@ export const galleryImages: GalleryImage[] = [
 
     {
 
-        src: "/gallery/3427FC7B-B743-4C4B-942E-0528F1AD6CE1.jpg",
+        src: "/gallery/3427FC7B-B743-4C4B-942E-0528F1AD6CE1.webp",
 
         alt: "Candlelit dining room with layered glassware and florals.",
 
@@ -468,5 +468,6 @@ export const navLinks: NavLink[] = navGroups.flatMap((group) => [
 
 
 export const footerLinks: NavLink[] = navLinks;
+
 
 

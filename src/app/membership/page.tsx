@@ -16,7 +16,7 @@ export const metadata = buildMetadataForPath("/membership", {
 });
 
 const HERO_IMAGE = {
-    src: "/gallery/B8FBB31E-B185-4FD6-B6AD-C694DE95E5D8.jpg",
+    src: "/gallery/B8FBB31E-B185-4FD6-B6AD-C694DE95E5D8.webp",
     alt: "Guests gathered around a softly lit private dining table during a membership service.",
 };
 
@@ -114,4 +114,5 @@ export default function MembershipPage() {
         </article>
     );
 }
+
 

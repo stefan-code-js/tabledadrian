@@ -19,7 +19,25 @@ const nextConfig = {
     },
     images: {
         formats: ['image/avif', 'image/webp'],
+        deviceSizes: [360, 640, 828, 1080, 1280, 1600, 1920, 2400],
+        imageSizes: [120, 240, 360, 480, 640, 960],
         unoptimized: true,
+    },
+    async headers() {
+        return [
+            {
+                source: '/gallery/:path*',
+                headers: [
+                    { key: 'Cache-Control', value: 'public, max-age=31536000, immutable' },
+                ],
+            },
+            {
+                source: '/fonts/:path*',
+                headers: [
+                    { key: 'Cache-Control', value: 'public, max-age=31536000, immutable' },
+                ],
+            },
+        ];
     },
     async redirects() {
         return [

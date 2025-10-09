@@ -1,4 +1,4 @@
-import Image from "@/components/StaticImage";
+﻿import Image from "@/components/StaticImage";
 import Link from "next/link";
 import KineticHeading from "@/components/KineticHeading";
 import KineticParagraph from "@/components/KineticParagraph";
@@ -23,7 +23,7 @@ const formatCurrency = (amount: number, currency: string) =>
     new Intl.NumberFormat("en-GB", { style: "currency", currency }).format(amount);
 
 const heroImage = {
-    src: "/gallery/IMG_3520.JPG",
+    src: "/gallery/IMG_3520.webp",
     alt: "Candlelit salon dressed for a private celebration after booking.",
 };
 
@@ -200,4 +200,5 @@ export default async function SuccessPage({
         </article>
     );
 }
+
 

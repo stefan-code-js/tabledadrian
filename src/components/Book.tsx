@@ -8,15 +8,13 @@ import KineticParagraph from "@/components/KineticParagraph";
 import KeywordHighlighter from "@/components/KeywordHighlighter";
 import { ANALYTICS_EVENTS, trackEvent } from "@/lib/analytics";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
+import { images } from "@/data/images";
 
 const CAL_HANDLE = process.env.NEXT_PUBLIC_CAL_LINK ?? "adrian-stefan";
 const CAL_URL = `https://cal.com/${CAL_HANDLE}`;
 const CONTACT_EMAIL = process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "adrian@tabledadrian.com";
 
-const heroImage = {
-    src: "/gallery/IMG_3477(1).JPG",
-    alt: "Line of plated tasting courses staged beside stemware ahead of service.",
-};
+const heroImage = images.valueDocumentation;
 
 const KEYWORDS = ["Table d'Adrian", "private chef", "membership", "PharmD", "yacht", "bespoke dining"] as const;
 
@@ -68,6 +66,8 @@ export default function Book() {
                         fill
                         priority
                         sizes="100vw"
+                        placeholder={heroImage.placeholder}
+                        blurDataURL={heroImage.blurDataURL}
                         className="hero-figure__image"
                     />
                 </figure>
@@ -179,4 +179,5 @@ export default function Book() {
         </article>
     );
 }
+
 
