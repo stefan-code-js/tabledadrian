@@ -18,6 +18,7 @@ import CardPanel from "@/components/CardPanel";
 import { images, type ImageAsset } from "@/data/images";
 import { ANALYTICS_EVENTS, trackEvent } from "@/lib/analytics";
 import HeroCinematic from "@/components/editorial/HeroCinematic";
+import LuxuryHeroExperience from "@/components/immersive/LuxuryHeroExperience";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 import { motion } from "framer-motion";
 
@@ -123,6 +124,7 @@ export function PageHero({ page }: { page: PageContent }) {
     if (isHome) {
         return (
             <HeroCinematic
+                media={<LuxuryHeroExperience />}
                 kicker="Table d'Adrian / Private Chef"
                 analyticsId="home-hero"
                 title="An evening written in quiet chapters"

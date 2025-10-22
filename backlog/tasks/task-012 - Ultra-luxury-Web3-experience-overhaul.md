@@ -1,0 +1,42 @@
+---
+id: task-012
+title: Ultra-luxury Web3 experience overhaul
+status: In Progress
+assignee:
+  - '@codex'
+created_date: '2025-10-22 17:58'
+updated_date: '2025-10-22 19:09'
+labels: []
+dependencies: []
+---
+
+## Description
+
+<!-- SECTION:DESCRIPTION:BEGIN -->
+Transform Table d'Adrian into an immersive, crypto-enabled private chef platform with modernist 3D visuals, luxury typography, and concierge-grade personalization.
+<!-- SECTION:DESCRIPTION:END -->
+
+## Acceptance Criteria
+<!-- AC:BEGIN -->
+- [ ] #1 Integrate premium UI stack (Tailwind, Shadcn, Framer Motion, GSAP, Three.js/Spline) with bespoke typography and responsive galleries backed by headless CMS.
+- [ ] #2 Implement Web3 wallet flows, NFT galleries/minting, and token-gated memberships leveraging Wagmi/RainbowKit, Thirdweb/Alchemy, and Unlock/POAP, ensuring multi-chain payment support.
+- [ ] #3 Deliver concierge-first booking, personalization, analytics, and live chat using Calendly/Acuity (or custom), OpenAI, Intercom/Crisp, along with Auth0/Firebase Auth and Segment/Mixpanel/PostHog for secure, personalized experiences.
+<!-- AC:END -->
+
+## Implementation Plan
+
+<!-- SECTION:PLAN:BEGIN -->
+$1. Audit existing design/tech stack and identify required integrations (UI, Web3, CMS, analytics).
+2. Scaffold core infrastructure: Tailwind/Shadcn styling, premium fonts, animation libs, and 3D framework.
+3. Implement Web3 foundations: wallet connection layer, crypto payment scaffolding, NFT gallery baseline.
+4. Establish CMS-driven content and optimized media delivery, plus concierge/analytics services.
+5. Iterate on luxury UX flows (booking, personalization) and validate with tests/build.
+<!-- SECTION:PLAN:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+$Initial audit completed: project already uses Next.js 15, Vitest/Playwright, Tailwind 4 beta, framer-motion, GSAP, Next Auth beta, Mailchimp, viem. Missing pieces include 3D framework (e.g., three.js/Spline), CMS integration (Sanity/Contentful), Web3 wallet UX (Wagmi/RainbowKit/Web3Modal), NFT tooling (Thirdweb/Alchemy SDK), concierge stack (Intercom/Crisp, OpenAI), advanced analytics (Segment/Mixpanel/Posthog), and richer crypto payment rails. Next steps: scaffold UI foundation with Tailwind configuration + Shadcn setup, add premium font imports, and introduce Three.js entrypoint for hero experiences.
+
+$Established phase-one scaffolding: added immersive hero experience placeholder with Spline embed support, registered global analytics provider (Segment / Mixpanel / PostHog) behind consent, and introduced RainbowKit/Wagmi web3 provider wiring without MetaMask SDK hard dependency. Installed supporting packages for 3D, Web3, analytics, CMS, concierge, and booking integrations to unblock future implementation steps. Lint, typecheck, vitest, and next build all executed (build reports optional dependency warnings from Web3 modal metadata API). Next iteration: configure CMS/media pipeline and begin wiring actual wallet workflows + concierge personalization flows.
+<!-- SECTION:NOTES:END -->

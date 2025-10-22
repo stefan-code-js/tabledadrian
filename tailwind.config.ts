@@ -23,7 +23,10 @@ const config: Config = {
             },
             fontFamily: {
                 serif: ["var(--font-display)"],
-                sans: ["var(--font-sans)"],
+                sans: ["var(--font-body)"],
+                display: ["var(--font-display)"],
+                body: ["var(--font-body)"],
+                accent: ["var(--font-accent)"],
             },
             fontSize: {
                 "fluid-xs": typographyScale.xs,

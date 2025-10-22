@@ -43,6 +43,7 @@ export type HeroCinematicProps = {
     title: string;
     summary?: ReactNode;
     image: ImageAsset | ImageSlug;
+    media?: ReactNode;
     primaryAction?: HeroCinematicAction;
     secondaryAction?: HeroCinematicAction;
     tone?: HeroTone;
@@ -55,6 +56,7 @@ export default function HeroCinematic({
     title,
     summary,
     image,
+    media,
     primaryAction,
     secondaryAction,
     tone = "nocturne",
@@ -66,16 +68,18 @@ export default function HeroCinematic({
     return (
         <section className={twMerge(heroRoot({ tone }))}>
             <div className="hero-cinematic__media" data-parallax="8">
-                <Image
-                    src={asset.src}
-                    alt={asset.alt}
-                    fill
-                    priority={Boolean(asset.priority)}
-                    sizes="(max-width: 900px) 100vw, 960px"
-                    placeholder={asset.placeholder}
-                    blurDataURL={asset.blurDataURL}
-                    className="hero-cinematic__image"
-                />
+                {media ?? (
+                    <Image
+                        src={asset.src}
+                        alt={asset.alt}
+                        fill
+                        priority={Boolean(asset.priority)}
+                        sizes="(max-width: 900px) 100vw, 960px"
+                        placeholder={asset.placeholder}
+                        blurDataURL={asset.blurDataURL}
+                        className="hero-cinematic__image"
+                    />
+                )}
                 <span className="hero-cinematic__grain" aria-hidden="true" />
             </div>
             <div className={heroContent}>
