@@ -1,4 +1,4 @@
-﻿# Table d'Adrian
+# Table d'Adrian
 
 Next.js 15 experience for Table d'Adrian - a luxury private chef atelier blending wellness cuisine, token-gated membership, and cinematic storytelling.
 
@@ -26,16 +26,19 @@ npm run dev
 
 | Variable | Description |
 | --- | --- |
-| `NEXTAUTH_SECRET` | 32-char secret for Auth.js sessions |
-| `MAILCHIMP_API_KEY` / `MAILCHIMP_LIST_ID` | Newsletter + DSAR tagging |
-| `RESEND_API_KEY` | Transactional email dispatch for DSAR confirmations |
-| `ZORA_CONTRACT_ADDRESS` | NFT contract used for collectible verification |
-| `COLLECTIBLES_RPC_URL` (optional) | Ethereum RPC endpoint for on-chain checks |
-| `LEGAL_ENTITY_NAME` / `LEGAL_ADDRESS` / `DPO_EMAIL` | Displayed on legal pages and footers |
-| `NEXT_PUBLIC_PLAUSIBLE_DOMAIN` / `NEXT_PUBLIC_CF_ANALYTICS_TOKEN` (optional) | Analytics scripts gated by cookie consent |
-| `NEXT_PUBLIC_CONTACT_EMAIL` | Site-wide contact surfaced in hero/footers |
-| `RESEND_FROM_EMAIL` / `RESEND_TO_EMAIL` (if using Resend) | Override default DSAR mailboxes |
-| Stripe keys (`STRIPE_SECRET_KEY`, `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY`, pricing IDs) | Checkout flows |
+| NEXTAUTH_SECRET | 32-char secret for Auth.js sessions |
+| MAILCHIMP_API_KEY / MAILCHIMP_LIST_ID | Newsletter + DSAR tagging |
+| RESEND_API_KEY | Transactional email dispatch for DSAR confirmations |
+| ZORA_CONTRACT_ADDRESS | NFT contract used for collectible verification |
+| COLLECTIBLES_RPC_URL (optional) | Ethereum RPC endpoint for on-chain checks |
+| DISCOURSE_SSO_SECRET | Shared secret for Discourse SSO handshakes |
+| DISCOURSE_BASE_URL | Base forum URL (e.g., https://forum.tabledadrian.com) |
+| LEGAL_ENTITY_NAME / LEGAL_ADDRESS / DPO_EMAIL | Displayed on legal pages and footers |
+| NEXT_PUBLIC_PLAUSIBLE_DOMAIN / NEXT_PUBLIC_CF_ANALYTICS_TOKEN (optional) | Analytics scripts gated by cookie consent |
+| NEXT_PUBLIC_CONTACT_EMAIL | Site-wide contact surfaced in hero/footers |
+| RESEND_FROM_EMAIL / RESEND_TO_EMAIL (if using Resend) | Override default DSAR mailboxes |
+| BADGE_ISSUER_ID / BADGE_ISSUER_NAME / BADGE_ISSUER_URL (optional) | Customize Open Badges issuer metadata |
+| Stripe keys (STRIPE_SECRET_KEY, NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY, pricing IDs) | Checkout flows |
 
 `.env` files are ignored by default; copy `.env.example` (if present) or the values above into `.env.local`.
 
@@ -54,8 +57,10 @@ npm run dev
   - `/members/recipes` - token-gated recipe vault with wellness focus
   - `/alchemy-collectibles` - NFT tiers, benefits, and on-chain plus fallback verification
   - `/brand-assets` - downloadable logos, palette, and usage etiquette
+  - `/community` - community hub with events, forum CTA, badges showcase
+  - `/community/charter` - community charter rendered via LegalLayout
 - **Legal and compliance hub**
-  - `/terms`, `/privacy`, `/privacy/requests`, `/cookies`, `/crypto-tc`, `/refunds`, `/community`, `/accessibility`, `/dpa`, `/imprint`
+  - `/terms`, `/privacy`, `/privacy/requests`, `/cookies`, `/crypto-tc`, `/refunds`, `/community/charter`, `/accessibility`, `/dpa`, `/imprint`
   - `/api/privacy/request` handles DSAR submissions (Mailchimp tagging plus Resend emails)
   - Cookie consent banner with granular preferences and consent-aware analytics loading
 - **Contact and concierge**
@@ -66,6 +71,7 @@ Additional routing (admin, experiences, calculator, etc.) is available under `sr
 ## Membership and collectibles architecture
 
 - **Auth.js (NextAuth v5 beta)** using the credentials provider with custom password hashing (`scryptSync` with random salt).
+- **Discourse SSO gateway** validates payloads with `discourse-sso` and redirects to the forum using session data.
 - Member records stored in `content/members/members.json` with helper utilities under `src/lib/members.ts`.
 - Session provider injected at `src/app/layout.tsx` so client components can access `useSession`.
 - Collectible verification leverages `viem` (on-chain) with fallback to concierge-maintained allowlist.
@@ -106,4 +112,8 @@ Additional routing (admin, experiences, calculator, etc.) is available under `sr
 - Membership helpers: `src/lib/auth`, `src/lib/members`, `src/lib/collectibles`
 
 For further onboarding steps, review `backlog/docs/` for UX, SEO, and process notes.
+
+
+
+
 

@@ -17,7 +17,7 @@ const DOCUMENTS = {
     cookies: { file: "cookies.md", title: "Cookie Policy" },
     "crypto-tc": { file: "crypto-tc.md", title: "Crypto Terms" },
     refunds: { file: "refunds.md", title: "Refunds & Cancellations" },
-    community: { file: "community.md", title: "Community Guidelines" },
+    "community-charter": { file: "community-charter.md", title: "Community Charter" },
     accessibility: { file: "accessibility.md", title: "Accessibility Statement" },
     dpa: { file: "dpa.md", title: "Data Processing Addendum" },
     imprint: { file: "imprint.md", title: "Imprint" },

@@ -18,6 +18,7 @@ const socials = [
     { label: "Instagram", href: site.socials.instagram },
     { label: "LinkedIn", href: site.socials.linkedin },
     { label: "Press", href: "/press" },
+    { label: "Community", href: "/community" },
     { label: "Brand Assets", href: "/brand-assets" },
 ].filter((item) => Boolean(item.href));
 

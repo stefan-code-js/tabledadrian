@@ -42,11 +42,11 @@ export const LEGAL_DOCUMENTS = {
         description: "Refund commitments, deposit rules, and digital good policies for every bespoke engagement.",
         path: "/refunds",
     },
-    community: {
-        file: "community.md",
-        title: "Community Guidelines",
+    "community-charter": {
+        file: "community-charter.md",
+        title: "Community Charter",
         description: "Etiquette for the Alchemist's Conclave, covering moderation, code of conduct, and reporting.",
-        path: "/community",
+        path: "/community/charter",
     },
     accessibility: {
         file: "accessibility.md",
