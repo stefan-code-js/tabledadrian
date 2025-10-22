@@ -259,23 +259,23 @@ export default function ReviewsClient({ initialItems, initialCount, initialAvg }
                         />
                     </label>
 
-                    <div className="cta">
-                        <button className="btn" type="submit" disabled={busy || rating < 1}>
-                            {busy ? "sending..." : "publish review"}
-                        </button>
-                    </div>
-                </form>
+                <div className="form-actions">
+                    <button className="btn" type="submit" disabled={busy || rating < 1}>
+                        {busy ? "Sending..." : "Publish review"}
+                    </button>
+                </div>
+            </form>
 
-                {err ? (
-                    <p className="error" role="alert">
-                        {err}
-                    </p>
-                ) : null}
-                {ok ? (
-                    <p className="ok" role="status">
-                        {ok}
-                    </p>
-                ) : null}
+            {err ? (
+                <p className="form-message error" role="alert">
+                    {err}
+                </p>
+            ) : null}
+            {ok ? (
+                <p className="form-message success" role="status">
+                    {ok}
+                </p>
+            ) : null}
             </section>
         </div>
     );

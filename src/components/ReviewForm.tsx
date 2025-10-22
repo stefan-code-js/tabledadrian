@@ -133,19 +133,19 @@ export default function ReviewForm() {
                 data-theme="light"
             />
 
-            <div className="cta">
+            <div className="form-actions">
                 <button className="btn" type="submit" disabled={state === "sending"}>
                     {state === "sending" ? "Sending..." : "Publish review"}
                 </button>
             </div>
 
             {state === "ok" ? (
-                <p className="ok" role="status">
+                <p className="form-message success" role="status">
                     Thank you - your review was recorded.
                 </p>
             ) : null}
             {state === "error" ? (
-                <p className="error" role="alert">
+                <p className="form-message error" role="alert">
                     Error: {error}
                 </p>
             ) : null}

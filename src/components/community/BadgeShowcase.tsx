@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "@/components/StaticImage";
 import type { BadgeDefinition } from "@/data/badges";
 
 type Props = {
@@ -23,7 +24,7 @@ export default function BadgeShowcase({ badges }: Props) {
                         className="flex h-full flex-col gap-4 rounded-3xl border border-[var(--line-hairline)] bg-paper/40 p-6"
                     >
                         <div className="h-16 w-16 rounded-2xl border border-[var(--line-hairline)] bg-paper flex items-center justify-center">
-                            <img src={badge.image} alt={`${badge.name} emblem`} className="h-12 w-12 object-contain" />
+                            <Image src={badge.image} alt={`${badge.name} emblem`} width={48} height={48} />
                         </div>
                         <div className="text-xs uppercase tracking-[0.3em] text-ink-soft">{levelCopy[badge.level]}</div>
                         <h3 className="text-xl font-serif text-ink">{badge.name}</h3>

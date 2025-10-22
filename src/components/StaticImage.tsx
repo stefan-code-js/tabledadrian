@@ -1,7 +1,9 @@
 import NextImage, { type ImageProps } from "next/image";
 
-type StaticImageProps = Omit<ImageProps, "loader">;
+type StaticImageProps = Omit<ImageProps, "loader"> & {
+    quality?: number;
+};
 
-export default function StaticImage(props: StaticImageProps) {
-    return <NextImage {...props} unoptimized />;
+export default function StaticImage({ quality, ...props }: StaticImageProps) {
+    return <NextImage {...props} quality={quality ?? 85} />;
 }

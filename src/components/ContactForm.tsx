@@ -132,15 +132,15 @@ export default function ContactForm({ context }: { context?: string }) {
                     <input name="company" tabIndex={-1} autoComplete="off" />
                 </label>
             </div>
-            <div className="cta">
+            <div className="form-actions">
                 <button className="btn" type="submit" disabled={status === "submitting"}>
                     {status === "submitting" ? "sending..." : "Submit inquiry"}
                 </button>
             </div>
             {status === "error" ? (
-                <p className="error" role="alert">{message}</p>
+                <p className="form-message error" role="alert">{message}</p>
             ) : null}
-            {status === "success" ? <p className="ok">{message}</p> : null}
+            {status === "success" ? <p className="form-message success" role="status">{message}</p> : null}
         </form>
     );
 }

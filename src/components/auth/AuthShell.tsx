@@ -23,8 +23,8 @@ export default function AuthShell({ title, subtitle, children, accent = "member"
                 <h1 className="text-4xl font-serif text-accent">{title}</h1>
                 <p className="mx-auto max-w-2xl text-sm text-ink-soft">{subtitle}</p>
             </div>
-            <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_320px]">
-                <div className="space-y-6">{children}</div>
+            <div className="grid gap-8 justify-items-center lg:grid-cols-[minmax(0,1fr)_320px] lg:items-start lg:justify-items-start">
+                <div className="space-y-6 w-full max-w-xl">{children}</div>
                 <aside className="hidden rounded-3xl border border-[var(--line-hairline)] bg-gradient-to-b from-paper/60 to-paper-soft/20 p-8 text-left lg:block">
                     <p className="text-xs uppercase tracking-[0.3em] text-ink-soft mb-3">Privileges</p>
                     <div className="space-y-3 text-sm leading-relaxed text-ink-soft">

@@ -95,67 +95,86 @@ export function PrivacyRequestForm() {
     };
 
     return (
-        <section className="mt-10 rounded-3xl border border-[var(--line-soft)] bg-paper-soft/60 p-8 text-ink shadow-lg">
-            <h2 className="text-2xl font-serif text-accent">Submit a data rights request</h2>
-            <p className="mt-2 max-w-2xl text-sm text-ink-soft">
-                Our data privacy stewards respond within 30 days. We will verify your identity using the details you provide below and keep you informed at every step of the transmutation.
+        <section className="card-panel privacy-request">
+            <h2 className="privacy-request__title">Submit a data rights request</h2>
+            <p className="privacy-request__intro">
+                Our data privacy stewards respond within 30 days. We verify your identity using the details you share and keep you informed at every step.
             </p>
-            <form className="mt-6 grid gap-6" onSubmit={form.handleSubmit(onSubmit)} noValidate>
-                <label className="grid gap-2 text-sm">
-                    <span className="font-semibold">Email address</span>
-                    <input
-                        {...form.register("email")}
-                        type="email"
-                        autoComplete="email"
-                        className="rounded-xl border border-[var(--line-hairline)] bg-white/5 px-4 py-3 focus-visible:outline-accent"
-                        placeholder="you@example.com"
-                        aria-invalid={form.formState.errors.email ? "true" : "false"}
-                    />
-                    {form.formState.errors.email ? <span className="text-xs text-error">{form.formState.errors.email.message}</span> : null}
-                </label>
+            <form className="form form--wide privacy-request__form" onSubmit={form.handleSubmit(onSubmit)} noValidate>
+                <div className="form-grid privacy-request__grid">
+                    <label className="field" htmlFor="privacy-email">
+                        <span>Email address</span>
+                        <input
+                            id="privacy-email"
+                            {...form.register("email")}
+                            type="email"
+                            autoComplete="email"
+                            placeholder="you@example.com"
+                            aria-invalid={form.formState.errors.email ? "true" : "false"}
+                        />
+                        {form.formState.errors.email ? (
+                            <p className="field__message error" role="alert">
+                                {form.formState.errors.email.message}
+                            </p>
+                        ) : null}
+                    </label>
 
-                <label className="grid gap-2 text-sm">
-                    <span className="font-semibold">Request type</span>
-                    <select
-                        {...form.register("requestType")}
-                        className="rounded-xl border border-[var(--line-hairline)] bg-white/5 px-4 py-3 focus-visible:outline-accent"
-                    >
-                        {REQUEST_TYPES.map((item) => (
-                            <option key={item.value} value={item.value}>
-                                {item.label}
-                            </option>
-                        ))}
-                    </select>
-                </label>
+                    <label className="field" htmlFor="privacy-request-type">
+                        <span>Request type</span>
+                        <select
+                            id="privacy-request-type"
+                            {...form.register("requestType")}
+                        >
+                            {REQUEST_TYPES.map((item) => (
+                                <option key={item.value} value={item.value}>
+                                    {item.label}
+                                </option>
+                            ))}
+                        </select>
+                    </label>
 
-                <label className="grid gap-2 text-sm">
-                    <span className="font-semibold">Country or region</span>
-                    <select
-                        {...form.register("country")}
-                        className="rounded-xl border border-[var(--line-hairline)] bg-white/5 px-4 py-3 focus-visible:outline-accent"
-                    >
-                        {countryOptions.map((country) => (
-                            <option key={country} value={country}>
-                                {country}
-                            </option>
-                        ))}
-                    </select>
-                    {form.formState.errors.country ? <span className="text-xs text-error">{form.formState.errors.country.message}</span> : null}
-                </label>
+                    <label className="field" htmlFor="privacy-country">
+                        <span>Country or region</span>
+                        <select
+                            id="privacy-country"
+                            {...form.register("country")}
+                            aria-invalid={form.formState.errors.country ? "true" : "false"}
+                        >
+                            {countryOptions.map((country) => (
+                                <option key={country} value={country}>
+                                    {country}
+                                </option>
+                            ))}
+                        </select>
+                        {form.formState.errors.country ? (
+                            <p className="field__message error" role="alert">
+                                {form.formState.errors.country.message}
+                            </p>
+                        ) : null}
+                    </label>
+                </div>
 
-                <label className="grid gap-2 text-sm">
-                    <span className="font-semibold">Request details</span>
+                <label className="field" htmlFor="privacy-details">
+                    <span>Request details</span>
                     <textarea
+                        id="privacy-details"
                         {...form.register("details")}
                         rows={6}
-                        className="rounded-xl border border-[var(--line-hairline)] bg-white/5 px-4 py-3 focus-visible:outline-accent"
                         placeholder="Describe the data you want to access, erase, or adjust."
                         aria-invalid={form.formState.errors.details ? "true" : "false"}
                     />
-                    {form.formState.errors.details ? <span className="text-xs text-error">{form.formState.errors.details.message}</span> : null}
+                    {form.formState.errors.details ? (
+                        <p className="field__message error" role="alert">
+                            {form.formState.errors.details.message}
+                        </p>
+                    ) : (
+                        <p className="field__message">
+                            Share enough context so our privacy team can honor your request promptly.
+                        </p>
+                    )}
                 </label>
 
-                <div className="flex flex-wrap items-center gap-4">
+                <div className="form-actions">
                     <button
                         type="submit"
                         className="btn"
@@ -163,21 +182,21 @@ export function PrivacyRequestForm() {
                     >
                         {status === "loading" ? "Submitting..." : "Send request"}
                     </button>
-                    <p className="text-xs text-ink-soft">
+                    <p className="form-note">
                         We may reach out for identity verification to honor regulatory requirements.
                     </p>
                 </div>
 
                 {status === "success" && ticketId ? (
-                    <div className="rounded-xl border border-[var(--line-hairline)] bg-green-500/10 px-4 py-3 text-sm text-green-200">
+                    <p className="form-message success" role="status">
                         Thank you. Your request is logged as ticket <strong>{ticketId}</strong>. We will confirm completion within 30 days.
-                    </div>
+                    </p>
                 ) : null}
 
                 {status === "error" && errorMessage ? (
-                    <div className="rounded-xl border border-[var(--line-hairline)] bg-red-500/10 px-4 py-3 text-sm text-red-200">
+                    <p className="form-message error" role="alert">
                         {errorMessage}
-                    </div>
+                    </p>
                 ) : null}
             </form>
         </section>

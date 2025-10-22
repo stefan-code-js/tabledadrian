@@ -1,4 +1,5 @@
 // src/components/Gallery.tsx
+import Image from "@/components/StaticImage";
 import { images, type ImageAsset } from "@/data/images";
 
 const shots: ImageAsset[] = [
@@ -19,7 +20,7 @@ export default function Gallery() {
                 <div className="gallery" role="list">
                     {shots.map((shot, index) => (
                         <figure role="listitem" key={`${shot.slug}-${index}`}>
-                            <img src={shot.src} alt={shot.alt} loading="lazy" decoding="async" />
+                            <Image src={shot.src} alt={shot.alt} width={640} height={480} />
                         </figure>
                     ))}
                 </div>

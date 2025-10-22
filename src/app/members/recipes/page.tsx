@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Image from "next/image";
+import Image from "@/components/StaticImage";
 import Link from "next/link";
 import { auth } from "@/lib/auth";
 import { walletIsCollectibleHolder } from "@/lib/collectibles";

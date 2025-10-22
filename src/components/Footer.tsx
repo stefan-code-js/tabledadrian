@@ -1,6 +1,5 @@
 "use client";
 import Link from "next/link";
-import Image from "next/image";
 import { site } from "@/lib/site";
 import { useRef, useEffect } from "react";
 import { useCookieConsent } from "@/components/CookieConsent";
@@ -13,19 +12,18 @@ const partners = [
     { name: "Gronda", href: "https://gronda.eu" },
     { name: "S.Pellegrino", href: "https://www.sanpellegrino.com" },
     { name: "Atelier Basalte", href: "https://atelierbasalte.com" },
-];
-
-const cryptoAllies = [
-    { name: "Bitcoin", href: "https://bitcoin.org", logo: "/media/crypto/bitcoin.svg" },
-    { name: "Ethereum", href: "https://ethereum.org", logo: "/media/crypto/ethereum.svg" },
-    { name: "Solana", href: "https://solana.com", logo: "/media/crypto/solana.svg" },
-    { name: "Binance", href: "https://www.binance.com", logo: "/media/crypto/binance.svg" },
+    { name: "Bitcoin Network", href: "https://bitcoin.org" },
+    { name: "Ethereum Foundation", href: "https://ethereum.org" },
+    { name: "Solana Collective", href: "https://solana.com" },
+    { name: "Binance Labs", href: "https://www.binance.com" },
 ];
 
 const socials = [
     { label: "Instagram", href: site.socials.instagram },
     { label: "LinkedIn", href: site.socials.linkedin },
-    { label: "Community", href: "/community" },
+    { label: "Forum", href: "/forum" },
+    { label: "Newsletter", href: "/newsletter" },
+    { label: "Recipes", href: "/recipes" },
     { label: "Collectibles", href: "/alchemy-collectibles" },
     { label: "Press", href: "/press" },
     { label: "Login", href: "/auth/login" },
@@ -71,7 +69,7 @@ export default function Footer() {
 
     return (
         <footer className="site-footer bg-paper-soft text-ink" role="contentinfo" style={{ borderTop: "1px solid var(--line-hairline)", marginTop: "4rem", paddingTop: "2.5rem" }}>
-            <div className="site-footer__partners" aria-label="Selected partners and collaborators">
+            <div className="site-footer__partners" aria-label="Strategic partners and digital alliances">
                 <div
                     className="site-footer__partners-track"
                     ref={trackRef}
@@ -80,7 +78,7 @@ export default function Footer() {
                     onMouseLeave={handleResume}
                     onFocus={handlePause}
                     onBlur={handleResume}
-                    aria-label="Partner logos auto-scroll; pause on hover or focus"
+                    aria-label="Partner and alliance names auto-scroll; pause on hover or focus"
                     style={{ display: "flex", gap: "2.5rem", willChange: "transform" }}
                 >
                     {[...partners, ...partners].map((item, index) => {
@@ -164,35 +162,6 @@ export default function Footer() {
                             </button>
                         </div>
                     </div>
-                </div>
-            </div>
-
-            <div className="site-footer__crypto-row">
-                <span className="site-footer__label font-semibold mb-2 block">Crypto Alliances</span>
-                <div className="site-footer__crypto-logos">
-                    {cryptoAllies.map((ally, index) => (
-                        <a
-                            key={ally.name}
-                            href={ally.href}
-                            className="site-footer__crypto-logo"
-                            target="_blank"
-                            rel="noreferrer"
-                            aria-label={`${ally.name} website`}
-                            data-accent={index}
-                        >
-                            <span className="site-footer__crypto-logo-inner">
-                                <Image
-                                    src={ally.logo}
-                                    alt={`${ally.name} logo`}
-                                    width={40}
-                                    height={40}
-                                    aria-hidden="true"
-                                    className="site-footer__crypto-image"
-                                />
-                            </span>
-                            <span className="site-footer__crypto-label">{ally.name}</span>
-                        </a>
-                    ))}
                 </div>
             </div>
 

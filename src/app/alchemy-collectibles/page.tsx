@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
+import Image from "@/components/StaticImage";
 import { fetchCollectibleTiers } from "@/data/collectibles";
 import CollectibleVerifier from "@/components/collectibles/CollectibleVerifier";
 

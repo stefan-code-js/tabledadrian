@@ -14,7 +14,7 @@ import {
     useState,
 } from "react";
 import type { KeyboardEvent as ReactKeyboardEvent } from "react";
-import { serif, sans } from "@/lib/fonts";
+import { accentFont, bodyFont, displayFont } from "@/lib/fonts";
 import CommandPalette from "./CommandPalette";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 
@@ -73,6 +73,7 @@ export const navGroups: NavGroup[] = [
         links: [
             { label: "Book", href: "/book" },
             { label: "Contact", href: "/contact" },
+            { label: "Newsletter", href: "/newsletter" },
             { label: "Success", href: "/success" },
             { label: "Cancel", href: "/cancel" },
         ],
@@ -80,12 +81,12 @@ export const navGroups: NavGroup[] = [
     {
         id: "members",
         label: "Members",
-        summary: "Access the vault, collectibles, and community",
+        summary: "Access the vault, collectibles, and forum",
         links: [
             { label: "Member Overview", href: "/members" },
             { label: "Recipes Vault", href: "/members/recipes" },
             { label: "Alchemy Collectibles", href: "/alchemy-collectibles" },
-            { label: "Community Hub", href: "/community" },
+            { label: "Forum", href: "/forum" },
             { label: "Community Charter", href: "/community/charter" },
             { label: "Login", href: "/auth/login" },
             { label: "Register", href: "/auth/register" },
@@ -330,19 +331,19 @@ export default function NavBar() {
 
     const mobileBody = (
         <div className="nav-mobile__body">
-            <p id="mobile-navigation-title" className={`nav-mobile__title ${sans.className}`}>
+            <p id="mobile-navigation-title" className={`nav-mobile__title ${displayFont.className}`}>
                 Navigation
             </p>
             {navGroups.map((group) => (
                 <div key={`mobile-${group.id}`} className="nav-mobile__group">
-                    <p className={`nav-mobile__heading ${sans.className}`}>{group.label}</p>
+                    <p className={`nav-mobile__heading ${bodyFont.className}`}>{group.label}</p>
                     <p className="nav-mobile__summary">{group.summary}</p>
                     <ul>
                         {group.links.map((link) => (
                             <li key={`mobile-${group.id}-${link.href}`}>
                                 <Link
                                     href={link.href}
-                                    className={`nav-mobile__link ${serif.className}`}
+                                    className={`nav-mobile__link ${accentFont.className}`}
                                     onClick={closeMobile}
                                 >
                                     {link.label}
@@ -354,7 +355,7 @@ export default function NavBar() {
             ))}
             <Link
                 href={ctaLink.href}
-                className={`nav-mobile__cta ${serif.className}`}
+                className={`nav-mobile__cta ${accentFont.className}`}
                 onClick={closeMobile}
             >
                 {ctaLink.label}
@@ -374,7 +375,7 @@ export default function NavBar() {
         <>
             <header className="nav-shell">
             <div className="nav-shell__inner">
-                <Link href="/" className={`nav-brand ${serif.className}`}>
+                <Link href="/" className={`nav-brand ${displayFont.className}`}>
                     Table d'Adrian
                 </Link>
 
@@ -396,7 +397,7 @@ export default function NavBar() {
                                             <li key={link.href}>
                                                 <Link
                                                     href={link.href}
-                                                    className={`nav-panel__link ${serif.className}`}
+                                                    className={`nav-panel__link ${accentFont.className}`}
                                                 >
                                                     {link.label}
                                                 </Link>
@@ -428,7 +429,7 @@ export default function NavBar() {
                                         id={labelId}
                                         ref={(node) => setGroupNode(group.id, node)}
                                         type="button"
-                                        className={`nav-group__label ${sans.className}`}
+                                        className={`nav-group__label ${accentFont.className}`}
                                         aria-expanded={isActive ? "true" : "false"}
                                         aria-controls={panelId}
                                         aria-haspopup="true"
@@ -507,14 +508,14 @@ export default function NavBar() {
                     </div>
                 </div>
 
-                <Link href={ctaLink.href} className={`nav-cta ${serif.className}`}>
+                <Link href={ctaLink.href} className={`nav-cta ${accentFont.className}`}>
                     {ctaLink.label}
                 </Link>
 
                 <button
                     ref={toggleRef}
                     type="button"
-                    className={`nav-toggle ${sans.className}${mobileOpen ? " is-open" : ""}`}
+                    className={`nav-toggle ${accentFont.className}${mobileOpen ? " is-open" : ""}`}
                     aria-expanded={mobileOpen ? "true" : "false"}
                     aria-controls="mobile-navigation"
                     aria-label={mobileOpen ? "Close navigation" : "Open navigation"}

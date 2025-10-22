@@ -3,19 +3,22 @@
 import React, { useState } from "react";
 import { z } from "zod";
 
-const emailSchema = z.string().email();
+const emailSchema = z.string().email("Use a refined email address so we can reach you.");
 
 type SubmissionState = "idle" | "pending" | "success" | "error";
 
 export default function NewsletterSignup() {
     const [email, setEmail] = useState("");
     const [state, setState] = useState<SubmissionState>("idle");
-    const [message, setMessage] = useState("Occasional notes on menus, voyages, and seasonal ateliers.");
+    const [statusMessage, setStatusMessage] = useState<string | null>(null);
+    const introCopy = "Occasional notes on menus, voyages, and seasonal ateliers.";
 
     async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
+        setState("pending");
+        setStatusMessage(null);
+
         try {
-            setState("pending");
             const normalized = emailSchema.parse(email.trim());
             const response = await fetch("/api/newsletter/subscribe", {
                 method: "POST",
@@ -24,28 +27,33 @@ export default function NewsletterSignup() {
             });
 
             if (!response.ok) {
-                throw new Error("Subscription request failed");
+                throw new Error("We could not confirm the address. Refine it and try again.");
             }
+
             setState("success");
-            setMessage("You're confirmed. Expect curated dispatches crafted for discerning hosts.");
+            setStatusMessage("You're confirmed. Expect curated dispatches crafted for discerning hosts.");
             setEmail("");
-        } catch {
+        } catch (error) {
             setState("error");
-            setMessage("We could not confirm the address. Refine and try again, or reach the concierge directly.");
+            const fallback =
+                error instanceof Error ? error.message : "We could not confirm the address. Please try again shortly.";
+            setStatusMessage(fallback);
         }
     }
+
+    const messageClass =
+        state === "error" ? "form-message error" : state === "success" ? "form-message success" : "form-message";
+    const messageRole: "alert" | "status" = state === "error" ? "alert" : "status";
 
     return (
         <section className="newsletter-card">
             <div className="newsletter-card__header">
                 <h2 className="newsletter-card__title">Concierge newsletter</h2>
-                <p className="newsletter-card__subtitle">{message}</p>
+                <p className="newsletter-card__subtitle">{introCopy}</p>
             </div>
-            <form className="newsletter-card__form" onSubmit={handleSubmit} noValidate>
-                <div className="newsletter-card__field">
-                    <label className="newsletter-card__label" htmlFor="newsletter-email">
-                        Email address
-                    </label>
+            <form className="form form--narrow newsletter-form" onSubmit={handleSubmit} noValidate>
+                <label className="field" htmlFor="newsletter-email">
+                    <span>Email address</span>
                     <input
                         id="newsletter-email"
                         type="email"
@@ -54,19 +62,28 @@ export default function NewsletterSignup() {
                         autoComplete="email"
                         placeholder="you@residence.com"
                         required
-                        className="newsletter-card__input"
                         aria-invalid={state === "error"}
                         aria-describedby="newsletter-helper"
                     />
+                </label>
+                <div className="form-actions">
+                    <button
+                        type="submit"
+                        className="btn btn--full text-xs uppercase tracking-[0.3em]"
+                        disabled={state === "pending"}
+                    >
+                        {state === "pending" ? "Submitting..." : "Request dispatches"}
+                    </button>
                 </div>
-                <button type="submit" className="newsletter-card__action" disabled={state === "pending"}>
-                    {state === "pending" ? "Submitting…" : "Request dispatches"}
-                </button>
             </form>
-            <p id="newsletter-helper" className="newsletter-card__helper">
+            <p id="newsletter-helper" className="form-note">
                 Your details stay within the atelier. Unsubscribe anytime via the concierge.
             </p>
+            {statusMessage ? (
+                <p className={messageClass} role={messageRole}>
+                    {statusMessage}
+                </p>
+            ) : null}
         </section>
     );
 }
-

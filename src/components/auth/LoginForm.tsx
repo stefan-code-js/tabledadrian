@@ -147,83 +147,83 @@ export default function LoginForm() {
         }
     };
 
+    const { errors } = form.formState;
+
     return (
-        <form className="space-y-6" onSubmit={form.handleSubmit(onSubmit)} noValidate>
-            <div className="grid gap-3">
-                <label className="text-sm font-semibold text-ink" htmlFor="email">
-                    Email address
-                </label>
+        <form className="form form--narrow auth-form" onSubmit={form.handleSubmit(onSubmit)} noValidate>
+            <label className="field" htmlFor="email">
+                <span>Email address</span>
                 <input
                     id="email"
                     type="email"
                     autoComplete="email"
-                    className="rounded-2xl border border-[var(--line-hairline)] bg-paper/60 px-4 py-3 text-sm text-ink focus-visible:outline-accent"
                     placeholder="you@maison.com"
                     {...form.register("email")}
-                    aria-invalid={form.formState.errors.email ? "true" : "false"}
+                    aria-invalid={errors.email ? "true" : "false"}
                 />
-                {form.formState.errors.email ? (
-                    <p className="text-xs text-error">{form.formState.errors.email.message}</p>
+                {errors.email ? (
+                    <p className="field__message error" role="alert">
+                        {errors.email.message}
+                    </p>
                 ) : null}
-            </div>
+            </label>
 
-            <div className="grid gap-3">
-                <label className="text-sm font-semibold text-ink" htmlFor="password">
-                    Access phrase
-                </label>
+            <label className="field" htmlFor="password">
+                <span>Access phrase</span>
                 <input
                     id="password"
                     type="password"
                     autoComplete="current-password"
-                    className="rounded-2xl border border-[var(--line-hairline)] bg-paper/60 px-4 py-3 text-sm text-ink focus-visible:outline-accent"
                     placeholder="Enter your phrase"
                     {...form.register("password")}
-                    aria-invalid={form.formState.errors.password ? "true" : "false"}
+                    aria-invalid={errors.password ? "true" : "false"}
                 />
-                {form.formState.errors.password ? (
-                    <p className="text-xs text-error">{form.formState.errors.password.message}</p>
+                {errors.password ? (
+                    <p className="field__message error" role="alert">
+                        {errors.password.message}
+                    </p>
                 ) : null}
-            </div>
+            </label>
 
-            <div className="flex flex-wrap items-center justify-between gap-3 text-xs text-ink-soft">
-                <label className="inline-flex items-center gap-2">
+            <div className="form-options" role="group" aria-label="Session preferences">
+                <label className="form-option">
                     <input
                         type="checkbox"
-                        className="h-4 w-4 rounded border border-[var(--line-soft)] bg-paper accent-[var(--color-ink)]"
                         checked={rememberMe}
                         onChange={handleRememberToggle}
                     />
                     <span>Remember me</span>
                 </label>
-                <label className="inline-flex items-center gap-2">
+                <label className="form-option">
                     <input
                         type="checkbox"
-                        className="h-4 w-4 rounded border border-[var(--line-soft)] bg-paper accent-[var(--color-ink)]"
                         checked={savePassword}
                         onChange={handleSavePasswordToggle}
                     />
                     <span>Save access phrase</span>
                 </label>
             </div>
-            <p className="text-[0.68rem] text-ink-soft">
-                Enable remembrance on a trusted personal device to keep your credentials secure.
+            <p className="form-note">
+                Enable remembrance only on a trusted personal device so your credentials remain private.
             </p>
 
             {errorMessage ? (
-                <div className="rounded-2xl border border-error/40 bg-error/10 px-4 py-3 text-sm text-error">
+                <p className="form-message error" role="alert">
                     {errorMessage}
-                </div>
+                </p>
             ) : null}
 
-            <button
-                type="submit"
-                className="btn w-full text-sm uppercase tracking-[0.3em]"
-                disabled={status === "submitting"}
-            >
-                {status === "submitting" ? "Verifying..." : "Access account"}
-            </button>
+            <div className="form-actions">
+                <button
+                    type="submit"
+                    className="btn btn--full text-sm uppercase tracking-[0.3em]"
+                    disabled={status === "submitting"}
+                >
+                    {status === "submitting" ? "Verifying..." : "Access account"}
+                </button>
+            </div>
 
-            <p className="text-xs text-ink-soft">
+            <p className="form-note">
                 New to the atelier?{" "}
                 <Link href="/auth/register" className="text-accent underline focus-visible:outline-accent">
                     Request your invitation

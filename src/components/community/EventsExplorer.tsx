@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useMemo, useState } from "react";
-import Image from "next/image";
+import Image from "@/components/StaticImage";
 import type { CommunityEvent } from "@/data/community";
 import type { EventRegion } from "@/lib/community";
 

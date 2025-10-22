@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React, { useMemo } from "react";
 import { Sparkles, Crown, ShieldCheck } from "lucide-react";
@@ -27,7 +27,7 @@ function formatWallet(address?: string | null): string | null {
     if (!address) return null;
     const lower = address.toLowerCase();
     if (lower.length <= 12) return lower;
-    return `${lower.slice(0, 6)}â€¦${lower.slice(-4)}`;
+    return `${lower.slice(0, 6)}…${lower.slice(-4)}`;
 }
 
 export default function MemberProfileCard({
@@ -118,4 +118,3 @@ export default function MemberProfileCard({
         </section>
     );
 }
-

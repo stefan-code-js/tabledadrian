@@ -9,7 +9,7 @@ const navItems = [
     { label: "Overview", href: "/members" },
     { label: "Recipes Vault", href: "/members/recipes" },
     { label: "Alchemy Collectibles", href: "/alchemy-collectibles" },
-    { label: "Community", href: "/community" },
+    { label: "Forum", href: "/forum" },
 ];
 
 export default async function MembersLayout({ children }: { children: React.ReactNode }) {

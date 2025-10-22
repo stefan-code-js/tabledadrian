@@ -96,115 +96,112 @@ export default function RegisterForm() {
     };
 
     return (
-        <form className="space-y-6" onSubmit={form.handleSubmit(onSubmit)} noValidate>
-            <div className="grid gap-3">
-                <label className="text-sm font-semibold text-ink" htmlFor="fullName">
-                    Full name
-                </label>
+        <form className="form form--narrow auth-form" onSubmit={form.handleSubmit(onSubmit)} noValidate>
+            <label className="field" htmlFor="fullName">
+                <span>Full name</span>
                 <input
                     id="fullName"
                     type="text"
                     autoComplete="name"
-                    className="rounded-2xl border border-[var(--line-hairline)] bg-paper/60 px-4 py-3 text-sm text-ink focus-visible:outline-accent"
                     placeholder="Alexis Laurent"
                     {...form.register("fullName")}
                     aria-invalid={form.formState.errors.fullName ? "true" : "false"}
                 />
                 {form.formState.errors.fullName ? (
-                    <p className="text-xs text-error">{form.formState.errors.fullName.message}</p>
+                    <p className="field__message error" role="alert">
+                        {form.formState.errors.fullName.message}
+                    </p>
                 ) : null}
-            </div>
+            </label>
 
-            <div className="grid gap-3">
-                <label className="text-sm font-semibold text-ink" htmlFor="email">
-                    Email address
-                </label>
+            <label className="field" htmlFor="email">
+                <span>Email address</span>
                 <input
                     id="email"
                     type="email"
                     autoComplete="email"
-                    className="rounded-2xl border border-[var(--line-hairline)] bg-paper/60 px-4 py-3 text-sm text-ink focus-visible:outline-accent"
                     placeholder="you@maison.com"
                     {...form.register("email")}
                     aria-invalid={form.formState.errors.email ? "true" : "false"}
                 />
                 {form.formState.errors.email ? (
-                    <p className="text-xs text-error">{form.formState.errors.email.message}</p>
+                    <p className="field__message error" role="alert">
+                        {form.formState.errors.email.message}
+                    </p>
                 ) : null}
-            </div>
+            </label>
 
-            <div className="grid gap-3">
-                <label className="text-sm font-semibold text-ink" htmlFor="password">
-                    Access phrase
-                </label>
+            <label className="field" htmlFor="password">
+                <span>Access phrase</span>
                 <input
                     id="password"
                     type="password"
                     autoComplete="new-password"
-                    className="rounded-2xl border border-[var(--line-hairline)] bg-paper/60 px-4 py-3 text-sm text-ink focus-visible:outline-accent"
                     placeholder="Craft an elegant phrase"
                     {...form.register("password")}
                     aria-invalid={form.formState.errors.password ? "true" : "false"}
                 />
                 {form.formState.errors.password ? (
-                    <p className="text-xs text-error">{form.formState.errors.password.message}</p>
+                    <p className="field__message error" role="alert">
+                        {form.formState.errors.password.message}
+                    </p>
                 ) : null}
-            </div>
+            </label>
 
-            <div className="grid gap-3">
-                <label className="text-sm font-semibold text-ink" htmlFor="confirmPassword">
-                    Confirm access phrase
-                </label>
+            <label className="field" htmlFor="confirmPassword">
+                <span>Confirm access phrase</span>
                 <input
                     id="confirmPassword"
                     type="password"
                     autoComplete="new-password"
-                    className="rounded-2xl border border-[var(--line-hairline)] bg-paper/60 px-4 py-3 text-sm text-ink focus-visible:outline-accent"
                     placeholder="Repeat for precision"
                     {...form.register("confirmPassword")}
                     aria-invalid={form.formState.errors.confirmPassword ? "true" : "false"}
                 />
                 {form.formState.errors.confirmPassword ? (
-                    <p className="text-xs text-error">{form.formState.errors.confirmPassword.message}</p>
+                    <p className="field__message error" role="alert">
+                        {form.formState.errors.confirmPassword.message}
+                    </p>
                 ) : null}
-            </div>
+            </label>
 
-            <div className="grid gap-3">
-                <label className="text-sm font-semibold text-ink" htmlFor="walletAddress">
-                    Preferred wallet (optional)
-                </label>
+            <label className="field" htmlFor="walletAddress">
+                <span>Preferred wallet (optional)</span>
                 <input
                     id="walletAddress"
                     type="text"
-                    className="rounded-2xl border border-[var(--line-hairline)] bg-paper/60 px-4 py-3 text-sm text-ink focus-visible:outline-accent"
                     placeholder="0x..."
                     {...form.register("walletAddress")}
                     aria-invalid={form.formState.errors.walletAddress ? "true" : "false"}
                 />
                 {form.formState.errors.walletAddress ? (
-                    <p className="text-xs text-error">{form.formState.errors.walletAddress.message}</p>
+                    <p className="field__message error" role="alert">
+                        {form.formState.errors.walletAddress.message}
+                    </p>
                 ) : (
-                    <p className="text-[0.7rem] text-ink-soft">
+                    <p className="field__message">
                         Providing a wallet now speeds settlement for international engagements.
                     </p>
                 )}
-            </div>
+            </label>
 
             {errorMessage ? (
-                <div className="rounded-2xl border border-error/40 bg-error/10 px-4 py-3 text-sm text-error">
+                <p className="form-message error" role="alert">
                     {errorMessage}
-                </div>
+                </p>
             ) : null}
 
-            <button
-                type="submit"
-                className="btn w-full text-sm uppercase tracking-[0.3em]"
-                disabled={status === "submitting"}
-            >
-                {status === "submitting" ? "Submitting..." : "Request access"}
-            </button>
+            <div className="form-actions">
+                <button
+                    type="submit"
+                    className="btn btn--full text-sm uppercase tracking-[0.3em]"
+                    disabled={status === "submitting"}
+                >
+                    {status === "submitting" ? "Submitting..." : "Request access"}
+                </button>
+            </div>
 
-            <p className="text-xs text-ink-soft">
+            <p className="form-note">
                 Already registered?{" "}
                 <Link href="/auth/login" className="text-accent underline focus-visible:outline-accent">
                     Sign in to your account
