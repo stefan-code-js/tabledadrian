@@ -1,23 +1,39 @@
-import { useState, useRef, useEffect } from "react";
-import { navGroups, NavItem, NavGroup } from "./NavBar";
+import { useRef, useEffect } from "react";
+import { navGroups, type NavItem, type NavGroup } from "./NavBar";
 
-export default function CommandPalette({ open, onClose, onNavigate }: { open: boolean; onClose: () => void; onNavigate: (href: string) => void }) {
-    const [query, setQuery] = useState("");
+type CommandPaletteProps = {
+    open: boolean;
+    query: string;
+    onQueryChange: (value: string) => void;
+    onClose: () => void;
+    onNavigate: (href: string) => void;
+};
+
+export default function CommandPalette({ open, query, onQueryChange, onClose, onNavigate }: CommandPaletteProps) {
     const inputRef = useRef<HTMLInputElement>(null);
     const results: NavItem[] = navGroups.flatMap((group: NavGroup) =>
-        group.links.filter((link: NavItem) =>
-            link.label.toLowerCase().includes(query.toLowerCase())
-        )
+        group.links.filter((link: NavItem) => link.label.toLowerCase().includes(query.toLowerCase())),
     );
+
     useEffect(() => {
         if (open && inputRef.current) {
             inputRef.current.focus();
         }
     }, [open]);
-    useEffect(() => {
-        if (!open) setQuery("");
-    }, [open]);
+
     if (!open) return null;
+
+    const handleClose = () => {
+        onQueryChange("");
+        onClose();
+    };
+
+    const handleSelect = (href: string) => {
+        onNavigate(href);
+        onQueryChange("");
+        onClose();
+    };
+
     return (
         <div className="command-palette-overlay" role="dialog" aria-modal="true" tabIndex={-1}>
             <div className="command-palette-modal">
@@ -26,18 +42,22 @@ export default function CommandPalette({ open, onClose, onNavigate }: { open: bo
                     className="command-palette-input"
                     placeholder="Type to search navigation..."
                     value={query}
-                    onChange={e => setQuery(e.target.value)}
+                    onChange={(event) => onQueryChange(event.target.value)}
                     aria-label="Quick search navigation"
                 />
                 <ul className="command-palette-results">
                     {results.length === 0 && <li className="command-palette-empty">No matches</li>}
-                    {results.map(link => (
+                    {results.map((link) => (
                         <li key={link.href}>
-                            <button className="command-palette-result" onClick={() => { onNavigate(link.href); onClose(); }}>{link.label}</button>
+                            <button className="command-palette-result" onClick={() => handleSelect(link.href)}>
+                                {link.label}
+                            </button>
                         </li>
                     ))}
                 </ul>
-                <button className="command-palette-close" onClick={onClose} aria-label="Close command palette">×</button>
+                <button className="command-palette-close" onClick={handleClose} aria-label="Close command palette">
+                    ×
+                </button>
             </div>
         </div>
     );

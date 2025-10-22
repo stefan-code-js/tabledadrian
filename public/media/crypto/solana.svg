@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 48">
+  <defs>
+    <linearGradient id="solanaGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00ffa3"/>
+      <stop offset="50%" stop-color="#dc1fff"/>
+      <stop offset="100%" stop-color="#0aefff"/>
+    </linearGradient>
+  </defs>
+  <rect width="160" height="48" rx="14" fill="#0b0f1a"/>
+  <text x="80" y="30" text-anchor="middle" font-family="Inter, 'Segoe UI', sans-serif" font-size="20" font-weight="600" fill="url(#solanaGradient)">SOLANA</text>
+</svg>

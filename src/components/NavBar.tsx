@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
+    type ChangeEvent,
     type ElementType,
     type FocusEvent,
     useCallback,
@@ -12,6 +13,7 @@ import {
     useRef,
     useState,
 } from "react";
+import type { KeyboardEvent as ReactKeyboardEvent } from "react";
 import { serif, sans } from "@/lib/fonts";
 import CommandPalette from "./CommandPalette";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
@@ -97,9 +99,11 @@ export default function NavBar() {
     const pathname = usePathname();
     const router = useRouter();
     const [paletteOpen, setPaletteOpen] = useState(false);
+    const [paletteQuery, setPaletteQuery] = useState("");
     const handlePaletteNavigate = (href: string) => {
         router.push(href);
         setPaletteOpen(false);
+        setPaletteQuery("");
     };
     const prefersReducedMotion = usePrefersReducedMotion();
     const [motionLib, setMotionLib] = useState<typeof import("framer-motion") | null>(null);
@@ -111,6 +115,7 @@ export default function NavBar() {
     const overlayRef = useRef<HTMLDivElement | null>(null);
     const toggleRef = useRef<HTMLButtonElement | null>(null);
     const focusableRef = useRef<HTMLElement[]>([]);
+    const searchInputRef = useRef<HTMLInputElement | null>(null);
     const [indicatorState, setIndicatorState] = useState({ left: 0, width: 0, visible: false });
 
     useEffect(() => {
@@ -126,6 +131,11 @@ export default function NavBar() {
     }, []);
 
     const allLinks = useMemo(() => navGroups.flatMap((group) => group.links), []);
+    const searchResults = useMemo(() => {
+        const q = paletteQuery.trim().toLowerCase();
+        if (!q) return allLinks;
+        return allLinks.filter((link) => link.label.toLowerCase().includes(q));
+    }, [allLinks, paletteQuery]);
 
     const activeHref = useMemo(() => {
         if (!pathname) return "/";
@@ -140,6 +150,40 @@ export default function NavBar() {
             group.links.some((link) => link.href === activeHref)
         )?.id;
     }, [activeHref]);
+
+    const handlePaletteClose = useCallback(() => {
+        setPaletteOpen(false);
+        setPaletteQuery("");
+    }, []);
+
+    const handleSearchFocus = useCallback(() => {
+        if (!paletteOpen) {
+            setPaletteOpen(true);
+        }
+    }, [paletteOpen]);
+
+    const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
+        const value = event.target.value;
+        setPaletteQuery(value);
+        if (!paletteOpen) {
+            setPaletteOpen(true);
+        }
+    };
+
+    const handleSearchKeyDown = (event: ReactKeyboardEvent<HTMLInputElement>) => {
+        if (event.key === "Enter") {
+            const first = searchResults[0];
+            if (first) {
+                event.preventDefault();
+                handlePaletteNavigate(first.href);
+            }
+        }
+        if (event.key === "Escape") {
+            event.preventDefault();
+            handlePaletteClose();
+            searchInputRef.current?.blur();
+        }
+    };
 
     useEffect(() => {
         setHighlight(defaultGroup ?? null);
@@ -439,6 +483,28 @@ export default function NavBar() {
                     </div>
                 </MotionNav>
 
+                <div id="site-search" className="nav-search" role="search">
+                    <input
+                        ref={searchInputRef}
+                        type="search"
+                        className="nav-search__field"
+                        placeholder="Search the atelier..."
+                        value={paletteQuery}
+                        onFocus={handleSearchFocus}
+                        onChange={handleSearchChange}
+                        onKeyDown={handleSearchKeyDown}
+                        aria-label="Search Table d'Adrian navigation"
+                    />
+                    <div className="nav-search__actions">
+                        <Link href="/auth/login" className="nav-search__link">
+                            Login
+                        </Link>
+                        <Link href="/auth/register" className="nav-search__link">
+                            Register
+                        </Link>
+                    </div>
+                </div>
+
                 <Link href={ctaLink.href} className={`nav-cta ${serif.className}`}>
                     {ctaLink.label}
                 </Link>
@@ -461,7 +527,10 @@ export default function NavBar() {
                     aria-label="Open command palette"
                     aria-keyshortcuts="Control+K"
                     title="Open command palette (Ctrl+K)"
-                    onClick={() => setPaletteOpen(true)}
+                    onClick={() => {
+                        setPaletteQuery("");
+                        setPaletteOpen(true);
+                    }}
                 >
                     <span className="nav-command-palette-icon">{"Ctrl\u2009K"}</span>
                 </button>
@@ -501,8 +570,12 @@ export default function NavBar() {
             )}
 
         </header>
-            <CommandPalette open={paletteOpen} onClose={() => setPaletteOpen(false)} onNavigate={handlePaletteNavigate} />
+            <CommandPalette open={paletteOpen} query={paletteQuery} onQueryChange={setPaletteQuery} onClose={handlePaletteClose} onNavigate={handlePaletteNavigate} />
         </>
     );
 }
+
+
+
+
 

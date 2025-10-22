@@ -95,38 +95,39 @@ function Banner({
     onOpenPreferences: () => void;
 }) {
     const titleId = "cookie-consent-banner-title";
+    const descriptionId = "cookie-consent-banner-description";
     if (!visible) return null;
 
     return (
-        <section
-            className="fixed inset-x-4 bottom-4 z-[2500] max-w-4xl mx-auto rounded-3xl bg-paper-soft/95 px-6 py-5 shadow-2xl border border-[var(--line-soft)] text-ink"
-            role="dialog"
-            aria-live="polite"
-            aria-modal="false"
-            aria-labelledby={titleId}
-        >
-            <h2 id={titleId} className="text-lg font-semibold text-accent">
-                Curate your consent
-            </h2>
-            <p className="mt-2 text-sm text-ink-soft">
-                We use strictly necessary cookies to safeguard bookings. Enable analytics to refine every service cadence, and marketing to receive elixir dispatches tailored to your tastes.
-            </p>
-            <div className="mt-4 flex flex-wrap gap-3">
-                <button type="button" className="btn text-sm" onClick={onAcceptAll}>
-                    Accept all
-                </button>
-                <button type="button" className="btn ghost text-sm" onClick={onReject}>
-                    Reject non-essential
-                </button>
-                <button
-                    type="button"
-                    className="btn ghost text-sm underline-offset-4 underline"
-                    onClick={onOpenPreferences}
-                >
-                    Preferences
-                </button>
-            </div>
-        </section>
+        <div className="cookie-consent-overlay" role="presentation">
+            <section
+                className="cookie-consent-modal"
+                role="dialog"
+                aria-modal="true"
+                aria-labelledby={titleId}
+                aria-describedby={descriptionId}
+                tabIndex={-1}
+            >
+                <h2 id={titleId} className="text-lg font-semibold text-accent">
+                    Curate your consent
+                </h2>
+                <p id={descriptionId} className="mt-3 text-sm text-ink-soft leading-relaxed">
+                    We use strictly necessary cookies to safeguard bookings. Enable analytics to refine every service cadence,
+                    and marketing to receive elixir dispatches tailored to your tastes.
+                </p>
+                <div className="mt-6 flex flex-wrap gap-3 justify-end">
+                    <button type="button" className="btn ghost text-sm" onClick={onReject}>
+                        Reject non-essential
+                    </button>
+                    <button type="button" className="btn ghost text-sm" onClick={onOpenPreferences}>
+                        Preferences
+                    </button>
+                    <button type="button" className="btn text-sm" onClick={onAcceptAll}>
+                        Accept all
+                    </button>
+                </div>
+            </section>
+        </div>
     );
 }
 
@@ -142,6 +143,19 @@ export function CookieConsent({ children }: { children?: React.ReactNode }) {
             setHasConsent(true);
         }
     }, []);
+
+    useEffect(() => {
+        if (typeof document === "undefined") return;
+        const originalOverflow = document.body.style.overflow;
+        if (!hasConsent || preferencesOpen) {
+            document.body.style.overflow = "hidden";
+        } else {
+            document.body.style.overflow = originalOverflow || "";
+        }
+        return () => {
+            document.body.style.overflow = originalOverflow || "";
+        };
+    }, [hasConsent, preferencesOpen]);
 
     const saveConsent = useCallback(
         (next: ConsentCategories) => {
@@ -212,3 +226,4 @@ export function useCookieConsent(): CookieConsentContextValue {
     }
     return context;
 }
+

@@ -14,12 +14,22 @@ const partners = [
     { name: "Atelier Basalte", href: "https://atelierbasalte.com" },
 ];
 
+const cryptoAllies = [
+    { name: "Bitcoin", href: "https://bitcoin.org", logo: "/media/crypto/bitcoin.svg" },
+    { name: "Ethereum", href: "https://ethereum.org", logo: "/media/crypto/ethereum.svg" },
+    { name: "Solana", href: "https://solana.com", logo: "/media/crypto/solana.svg" },
+    { name: "Binance", href: "https://www.binance.com", logo: "/media/crypto/binance.svg" },
+];
+
 const socials = [
     { label: "Instagram", href: site.socials.instagram },
     { label: "LinkedIn", href: site.socials.linkedin },
     { label: "Press", href: "/press" },
     { label: "Community", href: "/community" },
     { label: "Brand Assets", href: "/brand-assets" },
+    { label: "Login", href: "/auth/login" },
+    { label: "Register", href: "/auth/register" },
+    { label: "Search", href: "/#site-search" },
 ].filter((item) => Boolean(item.href));
 
 const manifesto =
@@ -148,6 +158,24 @@ export default function Footer() {
                             </button>
                         </li>
                     </ul>
+                </div>
+            </div>
+
+            <div className="site-footer__crypto-row">
+                <span className="site-footer__label font-semibold mb-2 block">Crypto Alliances</span>
+                <div className="site-footer__crypto-logos">
+                    {cryptoAllies.map((ally) => (
+                        <a
+                            key={ally.name}
+                            href={ally.href}
+                            className="site-footer__crypto-logo"
+                            target="_blank"
+                            rel="noreferrer"
+                            aria-label={`${ally.name} website`}
+                        >
+                            <img src={ally.logo} alt={`${ally.name} logo`} loading="lazy" />
+                        </a>
+                    ))}
                 </div>
             </div>
 
