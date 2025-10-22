@@ -1,0 +1,45 @@
+[
+  {
+    "id": "aurum",
+    "name": "Aurum Sigil",
+    "headline": "Signature dining communion for tastemakers",
+    "description": "A limited NFT granting seasonal menus, somm selections, and atelier access for private events.",
+    "editionSize": 108,
+    "mintPriceEth": "1.5",
+    "artwork": "/media/chapter-atelier.svg",
+    "benefits": [
+      "Quarterly recipe vault drops",
+      "Priority booking across Monaco, Dubai, NYC",
+      "Sommelier pairing brief on request"
+    ]
+  },
+  {
+    "id": "noir",
+    "name": "Noir Constellation",
+    "headline": "Ultra-limited capsule for yacht residencies",
+    "description": "Unlocks on-board tasting menus, crew training, and private wellness consults with Dr. Antonia.",
+    "editionSize": 42,
+    "mintPriceEth": "3.75",
+    "artwork": "/media/chapter-salon.svg",
+    "benefits": [
+      "On-board pantry optimization",
+      "Jet & yacht provisioning playbooks",
+      "Invite to midnight ateliers"
+    ]
+  },
+  {
+    "id": "celeste",
+    "name": "Celeste Codex",
+    "headline": "Collector-grade vault for legacy households",
+    "description": "Bespoke culinary narratives, multi-residence menu rotation, and direct access to Adrian and Antonia.",
+    "editionSize": 12,
+    "mintPriceEth": "12",
+    "artwork": "/media/chapter-table.svg",
+    "benefits": [
+      "Annual residency blueprint",
+      "Family heritage recipe preservation",
+      "First-look at collaboration voyages"
+    ]
+  }
+]
+

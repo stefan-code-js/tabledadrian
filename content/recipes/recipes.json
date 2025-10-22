@@ -1,0 +1,50 @@
+[
+  {
+    "id": "lunar-crudo",
+    "title": "Lunar Citrus Crudo",
+    "summary": "Atlantic kingfish bathed in yuzu kosho, bergamot pearls, and champagne air.",
+    "focus": "Immune resilience + radiant skin",
+    "ritual": [
+      "Slice kingfish in 4mm translucent petals.",
+      "Infuse yuzu kosho with kefir lime leaves over low heat.",
+      "Charge champagne espuma with citrus bitters to aerate.",
+      "Crown with bergamot pearls, bronze fennel, and Oscietra pearls."
+    ],
+    "pairing": "Krug Grande Cuvee, served 9C with bergamot zest mist.",
+    "image": "/media/chapter-atelier.svg",
+    "requiresCollectible": true,
+    "tags": ["detox", "omega", "salon"]
+  },
+  {
+    "id": "phoenix-consomme",
+    "title": "Phoenix Bone Consomme",
+    "summary": "Clarified aged duck broth, lion's mane consomme pearls, and saffron tonic.",
+    "focus": "Collagen activation + circadian reset",
+    "ritual": [
+      "Roast duck wings with miso caramel until lacquered.",
+      "Simmer 18 hours with golden beets, kombu, and green cardamom.",
+      "Clarify with egg white raft scented with jasmine tea.",
+      "Serve with lion's mane pearls, saffron tonic, and smoked salt."
+    ],
+    "pairing": "Dom Perignon P2 2004 with saffron vapor.",
+    "image": "/media/chapter-salon.svg",
+    "requiresCollectible": true,
+    "tags": ["longevity", "immunity", "atelier"]
+  },
+  {
+    "id": "stellar-ganache",
+    "title": "Stellar Cacao Ganache",
+    "summary": "Single-origin criollo cacao layered with tonka bean, bee pollen crunch, and fleur de sel.",
+    "focus": "Mood elevation + neurotransmitter harmony",
+    "ritual": [
+      "Temper criollo cacao to 32C using marble pull technique.",
+      "Whisk in tonka creme anglaise and adaptogenic tincture.",
+      "Finish with bee pollen crunch, smoked fleur de sel, and 24k leaf.",
+      "Present beneath smoked cloche for aromatic reveal."
+    ],
+    "pairing": "Barolo Chinato digestif with orange blossom hydrosol.",
+    "image": "/media/chapter-table.svg",
+    "requiresCollectible": false,
+    "tags": ["dessert", "mood", "salon"]
+  }
+]

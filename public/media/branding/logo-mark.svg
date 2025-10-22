@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160">
+  <defs>
+    <radialGradient id="g" cx="50%" cy="50%" r="70%">
+      <stop offset="0%" stop-color="#F5F0E8"/>
+      <stop offset="70%" stop-color="#D4AF37"/>
+      <stop offset="100%" stop-color="#8C6A10"/>
+    </radialGradient>
+  </defs>
+  <circle cx="80" cy="80" r="76" fill="#10131A" stroke="#D4AF37" stroke-width="4"/>
+  <text x="80" y="96" text-anchor="middle" font-family="Times New Roman, serif" font-size="72" fill="url(#g)">TA</text>
+</svg>

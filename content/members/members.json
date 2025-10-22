@@ -1,0 +1,12 @@
+[
+  {
+    "id": "mem-0001",
+    "email": "maestro@tabledadrian.com",
+    "fullName": "Adrian Leclair",
+    "passwordHash": "8844548eeb8a1adaebfd6d6340268073:c55d8acd6557d1ce3eff11e4f768f99394f0fb872f56c74370a822cd4f803a9f2570fec65890c7177484db381a5b478c496658b49aa334b18d2c33c7fc56fdc2",
+    "walletAddress": "0x9E8aA5728B2CbA33f8a7d1A31CcAa6B9c39F5c12",
+    "roles": ["member", "vip"],
+    "createdAt": "2025-10-01T10:00:00.000Z"
+  }
+]
+

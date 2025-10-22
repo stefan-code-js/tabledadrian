@@ -75,6 +75,17 @@ export const navGroups: NavGroup[] = [
             { label: "Cancel", href: "/cancel" },
         ],
     },
+    {
+        id: "members",
+        label: "Members",
+        summary: "Access the vault, collectibles, and assets",
+        links: [
+            { label: "Member Login", href: "/auth/login" },
+            { label: "Recipes Vault", href: "/members/recipes" },
+            { label: "Collectibles", href: "/alchemy-collectibles" },
+            { label: "Brand Assets", href: "/brand-assets" },
+        ],
+    },
 ];
 
 const ctaLink: NavItem = { label: "Book a Table", href: "/book" };

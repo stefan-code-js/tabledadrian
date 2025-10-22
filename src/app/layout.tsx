@@ -2,17 +2,18 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import React from "react";
-import Script from "next/script";
-import { Analytics } from "@vercel/analytics/next";
-import { SpeedInsights } from "@vercel/speed-insights/next";
 import SiteHeader from "@/components/SiteHeader";
 import AppMotionRoot from "@/components/AppMotionRoot";
 import Footer from "@/components/Footer";
 import { site } from "@/lib/site";
 import { serif, sans } from "@/lib/fonts";
 import { buildPageMetadata, buildOrganizationJsonLd, buildLocalBusinessJsonLd } from "@/lib/metadata";
+import { CookieConsent } from "@/components/CookieConsent";
+import ConsentAwareAnalytics from "@/components/ConsentAwareAnalytics";
+import LuxurySessionProvider from "@/components/SessionProvider";
+import Script from "next/script";
 
-export const runtime = "edge";
+export const runtime = "nodejs";
 
 export const metadata: Metadata = buildPageMetadata({
     title: `${site.name} | Private dining on the Riviera`,
@@ -31,45 +32,36 @@ const organizationJsonLd = buildOrganizationJsonLd();
 const localBusinessJsonLd = buildLocalBusinessJsonLd();
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-    const plausibleDomain = process.env.NEXT_PUBLIC_PLAUSIBLE_DOMAIN;
-    const cfToken = process.env.NEXT_PUBLIC_CF_ANALYTICS_TOKEN;
-    const cfBeacon = cfToken ? JSON.stringify({ token: cfToken, spa: true }) : undefined;
-
     return (
         <html lang={site.locale}>
             <body className={`${sans.variable} ${serif.variable} theme-linen`}>
-                <a className="skip-link" href="#main">Skip to content</a>
-                <SiteHeader />
-                <main id="main" role="main">
-                    <AppMotionRoot>{children}</AppMotionRoot>
-                </main>
-                <Footer />
+                <LuxurySessionProvider>
+                    <CookieConsent>
+                        <a className="skip-link" href="#main">Skip to content</a>
+                        <SiteHeader />
+                        <main id="main" role="main">
+                            <AppMotionRoot>{children}</AppMotionRoot>
+                        </main>
+                        <Footer />
+                        <Script
+                            src="https://challenges.cloudflare.com/turnstile/v0/api.js"
+                            strategy="afterInteractive"
+                            defer
+                        />
+                        <ConsentAwareAnalytics />
+                        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }} />
+                        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessJsonLd) }} />
+                    </CookieConsent>
+                </LuxurySessionProvider>
                 <Script
-                    src="https://challenges.cloudflare.com/turnstile/v0/api.js"
-                    strategy="afterInteractive"
-                    defer
+                    id="cookie-consent-init"
+                    strategy="beforeInteractive"
+                    dangerouslySetInnerHTML={{
+                        __html: `
+                            window.dataLayer = window.dataLayer || [];
+                        `,
+                    }}
                 />
-                {plausibleDomain ? (
-                    <Script
-                        id="plausible-analytics"
-                        src="https://plausible.io/js/script.js"
-                        data-domain={plausibleDomain}
-                        strategy="afterInteractive"
-                        defer
-                    />
-                ) : null}
-                {cfBeacon ? (
-                    <Script
-                        id="cloudflare-analytics"
-                        src="https://static.cloudflareinsights.com/beacon.min.js"
-                        strategy="afterInteractive"
-                        data-cf-beacon={cfBeacon}
-                    />
-                ) : null}
-                <Analytics />
-                <SpeedInsights />
-                <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }} />
-                <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessJsonLd) }} />
             </body>
         </html>
     );

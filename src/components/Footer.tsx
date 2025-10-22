@@ -1,7 +1,9 @@
-﻿"use client";
+"use client";
 import Link from "next/link";
 import { site } from "@/lib/site";
 import { useRef, useEffect } from "react";
+import { useCookieConsent } from "@/components/CookieConsent";
+import { getLegalNavigation } from "@/lib/legal-docs";
 
 const partners = [
     { name: "Krug", href: "https://www.krug.com" },
@@ -16,6 +18,7 @@ const socials = [
     { label: "Instagram", href: site.socials.instagram },
     { label: "LinkedIn", href: site.socials.linkedin },
     { label: "Press", href: "/press" },
+    { label: "Brand Assets", href: "/brand-assets" },
 ].filter((item) => Boolean(item.href));
 
 const manifesto =
@@ -27,12 +30,14 @@ export default function Footer() {
     const trackRef = useRef<HTMLDivElement>(null);
     const animRef = useRef<number | null>(null);
     const paused = useRef(false);
+    const { openPreferences } = useCookieConsent();
+    const legalLinks = getLegalNavigation();
 
     useEffect(() => {
         const track = trackRef.current;
         if (!track) return;
         let pos = 0;
-        const speed = 0.5; // px per frame
+        const speed = 0.5;
         function step() {
             if (!paused.current && track) {
                 pos -= speed;
@@ -53,7 +58,7 @@ export default function Footer() {
     const handleResume = () => { paused.current = false; };
 
     return (
-        <footer className="site-footer bg-paper-soft text-ink" role="contentinfo" style={{ borderTop: '1px solid var(--line-hairline)', marginTop: '4rem', paddingTop: '2.5rem' }}>
+        <footer className="site-footer bg-paper-soft text-ink" role="contentinfo" style={{ borderTop: "1px solid var(--line-hairline)", marginTop: "4rem", paddingTop: "2.5rem" }}>
             <div className="site-footer__partners" aria-label="Selected partners and collaborators">
                 <div
                     className="site-footer__partners-track"
@@ -64,7 +69,7 @@ export default function Footer() {
                     onFocus={handlePause}
                     onBlur={handleResume}
                     aria-label="Partner logos auto-scroll; pause on hover or focus"
-                    style={{ display: 'flex', gap: '2.5rem', willChange: 'transform' }}
+                    style={{ display: "flex", gap: "2.5rem", willChange: "transform" }}
                 >
                     {[...partners, ...partners].map((item, index) => {
                         const key = `${item.name}-${index}`;
@@ -91,22 +96,22 @@ export default function Footer() {
                 </div>
             </div>
 
-            <div className="site-footer__grid" style={{ display: 'grid', gridTemplateColumns: '1fr 2fr 1fr', gap: '2.5rem', alignItems: 'start', margin: '2.5rem 0' }}>
-                <div className="site-footer__col site-footer__col--contact" style={{ color: 'var(--color-ink)' }}>
-                    <p className="site-footer__wordmark text-lg font-bold mb-2">Table d'Adrian</p>
+            <div className="site-footer__grid" style={{ display: "grid", gridTemplateColumns: "1.1fr 1.6fr 1fr 1fr", gap: "2.5rem", alignItems: "start", margin: "2.5rem 0" }}>
+                <div className="site-footer__col site-footer__col--contact" style={{ color: "var(--color-ink)" }}>
+                    <p className="site-footer__wordmark text-lg font-bold mb-2">Table d&apos;Adrian</p>
                     <p className="site-footer__copy mb-1">
                         <Link href={`mailto:${email}`} className="text-accent underline focus-visible:outline-accent">{email}</Link>
                     </p>
                     <p className="site-footer__copy text-ink-soft">Serving {site.serviceArea.join(", ")}</p>
                 </div>
 
-                <div className="site-footer__col site-footer__col--manifesto" style={{ color: 'var(--color-ink-muted)', textAlign: 'center', fontStyle: 'italic', fontSize: '1.08rem', lineHeight: 1.6 }}>
+                <div className="site-footer__col site-footer__col--manifesto" style={{ color: "var(--color-ink-muted)", textAlign: "center", fontStyle: "italic", fontSize: "1.08rem", lineHeight: 1.6 }}>
                     <p>{manifesto}</p>
                 </div>
 
-                <div className="site-footer__col site-footer__col--links" style={{ color: 'var(--color-ink)' }}>
+                <div className="site-footer__col site-footer__col--links" style={{ color: "var(--color-ink)" }}>
                     <span className="site-footer__label font-semibold mb-2 block">Connect</span>
-                    <ul className="site-footer__list" style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+                    <ul className="site-footer__list" style={{ listStyle: "none", padding: 0, margin: 0 }}>
                         {socials.map((item) => (
                             <li key={item.label} className="mb-1">
                                 <Link href={item.href!} target={item.href?.startsWith("http") ? "_blank" : undefined} rel={item.href?.startsWith("http") ? "noreferrer" : undefined} className="text-accent underline focus-visible:outline-accent">
@@ -116,11 +121,38 @@ export default function Footer() {
                         ))}
                     </ul>
                 </div>
+
+                <div className="site-footer__col site-footer__col--legal" style={{ color: "var(--color-ink)" }}>
+                    <span className="site-footer__label font-semibold mb-2 block">Legal</span>
+                    <ul className="site-footer__list" style={{ listStyle: "none", padding: 0, margin: 0 }}>
+                        {legalLinks.map((link) => (
+                            <li key={link.href} className="mb-1">
+                                <Link href={link.href} className="text-accent underline focus-visible:outline-accent">
+                                    {link.label}
+                                </Link>
+                            </li>
+                        ))}
+                        <li className="mt-2">
+                            <Link href="/privacy/requests?type=object" className="text-accent underline focus-visible:outline-accent">
+                                Do Not Sell or Share My Personal Information
+                            </Link>
+                        </li>
+                        <li>
+                            <button
+                                type="button"
+                                onClick={openPreferences}
+                                className="text-accent underline focus-visible:outline-accent bg-transparent border-0 p-0 mt-2"
+                            >
+                                Cookie preferences
+                            </button>
+                        </li>
+                    </ul>
+                </div>
             </div>
 
-            <div className="site-footer__legal" style={{ color: 'var(--color-ink-muted)', fontSize: '0.98rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '1px solid var(--line-hairline)', paddingTop: '1.2rem', marginTop: '1.2rem' }}>
-                <span>© {year} {site.name}</span>
-                <Link href="/remove" className="text-accent underline focus-visible:outline-accent">Data preferences</Link>
+            <div className="site-footer__legal" style={{ color: "var(--color-ink-muted)", fontSize: "0.98rem", display: "flex", justifyContent: "space-between", alignItems: "center", borderTop: "1px solid var(--line-hairline)", paddingTop: "1.2rem", marginTop: "1.2rem" }}>
+                <span>&copy; {year} {site.name}</span>
+                <Link href="/privacy" className="text-accent underline focus-visible:outline-accent">Privacy Center</Link>
             </div>
         </footer>
     );

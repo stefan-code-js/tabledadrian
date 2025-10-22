@@ -10,6 +10,7 @@ import {
     PageStructuredData,
 } from "@/components/StructuredPage";
 import ContactForm from "@/components/ContactForm";
+import ContactChannels from "@/components/ContactChannels";
 import { createPageMetadata } from "@/lib/metadata";
 
 const page = sitePages.contact;
@@ -51,6 +52,7 @@ export default async function ContactPage({
             <ProcessSection page={page} />
             <PricingSection page={page} />
             <TestimonialsSection page={page} />
+            <ContactChannels />
             <FinalCtaSection page={page}>
                 <ContactForm context={context} />
             </FinalCtaSection>
