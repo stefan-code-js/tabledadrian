@@ -171,7 +171,7 @@ export default function RegisterForm() {
 
             <div className="grid gap-3">
                 <label className="text-sm font-semibold text-ink" htmlFor="walletAddress">
-                    Collectors wallet (optional)
+                    Preferred wallet (optional)
                 </label>
                 <input
                     id="walletAddress"
@@ -185,7 +185,7 @@ export default function RegisterForm() {
                     <p className="text-xs text-error">{form.formState.errors.walletAddress.message}</p>
                 ) : (
                     <p className="text-[0.7rem] text-ink-soft">
-                        Linking your wallet now accelerates collectible verifications later.
+                        Providing a wallet now speeds settlement for international engagements.
                     </p>
                 )}
             </div>
@@ -201,13 +201,13 @@ export default function RegisterForm() {
                 className="btn w-full text-sm uppercase tracking-[0.3em]"
                 disabled={status === "submitting"}
             >
-                {status === "submitting" ? "Inviting..." : "Request membership"}
+                {status === "submitting" ? "Submitting..." : "Request access"}
             </button>
 
             <p className="text-xs text-ink-soft">
-                Already initiated?{" "}
+                Already registered?{" "}
                 <Link href="/auth/login" className="text-accent underline focus-visible:outline-accent">
-                    Enter your access phrase
+                    Sign in to your account
                 </Link>
                 .
             </p>

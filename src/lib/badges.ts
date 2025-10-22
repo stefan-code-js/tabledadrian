@@ -19,7 +19,7 @@ type OpenBadgeClass = {
     tags: string[];
 };
 
-const issuerId = process.env.BADGE_ISSUER_ID ?? "https://www.tabledadrian.com/brand-assets#issuer";
+const issuerId = process.env.BADGE_ISSUER_ID ?? "https://www.tabledadrian.com/alchemy-collectibles#issuer";
 const issuerName = process.env.BADGE_ISSUER_NAME ?? "Table d'Adrian Atelier";
 const issuerUrl = process.env.BADGE_ISSUER_URL ?? "https://www.tabledadrian.com";
 

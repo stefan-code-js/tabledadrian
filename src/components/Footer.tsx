@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import Image from "next/image";
 import { site } from "@/lib/site";
 import { useRef, useEffect } from "react";
 import { useCookieConsent } from "@/components/CookieConsent";
@@ -24,9 +25,9 @@ const cryptoAllies = [
 const socials = [
     { label: "Instagram", href: site.socials.instagram },
     { label: "LinkedIn", href: site.socials.linkedin },
-    { label: "Press", href: "/press" },
     { label: "Community", href: "/community" },
-    { label: "Brand Assets", href: "/brand-assets" },
+    { label: "Collectibles", href: "/alchemy-collectibles" },
+    { label: "Press", href: "/press" },
     { label: "Login", href: "/auth/login" },
     { label: "Register", href: "/auth/register" },
     { label: "Search", href: "/#site-search" },
@@ -122,49 +123,54 @@ export default function Footer() {
 
                 <div className="site-footer__col site-footer__col--links" style={{ color: "var(--color-ink)" }}>
                     <span className="site-footer__label font-semibold mb-2 block">Connect</span>
-                    <ul className="site-footer__list" style={{ listStyle: "none", padding: 0, margin: 0 }}>
+                    <div className="site-footer__link-cards">
                         {socials.map((item) => (
-                            <li key={item.label} className="mb-1">
-                                <Link href={item.href!} target={item.href?.startsWith("http") ? "_blank" : undefined} rel={item.href?.startsWith("http") ? "noreferrer" : undefined} className="text-accent underline focus-visible:outline-accent">
+                            <div key={item.label} className="site-footer__link-card">
+                                <Link
+                                    href={item.href!}
+                                    target={item.href?.startsWith("http") ? "_blank" : undefined}
+                                    rel={item.href?.startsWith("http") ? "noreferrer" : undefined}
+                                    className="site-footer__link-anchor"
+                                >
                                     {item.label}
                                 </Link>
-                            </li>
+                            </div>
                         ))}
-                    </ul>
+                    </div>
                 </div>
 
                 <div className="site-footer__col site-footer__col--legal" style={{ color: "var(--color-ink)" }}>
                     <span className="site-footer__label font-semibold mb-2 block">Legal</span>
-                    <ul className="site-footer__list" style={{ listStyle: "none", padding: 0, margin: 0 }}>
+                    <div className="site-footer__link-cards">
                         {legalLinks.map((link) => (
-                            <li key={link.href} className="mb-1">
-                                <Link href={link.href} className="text-accent underline focus-visible:outline-accent">
+                            <div key={link.href} className="site-footer__link-card">
+                                <Link href={link.href} className="site-footer__link-anchor">
                                     {link.label}
                                 </Link>
-                            </li>
+                            </div>
                         ))}
-                        <li className="mt-2">
-                            <Link href="/privacy/requests?type=object" className="text-accent underline focus-visible:outline-accent">
+                        <div className="site-footer__link-card">
+                            <Link href="/privacy/requests?type=object" className="site-footer__link-anchor">
                                 Do Not Sell or Share My Personal Information
                             </Link>
-                        </li>
-                        <li>
+                        </div>
+                        <div className="site-footer__link-card">
                             <button
                                 type="button"
                                 onClick={openPreferences}
-                                className="text-accent underline focus-visible:outline-accent bg-transparent border-0 p-0 mt-2"
+                                className="site-footer__link-anchor site-footer__link-anchor--button"
                             >
                                 Cookie preferences
                             </button>
-                        </li>
-                    </ul>
+                        </div>
+                    </div>
                 </div>
             </div>
 
             <div className="site-footer__crypto-row">
                 <span className="site-footer__label font-semibold mb-2 block">Crypto Alliances</span>
                 <div className="site-footer__crypto-logos">
-                    {cryptoAllies.map((ally) => (
+                    {cryptoAllies.map((ally, index) => (
                         <a
                             key={ally.name}
                             href={ally.href}
@@ -172,8 +178,19 @@ export default function Footer() {
                             target="_blank"
                             rel="noreferrer"
                             aria-label={`${ally.name} website`}
+                            data-accent={index}
                         >
-                            <img src={ally.logo} alt={`${ally.name} logo`} loading="lazy" />
+                            <span className="site-footer__crypto-logo-inner">
+                                <Image
+                                    src={ally.logo}
+                                    alt={`${ally.name} logo`}
+                                    width={40}
+                                    height={40}
+                                    aria-hidden="true"
+                                    className="site-footer__crypto-image"
+                                />
+                            </span>
+                            <span className="site-footer__crypto-label">{ally.name}</span>
                         </a>
                     ))}
                 </div>

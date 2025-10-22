@@ -33,7 +33,7 @@ export const LEGAL_DOCUMENTS = {
     "crypto-tc": {
         file: "crypto-tc.md",
         title: "Crypto Terms",
-        description: "Utility-focused terms for crypto payments, Alchemy Collectibles, and token-gated privileges.",
+        description: "Utility-focused terms for crypto payments and digital concierge privileges.",
         path: "/crypto-tc",
     },
     refunds: {
@@ -45,7 +45,7 @@ export const LEGAL_DOCUMENTS = {
     "community-charter": {
         file: "community-charter.md",
         title: "Community Charter",
-        description: "Etiquette for the Alchemist's Conclave, covering moderation, code of conduct, and reporting.",
+        description: "Etiquette and moderation standards for the Table d'Adrian community gatherings.",
         path: "/community/charter",
     },
     accessibility: {

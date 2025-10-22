@@ -9,7 +9,7 @@ const navItems = [
     { label: "Overview", href: "/members" },
     { label: "Recipes Vault", href: "/members/recipes" },
     { label: "Alchemy Collectibles", href: "/alchemy-collectibles" },
-    { label: "Brand Assets", href: "/brand-assets" },
+    { label: "Community", href: "/community" },
 ];
 
 export default async function MembersLayout({ children }: { children: React.ReactNode }) {
@@ -50,3 +50,4 @@ export default async function MembersLayout({ children }: { children: React.Reac
         </section>
     );
 }
+

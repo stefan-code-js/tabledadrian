@@ -30,19 +30,23 @@ export default function BadgeShowcase({ badges }: Props) {
                         <p className="text-sm text-ink-soft">{badge.description}</p>
                         <div>
                             <p className="text-xs uppercase tracking-[0.3em] text-ink-soft">Criteria</p>
-                            <ul className="mt-2 space-y-2 text-sm text-ink-soft">
+                            <div className="badge-stacked">
                                 {badge.criteria.map((criterion) => (
-                                    <li key={`${badge.id}-${criterion}`}>• {criterion}</li>
+                                    <div key={`${badge.id}-${criterion}`} className="badge-detail-card">
+                                        {criterion}
+                                    </div>
                                 ))}
-                            </ul>
+                            </div>
                         </div>
                         <div>
                             <p className="text-xs uppercase tracking-[0.3em] text-ink-soft">Privileges</p>
-                            <ul className="mt-2 space-y-2 text-sm text-ink">
+                            <div className="badge-stacked">
                                 {badge.perks.map((perk) => (
-                                    <li key={`${badge.id}-${perk}`}>• {perk}</li>
+                                    <div key={`${badge.id}-${perk}`} className="badge-detail-card badge-detail-card--accent">
+                                        {perk}
+                                    </div>
                                 ))}
-                            </ul>
+                            </div>
                         </div>
                     </article>
                 ))}

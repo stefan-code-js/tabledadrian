@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import { auth } from "@/lib/auth";
@@ -8,6 +8,8 @@ import { badgeDefinitions } from "@/data/badges";
 import EventsExplorer from "@/components/community/EventsExplorer";
 import MemberStories from "@/components/community/MemberStories";
 import BadgeShowcase from "@/components/community/BadgeShowcase";
+import NewsletterSignup from "@/components/NewsletterSignup";
+import { listForumHighlights } from "@/lib/forum";
 
 export const metadata: Metadata = {
     title: "Community Conclave | Table d'Adrian",
@@ -22,6 +24,7 @@ export default async function CommunityPage() {
     const upcoming = getUpcomingEvents();
     const regions = listRegions();
     const isAuthenticated = Boolean(session?.user?.email);
+    const forumHighlights = await listForumHighlights(3);
 
     return (
         <article className="space-y-12 pb-20">
@@ -59,10 +62,12 @@ export default async function CommunityPage() {
                                 </Link>
                             ) : null}
                         </div>
-                        <p className="text-xs text-ink-soft">
-                            Your forum session handshakes with Auth.js during the first visit—no additional credentials
-                            required. Collectible holders receive priority invitations and vault access.
-                        </p>
+                        <div className="community-quote">
+                            <p>
+                                Your forum session handshakes with Auth.js during the first visit so no redundant logins
+                                interrupt the exchange. Collectible holders receive priority invitations and complete vault access.
+                            </p>
+                        </div>
                     </div>
                     <div className="relative">
                         <div className="absolute -top-10 -right-10 h-32 w-32 rounded-full bg-accent/40 blur-3xl" />
@@ -84,19 +89,49 @@ export default async function CommunityPage() {
             <MemberStories stories={memberStories} />
             <BadgeShowcase badges={badgeDefinitions} />
 
+            <section className="community-forum-grid">
+                {forumHighlights.map((post) => (
+                    <article key={post.id} className="community-forum-card">
+                        <div className="community-forum-card__meta">
+                            <span className="community-pill">Forum dispatch</span>
+                            <time dateTime={post.createdAt}>
+                                {new Date(post.createdAt).toLocaleDateString("en-US", {
+                                    month: "short",
+                                    day: "numeric",
+                                    year: "numeric",
+                                })}
+                            </time>
+                        </div>
+                        <h3 className="community-forum-card__title">{post.title}</h3>
+                        <p className="community-forum-card__body">{post.body}</p>
+                        <div className="community-forum-card__footer">
+                            <span>{post.authorEmail}</span>
+                            <Link href={forumBaseUrl} className="community-forum-card__link">
+                                Continue in forum
+                            </Link>
+                        </div>
+                    </article>
+                ))}
+            </section>
+
             <section className="rounded-[2.5rem] border border-dashed border-[var(--line-hairline)] bg-paper/30 p-8 text-sm text-ink-soft">
-                <h2 className="text-xl font-serif text-ink">Request a bespoke salon</h2>
-                <p className="mt-3">
-                    Share your vision with the concierge and we will choreograph programming, wellness rituals, and collectible
-                    unlocks tailored to your household.
-                </p>
-                <div className="mt-4 flex flex-wrap gap-3">
-                    <Link href="/contact?context=community" className="btn text-xs uppercase tracking-[0.35em]">
-                        Contact concierge
-                    </Link>
-                    <Link href="/brand-assets" className="btn ghost text-xs uppercase tracking-[0.35em]">
-                        Download brand assets
-                    </Link>
+                <div className="community-salon">
+                    <div className="community-salon__copy">
+                        <h2 className="text-xl font-serif text-ink">Request a bespoke salon</h2>
+                        <p>
+                            Share your vision with the concierge and we will choreograph programming, wellness rituals, and collectible
+                            unlocks tailored to your household.
+                        </p>
+                        <div className="community-salon__actions">
+                            <Link href="/contact?context=community" className="btn text-xs uppercase tracking-[0.35em]">
+                                Contact concierge
+                            </Link>
+                            <Link href="/auth/register" className="btn ghost text-xs uppercase tracking-[0.35em]">
+                                Request access kit
+                            </Link>
+                        </div>
+                    </div>
+                    <NewsletterSignup />
                 </div>
             </section>
         </article>

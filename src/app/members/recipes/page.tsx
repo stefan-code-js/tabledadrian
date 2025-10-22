@@ -69,11 +69,14 @@ export default async function MemberRecipesPage() {
                             </div>
                             <h3 className="text-2xl font-serif text-ink">{recipe.title}</h3>
                             <p className="text-sm text-ink-soft">{recipe.summary}</p>
-                            <div className="space-y-2 rounded-2xl border border-[var(--line-hairline)] bg-paper/30 p-4 text-xs text-ink-soft">
-                                {recipe.ritual.slice(0, 3).map((step, index) => (
-                                    <p key={`${recipe.id}-ritual-${index}`}>• {step}</p>
-                                ))}
-                            </div>
+                        <div className="recipe-step-stack">
+                            {recipe.ritual.slice(0, 3).map((step, index) => (
+                                <div key={`${recipe.id}-ritual-${index}`} className="recipe-step-card">
+                                    <span className="recipe-step-card__index">{index + 1}</span>
+                                    <p className="recipe-step-card__text">{step}</p>
+                                </div>
+                            ))}
+                        </div>
                             <p className="text-xs uppercase tracking-[0.3em] text-accent">Pairing</p>
                             <p className="text-sm text-ink">{recipe.pairing}</p>
                         </div>

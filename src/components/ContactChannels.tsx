@@ -23,9 +23,10 @@ const channels = [
 ];
 
 const quickLinks = [
-    { label: "Download brand assets", href: "/brand-assets" },
+    { label: "Book a table", href: "/book" },
     { label: "Review collectibles", href: "/alchemy-collectibles" },
     { label: "Member login", href: "/auth/login" },
+    { label: "Request access", href: "/auth/register" },
 ];
 
 export default function ContactChannels() {

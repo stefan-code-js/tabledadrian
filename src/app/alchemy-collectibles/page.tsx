@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { collectibleTiers } from "@/data/collectibles";
+import { fetchCollectibleTiers } from "@/data/collectibles";
 import CollectibleVerifier from "@/components/collectibles/CollectibleVerifier";
 
 export const metadata: Metadata = {
@@ -10,7 +10,8 @@ export const metadata: Metadata = {
         "Explore the Alchemy collectible tiers unlocking recipes, salons, and bespoke concierge experiences across the globe.",
 };
 
-export default function AlchemyCollectiblesPage() {
+export default async function AlchemyCollectiblesPage() {
+    const collectibleTiers = await fetchCollectibleTiers();
     return (
         <article className="space-y-12 pb-16">
             <header className="rounded-[2.75rem] border border-[var(--line-soft)] bg-paper-soft/70 px-10 py-12 shadow-xl">
@@ -20,10 +21,12 @@ export default function AlchemyCollectiblesPage() {
                     Each collectible is a covenant of service—unlocking cinematic menus, yacht residencies, wellness chemistry,
                     and invitations to the Alchemist&apos;s salons hosted across Monaco, Dubai, London, and New York.
                 </p>
-                <div className="mt-6 flex flex-wrap gap-3 text-xs text-ink-soft">
-                    <span>Supply limited • Utility-driven</span>
-                    <span>On-chain at {process.env.ZORA_CONTRACT_ADDRESS ?? "ZORA contract"}</span>
-                    <span>Secondary royalties reinvested into member residencies</span>
+                <div className="collectible-meta-strip">
+                    <span className="collectible-pill">Supply limited · Utility driven</span>
+                    <span className="collectible-pill">
+                        On-chain at {process.env.ZORA_CONTRACT_ADDRESS ?? "ZORA contract"}
+                    </span>
+                    <span className="collectible-pill">Royalties power member residencies</span>
                 </div>
             </header>
 
@@ -47,11 +50,13 @@ export default function AlchemyCollectiblesPage() {
                             <p className="text-xs uppercase tracking-[0.3em] text-ink-soft">Edition of {tier.editionSize}</p>
                             <h2 className="text-2xl font-serif text-ink">{tier.name}</h2>
                             <p className="text-sm text-ink-soft">{tier.headline}</p>
-                            <ul className="space-y-2 text-sm text-ink-soft">
+                            <div className="collectible-benefits">
                                 {tier.benefits.map((benefit) => (
-                                    <li key={`${tier.id}-${benefit}`}>• {benefit}</li>
+                                    <div key={`${tier.id}-${benefit}`} className="collectible-benefit-card">
+                                        {benefit}
+                                    </div>
                                 ))}
-                            </ul>
+                            </div>
                             <div className="mt-auto rounded-2xl border border-[var(--line-hairline)] bg-paper/30 px-4 py-3 text-xs uppercase tracking-[0.3em] text-ink">
                                 Mint price {tier.mintPriceEth} ETH
                             </div>

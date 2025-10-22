@@ -19,7 +19,7 @@ export default function AuthShell({ title, subtitle, children, accent = "member"
             transition={{ duration: 0.6, ease: "easeOut" }}
         >
             <div className="space-y-4 text-center">
-                <p className="text-xs uppercase tracking-[0.45em] text-ink-soft">Alchemy Access</p>
+                <p className="text-xs uppercase tracking-[0.45em] text-ink-soft">Account Access</p>
                 <h1 className="text-4xl font-serif text-accent">{title}</h1>
                 <p className="mx-auto max-w-2xl text-sm text-ink-soft">{subtitle}</p>
             </div>
@@ -27,12 +27,12 @@ export default function AuthShell({ title, subtitle, children, accent = "member"
                 <div className="space-y-6">{children}</div>
                 <aside className="hidden rounded-3xl border border-[var(--line-hairline)] bg-gradient-to-b from-paper/60 to-paper-soft/20 p-8 text-left lg:block">
                     <p className="text-xs uppercase tracking-[0.3em] text-ink-soft mb-3">Privileges</p>
-                    <ul className="space-y-3 text-sm leading-relaxed text-ink-soft">
-                        <li>✔ Recipes curated for wellness-forward private dining.</li>
-                        <li>✔ Invitations to alchemical salons and vault tastings.</li>
-                        <li>✔ Badge progression to unlock bespoke concierge rituals.</li>
-                        <li>✔ First access to collectible drops and seasonal voyages.</li>
-                    </ul>
+                    <div className="space-y-3 text-sm leading-relaxed text-ink-soft">
+                        <div className="auth-privilege-card">Personalized menu briefs archived for your household.</div>
+                        <div className="auth-privilege-card">Concierge follow-ups and wellness-focused pairing notes.</div>
+                        <div className="auth-privilege-card">Priority scheduling across Monaco, New York, Dubai, and London.</div>
+                        <div className="auth-privilege-card">Secure itinerary history and billing confirmations.</div>
+                    </div>
                     <p className="mt-6 text-xs uppercase tracking-[0.35em] text-accent">Status</p>
                     <p className="mt-2 text-lg font-semibold text-ink">{accent === "vip" ? "VIP Patron" : "Circle Member"}</p>
                 </aside>

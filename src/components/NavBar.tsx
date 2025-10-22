@@ -80,13 +80,15 @@ export const navGroups: NavGroup[] = [
     {
         id: "members",
         label: "Members",
-        summary: "Access the vault, collectibles, and assets",
+        summary: "Access the vault, collectibles, and community",
         links: [
-            { label: "Community", href: "/community" },
-            { label: "Member Login", href: "/auth/login" },
+            { label: "Member Overview", href: "/members" },
             { label: "Recipes Vault", href: "/members/recipes" },
-            { label: "Collectibles", href: "/alchemy-collectibles" },
-            { label: "Brand Assets", href: "/brand-assets" },
+            { label: "Alchemy Collectibles", href: "/alchemy-collectibles" },
+            { label: "Community Hub", href: "/community" },
+            { label: "Community Charter", href: "/community/charter" },
+            { label: "Login", href: "/auth/login" },
+            { label: "Register", href: "/auth/register" },
         ],
     },
 ];

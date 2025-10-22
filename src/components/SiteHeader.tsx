@@ -19,12 +19,16 @@ const NAV_ITEMS = [
     { href: "/press", label: "Press" },
     { href: "/reviews", label: "Reviews" },
     { href: "/contact", label: "Contact" },
+    { href: "/auth/login", label: "Login" },
+    { href: "/auth/register", label: "Register" },
 ] as const;
 
 const FEATURED = [
     { href: "/contact", label: "Book a table" },
     { href: "/membership", label: "Plan a membership" },
     { href: "/consult", label: "Schedule a strategy call" },
+    { href: "/auth/login", label: "Member login" },
+    { href: "/auth/register", label: "Request access" },
 ] as const;
 
 const FOCUSABLE_SELECTOR = [
