@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@codex'
 created_date: '2025-10-22 17:58'
-updated_date: '2025-10-22 19:09'
+updated_date: '2025-10-22 21:37'
 labels: []
 dependencies: []
 ---
@@ -39,4 +39,6 @@ $1. Audit existing design/tech stack and identify required integrations (UI, Web
 $Initial audit completed: project already uses Next.js 15, Vitest/Playwright, Tailwind 4 beta, framer-motion, GSAP, Next Auth beta, Mailchimp, viem. Missing pieces include 3D framework (e.g., three.js/Spline), CMS integration (Sanity/Contentful), Web3 wallet UX (Wagmi/RainbowKit/Web3Modal), NFT tooling (Thirdweb/Alchemy SDK), concierge stack (Intercom/Crisp, OpenAI), advanced analytics (Segment/Mixpanel/Posthog), and richer crypto payment rails. Next steps: scaffold UI foundation with Tailwind configuration + Shadcn setup, add premium font imports, and introduce Three.js entrypoint for hero experiences.
 
 $Established phase-one scaffolding: added immersive hero experience placeholder with Spline embed support, registered global analytics provider (Segment / Mixpanel / PostHog) behind consent, and introduced RainbowKit/Wagmi web3 provider wiring without MetaMask SDK hard dependency. Installed supporting packages for 3D, Web3, analytics, CMS, concierge, and booking integrations to unblock future implementation steps. Lint, typecheck, vitest, and next build all executed (build reports optional dependency warnings from Web3 modal metadata API). Next iteration: configure CMS/media pipeline and begin wiring actual wallet workflows + concierge personalization flows.
+
+$Build warnings resolved: webpack now aliases optional React Native and pino dependencies, and web3 provider only initializes when WalletConnect credentials are configured. Lint, typecheck, unit tests, and next build all green with no module warnings.
 <!-- SECTION:NOTES:END -->
