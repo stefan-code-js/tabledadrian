@@ -14,9 +14,7 @@ import { arbitrum, base, mainnet, optimism, polygon, bsc } from "wagmi/chains";
 
 const DEFAULT_CHAINS = [mainnet, polygon, arbitrum, optimism, base, bsc] as const satisfies readonly [Chain, ...Chain[]];
 
-function createConnectors(projectId?: string) {
-    const effectiveProjectId = projectId ?? "demo";
-
+function createConnectors(projectId: string) {
     const walletGroups: WalletList = [
         {
             groupName: "Concierge",
@@ -31,11 +29,11 @@ function createConnectors(projectId?: string) {
 
     return connectorsForWallets(walletGroups, {
         appName: "Table d'Adrian",
-        projectId: effectiveProjectId,
+        projectId,
     });
 }
 
-function createWagmiConfig(projectId?: string) {
+function createWagmiConfig(projectId: string) {
     const transports = DEFAULT_CHAINS.reduce<Record<number, ReturnType<typeof http>>>((acc, chain) => {
         const rpcUrl = chain.rpcUrls.default?.http?.[0];
         if (!rpcUrl) {
@@ -55,6 +53,11 @@ function createWagmiConfig(projectId?: string) {
 
 export default function Web3Providers({ children }: { children: ReactNode }) {
     const walletConnectId = process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID;
+
+    if (!walletConnectId) {
+        return <>{children}</>;
+    }
+
     const wagmiConfig = useMemo(() => createWagmiConfig(walletConnectId), [walletConnectId]);
     const queryClientRef = useRef<QueryClient | null>(null);
 

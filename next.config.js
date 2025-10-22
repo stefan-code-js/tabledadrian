@@ -1,4 +1,4 @@
-﻿/** @type {import('next').NextConfig} */
+/** @type {import('next').NextConfig} */
 const path = require('node:path');
 
 let hasSentry = true;
@@ -64,6 +64,10 @@ const nextConfig = {
                 );
             }
         }
+        config.resolve = config.resolve ?? {};
+        config.resolve.alias = config.resolve.alias ?? {};
+        config.resolve.alias["@react-native-async-storage/async-storage"] = false;
+        config.resolve.alias["pino-pretty"] = false;
         return config;
     },
 };
