@@ -74,8 +74,6 @@ export const navGroups: NavGroup[] = [
             { label: "Book", href: "/book" },
             { label: "Contact", href: "/contact" },
             { label: "Newsletter", href: "/newsletter" },
-            { label: "Success", href: "/success" },
-            { label: "Cancel", href: "/cancel" },
         ],
     },
     {

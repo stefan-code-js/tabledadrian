@@ -418,15 +418,9 @@ export const navGroups: NavGroup[] = [
             "Read pantry guides, view the gallery, and follow our documentation that keeps households and crews operating smoothly.",
 
         links: [
-
             { href: sitePages.products.path, label: "pantry" },
-
             { href: sitePages.gallery.path, label: "gallery" },
-
             { href: sitePages.contact.path, label: "contact" },
-
-            { href: "/success", label: "booking follow-up" },
-
         ],
 
     },
@@ -444,8 +438,6 @@ export const navGroups: NavGroup[] = [
         links: [
 
             { href: sitePages.adminLeads.path, label: "lead inbox" },
-
-            { href: "/cancel", label: "cancellation" },
 
             { href: sitePages.contact.path, label: "support" },
 
@@ -468,6 +460,4 @@ export const navLinks: NavLink[] = navGroups.flatMap((group) => [
 
 
 export const footerLinks: NavLink[] = navLinks;
-
-
 

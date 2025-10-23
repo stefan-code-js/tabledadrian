@@ -13,7 +13,7 @@ describe("createCheckoutSession", () => {
             lineItems: [{ type: "price", priceId: "price_test" }],
             mode: "payment",
             secretKey: "example_key",
-            successUrl: "https://test/success?session_id={CHECKOUT_SESSION_ID}",
+            successUrl: "https://test/api/checkout/success?session_id={CHECKOUT_SESSION_ID}",
             cancelUrl: "https://test/cancel",
             fetchImpl: fetchMock as any,
         });
@@ -42,7 +42,7 @@ describe("createCheckoutSession", () => {
             ],
             mode: "payment",
             secretKey: "  sk_test_trim  ",
-            successUrl: "https://test/success?session_id={CHECKOUT_SESSION_ID}",
+            successUrl: "https://test/api/checkout/success?session_id={CHECKOUT_SESSION_ID}",
             cancelUrl: "https://test/cancel",
             fetchImpl: fetchMock as any,
         });

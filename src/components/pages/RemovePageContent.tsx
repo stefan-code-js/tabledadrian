@@ -1,4 +1,22 @@
+"use client";
+
 import Link from "next/link";
+import { motion } from "framer-motion";
+import Reveal from "@/components/Reveal";
+import KineticHeading from "@/components/KineticHeading";
+import KineticParagraph from "@/components/KineticParagraph";
+import KeywordHighlighter from "@/components/KeywordHighlighter";
+import { ANALYTICS_EVENTS, trackEvent } from "@/lib/analytics";
+import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
+
+const KEYWORDS = [
+    "privacy",
+    "data",
+    "private chef",
+    "PharmD",
+    "culinary documentation",
+    "membership",
+] as const;
 
 const deletionItems = [
     "Contact messages and concierge lead records",
@@ -9,14 +27,35 @@ const deletionItems = [
 ] as const;
 
 export default function RemovePageContent() {
+    const prefersReduced = usePrefersReducedMotion();
+    const motionProps = prefersReduced
+        ? { whileHover: undefined, whileTap: undefined }
+        : ({ whileHover: { y: -3 }, whileTap: { scale: 0.97 } } as const);
+
+    const handleCta = (label: string, href: string) => () => {
+        trackEvent(ANALYTICS_EVENTS.ctaClick, {
+            location: "remove-final",
+            kind: label,
+            href,
+        });
+    };
+
     return (
         <article className="editorial-page">
             <section className="editorial-hero">
                 <div className="editorial-container hero-copy">
-                    <h1 className="kinetic-heading">Remove my data</h1>
-                    <p className="kinetic-paragraph lead">
-                        We take privacy seriously. Use the options below to request deletion of private chef dossiers, PharmD intake notes, booking requests, and review submissions. We&apos;ll confirm completion via email.
-                    </p>
+                    <Reveal>
+                        <KineticHeading as="h1">Remove my data</KineticHeading>
+                    </Reveal>
+                    <Reveal>
+                        <KineticParagraph className="lead">
+                            <KeywordHighlighter
+                                text="We take privacy seriously. Use the options below to request deletion of private chef dossiers, PharmD intake notes, booking requests, and review submissions. We'll confirm completion via email."
+                                keywords={KEYWORDS}
+                                variant="forest"
+                            />
+                        </KineticParagraph>
+                    </Reveal>
                 </div>
                 <hr className="separator" />
             </section>
@@ -24,45 +63,62 @@ export default function RemovePageContent() {
             <section className="editorial-section">
                 <div className="editorial-container">
                     <div className="two-column">
-                        <article className="narrative-block">
-                            <h2 className="kinetic-heading">Immediate removal</h2>
-                            <p className="kinetic-paragraph">
-                                Email us from the address you used and include any relevant context (for example, tasting date, villa location, yacht name, or booking reference). We will remove all associated records and confirm within one business day.
-                            </p>
+                        <Reveal className="narrative-block">
+                            <KineticHeading as="h2">Immediate removal</KineticHeading>
+                            <KineticParagraph>
+                                <KeywordHighlighter
+                                    text="Email us from the address you used and include any relevant context (e.g., tasting date, villa location, yacht name, or booking reference). We will remove all associated records and confirm within one business day."
+                                    keywords={KEYWORDS}
+                                    variant="bronze"
+                                />
+                            </KineticParagraph>
                             <a
                                 className="btn"
                                 href="mailto:adrian@tabledadrian.com?subject=Data%20deletion%20request"
+                                onClick={handleCta("email-deletion-request", "mailto:adrian@tabledadrian.com")}
                             >
                                 Email deletion request
                             </a>
-                        </article>
+                        </Reveal>
 
-                        <article className="narrative-block">
-                            <h2 className="kinetic-heading">What we delete</h2>
+                        <Reveal className="narrative-block">
+                            <KineticHeading as="h2">What we delete</KineticHeading>
                             <ul>
                                 {deletionItems.map((item) => (
                                     <li key={item}>{item}</li>
                                 ))}
                             </ul>
-                            <p className="kinetic-paragraph small muted">
+                            <KineticParagraph className="small muted">
                                 Note: Payment providers (e.g., Stripe) may retain limited records to meet legal and accounting obligations. We request redaction wherever possible.
-                            </p>
-                        </article>
+                            </KineticParagraph>
+                        </Reveal>
                     </div>
                 </div>
             </section>
 
             <section className="editorial-section">
                 <div className="editorial-container final-call">
-                    <h2 className="kinetic-heading">Prefer to speak directly?</h2>
-                    <div className="cta-row">
-                        <Link className="btn" href="/contact">
-                            contact us
-                        </Link>
-                        <a className="btn ghost" href="mailto:adrian@tabledadrian.com">
-                            email Adrian
-                        </a>
-                    </div>
+                    <Reveal>
+                        <KineticHeading as="h2">Prefer to speak directly?</KineticHeading>
+                    </Reveal>
+                    <Reveal>
+                        <div className="cta-row">
+                            <motion.span {...motionProps} className="inline-flex">
+                                <Link className="btn" href="/contact" onClick={handleCta("contact", "/contact")}>
+                                    contact us
+                                </Link>
+                            </motion.span>
+                            <motion.span {...motionProps} className="inline-flex">
+                                <a
+                                    className="btn ghost"
+                                    href="mailto:adrian@tabledadrian.com"
+                                    onClick={handleCta("email", "mailto:adrian@tabledadrian.com")}
+                                >
+                                    email Adrian
+                                </a>
+                            </motion.span>
+                        </div>
+                    </Reveal>
                 </div>
             </section>
         </article>
