@@ -2,17 +2,30 @@
 import Link from "next/link";
 import CheckoutSuccessBeacon from "@/components/CheckoutSuccessBeacon";
 import { getOrder } from "@/lib/orders";
-import { buildMetadataForPath } from "@/lib/metadata";
-import { resolveStripeSecret, type StripeSecretEnv } from "@/lib/stripe";
-import { resolveCfEnv } from "@/lib/cloudflare";
+import { resolveStripeSecret } from "@/lib/stripe";
 
 export const runtime = "edge";
 
-export const metadata = buildMetadataForPath("/success", {
+export const metadata = {
     title: "Thank you - Table d'Adrian",
     description: "Confirmation and next steps after reserving your private table.",
-    indexable: false,
-});
+    robots: { index: false, follow: false },
+    alternates: {
+        canonical: "https://tabledadrian.com/success",
+    },
+    openGraph: {
+        title: "Thank you - Table d'Adrian",
+        description: "Confirmation and next steps after reserving your private table.",
+        url: "https://tabledadrian.com/success",
+        siteName: "Table d'Adrian",
+        type: "website",
+    },
+    twitter: {
+        card: "summary_large_image",
+        title: "Thank you - Table d'Adrian",
+        description: "Confirmation and next steps after reserving your private table.",
+    },
+} as const;
 
 const formatCurrency = (amount: number, currency: string) =>
     new Intl.NumberFormat("en-GB", { style: "currency", currency }).format(amount);
@@ -41,10 +54,7 @@ const followUpSteps = [
     },
 ];
 
-function getStripeSecret(): string | undefined {
-    const env = resolveCfEnv<StripeSecretEnv>();
-    return resolveStripeSecret(env);
-}
+const STRIPE_SECRET = resolveStripeSecret();
 
 async function fetchStripeSummary(sessionId: string, secret: string) {
     try {
@@ -81,7 +91,7 @@ export default async function SuccessPage({
     const sessionId = resolvedParams?.session_id;
     const localOrder = sessionId ? getOrder(sessionId) : undefined;
 
-    const secret = sessionId ? getStripeSecret() : undefined;
+    const secret = sessionId ? STRIPE_SECRET : undefined;
     const stripe = sessionId && !localOrder && secret ? await fetchStripeSummary(sessionId, secret) : null;
 
     const amount = stripe?.amount_total ? (stripe.amount_total / 100).toLocaleString("en-GB") : undefined;
