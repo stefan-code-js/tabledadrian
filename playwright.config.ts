@@ -1,4 +1,9 @@
-﻿import { defineConfig, devices } from "@playwright/test";
+import { defineConfig, devices } from "@playwright/test";
+
+const useDevServer = process.env.PLAYWRIGHT_USE_DEV_SERVER === "true";
+const webServerCommand = useDevServer ? "npm run dev" : "npm run build && npm run start";
+const webServerTimeout = useDevServer ? 180_000 : 300_000;
+const reuseExistingServer = useDevServer && !process.env.CI;
 
 export default defineConfig({
     testDir: "tests/e2e",
@@ -13,12 +18,12 @@ export default defineConfig({
         video: "retain-on-failure",
     },
     webServer: {
-        command: process.env.CI ? "npm run build && npm run start" : "npm run dev",
+        command: webServerCommand,
         url: "http://127.0.0.1:3000",
-        reuseExistingServer: !process.env.CI,
+        reuseExistingServer,
         stdout: "pipe",
         stderr: "pipe",
-        timeout: process.env.CI ? 180_000 : 120_000,
+        timeout: webServerTimeout,
     },
     projects: [
         {
