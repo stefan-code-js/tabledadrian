@@ -21,6 +21,11 @@
   --line-hairline: rgba(17, 16, 13, 0.18);
   --line-subtle: rgba(17, 16, 13, 0.08);
 
+  /* Typography fallbacks */
+  --font-display: "Old Standard TT", "Times New Roman", serif;
+  --font-body: "Instrument Serif", "Times New Roman", serif;
+  --font-accent: "Bodoni Moda", "Times New Roman", serif;
+
   /* Legacy aliases */
   --color-paper: var(--color-cream);
   --color-paper-soft: var(--color-cream-soft);
@@ -145,6 +150,30 @@ body {
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
   overflow-x: hidden;
+}
+
+.font-display-variable {
+  --font-display: "Old Standard TT", "Times New Roman", serif;
+}
+
+.font-body-variable {
+  --font-body: "Instrument Serif", "Times New Roman", serif;
+}
+
+.font-accent-variable {
+  --font-accent: "Bodoni Moda", "Times New Roman", serif;
+}
+
+.font-display {
+  font-family: var(--font-display), "Old Standard TT", serif;
+}
+
+.font-body {
+  font-family: var(--font-body), "Instrument Serif", serif;
+}
+
+.font-accent {
+  font-family: var(--font-accent), "Bodoni Moda", serif;
 }
 
 

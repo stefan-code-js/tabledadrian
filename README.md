@@ -31,6 +31,7 @@ npm run dev
 | RESEND_API_KEY | Transactional email dispatch for DSAR confirmations |
 | LEGAL_ENTITY_NAME / LEGAL_ADDRESS / DPO_EMAIL | Displayed on legal pages and footers |
 | NEXT_PUBLIC_PLAUSIBLE_DOMAIN / NEXT_PUBLIC_CF_ANALYTICS_TOKEN (optional) | Analytics scripts gated by cookie consent |
+| NEXT_PUBLIC_VERCEL_ANALYTICS_ID (optional) | Leave unset on Netlify; set only when deploying to Vercel to enable their analytics |
 | NEXT_PUBLIC_CONTACT_EMAIL | Site-wide contact surfaced in hero/footers |
 | RESEND_FROM_EMAIL / RESEND_TO_EMAIL (if using Resend) | Override default DSAR mailboxes |
 | Stripe keys (STRIPE_SECRET_KEY, NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY, pricing IDs) | Checkout flows |
@@ -89,8 +90,9 @@ Additional routing (admin, experiences, calculator, etc.) is available under `sr
 ## Deployment and hosting
 
 - Designed for the Next.js App Router with static and server components.
+- Netlify deployment is configured via `netlify.toml` (Next.js plugin + Node 20.19). `npm run build` remains the build command.
 - Cloudflare Pages adapter available via `npm run cf:build`.
-- Cookie consent wraps analytics (`@vercel/analytics`, `SpeedInsights`, Plausible, Cloudflare) ensuring regulatory compliance.
+- Cookie consent wraps analytics providers (Netlify-compatible scripts, Plausible, Cloudflare). Vercel analytics automatically disable when their ID is absent.
 
 ## Helpful resources
 
