@@ -1,4 +1,9 @@
-﻿import { defineConfig, devices } from "@playwright/test";
+import { defineConfig, devices } from "@playwright/test";
+
+const useDevServer = process.env.PLAYWRIGHT_USE_DEV_SERVER === "true";
+const webServerCommand = useDevServer ? "npm run dev" : "npm run build && npm run start";
+const webServerTimeout = useDevServer ? 180_000 : 300_000;
+const reuseExistingServer = useDevServer && !process.env.CI;
 
 import { existsSync, readdirSync } from "node:fs";
 import { join } from "node:path";
@@ -24,7 +29,8 @@ export default defineConfig({
         screenshot: "only-on-failure",
         video: "retain-on-failure",
     },
-    webServer: hasInstalledBrowsers
+
+  webServer: hasInstalledBrowsers
         ? {
               command: process.env.CI ? "npm run build && npm run start" : devCommand,
               url: "http://127.0.0.1:3000",
@@ -42,4 +48,20 @@ export default defineConfig({
               },
           ]
         : [],
+
+    webServer: {
+        command: webServerCommand,
+        url: "http://127.0.0.1:3000",
+        reuseExistingServer,
+        stdout: "pipe",
+        stderr: "pipe",
+        timeout: webServerTimeout,
+    },
+    projects: [
+        {
+            name: "Desktop Chrome",
+            use: devices["Desktop Chrome"],
+        },
+    ],
+
 });

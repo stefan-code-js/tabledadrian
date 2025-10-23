@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import Link from "next/link";
 import { motion } from "framer-motion";
@@ -16,6 +16,14 @@ const KEYWORDS = [
     "PharmD",
     "culinary documentation",
     "membership",
+] as const;
+
+const deletionItems = [
+    "Contact messages and concierge lead records",
+    "Private chef bookings, proposals, and confirmations",
+    "PharmD intake forms, supplementation logs, and wellness questionnaires",
+    "Reviews, testimonials, and media consent you submitted",
+    "Any analytics identifiers or service documentation we control",
 ] as const;
 
 export default function RemovePageContent() {
@@ -41,11 +49,11 @@ export default function RemovePageContent() {
                     </Reveal>
                     <Reveal>
                         <KineticParagraph className="lead">
-                                <KeywordHighlighter
-                                    text="We take privacy seriously. Use the options below to request deletion of private chef dossiers, PharmD intake notes, booking requests, and review submissions. We’ll confirm completion via email."
-                                    keywords={KEYWORDS}
-                                    variant="forest"
-                                />
+                            <KeywordHighlighter
+                                text="We take privacy seriously. Use the options below to request deletion of private chef dossiers, PharmD intake notes, booking requests, and review submissions. We'll confirm completion via email."
+                                keywords={KEYWORDS}
+                                variant="forest"
+                            />
                         </KineticParagraph>
                     </Reveal>
                 </div>
@@ -64,7 +72,11 @@ export default function RemovePageContent() {
                                     variant="bronze"
                                 />
                             </KineticParagraph>
-                            <a className="btn" href="mailto:adrian@tabledadrian.com?subject=Data%20deletion%20request">
+                            <a
+                                className="btn"
+                                href="mailto:adrian@tabledadrian.com?subject=Data%20deletion%20request"
+                                onClick={handleCta("email-deletion-request", "mailto:adrian@tabledadrian.com")}
+                            >
                                 Email deletion request
                             </a>
                         </Reveal>
@@ -72,11 +84,9 @@ export default function RemovePageContent() {
                         <Reveal className="narrative-block">
                             <KineticHeading as="h2">What we delete</KineticHeading>
                             <ul>
-                                <li>Contact messages and concierge lead records</li>
-                                <li>Private chef bookings, proposals, and confirmations</li>
-                                <li>PharmD intake forms, supplementation logs, and wellness questionnaires</li>
-                                <li>Reviews, testimonials, and media consent you submitted</li>
-                                <li>Any analytics identifiers or service documentation we control</li>
+                                {deletionItems.map((item) => (
+                                    <li key={item}>{item}</li>
+                                ))}
                             </ul>
                             <KineticParagraph className="small muted">
                                 Note: Payment providers (e.g., Stripe) may retain limited records to meet legal and accounting obligations. We request redaction wherever possible.
@@ -99,7 +109,11 @@ export default function RemovePageContent() {
                                 </Link>
                             </motion.span>
                             <motion.span {...motionProps} className="inline-flex">
-                                <a className="btn ghost" href="mailto:adrian@tabledadrian.com" onClick={handleCta("email", "mailto:adrian@tabledadrian.com")}>
+                                <a
+                                    className="btn ghost"
+                                    href="mailto:adrian@tabledadrian.com"
+                                    onClick={handleCta("email", "mailto:adrian@tabledadrian.com")}
+                                >
                                     email Adrian
                                 </a>
                             </motion.span>

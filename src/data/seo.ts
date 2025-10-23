@@ -123,22 +123,6 @@ const entries: SeoEntry[] = [
         priority: 0.55,
     },
     {
-        path: "/success",
-        title: "Booking Confirmed | Table d'Adrian",
-        description: "Confirmation and next steps after reserving your private table.",
-        indexable: false,
-        changeFrequency: "yearly",
-        priority: 0.1,
-    },
-    {
-        path: "/cancel",
-        title: "Cancel Booking | Table d'Adrian",
-        description: "Manage or cancel an existing Table d'Adrian booking.",
-        indexable: false,
-        changeFrequency: "yearly",
-        priority: 0.1,
-    },
-    {
         path: "/remove",
         title: "Update Preferences | Table d'Adrian",
         description: "Adjust communications or remove your data from the Table d'Adrian records.",

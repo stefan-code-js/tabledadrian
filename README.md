@@ -46,7 +46,7 @@ npm run dev
   - `/gallery`, `/reviews` - imagery and social proof
 - **Services and conversion**
   - `/products`, `/services`, `/consult`, `/pricing-calculator`, `/membership`
-  - `/book` (booking flow), `/success`, `/cancel`
+  - `/book` (booking flow) with payment confirmation handled by `/api/checkout/success`
 - **Guest account access**
   - `/auth/login` and `/auth/register` - Auth.js credential flows with zod/react-hook-form validation that mirror the global UI system
 - **Member experiences**
