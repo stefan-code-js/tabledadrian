@@ -51,7 +51,7 @@ export default function AuthShell({ title, subtitle, children, accent = "member"
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-paper-soft via-paper to-paper-soft flex items-center justify-center p-4">
-            <motion.section
+        <motion.section
                 className="relative mx-auto flex w-full max-w-5xl flex-col gap-12 rounded-[3rem] border border-[var(--line-soft)] bg-paper-soft/90 px-12 py-16 text-ink shadow-2xl backdrop-blur-xl"
                 initial={{ opacity: 0, y: 32, scale: 0.95 }}
                 animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -61,7 +61,7 @@ export default function AuthShell({ title, subtitle, children, accent = "member"
                 <motion.div 
                     className="space-y-6 text-center"
                     initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
+            animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.2, duration: 0.6 }}
                 >
                     <div className="flex items-center justify-center gap-3 mb-4">
@@ -70,7 +70,7 @@ export default function AuthShell({ title, subtitle, children, accent = "member"
                         </div>
                         <div className="text-xs uppercase tracking-[0.45em] text-ink-soft font-medium">
                             Secure Access Portal
-                        </div>
+            </div>
                     </div>
                     <h1 className="text-5xl font-serif text-accent leading-tight">{title}</h1>
                     <p className="mx-auto max-w-3xl text-base text-ink-soft leading-relaxed">{subtitle}</p>
@@ -148,7 +148,7 @@ export default function AuthShell({ title, subtitle, children, accent = "member"
                             </div>
                         </div>
                     </motion.aside>
-                </div>
+            </div>
 
                 {/* Security Badge */}
                 <motion.div 
@@ -160,7 +160,7 @@ export default function AuthShell({ title, subtitle, children, accent = "member"
                     <Shield className="w-4 h-4" />
                     <span>256-bit SSL encryption • GDPR compliant</span>
                 </motion.div>
-            </motion.section>
+        </motion.section>
         </div>
     );
 }
