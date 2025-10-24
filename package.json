@@ -16,6 +16,7 @@
     "test:coverage": "vitest run --coverage",
     "test:e2e": "node scripts/runPlaywright.mjs",
     "prebuild": "node scripts/generateLegalPdfs.js",
+    "migrate": "node scripts/migrate-database.mjs",
     "prepare": "husky install",
     "postinstall": "node ./bin/patch-next-on-pages.mjs"
   },

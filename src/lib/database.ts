@@ -325,8 +325,9 @@ function readJsonFile<T>(relativePath: string): T | null {
 }
 
 function seedCollectibles({ db }: SeedOptions) {
-    const tierRows = db.prepare("SELECT COUNT(*) as count FROM collectibles").get() as { count: number };
-    if (tierRows.count === 0) {
+    try {
+        const tierRows = db.prepare("SELECT COUNT(*) as count FROM collectibles").get() as { count: number };
+        if (tierRows.count === 0) {
         const tiers = readJsonFile<Array<{
             id: string;
             name: string;
@@ -371,11 +372,15 @@ function seedCollectibles({ db }: SeedOptions) {
             }
         }
     }
+    } catch (error) {
+        console.warn("Warning: Could not seed collectibles:", error);
+    }
 }
 
 function seedRecipes({ db }: SeedOptions) {
-    const row = db.prepare("SELECT COUNT(*) as count FROM recipes").get() as { count: number };
-    if (row.count === 0) {
+    try {
+        const row = db.prepare("SELECT COUNT(*) as count FROM recipes").get() as { count: number };
+        if (row.count === 0) {
         const recipes = readJsonFile<Array<{
             id: string;
             title: string;
@@ -421,11 +426,15 @@ function seedRecipes({ db }: SeedOptions) {
             }
         }
     }
+    } catch (error) {
+        console.warn("Warning: Could not seed recipes:", error);
+    }
 }
 
 function seedForum({ db }: SeedOptions) {
-    const existing = db.prepare("SELECT COUNT(*) as count FROM forum_posts").get() as { count: number };
-    if (existing.count === 0) {
+    try {
+        const existing = db.prepare("SELECT COUNT(*) as count FROM forum_posts").get() as { count: number };
+        if (existing.count === 0) {
         const posts = [
             {
                 id: randomUUID(),
@@ -452,6 +461,85 @@ function seedForum({ db }: SeedOptions) {
 
         posts.forEach((post) => statement.run(post));
     }
+    } catch (error) {
+        console.warn("Warning: Could not seed forum:", error);
+    }
+}
+
+function seedAchievementDefinitions({ db }: SeedOptions) {
+    try {
+        const existing = db.prepare("SELECT COUNT(*) as count FROM achievement_definitions").get() as { count: number };
+        if (existing.count === 0) {
+        const achievements = [
+            {
+                id: "first-collectible",
+                title: "First Collectible",
+                description: "Mint your first Alchemy collectible",
+                category: "collectible",
+                rarity: "common",
+                points: 25,
+                requirements: JSON.stringify({ collectible_count: 1 }),
+            },
+            {
+                id: "recipe-explorer",
+                title: "Recipe Explorer",
+                description: "View 10 recipes in the vault",
+                category: "engagement",
+                rarity: "common",
+                points: 15,
+                requirements: JSON.stringify({ recipes_viewed: 10 }),
+            },
+            {
+                id: "forum-champion",
+                title: "Forum Champion",
+                description: "Make 25 posts in the community forum",
+                category: "community",
+                rarity: "rare",
+                points: 40,
+                requirements: JSON.stringify({ forum_posts: 25 }),
+            },
+            {
+                id: "concierge-client",
+                title: "Concierge Client",
+                description: "Submit your first concierge brief",
+                category: "special",
+                rarity: "epic",
+                points: 60,
+                requirements: JSON.stringify({ concierge_briefs: 1 }),
+            },
+            {
+                id: "loyal-member",
+                title: "Loyal Member",
+                description: "Be active for 30 days",
+                category: "milestone",
+                rarity: "rare",
+                points: 35,
+                requirements: JSON.stringify({ days_active: 30 }),
+            },
+        ];
+
+        const statement = db.prepare(`
+            INSERT OR IGNORE INTO achievement_definitions (id, title, description, category, rarity, points, requirements)
+            VALUES (@id, @title, @description, @category, @rarity, @points, @requirements)
+        `);
+
+        achievements.forEach((achievement) => statement.run(achievement));
+    }
+    } catch (error) {
+        console.warn("Warning: Could not seed achievement definitions:", error);
+    }
+}
+
+function seedMemberAnalytics({ db }: SeedOptions) {
+    // This will be populated by actual user interactions
+    // For now, we just ensure the table exists
+    console.log("Member analytics table initialized");
+}
+
+function seedCommunityLeaderboard({ db }: SeedOptions) {
+    // This will be populated by actual user data
+    // For now, we just ensure the table exists
+    console.log("Community leaderboard table initialized");
 }
 
 function initializeSchema(db: SqliteDatabase) {
@@ -523,11 +611,170 @@ function initializeSchema(db: SqliteDatabase) {
             created_at TEXT NOT NULL,
             status TEXT NOT NULL
         );
+
+        -- Task 12 & 13: Enhanced Member Analytics and Community Features
+        CREATE TABLE IF NOT EXISTS member_analytics (
+            id TEXT PRIMARY KEY,
+            member_id TEXT NOT NULL,
+            metric_name TEXT NOT NULL,
+            metric_value REAL NOT NULL,
+            recorded_at TEXT NOT NULL,
+            metadata TEXT,
+            FOREIGN KEY (member_id) REFERENCES members(id)
+        );
+
+        CREATE TABLE IF NOT EXISTS member_achievements (
+            id TEXT PRIMARY KEY,
+            member_id TEXT NOT NULL,
+            achievement_id TEXT NOT NULL,
+            unlocked_at TEXT NOT NULL,
+            progress REAL DEFAULT 0,
+            max_progress REAL DEFAULT 1,
+            points_earned INTEGER DEFAULT 0,
+            FOREIGN KEY (member_id) REFERENCES members(id)
+        );
+
+        CREATE TABLE IF NOT EXISTS achievement_definitions (
+            id TEXT PRIMARY KEY,
+            title TEXT NOT NULL,
+            description TEXT NOT NULL,
+            category TEXT NOT NULL,
+            rarity TEXT NOT NULL,
+            points INTEGER NOT NULL,
+            requirements TEXT NOT NULL,
+            is_active INTEGER DEFAULT 1
+        );
+
+        CREATE TABLE IF NOT EXISTS member_activity (
+            id TEXT PRIMARY KEY,
+            member_id TEXT NOT NULL,
+            activity_type TEXT NOT NULL,
+            activity_data TEXT NOT NULL,
+            created_at TEXT NOT NULL,
+            metadata TEXT,
+            FOREIGN KEY (member_id) REFERENCES members(id)
+        );
+
+        CREATE TABLE IF NOT EXISTS member_recommendations (
+            id TEXT PRIMARY KEY,
+            member_id TEXT NOT NULL,
+            recommendation_type TEXT NOT NULL,
+            title TEXT NOT NULL,
+            description TEXT NOT NULL,
+            action_text TEXT,
+            action_href TEXT,
+            priority TEXT NOT NULL,
+            is_active INTEGER DEFAULT 1,
+            created_at TEXT NOT NULL,
+            FOREIGN KEY (member_id) REFERENCES members(id)
+        );
+
+        CREATE TABLE IF NOT EXISTS community_leaderboard (
+            id TEXT PRIMARY KEY,
+            member_id TEXT NOT NULL,
+            points INTEGER NOT NULL DEFAULT 0,
+            level INTEGER NOT NULL DEFAULT 1,
+            rank INTEGER,
+            badges TEXT,
+            achievements_count INTEGER DEFAULT 0,
+            recipes_viewed INTEGER DEFAULT 0,
+            forum_posts INTEGER DEFAULT 0,
+            has_collectible INTEGER DEFAULT 0,
+            last_updated TEXT NOT NULL,
+            FOREIGN KEY (member_id) REFERENCES members(id)
+        );
+
+        CREATE TABLE IF NOT EXISTS member_content_interactions (
+            id TEXT PRIMARY KEY,
+            member_id TEXT NOT NULL,
+            content_type TEXT NOT NULL,
+            content_id TEXT NOT NULL,
+            interaction_type TEXT NOT NULL,
+            created_at TEXT NOT NULL,
+            metadata TEXT,
+            FOREIGN KEY (member_id) REFERENCES members(id)
+        );
+
+        CREATE TABLE IF NOT EXISTS web3_verifications (
+            id TEXT PRIMARY KEY,
+            member_id TEXT NOT NULL,
+            verification_type TEXT NOT NULL,
+            status TEXT NOT NULL,
+            verified_at TEXT,
+            expires_at TEXT,
+            metadata TEXT,
+            FOREIGN KEY (member_id) REFERENCES members(id)
+        );
+
+        CREATE TABLE IF NOT EXISTS member_preferences (
+            id TEXT PRIMARY KEY,
+            member_id TEXT NOT NULL,
+            preference_key TEXT NOT NULL,
+            preference_value TEXT NOT NULL,
+            updated_at TEXT NOT NULL,
+            FOREIGN KEY (member_id) REFERENCES members(id),
+            UNIQUE(member_id, preference_key)
+        );
+
+        CREATE TABLE IF NOT EXISTS concierge_briefs (
+            id TEXT PRIMARY KEY,
+            member_id TEXT NOT NULL,
+            brief_content TEXT NOT NULL,
+            status TEXT NOT NULL,
+            created_at TEXT NOT NULL,
+            processed_at TEXT,
+            response TEXT,
+            FOREIGN KEY (member_id) REFERENCES members(id)
+        );
+
+        CREATE TABLE IF NOT EXISTS member_sessions (
+            id TEXT PRIMARY KEY,
+            member_id TEXT NOT NULL,
+            session_start TEXT NOT NULL,
+            session_end TEXT,
+            duration_minutes INTEGER,
+            page_views INTEGER DEFAULT 0,
+            actions_count INTEGER DEFAULT 0,
+            FOREIGN KEY (member_id) REFERENCES members(id)
+        );
+
+        -- Indexes for performance
+        CREATE INDEX IF NOT EXISTS idx_member_analytics_member_id ON member_analytics(member_id);
+        CREATE INDEX IF NOT EXISTS idx_member_analytics_metric_name ON member_analytics(metric_name);
+        CREATE INDEX IF NOT EXISTS idx_member_analytics_recorded_at ON member_analytics(recorded_at);
+        
+        CREATE INDEX IF NOT EXISTS idx_member_achievements_member_id ON member_achievements(member_id);
+        CREATE INDEX IF NOT EXISTS idx_member_achievements_achievement_id ON member_achievements(achievement_id);
+        
+        CREATE INDEX IF NOT EXISTS idx_member_activity_member_id ON member_activity(member_id);
+        CREATE INDEX IF NOT EXISTS idx_member_activity_type ON member_activity(activity_type);
+        CREATE INDEX IF NOT EXISTS idx_member_activity_created_at ON member_activity(created_at);
+        
+        CREATE INDEX IF NOT EXISTS idx_leaderboard_points ON community_leaderboard(points DESC);
+        CREATE INDEX IF NOT EXISTS idx_leaderboard_member_id ON community_leaderboard(member_id);
+        
+        CREATE INDEX IF NOT EXISTS idx_content_interactions_member_id ON member_content_interactions(member_id);
+        CREATE INDEX IF NOT EXISTS idx_content_interactions_type ON member_content_interactions(content_type);
+        
+        CREATE INDEX IF NOT EXISTS idx_web3_verifications_member_id ON web3_verifications(member_id);
+        CREATE INDEX IF NOT EXISTS idx_web3_verifications_type ON web3_verifications(verification_type);
+        
+        CREATE INDEX IF NOT EXISTS idx_member_preferences_member_id ON member_preferences(member_id);
+        CREATE INDEX IF NOT EXISTS idx_member_preferences_key ON member_preferences(preference_key);
+        
+        CREATE INDEX IF NOT EXISTS idx_concierge_briefs_member_id ON concierge_briefs(member_id);
+        CREATE INDEX IF NOT EXISTS idx_concierge_briefs_status ON concierge_briefs(status);
+        
+        CREATE INDEX IF NOT EXISTS idx_member_sessions_member_id ON member_sessions(member_id);
+        CREATE INDEX IF NOT EXISTS idx_member_sessions_start ON member_sessions(session_start);
     `);
 
     seedCollectibles({ db });
     seedRecipes({ db });
     seedForum({ db });
+    seedAchievementDefinitions({ db });
+    seedMemberAnalytics({ db });
+    seedCommunityLeaderboard({ db });
 }
 
 export function getDatabase(): SqliteDatabase {
