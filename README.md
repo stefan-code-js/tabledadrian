@@ -55,7 +55,7 @@ npm run dev
   - `/gallery`, `/reviews` - imagery and social proof
 - **Services and conversion**
   - `/products`, `/services`, `/consult`, `/pricing-calculator`, `/membership`
-  - `/book` (booking flow), `/success`, `/cancel`
+  - `/book` (booking flow) with payment confirmation handled by `/api/checkout/success`
 - **Guest account access**
   - `/auth/login` and `/auth/register` - Auth.js credential flows with zod/react-hook-form validation that mirror the global UI system
 - **Member experiences**
@@ -99,8 +99,10 @@ Additional routing (admin, experiences, calculator, etc.) is available under `sr
 ## Deployment and hosting
 
 - Designed for the Next.js App Router with static and server components.
+
 - Netlify deployment is configured via `netlify.toml` (Next.js plugin + Node 22.11). `npm run build` remains the build command.
 - Production builds export `NODE_OPTIONS="--max-old-space-size=4096"` so Next.js has enough heap headroom on Netlify and other CI providers. Bump to 6144/8192 if your drop grows further.
+
 - Cloudflare Pages adapter available via `npm run cf:build`.
 - Cookie consent wraps analytics providers (Netlify-compatible scripts, Plausible, Cloudflare). Vercel analytics automatically disable when their ID is absent.
 

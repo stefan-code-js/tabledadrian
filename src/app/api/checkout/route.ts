@@ -71,8 +71,8 @@ export async function POST(request: NextRequest, context: RouteContext): Promise
     }
 
     const origin = request.nextUrl?.origin ?? new URL(request.url).origin;
-    const successUrl = `${origin}/success?session_id={CHECKOUT_SESSION_ID}`;
-    const cancelUrl = `${origin}/cancel`;
+    const successUrl = `${origin}/api/checkout/success?session_id={CHECKOUT_SESSION_ID}`;
+    const cancelUrl = `${origin}/?payment=cancelled`;
 
     const secret = resolveStripeSecret(env);
 
@@ -150,7 +150,7 @@ export async function POST(request: NextRequest, context: RouteContext): Promise
             });
         }
 
-        const redirectUrl = session.url ?? `${origin}/success?session_id=${session.id}`;
+        const redirectUrl = session.url ?? `${origin}/api/checkout/success?session_id=${session.id}`;
         return Response.json({ url: redirectUrl }, { headers: HEADERS });
     } catch (error) {
         const message = error instanceof Error ? error.message : "Unable to create checkout session.";

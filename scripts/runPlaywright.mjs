@@ -15,6 +15,7 @@ if (!hasInstalledBrowsers) {
         console.warn("Chromium download failed; falling back to the HTTP integration suite.");
     } else {
         hasInstalledBrowsers = existsSync(browsersDir) && readdirSync(browsersDir).length > 0;
+
     }
 }
 

@@ -1,4 +1,20 @@
-﻿import { defineConfig, devices } from "@playwright/test";
+import { defineConfig, devices } from "@playwright/test";
+import { existsSync, readdirSync } from "node:fs";
+import { join } from "node:path";
+
+const useDevServer = process.env.PLAYWRIGHT_USE_DEV_SERVER === "true";
+const devCommand = "npm run dev -- --hostname 127.0.0.1 --port 3000";
+const webServerCommand = useDevServer ? devCommand : "npm run build && npm run start";
+const webServerTimeout = useDevServer ? 180_000 : 300_000;
+const reuseExistingServer = useDevServer && !process.env.CI;
+
+const browsersDir =
+    process.env.PLAYWRIGHT_BROWSERS_PATH ?? join(__dirname, "node_modules", "playwright-core", ".local-browsers");
+const hasInstalledBrowsers = existsSync(browsersDir) && readdirSync(browsersDir).length > 0;
+
+if (!hasInstalledBrowsers) {
+    console.warn("Playwright browsers not found; skipping e2e projects.");
+}
 
 import { existsSync, readdirSync } from "node:fs";
 import { join } from "node:path";
@@ -32,6 +48,7 @@ export default defineConfig({
               stdout: "pipe",
               stderr: "pipe",
               timeout: process.env.CI ? 300_000 : 240_000,
+
           }
         : undefined,
     projects: hasInstalledBrowsers
