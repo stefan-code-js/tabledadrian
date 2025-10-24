@@ -99,7 +99,10 @@ Additional routing (admin, experiences, calculator, etc.) is available under `sr
 ## Deployment and hosting
 
 - Designed for the Next.js App Router with static and server components.
-- Netlify deployment is configured via `netlify.toml` (Next.js plugin + Node 20.19). `npm run build` remains the build command.
+
+- Netlify deployment is configured via `netlify.toml` (Next.js plugin + Node 22.11). `npm run build` remains the build command.
+- Production builds export `NODE_OPTIONS="--max-old-space-size=4096"` so Next.js has enough heap headroom on Netlify and other CI providers. Bump to 6144/8192 if your drop grows further.
+
 - Cloudflare Pages adapter available via `npm run cf:build`.
 - Cookie consent wraps analytics providers (Netlify-compatible scripts, Plausible, Cloudflare). Vercel analytics automatically disable when their ID is absent.
 
