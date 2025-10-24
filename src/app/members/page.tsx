@@ -5,6 +5,14 @@ import { walletIsCollectibleHolder, listCollectibleTiers } from "@/lib/collectib
 import { fetchPoapAttendances, fetchUnlockStatus } from "@/lib/access";
 import MemberProfileCard from "@/components/members/MemberProfileCard";
 import ConciergeBriefForm from "@/components/members/ConciergeBriefForm";
+import MemberActivityFeed from "@/components/members/MemberActivityFeed";
+import PersonalizedRecommendations from "@/components/members/PersonalizedRecommendations";
+import MemberAchievements from "@/components/community/MemberAchievements";
+import CommunityLeaderboard from "@/components/community/CommunityLeaderboard";
+import ContentManager from "@/components/content/ContentManager";
+import MemberAnalytics from "@/components/analytics/MemberAnalytics";
+import MobileNavigation from "@/components/mobile/MobileNavigation";
+import AdvancedWeb3Verification from "@/components/web3/AdvancedWeb3Verification";
 import WalletConnectControl from "@/components/web3/WalletConnectControl";
 import { findMemberByEmail } from "@/lib/members";
 
@@ -51,6 +59,13 @@ export default async function MembersHomePage() {
 
     return (
         <div className="space-y-8">
+            <MobileNavigation 
+                memberId={session?.user?.email || "anonymous"}
+                hasCollectible={hasCollectible}
+                level={Math.min(30, (hasCollectible ? 9 : 4) + Math.floor((memberRecord?.createdAt ? Math.max(1, Math.round((Date.now() - new Date(memberRecord.createdAt).getTime()) / 86400000)) : 12) / 45))}
+                roles={roles}
+            />
+            
             <MemberProfileCard
                 name={session?.user?.name}
                 email={session?.user?.email}
@@ -171,6 +186,68 @@ export default async function MembersHomePage() {
                     ) : null}
                 </aside>
             </div>
+
+            {/* Enhanced Member Dashboard Components */}
+            <div className="grid gap-8 lg:grid-cols-2">
+                <MemberActivityFeed 
+                    memberId={session?.user?.email || "anonymous"}
+                    hasCollectible={hasCollectible}
+                    level={Math.min(30, (hasCollectible ? 9 : 4) + Math.floor((memberRecord?.createdAt ? Math.max(1, Math.round((Date.now() - new Date(memberRecord.createdAt).getTime()) / 86400000)) : 12) / 45))}
+                    roles={roles}
+                />
+
+                <PersonalizedRecommendations 
+                    memberId={session?.user?.email || "anonymous"}
+                    hasCollectible={hasCollectible}
+                    level={Math.min(30, (hasCollectible ? 9 : 4) + Math.floor((memberRecord?.createdAt ? Math.max(1, Math.round((Date.now() - new Date(memberRecord.createdAt).getTime()) / 86400000)) : 12) / 45))}
+                    roles={roles}
+                />
+            </div>
+
+            {/* Community Features */}
+            <div className="grid gap-8 lg:grid-cols-2">
+                <MemberAchievements 
+                    memberId={session?.user?.email || "anonymous"}
+                    hasCollectible={hasCollectible}
+                    level={Math.min(30, (hasCollectible ? 9 : 4) + Math.floor((memberRecord?.createdAt ? Math.max(1, Math.round((Date.now() - new Date(memberRecord.createdAt).getTime()) / 86400000)) : 12) / 45))}
+                    roles={roles}
+                    totalRecipesViewed={15}
+                    forumPosts={3}
+                    daysActive={Math.floor((memberRecord?.createdAt ? Math.max(1, Math.round((Date.now() - new Date(memberRecord.createdAt).getTime()) / 86400000)) : 12))}
+                />
+
+                <CommunityLeaderboard 
+                    memberId={session?.user?.email || "anonymous"}
+                    currentUserLevel={Math.min(30, (hasCollectible ? 9 : 4) + Math.floor((memberRecord?.createdAt ? Math.max(1, Math.round((Date.now() - new Date(memberRecord.createdAt).getTime()) / 86400000)) : 12) / 45))}
+                    currentUserPoints={hasCollectible ? 150 : 75}
+                />
+            </div>
+
+                {/* Content Management & Analytics */}
+                <div className="grid gap-8 lg:grid-cols-2">
+                    <ContentManager
+                        memberId={session?.user?.email || "anonymous"}
+                        hasCollectible={hasCollectible}
+                        level={Math.min(30, (hasCollectible ? 9 : 4) + Math.floor((memberRecord?.createdAt ? Math.max(1, Math.round((Date.now() - new Date(memberRecord.createdAt).getTime()) / 86400000)) : 12) / 45))}
+                        roles={roles}
+                    />
+
+                    <MemberAnalytics
+                        memberId={session?.user?.email || "anonymous"}
+                        hasCollectible={hasCollectible}
+                        level={Math.min(30, (hasCollectible ? 9 : 4) + Math.floor((memberRecord?.createdAt ? Math.max(1, Math.round((Date.now() - new Date(memberRecord.createdAt).getTime()) / 86400000)) : 12) / 45))}
+                        roles={roles}
+                    />
+                </div>
+
+                {/* Advanced Web3 Features */}
+                <AdvancedWeb3Verification
+                    memberId={session?.user?.email || "anonymous"}
+                    hasCollectible={hasCollectible}
+                    level={Math.min(30, (hasCollectible ? 9 : 4) + Math.floor((memberRecord?.createdAt ? Math.max(1, Math.round((Date.now() - new Date(memberRecord.createdAt).getTime()) / 86400000)) : 12) / 45))}
+                    roles={roles}
+                    walletAddress={walletAddress}
+                />
 
             <div className="page-surface">
                 <ConciergeBriefForm />

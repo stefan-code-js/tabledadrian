@@ -23,7 +23,7 @@ if (!hasInstalledBrowsers) {
 }
 
 if (hasInstalledBrowsers) {
-    const child = spawn(playwrightBin, ["test"], { stdio: "inherit" });
+    const child = spawn(playwrightBin, ["test"], { stdio: "inherit", shell: true });
 
     child.on("exit", (code) => {
         process.exit(code ?? 1);
@@ -45,6 +45,7 @@ if (hasInstalledBrowsers) {
     const fallback = spawn(vitestBin, ["run", "--config", "tests/e2e/fallback/vitest.config.ts"], {
         stdio: "inherit",
         env: { ...process.env, PLAYWRIGHT_FALLBACK: "1" },
+        shell: true
     });
 
     fallback.on("exit", (code) => {

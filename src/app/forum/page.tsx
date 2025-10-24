@@ -28,7 +28,7 @@ export default async function ForumPage() {
                         <Link href="/newsletter" className="btn">
                             Join the newsletter
                         </Link>
-                        <a href="https://forum.tabledadrian.com" className="btn ghost" target="_blank" rel="noreferrer">
+                        <a href="https://forum.tabledadrian.com" className="btn ghost" target="_blank" rel="noopener noreferrer">
                             Continue to forum
                         </a>
                     </div>
@@ -63,7 +63,7 @@ export default async function ForumPage() {
                                 <p className="community-forum-card__body">{post.body}</p>
                                 <div className="community-forum-card__footer">
                                     <span>{post.authorEmail}</span>
-                                    <a href="https://forum.tabledadrian.com" className="community-forum-card__link" target="_blank" rel="noreferrer">
+                                    <a href="https://forum.tabledadrian.com" className="community-forum-card__link" target="_blank" rel="noopener noreferrer">
                                         Continue in forum
                                     </a>
                                 </div>

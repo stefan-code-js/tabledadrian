@@ -115,7 +115,7 @@ export default function ConciergeBriefForm() {
             {result ? (
                 <div
                     className={`concierge-brief__result${status === "error" ? " concierge-brief__result--error" : ""}`}
-                    role={status === "error" ? "alert" : "status"}
+                    role={status === "error" ? "alert" : "region"}
                 >
                     <pre>{result.brief}</pre>
                 </div>
