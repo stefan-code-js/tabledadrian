@@ -4883,6 +4883,21 @@ hr {
   background: rgba(255, 255, 255, 0.55);
 }
 
+.auth-privilege-card-enhanced {
+  border: 1px solid rgba(17, 16, 13, 0.12);
+  border-radius: 1.5rem;
+  padding: 1.5rem;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0.4) 100%);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.auth-privilege-card-enhanced:hover {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
 .badge-stacked {
   display: grid;
   gap: 0.6rem;
