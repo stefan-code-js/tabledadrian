@@ -11,6 +11,7 @@ import {
 } from "@/components/StructuredPage";
 import ContactForm from "@/components/ContactForm";
 import ContactChannels from "@/components/ContactChannels";
+import ConciergeScheduler from "@/components/ConciergeScheduler";
 import { createPageMetadata } from "@/lib/metadata";
 
 const page = sitePages.contact;
@@ -53,6 +54,9 @@ export default async function ContactPage({
             <PricingSection page={page} />
             <TestimonialsSection page={page} />
             <ContactChannels />
+            <div className="page-surface">
+                <ConciergeScheduler />
+            </div>
             <FinalCtaSection page={page}>
                 <ContactForm context={context} />
             </FinalCtaSection>
