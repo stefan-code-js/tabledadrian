@@ -1,5 +1,7 @@
 const DEFAULT_BLUR = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/PtX6XwAAAABJRU5ErkJggg==";
 
+export const FALLBACK_BLUR_DATA_URL = DEFAULT_BLUR;
+
 type ImageDefinition = {
     src: string;
     alt: string;
@@ -260,7 +262,7 @@ const IMAGE_DEFINITIONS = {
 export type ImageSlug = keyof typeof IMAGE_DEFINITIONS;
 
 export type ImageAsset = ImageDefinition & {
-    slug: ImageSlug;
+    slug: string;
     width: number;
     height: number;
     blurDataURL: string;

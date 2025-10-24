@@ -1,23 +1,13 @@
-import { Old_Standard_TT, Instrument_Serif, Bodoni_Moda } from "next/font/google";
+export type FontDefinition = {
+    className: string;
+    variable: string;
+};
 
-export const displayFont = Old_Standard_TT({
-    subsets: ["latin"],
-    weight: ["400", "700"],
-    variable: "--font-display",
-    display: "swap",
+const createFallbackFont = (className: string, variable: string): FontDefinition => ({
+    className,
+    variable,
 });
 
-export const bodyFont = Instrument_Serif({
-    subsets: ["latin"],
-    weight: ["400"],
-    style: ["normal"],
-    variable: "--font-body",
-    display: "swap",
-});
-
-export const accentFont = Bodoni_Moda({
-    subsets: ["latin"],
-    weight: ["500", "600", "700"],
-    variable: "--font-accent",
-    display: "swap",
-});
+export const displayFont = createFallbackFont("font-display", "font-display-variable");
+export const bodyFont = createFallbackFont("font-body", "font-body-variable");
+export const accentFont = createFallbackFont("font-accent", "font-accent-variable");

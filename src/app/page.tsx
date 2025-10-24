@@ -112,10 +112,10 @@ const MOSAIC = [
 
 export default function HomePage() {
     return (
-        <article className="page page-home">
+        <article className="editorial-page page-home">
             <PageHero page={page} />
 
-            <div className="layout-measure section-stack">
+            <div className="editorial-page__content">
                 {EXPERIENCE_SECTIONS.map((section, index) => (
                     <SectionLead
                         key={section.slug}

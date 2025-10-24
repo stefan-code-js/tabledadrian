@@ -11,6 +11,7 @@ import { buildPageMetadata, buildOrganizationJsonLd, buildLocalBusinessJsonLd } 
 import { CookieConsent } from "@/components/CookieConsent";
 import ConsentAwareAnalytics from "@/components/ConsentAwareAnalytics";
 import LuxurySessionProvider from "@/components/SessionProvider";
+import LiveConciergeChat from "@/components/LiveConciergeChat";
 import Script from "next/script";
 import AnalyticsProvider from "@/providers/AnalyticsProvider";
 import Web3Providers from "@/providers/Web3Providers";
@@ -38,6 +39,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <html lang={site.locale}>
             <body className={`${bodyFont.variable} ${displayFont.variable} ${accentFont.variable} theme-linen`}>
                 <LuxurySessionProvider>
+                    <LiveConciergeChat />
                     <CookieConsent>
                         <AnalyticsProvider>
                             <Web3Providers>

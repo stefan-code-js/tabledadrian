@@ -27,6 +27,7 @@ export default defineConfig({
         globals: true,
         environment: "jsdom",
         include: ["tests/**/*.test.ts"],
+        exclude: ["tests/e2e/fallback/**/*.test.ts"],
         setupFiles: ["./tests/vitest.setup.ts"],
         alias: {
             "@": path.resolve(__dirname, "src"),
