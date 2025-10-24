@@ -4090,8 +4090,8 @@ hr {
   z-index: 80;
   background: var(--color-paper);
   border-bottom: 1px solid var(--line-subtle);
-  backdrop-filter: blur(18px) saturate(140%);
   -webkit-backdrop-filter: blur(18px) saturate(140%);
+  backdrop-filter: blur(18px) saturate(140%);
 }
 .nav-shell__inner {
   width: min(var(--max-width), calc(100vw - 2 * var(--gutter)));
@@ -4329,6 +4329,7 @@ hr {
   justify-content: center;
   padding: clamp(1.5rem, 6vw, 3rem);
   background: color-mix(in srgb, rgba(8, 7, 5, 0.8) 65%, transparent);
+  -webkit-backdrop-filter: blur(14px) saturate(120%);
   backdrop-filter: blur(14px) saturate(120%);
 }
 
@@ -4888,6 +4889,7 @@ hr {
   border-radius: 1.5rem;
   padding: 1.5rem;
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0.4) 100%);
+  -webkit-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
@@ -6109,6 +6111,7 @@ hr {
   line-height: 1.4;
   display: -webkit-box;
   -webkit-line-clamp: 2;
+  line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
@@ -6664,6 +6667,7 @@ hr {
 
 .mobile-nav-toggle--scrolled {
   background: rgba(255, 255, 255, 0.95);
+  -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
   border-color: var(--line-hairline);
 }
@@ -6674,6 +6678,7 @@ hr {
   inset: 0;
   z-index: 1001;
   background: rgba(0, 0, 0, 0.5);
+  -webkit-backdrop-filter: blur(4px);
   backdrop-filter: blur(4px);
   display: none;
   animation: fadeIn 0.2s ease;
