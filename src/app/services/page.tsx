@@ -81,7 +81,7 @@ export default function ServicesPage() {
     const breadcrumbs = createBreadcrumbJsonLd(breadcrumbSource);
 
     return (
-        <main className="page page-services">
+        <article className="editorial-page page-services">
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbs) }} />
 
             <HeroCinematic
@@ -102,7 +102,7 @@ export default function ServicesPage() {
                 secondaryAction={{ label: "Speak with the chef", href: "/consult" }}
             />
 
-            <div className="layout-measure section-stack">
+            <div className="editorial-page__content">
                 {SERVICE_LINES.map((line, index) => (
                     <SectionLead
                         key={line.slug}
@@ -149,7 +149,7 @@ export default function ServicesPage() {
                     secondary={{ label: "Schedule consult", href: "/consult" }}
                 />
             </div>
-        </main>
+        </article>
     );
 }
 
