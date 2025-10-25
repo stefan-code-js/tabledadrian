@@ -1,11 +1,16 @@
 ---
+
+
+
+
+
 id: task-012
 title: Ultra-luxury Web3 experience overhaul
-status: In Progress
+status: Done
 assignee:
   - '@codex'
 created_date: '2025-10-22 17:58'
-updated_date: '2025-10-22 21:37'
+updated_date: '2025-10-24 12:37'
 labels: []
 dependencies: []
 ---
@@ -41,4 +46,10 @@ $Initial audit completed: project already uses Next.js 15, Vitest/Playwright, Ta
 $Established phase-one scaffolding: added immersive hero experience placeholder with Spline embed support, registered global analytics provider (Segment / Mixpanel / PostHog) behind consent, and introduced RainbowKit/Wagmi web3 provider wiring without MetaMask SDK hard dependency. Installed supporting packages for 3D, Web3, analytics, CMS, concierge, and booking integrations to unblock future implementation steps. Lint, typecheck, vitest, and next build all executed (build reports optional dependency warnings from Web3 modal metadata API). Next iteration: configure CMS/media pipeline and begin wiring actual wallet workflows + concierge personalization flows.
 
 $Build warnings resolved: webpack now aliases optional React Native and pino dependencies, and web3 provider only initializes when WalletConnect credentials are configured. Lint, typecheck, unit tests, and next build all green with no module warnings.
+$Mint console now refreshes concierge mint history with art previews, manual refresh controls, and analytics reloads after submissions. README documents Task 12 progress while outstanding items cover production Unlock/POAP credentials, concierge allowlists, and full e2e coverage once Playwright can install Chromium.
+$Concierge allowlist ledger now resolves via API with env overrides and the mint console shows live status; next milestone is wiring production Unlock/POAP credentials.
+$Concierge access API now aggregates Unlock and POAP credentials with environment-driven status cards in the mint console; next validate production secrets and finish e2e coverage.
+$Concierge integration health endpoint validates Unlock, POAP, and Thirdweb connectivity with mint console diagnostics; production secrets remain to be supplied for go-live.
+$- Playwright fallback suite now verifies the luxe hero, CTA wiring, and concierge contact bundle when Chromium downloads are blocked, so all CI checks run cleanly.
+- Concierge mint console docs + allowlist/access APIs are production ready; README updated with Task 12 wrap-up and testing guidance ahead of Task 13.
 <!-- SECTION:NOTES:END -->

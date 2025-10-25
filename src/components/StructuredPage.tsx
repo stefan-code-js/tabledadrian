@@ -145,7 +145,7 @@ export function PageHero({ page }: { page: PageContent }) {
     }
 
     return (
-        <section className="editorial-hero" id={anchor(page, "hero")}>
+        <section className="editorial-hero" id={anchor(page, "hero")} data-full-bleed="true">
             <figure className="full-bleed hero-figure" data-parallax="8">
                 <Image
                     src={figure.src}
