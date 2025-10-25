@@ -35,23 +35,35 @@ export default function LightboxGallery({
 
     const location = analyticsId;
 
+    const galleryImages = useMemo(() => {
+        const seen = new Set<string>();
+        return images.filter((image) => {
+            const key = image.slug ?? image.src;
+            if (seen.has(key)) {
+                return false;
+            }
+            seen.add(key);
+            return true;
+        });
+    }, [images]);
+
     const open = useCallback(
         (index: number) => {
             lastFocusedRef.current = document.activeElement as HTMLElement;
             setActive(index);
-            const image = images[index];
+            const image = galleryImages[index];
             trackEvent(ANALYTICS_EVENTS.galleryOpen, {
                 location,
                 index,
                 slug: image?.slug,
             });
         },
-        [images, location]
+        [galleryImages, location]
     );
 
     const close = useCallback(() => {
         if (active != null) {
-            const image = images[active];
+            const image = galleryImages[active];
             trackEvent(ANALYTICS_EVENTS.galleryClose, {
                 location,
                 index: active,
@@ -59,18 +71,21 @@ export default function LightboxGallery({
             });
         }
         setActive(null);
-    }, [active, images, location]);
+    }, [active, galleryImages, location]);
 
     const navigate = useCallback(
         (direction: "next" | "prev") => {
-            if (!images.length) {
+            if (!galleryImages.length) {
                 return;
             }
 
             setActive((prev) => {
                 const current = prev ?? 0;
-                const nextIndex = direction === "next" ? (current + 1) % images.length : (current - 1 + images.length) % images.length;
-                const image = images[nextIndex];
+                const nextIndex =
+                    direction === "next"
+                        ? (current + 1) % galleryImages.length
+                        : (current - 1 + galleryImages.length) % galleryImages.length;
+                const image = galleryImages[nextIndex];
                 trackEvent(ANALYTICS_EVENTS.galleryNavigate, {
                     location,
                     direction,
@@ -80,10 +95,10 @@ export default function LightboxGallery({
                 return nextIndex;
             });
         },
-        [images, location]
+        [galleryImages, location]
     );
 
-    const visibleImage = useMemo(() => (active != null ? images[active] : null), [active, images]);
+    const visibleImage = useMemo(() => (active != null ? galleryImages[active] : null), [active, galleryImages]);
 
     useEffect(() => {
         if (active == null) {
@@ -142,7 +157,7 @@ export default function LightboxGallery({
     return (
         <div className={["lightbox-gallery", className].filter(Boolean).join(" ")}>
             <div className="lightbox-gallery__grid">
-                {images.map((image, index) => (
+                {galleryImages.map((image, index) => (
                     <button
                         key={`${image.slug}-${index}`}
                         type="button"

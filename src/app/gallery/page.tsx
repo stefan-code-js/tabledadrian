@@ -10,24 +10,17 @@ import {
     PageStructuredData,
 } from "@/components/StructuredPage";
 import LightboxGallery from "@/components/LightboxGallery";
-import { images } from "@/data/images";
 import { createPageMetadata } from "@/lib/metadata";
 import KineticHeading from "@/components/KineticHeading";
+import { fetchLuxuryGalleryImages } from "@/lib/cms";
 
 const page = sitePages.gallery;
 
 export const metadata = createPageMetadata(page);
 
-const galleryAssets = [
-    images.homeGalleryOne,
-    images.homeGalleryTwo,
-    images.homeGalleryThree,
-    images.homeGalleryFour,
-    images.homeGalleryFive,
-    images.homeGallerySix,
-];
+export default async function GalleryPage() {
+    const galleryAssets = await fetchLuxuryGalleryImages();
 
-export default function GalleryPage() {
     return (
         <article className="editorial-page">
             <PageStructuredData page={page} />
