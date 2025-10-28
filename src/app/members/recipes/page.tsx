@@ -23,76 +23,81 @@ export default async function MemberRecipesPage() {
     const lockedCount = curatedRecipes.length - availableRecipes.length;
 
     return (
-        <article className="space-y-8 rounded-3xl border border-[var(--line-hairline)] bg-paper-soft/60 p-8 shadow-lg">
-            <header className="space-y-2">
-                <h2 className="text-3xl font-serif text-accent">Member recipe vault</h2>
-                <p className="max-w-3xl text-sm text-ink-soft">
-                    Each ritual balances flavour, performance, and wellness. Holders of Alchemy collectibles enjoy the full
-                    rotation, including seasonal residencies and yacht provisions.
-                </p>
-            </header>
+        <article className="editorial-page">
+            <section className="page-surface">
+                <div className="page-card page-card--stack">
+                    <header>
+                        <h2 className="page-card__title">Member recipe vault</h2>
+                        <p className="page-card__body">
+                            Each ritual balances flavour, performance, and wellness. Holders of Alchemy collectibles enjoy the full
+                            rotation, including seasonal residencies and yacht provisions.
+                        </p>
+                    </header>
 
-            {!hasCollectible ? (
-                <div className="rounded-2xl border border-[var(--line-hairline)] bg-paper/40 px-5 py-4 text-xs text-ink-soft">
-                    Unlock {lockedCount} additional recipes by{" "}
-                    <Link href="/alchemy-collectibles" className="text-accent underline focus-visible:outline-accent">
-                        verifying an Alchemy collectible
-                    </Link>{" "}
-                    or linking your wallet inside your{" "}
-                    <Link href="/auth/register" className="text-accent underline focus-visible:outline-accent">
-                        profile
-                    </Link>
-                    .
-                </div>
-            ) : null}
-
-            <div className="grid gap-6 md:grid-cols-2">
-                {availableRecipes.map((recipe) => (
-                    <div
-                        key={recipe.id}
-                        className="flex h-full flex-col overflow-hidden rounded-3xl border border-[var(--line-hairline)] bg-paper/40"
-                    >
-                        <div className="relative h-48 w-full overflow-hidden">
-                            <Image
-                                src={recipe.image}
-                                alt={recipe.title}
-                                fill
-                                className="object-cover"
-                                sizes="(min-width: 1024px) 384px, 100vw"
-                                priority={false}
-                            />
+                    {!hasCollectible ? (
+                        <div className="page-card page-card--stack">
+                            <p className="page-card__body">
+                                Unlock {lockedCount} additional recipes by{" "}
+                                <Link href="/alchemy-collectibles" className="text-link">
+                                    verifying an Alchemy collectible
+                                </Link>{" "}
+                                or linking your wallet inside your{" "}
+                                <Link href="/auth/register" className="text-link">
+                                    profile
+                                </Link>
+                                .
+                            </p>
                         </div>
-                        <div className="flex flex-1 flex-col gap-4 p-6">
-                            <div className="flex items-center justify-between text-xs uppercase tracking-[0.3em] text-ink-soft">
-                                <span>{recipe.focus}</span>
-                                <span>{recipe.tags.join(" / ")}</span>
-                            </div>
-                            <h3 className="text-2xl font-serif text-ink">{recipe.title}</h3>
-                            <p className="text-sm text-ink-soft">{recipe.summary}</p>
-                        <div className="recipe-step-stack">
-                            {recipe.ritual.slice(0, 3).map((step, index) => (
-                                <div key={`${recipe.id}-ritual-${index}`} className="recipe-step-card">
-                                    <span className="recipe-step-card__index">{index + 1}</span>
-                                    <p className="recipe-step-card__text">{step}</p>
+                    ) : null}
+
+                    <div className="page-grid page-grid--two">
+                        {availableRecipes.map((recipe) => (
+                            <article key={recipe.id} className="page-card page-card--stack recipe-card">
+                                <div className="recipe-card__media">
+                                    <Image
+                                        src={recipe.image}
+                                        alt={recipe.title}
+                                        fill
+                                        className="recipe-card__image"
+                                        sizes="(min-width: 1024px) 384px, 100vw"
+                                        priority={false}
+                                    />
                                 </div>
-                            ))}
-                        </div>
-                            <p className="text-xs uppercase tracking-[0.3em] text-accent">Pairing</p>
-                            <p className="text-sm text-ink">{recipe.pairing}</p>
-                        </div>
+                                <div className="page-card__meta">
+                                    <span>{recipe.focus}</span>
+                                    <span>{recipe.tags.join(" / ")}</span>
+                                </div>
+                                <h3 className="page-card__title">{recipe.title}</h3>
+                                <p className="page-card__body">{recipe.summary}</p>
+                                <div className="recipe-step-stack">
+                                    {recipe.ritual.slice(0, 3).map((step, index) => (
+                                        <div key={`${recipe.id}-ritual-${index}`} className="recipe-step-card">
+                                            <span className="recipe-step-card__index">{index + 1}</span>
+                                            <p className="recipe-step-card__text">{step}</p>
+                                        </div>
+                                    ))}
+                                </div>
+                                <div className="page-card__meta">
+                                    <span>Pairing</span>
+                                    <span>{recipe.pairing}</span>
+                                </div>
+                            </article>
+                        ))}
                     </div>
-                ))}
-            </div>
 
-            {lockedCount > 0 && hasCollectible === false ? (
-                <div className="rounded-3xl border border-dashed border-[var(--line-hairline)] bg-paper/30 p-6 text-center text-sm text-ink-soft">
-                    {lockedCount} additional recipes await once your collectible is verified.{" "}
-                    <Link href="/alchemy-collectibles#verify" className="text-accent underline focus-visible:outline-accent">
-                        Verify now
-                    </Link>
-                    .
+                    {lockedCount > 0 && hasCollectible === false ? (
+                        <div className="page-card page-card--center">
+                            <p className="page-card__body">
+                                {lockedCount} additional recipes await once your collectible is verified.{" "}
+                                <Link href="/alchemy-collectibles#verify" className="text-link">
+                                    Verify now
+                                </Link>
+                                .
+                            </p>
+                        </div>
+                    ) : null}
                 </div>
-            ) : null}
+            </section>
         </article>
     );
 }

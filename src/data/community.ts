@@ -105,3 +105,72 @@ export const memberStories: MemberStory[] = [
         role: "UHNW family office",
     },
 ];
+
+export type CommunityEnclave = {
+    id: string;
+    title: string;
+    region: CommunityEvent["region"];
+    summary: string;
+    highlight: string;
+    conciergeNote: string;
+    image: string;
+    upcomingEventId?: string;
+};
+
+export const communityEnclaves: CommunityEnclave[] = [
+    {
+        id: "riviera-summit",
+        title: "Riviera Summit Residences",
+        region: "Monaco",
+        summary:
+            "Private ateliers overlooking the Cap draw collectors for midnight salons, perfumery pairings, and Michelin-level residencies.",
+        highlight: "Côte d'Azur suites with perfumers in residence and archival menus revived for each guest.",
+        conciergeNote: "Concierge unlocks villa scouting and Riviera yacht tenders for collectible holders.",
+        image: "/gallery/IMG_3520.webp",
+        upcomingEventId: "monaco-midnight-salon",
+    },
+    {
+        id: "dubai-horizon",
+        title: "Dubai Horizon Atelier",
+        region: "Dubai",
+        summary:
+            "Sunrise rituals unfold on superyachts while circadian cuisine and breathwork guides reset UHNW entourages.",
+        highlight: "Three-day residencies pair adaptogenic gastronomy with heliotherapy across the marina skyline.",
+        conciergeNote: "Concierge orchestrates helicopter transfers and private majlis tastings across the Emirates.",
+        image: "/gallery/IMG_3451(1).webp",
+        upcomingEventId: "dubai-yacht-residency",
+    },
+    {
+        id: "new-york-conclave",
+        title: "New York Conclave",
+        region: "New York",
+        summary:
+            "Library salons host collectors, futurists, and cultural patrons for tasting suites that weave art and gastronomy.",
+        highlight: "Panel discussions, atelier tastings, and private archive viewings across Midtown sanctuaries.",
+        conciergeNote: "Concierge unlocks penthouse tastings, museum hours, and bespoke cellar pairings on request.",
+        image: "/gallery/IMG_1830.webp",
+        upcomingEventId: "new-york-conclave",
+    },
+    {
+        id: "london-parlor",
+        title: "London Parlor Clinic",
+        region: "London",
+        summary:
+            "Claridge's ArtSpace transforms into a neurogastronomy clinic with botanists, sommeliers, and wellness composers.",
+        highlight: "Half-day immersions blend precision nutrition, sensorium tastings, and atelier artistry.",
+        conciergeNote: "Concierge coordinates townhouse residencies and private club collaborations for members.",
+        image: "/gallery/IMG_1891.webp",
+        upcomingEventId: "london-atelier-clinic",
+    },
+    {
+        id: "digital-vault",
+        title: "Digital Vault",
+        region: "Global",
+        summary:
+            "The streaming vault archives rituals, recipes, and cinematic walkthroughs for collectors traveling worldwide.",
+        highlight: "Seasonal drops combine live masterclasses, on-chain mementos, and concierge briefs for future salons.",
+        conciergeNote: "Concierge curates remote mise en place kits and ensures vault drops mirror in-person precision.",
+        image: "/gallery/ee51ba39-3273-456d-ab36-17c1b36b49c2.webp",
+        upcomingEventId: "global-digital-vault",
+    },
+];

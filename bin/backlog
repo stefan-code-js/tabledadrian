@@ -1,0 +1,387 @@
+#!/usr/bin/env node
+import { readFile, readdir, writeFile } from "node:fs/promises";
+import path from "node:path";
+
+function printUsage(message) {
+    if (message) {
+        console.error(message);
+    }
+    console.error(
+        "Usage:\n" +
+            "  backlog task create <task-id> --title <title> [options]\n" +
+            "  backlog task edit <task-id> [options]\n" +
+            "Options (create):\n" +
+            "  --title <title>            Task title (required)\n" +
+            "  --status <status>          Initial status (default: To Do)\n" +
+            "  --description <text>       Description body\n" +
+            "  --ac <text>                Acceptance criterion (repeatable)\n" +
+            "  --plan <text>              Implementation plan line (repeatable)\n" +
+            "  --assignee <handle>        Assignee handle (repeatable, defaults to @codex)\n" +
+            "  --label <label>            Label entry (repeatable)\n" +
+            "  --dependency <task-id>     Dependency reference (repeatable)\n" +
+            "Options (edit):\n" +
+            "  -s, --status <status>      Update task status\n" +
+            "  --append-notes <text>      Append implementation notes\n" +
+            "  --check-ac <number>        Check acceptance criterion\n" +
+            "  --uncheck-ac <number>      Uncheck acceptance criterion",
+    );
+    process.exit(1);
+}
+
+function formatTimestamp(date) {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    const hours = String(date.getHours()).padStart(2, "0");
+    const minutes = String(date.getMinutes()).padStart(2, "0");
+    return `${year}-${month}-${day} ${hours}:${minutes}`;
+}
+
+async function resolveTaskFile(taskId) {
+    const tasksDir = path.join(process.cwd(), "backlog", "tasks");
+    const entries = await readdir(tasksDir);
+    const target = entries.find((entry) =>
+        entry.startsWith(`${taskId} `) || entry.startsWith(`${taskId}-`) || entry.startsWith(`${taskId} -`),
+    );
+    if (!target) {
+        throw new Error(`Unable to locate task file for ${taskId}`);
+    }
+    return path.join(tasksDir, target);
+}
+
+function normalizeTaskId(rawId) {
+    const trimmed = rawId.trim();
+    const stripped = trimmed.startsWith("task") ? trimmed.replace(/^task-?/, "") : trimmed;
+    const numeric = stripped.replace(/[^0-9]/g, "");
+    if (!numeric) {
+        throw new Error(`Invalid task id: ${rawId}`);
+    }
+    const padded = numeric.padStart(3, "0");
+    return {
+        canonical: `task-${padded}`,
+        filenameSegment: `task-${padded}`,
+    };
+}
+
+function buildFrontmatter({ id, title, status, assignees, createdDate, labels, dependencies }) {
+    const lines = [
+        "---",
+        `id: ${id}`,
+        `title: ${title}`,
+        `status: ${status}`,
+        "assignee:",
+        ...assignees.map((value) => `  - '${value}'`),
+        `created_date: '${createdDate}'`,
+        `updated_date: '${createdDate}'`,
+        `labels: [${labels.map((label) => `'${label}'`).join(", ")}]`,
+        `dependencies: [${dependencies.map((dep) => `'${dep}'`).join(", ")}]`,
+        "---",
+        "",
+    ];
+    return lines.join("\n");
+}
+
+function buildSection(label, body) {
+    return [`## ${label}`, "", body, ""].join("\n");
+}
+
+function wrapDescription(text) {
+    const content = text.length ? text.join("\n\n") : "Description forthcoming.";
+    return [
+        "<!-- SECTION:DESCRIPTION:BEGIN -->",
+        content,
+        "<!-- SECTION:DESCRIPTION:END -->",
+    ].join("\n");
+}
+
+function wrapAcceptanceCriteria(criteria) {
+    const lines = criteria.length
+        ? criteria.map((entry, index) => `- [ ] #${index + 1} ${entry}`)
+        : ["- [ ] #1 Acceptance criteria forthcoming."];
+    return ["<!-- AC:BEGIN -->", ...lines, "<!-- AC:END -->"].join("\n");
+}
+
+function wrapPlan(items) {
+    const lines = items.length ? items.map((entry, index) => `${index + 1}. ${entry}`) : ["1. Implementation plan forthcoming."];
+    return ["<!-- SECTION:PLAN:BEGIN -->", ...lines, "<!-- SECTION:PLAN:END -->"].join("\n");
+}
+
+function implementationNotesSection() {
+    return ["<!-- SECTION:NOTES:BEGIN -->", "<!-- SECTION:NOTES:END -->"].join("\n");
+}
+
+async function createTask(taskId, options) {
+    if (!options.title) {
+        throw new Error("Title is required to create a task");
+    }
+    const tasksDir = path.join(process.cwd(), "backlog", "tasks");
+    const { canonical, filenameSegment } = normalizeTaskId(taskId);
+    const safeTitle = options.title.trim();
+    const createdDate = formatTimestamp(new Date());
+    const status = options.status ?? "To Do";
+    const assignees = options.assignees.length ? options.assignees : ["@codex"];
+    const labels = options.labels.length ? options.labels : [];
+    const dependencies = options.dependencies.length ? options.dependencies : [];
+    const filename = `${filenameSegment} - ${safeTitle.replace(/\s+/g, " ")}.md`;
+    const filePath = path.join(tasksDir, filename);
+
+    try {
+        await readFile(filePath, "utf8");
+        throw new Error(`Task file already exists: ${filePath}`);
+    } catch (error) {
+        if ((error instanceof Error && "code" in error && error.code !== "ENOENT") || !(error instanceof Error)) {
+            throw error;
+        }
+    }
+
+    const content = [
+        buildFrontmatter({ id: canonical, title: safeTitle, status, assignees, createdDate, labels, dependencies }),
+        buildSection("Description", wrapDescription(options.description)),
+        buildSection("Acceptance Criteria", wrapAcceptanceCriteria(options.acceptanceCriteria)),
+        buildSection("Implementation Plan", wrapPlan(options.plan)),
+        buildSection("Implementation Notes", implementationNotesSection()),
+    ].join("\n");
+
+    await writeFile(filePath, content, "utf8");
+}
+
+function updateFrontmatter(content, updates) {
+    if (!content.startsWith("---")) {
+        throw new Error("Task file is missing frontmatter");
+    }
+    const endIndex = content.indexOf("\n---", 3);
+    if (endIndex === -1) {
+        throw new Error("Task file frontmatter is malformed");
+    }
+    const frontmatter = content.slice(3, endIndex).split("\n").map((line) => line.trimEnd());
+    while (frontmatter.length && frontmatter[0] === "") {
+        frontmatter.shift();
+    }
+    const nextFrontmatter = frontmatter.map((line) => {
+        if (line.startsWith("status:") && updates.status) {
+            return `status: ${updates.status}`;
+        }
+        if (line.startsWith("updated_date:")) {
+            return `updated_date: '${updates.updatedDate}'`;
+        }
+        return line;
+    });
+    if (!nextFrontmatter.some((line) => line.startsWith("updated_date:"))) {
+        nextFrontmatter.push(`updated_date: '${updates.updatedDate}'`);
+    }
+    const rebuilt = `---\n${nextFrontmatter.join("\n")}\n---${content.slice(endIndex + 4)}`;
+    return rebuilt;
+}
+
+function appendNotes(content, notes) {
+    if (!notes.length) {
+        return content;
+    }
+    const marker = "<!-- SECTION:NOTES:END -->";
+    const beginMarker = "<!-- SECTION:NOTES:BEGIN -->";
+    const beginIndex = content.indexOf(beginMarker);
+    const endIndex = content.indexOf(marker);
+    if (beginIndex === -1 || endIndex === -1 || endIndex < beginIndex) {
+        throw new Error("Unable to locate Implementation Notes section");
+    }
+    const before = content.slice(0, endIndex).replace(/\s*$/, "\n");
+    const after = content.slice(endIndex);
+    const normalized = notes
+        .map((note) => {
+            const trimmed = note.trim();
+            if (!trimmed) {
+                return null;
+            }
+            return trimmed.startsWith("$") ? trimmed : `$${trimmed}`;
+        })
+        .filter(Boolean);
+    if (!normalized.length) {
+        return before + after;
+    }
+    const insertion = `${normalized.join("\n\n")}\n`;
+    return `${before}${insertion}${after}`;
+}
+
+function updateAcceptanceCriteria(content, { checkAc, uncheckAc }) {
+    if (!checkAc.length && !uncheckAc.length) {
+        return content;
+    }
+    const beginMarker = "<!-- AC:BEGIN -->";
+    const endMarker = "<!-- AC:END -->";
+    const beginIndex = content.indexOf(beginMarker);
+    const endIndex = content.indexOf(endMarker);
+    if (beginIndex === -1 || endIndex === -1 || endIndex < beginIndex) {
+        throw new Error("Unable to locate Acceptance Criteria section");
+    }
+    const sectionStart = beginIndex + beginMarker.length;
+    const section = content.slice(sectionStart, endIndex);
+    const lines = section.split("\n");
+    const acLinePositions = [];
+    lines.forEach((line, index) => {
+        const trimmed = line.trimStart();
+        if (/^- \[[ xX]\]/.test(trimmed)) {
+            acLinePositions.push(index);
+        }
+    });
+    const toggle = (targets, mark) => {
+        targets.forEach((target) => {
+            const position = acLinePositions[target - 1];
+            if (position === undefined) {
+                throw new Error(`Acceptance criteria index ${target} not found`);
+            }
+            lines[position] = lines[position].replace(/- \[[ xX]\]/, `- [${mark}]`);
+        });
+    };
+    toggle(checkAc, "x");
+    toggle(uncheckAc, " ");
+    const updatedSection = lines.join("\n");
+    return `${content.slice(0, sectionStart)}${updatedSection}${content.slice(endIndex)}`;
+}
+
+async function editTask(taskId, { status, appendNotes: notes, checkAc, uncheckAc }) {
+    const filePath = await resolveTaskFile(taskId);
+    let content = await readFile(filePath, "utf8");
+    const updatedDate = formatTimestamp(new Date());
+    content = updateFrontmatter(content, { status, updatedDate });
+    content = updateAcceptanceCriteria(content, { checkAc, uncheckAc });
+    content = appendNotes(content, notes);
+    await writeFile(filePath, content, "utf8");
+}
+
+async function main() {
+    const args = process.argv.slice(2);
+    if (args.length < 3) {
+        printUsage();
+    }
+    const [resource, command, taskId, ...rest] = args;
+    if (resource !== "task") {
+        printUsage();
+    }
+    if (!taskId) {
+        printUsage("Task id is required");
+    }
+
+    if (command === "create") {
+        let title = null;
+        let status = null;
+        const description = [];
+        const acceptanceCriteria = [];
+        const plan = [];
+        const assignees = [];
+        const labels = [];
+        const dependencies = [];
+
+        for (let index = 0; index < rest.length; index += 1) {
+            const arg = rest[index];
+            const value = rest[index + 1];
+            if (arg === "--title") {
+                if (!value) printUsage("Title value is required");
+                title = value;
+                index += 1;
+            } else if (arg === "--status") {
+                if (!value) printUsage("Status value is required");
+                status = value;
+                index += 1;
+            } else if (arg === "--description") {
+                if (!value) printUsage("Description value is required");
+                description.push(value);
+                index += 1;
+            } else if (arg === "--ac") {
+                if (!value) printUsage("Acceptance criteria text is required");
+                acceptanceCriteria.push(value);
+                index += 1;
+            } else if (arg === "--plan") {
+                if (!value) printUsage("Plan text is required");
+                plan.push(value);
+                index += 1;
+            } else if (arg === "--assignee") {
+                if (!value) printUsage("Assignee is required");
+                assignees.push(value);
+                index += 1;
+            } else if (arg === "--label") {
+                if (!value) printUsage("Label is required");
+                labels.push(value);
+                index += 1;
+            } else if (arg === "--dependency") {
+                if (!value) printUsage("Dependency is required");
+                dependencies.push(value);
+                index += 1;
+            } else {
+                printUsage(`Unknown option ${arg}`);
+            }
+        }
+
+        try {
+            await createTask(taskId, {
+                title,
+                status,
+                description,
+                acceptanceCriteria,
+                plan,
+                assignees,
+                labels,
+                dependencies,
+            });
+        } catch (error) {
+            console.error(error instanceof Error ? error.message : error);
+            process.exit(1);
+        }
+        return;
+    }
+
+    if (command === "edit") {
+        let status = null;
+        const appendNotes = [];
+        const checkAc = [];
+        const uncheckAc = [];
+        for (let index = 0; index < rest.length; index += 1) {
+            const arg = rest[index];
+            if (arg === "-s" || arg === "--status") {
+                const value = rest[index + 1];
+                if (!value) {
+                    printUsage("Status value is required");
+                }
+                status = value;
+                index += 1;
+            } else if (arg === "--append-notes") {
+                const value = rest[index + 1];
+                if (!value) {
+                    printUsage("Note value is required");
+                }
+                appendNotes.push(value);
+                index += 1;
+            } else if (arg === "--check-ac" || arg === "--uncheck-ac") {
+                const value = rest[index + 1];
+                if (!value) {
+                    printUsage(`Acceptance criteria index required for ${arg}`);
+                }
+                const parsed = Number.parseInt(value, 10);
+                if (!Number.isInteger(parsed) || parsed < 1) {
+                    printUsage(`Invalid acceptance criteria index: ${value}`);
+                }
+                if (arg === "--check-ac") {
+                    checkAc.push(parsed);
+                } else {
+                    uncheckAc.push(parsed);
+                }
+                index += 1;
+            } else {
+                printUsage(`Unknown option ${arg}`);
+            }
+        }
+        if (!appendNotes.length && !status && !checkAc.length && !uncheckAc.length) {
+            printUsage("Nothing to update");
+        }
+        try {
+            await editTask(taskId, { status, appendNotes, checkAc, uncheckAc });
+        } catch (error) {
+            console.error(error instanceof Error ? error.message : error);
+            process.exit(1);
+        }
+        return;
+    }
+
+    printUsage();
+}
+
+main();

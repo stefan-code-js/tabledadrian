@@ -49,6 +49,7 @@ export type HeroCinematicProps = {
     tone?: HeroTone;
     analyticsId?: string;
     children?: ReactNode;
+    fullBleed?: boolean;
 };
 
 export default function HeroCinematic({
@@ -62,11 +63,12 @@ export default function HeroCinematic({
     tone = "nocturne",
     analyticsId = "hero",
     children,
+    fullBleed = true,
 }: HeroCinematicProps) {
     const asset = typeof image === "string" ? getImage(image) : image;
 
     return (
-        <section className={twMerge(heroRoot({ tone }))}>
+        <section className={twMerge(heroRoot({ tone }))} data-full-bleed={fullBleed ? "true" : undefined}>
             <div className="hero-cinematic__media" data-parallax="8">
                 {media ?? (
                     <Image

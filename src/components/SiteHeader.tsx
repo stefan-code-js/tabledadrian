@@ -6,6 +6,7 @@ import { Menu, X } from "lucide-react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { ANALYTICS_EVENTS, trackEvent } from "@/lib/analytics";
 import { site } from "@/lib/site";
+import WalletConnectControl from "@/components/web3/WalletConnectControl";
 
 const NAV_ITEMS = [
     { href: "/", label: "Home" },
@@ -13,6 +14,7 @@ const NAV_ITEMS = [
     { href: "/experiences", label: "Experiences" },
     { href: "/services", label: "Services" },
     { href: "/membership", label: "Membership" },
+    { href: "/community", label: "Community" },
     { href: "/forum", label: "Forum" },
     { href: "/recipes", label: "Recipes" },
     { href: "/consult", label: "Consult" },
@@ -30,6 +32,7 @@ const FEATURED = [
     { href: "/contact", label: "Book a table" },
     { href: "/membership", label: "Plan a membership" },
     { href: "/consult", label: "Schedule a strategy call" },
+    { href: "/community", label: "Community guild" },
     { href: "/forum", label: "Forum insights" },
     { href: "/recipes", label: "Explore recipes" },
     { href: "/newsletter", label: "Newsletter" },
@@ -175,6 +178,7 @@ export default function SiteHeader() {
                     })}
                 </nav>
                 <div className="menu-header__actions">
+                    <WalletConnectControl className="menu-header__wallet" />
                     <button
                         ref={menuButtonRef}
                         type="button"
@@ -220,6 +224,7 @@ export default function SiteHeader() {
                             />
                         </div>
                         <div className="menu-overlay__featured" aria-label="Featured actions">
+                            <WalletConnectControl className="menu-overlay__wallet" />
                             {FEATURED.map((item) => (
                                 <Link
                                     key={item.href}

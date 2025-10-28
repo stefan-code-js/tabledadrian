@@ -21,6 +21,7 @@ const partners = [
 const socials = [
     { label: "Instagram", href: site.socials.instagram },
     { label: "LinkedIn", href: site.socials.linkedin },
+    { label: "Community", href: "/community" },
     { label: "Forum", href: "/forum" },
     { label: "Newsletter", href: "/newsletter" },
     { label: "Recipes", href: "/recipes" },
