@@ -121,6 +121,7 @@ Task 12 is **complete**. Highlights:
 - Luxe editorial scaffolding, cinematic hero experiences, concierge analytics, and CMS-fed galleries now power every public and member surface with consistent typography and choreography.
 - Concierge Web3 flows span wallet connectivity, mint console telemetry, allowlist/access APIs, integration health diagnostics, and live concierge briefings with refreshed documentation.
 - The Playwright runner auto-installs Chromium when available and falls back to the offline integration suite so CI verifies the hero, CTA wiring, and concierge bundles even when CDN downloads are blocked—clearing the final testing gap before Task 13 community workstreams.
+- Task 12’s acceptance criteria are now formally checked off in Backlog via the CLI helper so the board reflects the completed scope before Task 13 kicks off.
 
 Next focus: kick off **Task 13** to elevate the community and member storytelling atop the completed concierge foundation.
 
