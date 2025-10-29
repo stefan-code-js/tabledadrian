@@ -87,6 +87,10 @@ Additional routing (admin, experiences, calculator, etc.) is available under `sr
   - Member dashboard with analytics, activity feed, recommendations engine, achievements, and tiered access cards.
   - Community leaderboard, forum seeds, badge system, and advanced content vault with recipe gating.
   - Preference management, session tracking, member activity logging, and concierge-specific tiers.
+- **Palette & form system**
+  - Lapis-lazuli brand accents (#0F4C75) with moonstone (#73A9AD) and powder blue (#B0E0E6) placeholders keep forms legible in light and dark appearances.
+  - Apple-inspired auth and newsletter flows reuse shared input/button primitives so typography stays black and consistent across devices.
+  - Navigation remains white while cards use translucent lapis overlays, delivering the requested contrast between surfaces and copy.
 - **Platform analytics**
   - Segment/PostHog/Mixpanel stubs with cookie consent gating, advanced event tracking, and structured metadata exports.
   - Member analytics dataset aggregating engagement metrics, collectible status, and community growth insights.

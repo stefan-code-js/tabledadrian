@@ -1,25 +1,25 @@
 
 :root {
   /* Palette */
-  --color-black: #080705;
-  --color-near-black: #11100d;
+  --color-black: #1b262c;
+  --color-near-black: #1b262c;
   --color-ink: var(--color-near-black);
-  --color-ink-soft: #2c2822;
-  --color-ink-muted: #58524a;
-  --color-cream: #f6f1e6;
-  --color-cream-soft: #fbf7ef;
-  --color-cream-strong: #e7dfd1;
-  --color-neutral: #d6cec0;
-  --color-forest: #1f3628;
-  --color-forest-soft: rgba(31, 54, 40, 0.64);
-  --color-bronze: #b18a5b;
-  --color-bronze-soft: rgba(177, 138, 91, 0.55);
-  --color-oxblood: #5b2320;
-  --color-oxblood-soft: rgba(91, 35, 32, 0.45);
+  --color-ink-soft: #27343c;
+  --color-ink-muted: #354654;
+  --color-cream: #ffffff;
+  --color-cream-soft: #f4f8fc;
+  --color-cream-strong: #e9f2fb;
+  --color-neutral: #3282b8;
+  --color-forest: #0f4c75;
+  --color-forest-soft: rgba(15, 76, 117, 0.65);
+  --color-bronze: #3282b8;
+  --color-bronze-soft: rgba(50, 130, 184, 0.35);
+  --color-oxblood: #1b262c;
+  --color-oxblood-soft: rgba(27, 38, 44, 0.45);
   --color-accent: var(--color-forest);
-  --color-accent-muted: rgba(31, 54, 40, 0.28);
-  --line-hairline: rgba(17, 16, 13, 0.18);
-  --line-subtle: rgba(17, 16, 13, 0.08);
+  --color-accent-muted: rgba(15, 76, 117, 0.28);
+  --line-hairline: rgba(15, 76, 117, 0.22);
+  --line-subtle: rgba(50, 130, 184, 0.22);
 
   /* Typography fallbacks */
   --font-display: "Old Standard TT", "Times New Roman", serif;
@@ -78,33 +78,33 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --color-ink: #dcd7c9;
-    --color-ink-soft: #c8c2b4;
-    --color-ink-muted: #a9a394;
-    --color-cream: #2c3639;
-    --color-cream-soft: #343f42;
-    --color-cream-strong: #222b2d;
-    --color-neutral: #3f4f46;
-    --color-paper: #2c3639;
-    --color-paper-soft: #343f42;
-    --color-paper-strong: #222b2d;
-    --color-forest: #e3a36b;
-    --color-forest-soft: rgba(227, 163, 107, 0.56);
-    --color-bronze: #d3b48c;
-    --color-bronze-soft: rgba(211, 180, 140, 0.48);
-    --color-oxblood: #8c4f3a;
-    --color-oxblood-soft: rgba(140, 79, 58, 0.46);
-    --color-accent: #e3a36b;
-    --color-accent-muted: rgba(227, 163, 107, 0.24);
+    --color-ink: #1b262c;
+    --color-ink-soft: #27343c;
+    --color-ink-muted: #354654;
+    --color-cream: #ffffff;
+    --color-cream-soft: #f4f8fc;
+    --color-cream-strong: #e9f2fb;
+    --color-neutral: #3282b8;
+    --color-paper: #ffffff;
+    --color-paper-soft: #f4f8fc;
+    --color-paper-strong: #e9f2fb;
+    --color-forest: #0f4c75;
+    --color-forest-soft: rgba(15, 76, 117, 0.65);
+    --color-bronze: #3282b8;
+    --color-bronze-soft: rgba(50, 130, 184, 0.35);
+    --color-oxblood: #1b262c;
+    --color-oxblood-soft: rgba(27, 38, 44, 0.45);
+    --color-accent: #0f4c75;
+    --color-accent-muted: rgba(15, 76, 117, 0.28);
     --color-gold: var(--color-bronze);
-    --line-hairline: rgba(220, 215, 201, 0.24);
-    --line-subtle: rgba(220, 215, 201, 0.12);
+    --line-hairline: rgba(15, 76, 117, 0.22);
+    --line-subtle: rgba(50, 130, 184, 0.22);
     --muted: var(--line-subtle);
     --fg: var(--color-ink);
   }
 
   html {
-    color-scheme: dark;
+    color-scheme: light;
     background: var(--color-paper);
     color: var(--color-ink);
   }
@@ -119,7 +119,7 @@
   }
 
   ::selection {
-    background: var(--color-bronze);
+    background: var(--color-accent);
     color: var(--color-paper);
   }
 }
@@ -298,9 +298,9 @@ h1, h2, h3, h4, h5, h6 {
   text-transform: uppercase;
   font-weight: 600;
   font-family: var(--font-accent), "Bodoni Moda", serif;
-  background: var(--color-ink);
-  color: var(--color-paper);
-  transition: transform 160ms ease, box-shadow 160ms ease, background 160ms ease;
+  background: var(--color-accent);
+  color: var(--color-ink);
+  transition: transform 160ms ease, box-shadow 160ms ease, background 160ms ease, color 160ms ease;
 }
 
 .btn--full{
@@ -310,26 +310,65 @@ h1, h2, h3, h4, h5, h6 {
 
 .btn:hover,
 .btn:focus-visible {
-  transform: translateY(-2px);
-  box-shadow: 0 18px 42px rgba(16, 18, 18, 0.22);
-}
+    transform: translateY(-2px);
+    box-shadow: 0 18px 42px rgba(15, 76, 117, 0.28);
+    background: color-mix(in srgb, var(--color-accent) 92%, #ffffff 8%);
+  }
 
 button {
   font-family: var(--font-accent), "Bodoni Moda", serif;
 }
 
+.form input::placeholder,
+.form textarea::placeholder,
+input::placeholder,
+textarea::placeholder {
+    color: #73a9ad;
+    opacity: 1;
+    transition: color 160ms ease;
+  }
+  
+.form input:focus::placeholder,
+.form textarea:focus::placeholder,
+input:focus::placeholder,
+textarea:focus::placeholder {
+    color: #b0e0e6;
+  }
+
+.input-field {
+  width: 100%;
+  padding: var(--space-2) var(--space-3);
+    border: 1px solid rgba(50, 130, 184, 0.32);
+  border-radius: var(--radius-xl);
+  background: var(--color-paper);
+  font-family: var(--font-body);
+  font-size: var(--step-0);
+  color: var(--color-ink);
+  transition: border-color 160ms ease, box-shadow 160ms ease, background 160ms ease, color 160ms ease;
+}
+
+.input-field:hover {
+    border-color: rgba(15, 76, 117, 0.55);
+  }
+  
+.input-field:focus {
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 3px rgba(50, 130, 184, 0.24);
+    background: var(--color-paper);
+  }
+
 .btn.ghost,
 .btn.ghost:hover {
-  background: transparent;
-  color: var(--color-ink);
-  border-color: rgba(26, 32, 29, 0.28);
-  box-shadow: none;
-}
+    background: transparent;
+    color: var(--color-ink);
+    border-color: rgba(15, 76, 117, 0.28);
+    box-shadow: none;
+  }
 
 .btn.ghost:hover,
 .btn.ghost:focus-visible {
-  background: rgba(26, 32, 29, 0.08);
-}
+    background: rgba(50, 130, 184, 0.12);
+  }
 
 .skip-link {
   position: absolute;
@@ -350,11 +389,12 @@ button {
 
 /* Header */
 .menu-header {
-  position: relative;
-  padding: var(--space-2) var(--gutter);
-  background: transparent;
-  z-index: 30;
-}
+    position: relative;
+    padding: var(--space-2) var(--gutter);
+    background: var(--color-paper);
+    border-bottom: 1px solid var(--line-hairline);
+    z-index: 30;
+  }
 
 .menu-header__inner {
   max-width: var(--max-width);
@@ -3641,26 +3681,26 @@ hr {
 .field select{
   width:100%;
   padding: var(--space-2) var(--space-3);
-  border: 1px solid var(--line-subtle);
-  border-radius: var(--radius-lg);
-  background: var(--color-paper-soft);
+  border: 1px solid rgba(50, 130, 184, 0.32);
+  border-radius: var(--radius-xl);
+  background: var(--color-paper);
   font-family: var(--font-body);
   font-size: var(--step-0);
   color: var(--color-ink);
-  transition: border-color 160ms ease, box-shadow 160ms ease, background 160ms ease;
+  transition: border-color 160ms ease, box-shadow 160ms ease, background 160ms ease, color 160ms ease;
 }
 
 .field input:hover,
 .field textarea:hover,
 .field select:hover{
-  border-color: var(--color-forest-soft);
+  border-color: rgba(15, 76, 117, 0.55);
 }
 
 .field input:focus,
 .field textarea:focus,
 .field select:focus{
-  border-color: var(--color-forest);
-  box-shadow: 0 0 0 2px rgba(31,54,40,0.12);
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px rgba(50, 130, 184, 0.24);
   background: var(--color-paper);
 }
 
@@ -4647,15 +4687,15 @@ hr {
 }
 
 .page-card {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-3);
-  padding: clamp(1.8rem, 4vw, 2.5rem);
-  border-radius: var(--radius-xl);
-  border: 1px solid var(--line-subtle);
-  background: color-mix(in srgb, var(--color-paper) 92%, rgba(177, 138, 91, 0.12));
-  box-shadow: var(--shadow-ambient);
-}
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    padding: clamp(1.8rem, 4vw, 2.5rem);
+    border-radius: var(--radius-xl);
+    border: 1px solid color-mix(in srgb, var(--color-accent) 22%, transparent);
+    background: color-mix(in srgb, var(--color-paper) 82%, rgba(15, 76, 117, 0.35));
+    box-shadow: 0 18px 40px rgba(15, 76, 117, 0.12);
+  }
 
 .page-card__meta {
   display: flex;
@@ -4698,6 +4738,18 @@ hr {
 
 .page-card--stack > * {
   margin: 0;
+}
+
+.page-card--form {
+  padding: 0;
+  border: none;
+  background: transparent;
+  box-shadow: none;
+  gap: 0;
+}
+
+.page-card--form > * {
+  width: 100%;
 }
 
 .page-section-note {

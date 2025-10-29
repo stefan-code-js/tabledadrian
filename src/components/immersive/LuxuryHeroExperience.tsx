@@ -4,7 +4,7 @@
 
 import { Suspense, useEffect, useMemo, useRef, useState } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { Environment, Float, PointMaterial, Points } from "@react-three/drei";
+import { Float, PointMaterial, Points } from "@react-three/drei";
 import type { Group, Points as PointsImpl } from "three";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 
@@ -111,7 +111,6 @@ function AuroraScene() {
             <directionalLight position={[-4, -3, -5]} intensity={0.6} color="#ffd8b2" />
             <AuroraCore />
             <HaloParticles />
-            <Environment preset="sunset" background={false} />
         </>
     );
 }

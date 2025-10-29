@@ -169,8 +169,8 @@ export default function LoginForm() {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.3, duration: 0.5 }}
             >
-                <label className="block text-sm font-medium text-ink mb-3" htmlFor="email">
-                    Email Address
+                <label className="block text-sm font-medium text-ink mb-2" htmlFor="email">
+                    Email address
                 </label>
                 <div className="relative">
                     <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
@@ -180,13 +180,13 @@ export default function LoginForm() {
                         id="email"
                         type="email"
                         autoComplete="email"
-                        placeholder="you@maison.com"
-                        className={`w-full pl-12 pr-4 py-4 rounded-2xl border-2 transition-all duration-200 bg-paper/50 backdrop-blur-sm text-ink placeholder-ink-soft focus:outline-none focus:ring-0 ${
+                        placeholder="Email address"
+                        className={`input-field pl-12 pr-4 ${
                             errors.email 
-                                ? 'border-red-300 focus:border-red-400' 
+                                ? 'border-red-300 focus:border-red-400'
                                 : fieldFocus === 'email'
                                 ? 'border-accent focus:border-accent'
-                                : 'border-[var(--line-hairline)] focus:border-accent'
+                                : 'border-[rgba(99,159,171,0.35)] focus:border-accent'
                         }`}
                         {...form.register("email")}
                         onFocus={() => setFieldFocus('email')}
@@ -222,8 +222,8 @@ export default function LoginForm() {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.4, duration: 0.5 }}
             >
-                <label className="block text-sm font-medium text-ink mb-3" htmlFor="password">
-                    Access Phrase
+                <label className="block text-sm font-medium text-ink mb-2" htmlFor="password">
+                    Password
                 </label>
                 <div className="relative">
                     <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
@@ -233,13 +233,13 @@ export default function LoginForm() {
                         id="password"
                         type={showPassword ? "text" : "password"}
                         autoComplete="current-password"
-                        placeholder="Enter your phrase"
-                        className={`w-full pl-12 pr-12 py-4 rounded-2xl border-2 transition-all duration-200 bg-paper/50 backdrop-blur-sm text-ink placeholder-ink-soft focus:outline-none focus:ring-0 ${
+                        placeholder="Password"
+                        className={`input-field pl-12 pr-12 ${
                             errors.password 
-                                ? 'border-red-300 focus:border-red-400' 
+                                ? 'border-red-300 focus:border-red-400'
                                 : fieldFocus === 'password'
                                 ? 'border-accent focus:border-accent'
-                                : 'border-[var(--line-hairline)] focus:border-accent'
+                                : 'border-[rgba(99,159,171,0.35)] focus:border-accent'
                         }`}
                         {...form.register("password")}
                         onFocus={() => setFieldFocus('password')}
@@ -345,7 +345,7 @@ export default function LoginForm() {
             >
                 <button
                     type="submit"
-                    className="w-full py-4 px-8 rounded-2xl bg-gradient-to-r from-accent to-accent/80 text-white font-medium text-sm uppercase tracking-[0.3em] transition-all duration-200 hover:from-accent/90 hover:to-accent/70 hover:shadow-lg hover:shadow-accent/25 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3"
+                    className="btn w-full justify-center gap-3 font-semibold disabled:opacity-50 disabled:pointer-events-none"
                     disabled={status === "submitting"}
                 >
                     {status === "submitting" ? (
@@ -379,3 +379,4 @@ export default function LoginForm() {
         </motion.form>
     );
 }
+

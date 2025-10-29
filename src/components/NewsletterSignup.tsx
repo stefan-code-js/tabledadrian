@@ -57,6 +57,7 @@ export default function NewsletterSignup() {
                     <input
                         id="newsletter-email"
                         type="email"
+                        className="input-field"
                         value={email}
                         onChange={(event) => setEmail(event.target.value)}
                         autoComplete="email"

@@ -5,7 +5,7 @@ status: Done
 assignee:
   - '@codex'
 created_date: '2025-10-22 17:58'
-updated_date: '2025-10-29 00:48'
+updated_date: '2025-10-29 07:28'
 labels: []
 dependencies: []
 ---
@@ -55,4 +55,6 @@ $- Memory database now mirrors achievement definition seeding so diagnostic warn
 $- Upgraded @headlessui/react to v2.2.9 and aligned the app to React 19.2 stable so peer dependencies resolve cleanly without legacy flags.
 
 $- Upgraded the immersive stack (react-three/fiber 9 + drei 10 + react-spring 10) so it no longer touches removed React internals like ReactCurrentBatchConfig; production builds run clean on React 19.2.
+
+$- Removed the drei Environment preset so the immersive hero no longer hits external HDR hosts that our CSP blocks; ambient/directional lighting keeps the scene within allowed origins.
 <!-- SECTION:NOTES:END -->

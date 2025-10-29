@@ -71,7 +71,7 @@
     "react-hook-form": "^7.62.0",
     "react-toc": "^3.1.0",
     "react-use-intercom": "^5.5.0",
-    "resend": "^3.5.0",
+    "resend": "^6.3.0",
     "stripe": "^19.0.0",
     "tailwind-merge": "^3.3.1",
     "tailwindcss-animate": "^1.0.7",
@@ -83,14 +83,61 @@
   },
   "overrides": {
     "@thirdweb-dev/react": {
-      "@headlessui/react": "^2.2.9"
+      "@headlessui/react": "^2.2.9",
+      "react": "19.2.0",
+      "react-dom": "19.2.0"
     },
     "@thirdweb-dev/react-core": {
-      "@headlessui/react": "^2.2.9"
+      "@headlessui/react": "^2.2.9",
+      "react": "19.2.0",
+      "react-dom": "19.2.0"
     },
     "@thirdweb-dev/wallets": {
-      "@headlessui/react": "^2.2.9"
-    }
+      "@headlessui/react": "^2.2.9",
+      "react": "19.2.0",
+      "react-dom": "19.2.0"
+    },
+    "@thirdweb-dev/sdk": {
+      "react": "19.2.0",
+      "react-dom": "19.2.0"
+    },
+    "use-sync-external-store": "^1.4.0",
+    "@web3modal/ethers5": {
+      "use-sync-external-store": "^1.4.0"
+    },
+    "@web3modal/core": {
+      "react": "19.2.0"
+    },
+    "@web3modal/scaffold-utils": {
+      "react": "19.2.0"
+    },
+    "@web3modal/siwe": {
+      "react": "19.2.0"
+    },
+    "@walletconnect/modal-core": {
+      "use-sync-external-store": "^1.4.0",
+      "valtio": "^1.13.2",
+      "react": "19.2.0"
+    },
+    "@walletconnect/modal-sign": {
+      "use-sync-external-store": "^1.4.0",
+      "valtio": "^1.13.2",
+      "react": "19.2.0"
+    },
+    "@walletconnect/modal-ui": {
+      "use-sync-external-store": "^1.4.0",
+      "valtio": "^1.13.2",
+      "react": "19.2.0"
+    },
+    "@walletconnect/modal-utils": {
+      "use-sync-external-store": "^1.4.0",
+      "valtio": "^1.13.2",
+      "react": "19.2.0"
+    },
+    "valtio": {
+      "use-sync-external-store": "^1.4.0"
+    },
+    "@react-email/render": "^1.4.0"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.10.2",

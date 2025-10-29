@@ -1,7 +1,8 @@
 ﻿// src/app/layout.tsx
-import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import React from "react";
+import type { Metadata, Viewport } from "next";
+import "@/lib/reactBatchConfigPolyfill";
 import SiteHeader from "@/components/SiteHeader";
 import AppMotionRoot from "@/components/AppMotionRoot";
 import Footer from "@/components/Footer";
@@ -27,7 +28,7 @@ export const metadata: Metadata = buildPageMetadata({
 });
 
 export const viewport: Viewport = {
-    themeColor: "#f7f3ed",
+    themeColor: "#ffffff",
     colorScheme: "light",
 };
 

@@ -30,7 +30,7 @@ const schema = z
             .or(z.literal("")),
     })
     .refine((data) => data.password === data.confirmPassword, {
-        message: "The access phrases do not match.",
+        message: "The passwords do not match.",
         path: ["confirmPassword"],
     });
 
@@ -109,7 +109,7 @@ export default function RegisterForm() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2, duration: 0.6 }}
         >
-            {/* Full Name Field */}
+            {/* Full name Field */}
             <motion.div 
                 className="space-y-2"
                 initial={{ opacity: 0, x: -20 }}
@@ -117,7 +117,7 @@ export default function RegisterForm() {
                 transition={{ delay: 0.3, duration: 0.5 }}
             >
                 <label className="block text-sm font-medium text-ink mb-3" htmlFor="fullName">
-                    Full Name
+                    Full name
                 </label>
                 <div className="relative">
                     <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
@@ -127,13 +127,13 @@ export default function RegisterForm() {
                         id="fullName"
                         type="text"
                         autoComplete="name"
-                        placeholder="Alexis Laurent"
-                        className={`w-full pl-12 pr-4 py-4 rounded-2xl border-2 transition-all duration-200 bg-paper/50 backdrop-blur-sm text-ink placeholder-ink-soft focus:outline-none focus:ring-0 ${
+                        placeholder="Full name"
+                        className={`input-field pl-12 pr-4 ${
                             form.formState.errors.fullName 
                                 ? 'border-red-300 focus:border-red-400' 
                                 : fieldFocus === 'fullName'
                                 ? 'border-accent focus:border-accent'
-                                : 'border-[var(--line-hairline)] focus:border-accent'
+                                : 'border-[rgba(99,159,171,0.35)] focus:border-accent'
                         }`}
                         {...form.register("fullName")}
                         onFocus={() => setFieldFocus('fullName')}
@@ -170,7 +170,7 @@ export default function RegisterForm() {
                 transition={{ delay: 0.4, duration: 0.5 }}
             >
                 <label className="block text-sm font-medium text-ink mb-3" htmlFor="email">
-                    Email Address
+                    Email address
                 </label>
                 <div className="relative">
                     <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
@@ -180,13 +180,13 @@ export default function RegisterForm() {
                         id="email"
                         type="email"
                         autoComplete="email"
-                        placeholder="you@maison.com"
-                        className={`w-full pl-12 pr-4 py-4 rounded-2xl border-2 transition-all duration-200 bg-paper/50 backdrop-blur-sm text-ink placeholder-ink-soft focus:outline-none focus:ring-0 ${
+                        placeholder="Email address"
+                        className={`input-field pl-12 pr-4 ${
                             form.formState.errors.email 
                                 ? 'border-red-300 focus:border-red-400' 
                                 : fieldFocus === 'email'
                                 ? 'border-accent focus:border-accent'
-                                : 'border-[var(--line-hairline)] focus:border-accent'
+                                : 'border-[rgba(99,159,171,0.35)] focus:border-accent'
                         }`}
                         {...form.register("email")}
                         onFocus={() => setFieldFocus('email')}
@@ -222,8 +222,8 @@ export default function RegisterForm() {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.5, duration: 0.5 }}
             >
-                <label className="block text-sm font-medium text-ink mb-3" htmlFor="password">
-                    Access Phrase
+                <label className="block text-sm font-medium text-ink mb-2" htmlFor="password">
+                    Create password
                 </label>
                 <div className="relative">
                     <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
@@ -233,13 +233,13 @@ export default function RegisterForm() {
                         id="password"
                         type={showPassword ? "text" : "password"}
                         autoComplete="new-password"
-                        placeholder="Craft an elegant phrase"
-                        className={`w-full pl-12 pr-12 py-4 rounded-2xl border-2 transition-all duration-200 bg-paper/50 backdrop-blur-sm text-ink placeholder-ink-soft focus:outline-none focus:ring-0 ${
+                        placeholder="Create password"
+                        className={`input-field pl-12 pr-12 ${
                             form.formState.errors.password 
                                 ? 'border-red-300 focus:border-red-400' 
                                 : fieldFocus === 'password'
                                 ? 'border-accent focus:border-accent'
-                                : 'border-[var(--line-hairline)] focus:border-accent'
+                                : 'border-[rgba(99,159,171,0.35)] focus:border-accent'
                         }`}
                         {...form.register("password")}
                         onFocus={() => setFieldFocus('password')}
@@ -277,8 +277,8 @@ export default function RegisterForm() {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.6, duration: 0.5 }}
             >
-                <label className="block text-sm font-medium text-ink mb-3" htmlFor="confirmPassword">
-                    Confirm Access Phrase
+                <label className="block text-sm font-medium text-ink mb-2" htmlFor="confirmPassword">
+                    Confirm password
                 </label>
                 <div className="relative">
                     <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
@@ -288,13 +288,13 @@ export default function RegisterForm() {
                         id="confirmPassword"
                         type={showConfirmPassword ? "text" : "password"}
                         autoComplete="new-password"
-                        placeholder="Repeat for precision"
-                        className={`w-full pl-12 pr-12 py-4 rounded-2xl border-2 transition-all duration-200 bg-paper/50 backdrop-blur-sm text-ink placeholder-ink-soft focus:outline-none focus:ring-0 ${
+                        placeholder="Confirm password"
+                        className={`input-field pl-12 pr-12 ${
                             form.formState.errors.confirmPassword 
                                 ? 'border-red-300 focus:border-red-400' 
                                 : fieldFocus === 'confirmPassword'
                                 ? 'border-accent focus:border-accent'
-                                : 'border-[var(--line-hairline)] focus:border-accent'
+                                : 'border-[rgba(99,159,171,0.35)] focus:border-accent'
                         }`}
                         {...form.register("confirmPassword")}
                         onFocus={() => setFieldFocus('confirmPassword')}
@@ -332,8 +332,8 @@ export default function RegisterForm() {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.7, duration: 0.5 }}
             >
-                <label className="block text-sm font-medium text-ink mb-3" htmlFor="walletAddress">
-                    Preferred Wallet (Optional)
+                <label className="block text-sm font-medium text-ink mb-2" htmlFor="walletAddress">
+                    Wallet address (optional)
                 </label>
                 <div className="relative">
                     <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
@@ -342,13 +342,13 @@ export default function RegisterForm() {
                     <input
                         id="walletAddress"
                         type="text"
-                        placeholder="0x..."
-                        className={`w-full pl-12 pr-4 py-4 rounded-2xl border-2 transition-all duration-200 bg-paper/50 backdrop-blur-sm text-ink placeholder-ink-soft focus:outline-none focus:ring-0 ${
+                        placeholder="Wallet address (optional)"
+                        className={`input-field pl-12 pr-4 ${
                             form.formState.errors.walletAddress 
                                 ? 'border-red-300 focus:border-red-400' 
                                 : fieldFocus === 'walletAddress'
                                 ? 'border-accent focus:border-accent'
-                                : 'border-[var(--line-hairline)] focus:border-accent'
+                                : 'border-[rgba(99,159,171,0.35)] focus:border-accent'
                         }`}
                         {...form.register("walletAddress")}
                         onFocus={() => setFieldFocus('walletAddress')}
@@ -410,7 +410,7 @@ export default function RegisterForm() {
             >
                 <button
                     type="submit"
-                    className="w-full py-4 px-8 rounded-2xl bg-gradient-to-r from-accent to-accent/80 text-white font-medium text-sm uppercase tracking-[0.3em] transition-all duration-200 hover:from-accent/90 hover:to-accent/70 hover:shadow-lg hover:shadow-accent/25 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3"
+                    className="btn btn--full justify-center gap-3 font-semibold disabled:opacity-50 disabled:pointer-events-none"
                     disabled={status === "submitting"}
                 >
                     {status === "submitting" ? (
@@ -444,3 +444,5 @@ export default function RegisterForm() {
         </motion.form>
     );
 }
+
+
