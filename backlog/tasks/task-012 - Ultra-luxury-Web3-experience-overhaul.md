@@ -5,7 +5,7 @@ status: Done
 assignee:
   - '@codex'
 created_date: '2025-10-22 17:58'
-updated_date: '2025-10-29 00:25'
+updated_date: '2025-10-29 00:48'
 labels: []
 dependencies: []
 ---
@@ -53,4 +53,6 @@ $- Upgraded React and React DOM to 19.0.0-rc to match Next 15 internals and elim
 $- Memory database now mirrors achievement definition seeding so diagnostic warnings are gone in tests/build.\n- README now ships a comprehensive feature catalogue capturing concierge, Web3, analytics, and storytelling systems.
 
 $- Upgraded @headlessui/react to v2.2.9 and aligned the app to React 19.2 stable so peer dependencies resolve cleanly without legacy flags.
+
+$- Upgraded the immersive stack (react-three/fiber 9 + drei 10 + react-spring 10) so it no longer touches removed React internals like ReactCurrentBatchConfig; production builds run clean on React 19.2.
 <!-- SECTION:NOTES:END -->

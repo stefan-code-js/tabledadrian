@@ -2,23 +2,13 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import {
-    type ChangeEvent,
-    type ElementType,
-    type FocusEvent,
-    useCallback,
-    useEffect,
-    useLayoutEffect,
-    useMemo,
-    useRef,
-    useState,
-} from "react";
+import React, { type ChangeEvent, type FocusEvent, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import type { KeyboardEvent as ReactKeyboardEvent } from "react";
 import { accentFont, bodyFont, displayFont } from "@/lib/fonts";
 import CommandPalette from "./CommandPalette";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 
-const INDICATOR_TRANSITION = { duration: 0.2, ease: [0.16, 0.84, 0.44, 1] };
+const INDICATOR_TRANSITION = { duration: 0.2, ease: [0.16, 0.84, 0.44, 1] as [number, number, number, number] };
 
 type NavItem = {
     label: string;
@@ -299,10 +289,18 @@ export default function NavBar() {
         setMobileOpen(false);
     }, [pathname]);
 
-    const MotionDiv = (motionLib?.motion.div ?? "div") as ElementType;
-    const MotionSpan = (motionLib?.motion.span ?? "span") as ElementType;
-    const MotionNav = (motionLib?.motion.nav ?? "nav") as ElementType;
-    const MotionSection = (motionLib?.motion.section ?? "section") as ElementType;
+    const MotionDiv =
+        motionLib?.motion.div ??
+        React.forwardRef<any, any>((props, ref) => React.createElement("div", { ...props, ref }));
+    const MotionSpan =
+        motionLib?.motion.span ??
+        React.forwardRef<any, any>((props, ref) => React.createElement("span", { ...props, ref }));
+    const MotionNav =
+        motionLib?.motion.nav ??
+        React.forwardRef<any, any>((props, ref) => React.createElement("nav", { ...props, ref }));
+    const MotionSection =
+        motionLib?.motion.section ??
+        React.forwardRef<any, any>((props, ref) => React.createElement("section", { ...props, ref }));
     const AnimatePresence = motionLib?.AnimatePresence;
 
     const indicatorProps = motionLib
@@ -456,7 +454,7 @@ export default function NavBar() {
                                                     }
                                                     transition={{
                                                         duration: prefersReducedMotion ? 0 : 0.24,
-                                                        ease: [0.16, 0.84, 0.44, 1],
+                                                        ease: [0.16, 0.84, 0.44, 1] as [number, number, number, number],
                                                     }}
                                                 >
                                                     {panelContent}
