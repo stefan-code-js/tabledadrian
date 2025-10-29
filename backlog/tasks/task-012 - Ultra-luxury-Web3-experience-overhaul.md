@@ -1,16 +1,11 @@
 ---
-
-
-
-
-
 id: task-012
 title: Ultra-luxury Web3 experience overhaul
 status: Done
 assignee:
   - '@codex'
 created_date: '2025-10-22 17:58'
-updated_date: '2025-10-24 12:37'
+updated_date: '2025-10-29 00:11'
 labels: []
 dependencies: []
 ---
@@ -52,4 +47,8 @@ $Concierge access API now aggregates Unlock and POAP credentials with environmen
 $Concierge integration health endpoint validates Unlock, POAP, and Thirdweb connectivity with mint console diagnostics; production secrets remain to be supplied for go-live.
 $- Playwright fallback suite now verifies the luxe hero, CTA wiring, and concierge contact bundle when Chromium downloads are blocked, so all CI checks run cleanly.
 - Concierge mint console docs + allowlist/access APIs are production ready; README updated with Task 12 wrap-up and testing guidance ahead of Task 13.
+
+$- Upgraded React and React DOM to 19.0.0-rc to match Next 15 internals and eliminate the gallery ReactCurrentBatchConfig crash.\n- Adjusted the template vitest to mock the immersive hero so Three.js scaffolding no longer breaks under React 19.\n- npm run test and npm run build succeed after the upgrade, confirming the concierge/member flows stay green.
+
+$- Memory database now mirrors achievement definition seeding so diagnostic warnings are gone in tests/build.\n- README now ships a comprehensive feature catalogue capturing concierge, Web3, analytics, and storytelling systems.
 <!-- SECTION:NOTES:END -->

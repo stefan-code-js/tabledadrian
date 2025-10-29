@@ -65,9 +65,38 @@ npm run dev
   - `/api/privacy/request` handles DSAR submissions (Mailchimp tagging plus Resend emails)
   - Cookie consent banner with granular preferences and consent-aware analytics loading
 - **Contact and concierge**
-  - `/contact` includes the immersive hero plus direct concierge numbers, press mailboxes, and quick links
+- `/contact` includes the immersive hero plus direct concierge numbers, press mailboxes, and quick links
 
 Additional routing (admin, experiences, calculator, etc.) is available under `src/app`.
+
+## Feature catalogue
+
+- **Immersive storytelling**
+  - LuxuryHeroExperience 3D hero with WebGL/Spline-ready fallback for reduced motion guests.
+  - StructuredPage hero system with Kinetic typography, pull quotes, editorial blocks, and cinematic galleries.
+  - Framer Motion powered CTAs, animated fact rows, and GSAP-friendly sections for experiential reveals.
+- **Concierge & booking**
+  - Concierge brief API with allowlist, health checks, Unlock/POAP credential aggregation, and mint console diagnostics.
+  - Calendly/Acuity integrations plus bespoke booking flows, pricing calculator, and concierge contact band.
+  - Stripe-powered checkout handles for private residencies, tastings, and collectible drops.
+- **Web3 enablement**
+  - RainbowKit/Wagmi wallet connection with multi-chain metadata, Thirdweb SDK integration, and collectible galleries.
+  - NFT mint console with concierge refresh tools, on-chain verification, gain-map three.js lighting, and analytics hooks.
+  - Unlock Protocol and POAP validation across member dashboards, concierge allowlists, and health endpoints.
+- **Member experience**
+  - Member dashboard with analytics, activity feed, recommendations engine, achievements, and tiered access cards.
+  - Community leaderboard, forum seeds, badge system, and advanced content vault with recipe gating.
+  - Preference management, session tracking, member activity logging, and concierge-specific tiers.
+- **Platform analytics**
+  - Segment/PostHog/Mixpanel stubs with cookie consent gating, advanced event tracking, and structured metadata exports.
+  - Member analytics dataset aggregating engagement metrics, collectible status, and community growth insights.
+- **Compliance & comms**
+  - Automated PDF generation for legal pages, DSAR request pipeline powered by Mailchimp tagging and Resend emails.
+  - Accessibility statements, privacy workflows, and editorialized FAQ coverage for luxury hospitality operations.
+- **Tooling & quality**
+  - Next.js 15 runtime on React 19 RC with Vitest unit coverage, Playwright fallback suite, ESLint 9, and Tailwind 4 beta.
+  - Memory-backed database harness mirroring production schema for tests with deterministic seeding and Web3 fixtures.
+  - Husky + lint-staged pre-commit pipeline, Cloudflare/Netlify adapters, and Sentry optional integrations.
 
 ## Authentication architecture
 

@@ -82,6 +82,17 @@ type ForumPostRow = {
     status: string;
 };
 
+type AchievementDefinitionRow = {
+    id: string;
+    title: string;
+    description: string;
+    category: string;
+    rarity: string;
+    points: number;
+    requirements: string;
+    is_active: number;
+};
+
 class MemoryStatement {
     constructor(private readonly db: MemoryDatabase, private readonly sql: string) {}
 
@@ -107,6 +118,7 @@ class MemoryDatabase {
     private members = new Map<string, MemberRow>();
     private newsletter = new Map<string, NewsletterRow>();
     private forumPosts = new Map<string, ForumPostRow>();
+    private achievementDefinitions = new Map<string, AchievementDefinitionRow>();
 
     prepare(sql: string): MemoryStatement {
         return new MemoryStatement(this, sql.trim());
@@ -126,6 +138,7 @@ class MemoryDatabase {
         this.members.clear();
         this.newsletter.clear();
         this.forumPosts.clear();
+        this.achievementDefinitions.clear();
     }
 
     executeRun(sql: string, params: unknown): void {
@@ -169,6 +182,26 @@ class MemoryDatabase {
                     image: record.image,
                     pairing: record.pairing,
                     requires_collectible: Number(record.requiresCollectible ?? 0),
+                });
+            }
+            return;
+        }
+
+        if (sql.startsWith("INSERT OR IGNORE INTO achievement_definitions")) {
+            const record = params as any;
+            if (!this.achievementDefinitions.has(record.id)) {
+                this.achievementDefinitions.set(record.id, {
+                    id: record.id,
+                    title: record.title,
+                    description: record.description,
+                    category: record.category,
+                    rarity: record.rarity,
+                    points: Number(record.points),
+                    requirements:
+                        typeof record.requirements === "string"
+                            ? record.requirements
+                            : JSON.stringify(record.requirements ?? {}),
+                    is_active: typeof record.is_active === "number" ? record.is_active : 1,
                 });
             }
             return;
@@ -239,6 +272,9 @@ class MemoryDatabase {
         }
         if (sql.startsWith("SELECT COUNT(*) as count FROM forum_posts")) {
             return { count: this.forumPosts.size };
+        }
+        if (sql.startsWith("SELECT COUNT(*) as count FROM achievement_definitions")) {
+            return { count: this.achievementDefinitions.size };
         }
         if (sql.startsWith("SELECT * FROM members WHERE email")) {
             const email =
@@ -435,32 +471,32 @@ function seedForum({ db }: SeedOptions) {
     try {
         const existing = db.prepare("SELECT COUNT(*) as count FROM forum_posts").get() as { count: number };
         if (existing.count === 0) {
-        const posts = [
-            {
-                id: randomUUID(),
-                authorEmail: "concierge@tabledadrian.com",
-                title: "Vault tasting itinerary preview",
-                body: "Preview the Monaco midnight atelier line-up, including restorative tonics and yacht provisions.",
-                createdAt: new Date().toISOString(),
-                status: "published",
-            },
-            {
-                id: randomUUID(),
-                authorEmail: "dr.antonia@tabledadrian.com",
-                title: "Wellness residency briefing",
-                body: "Dr. Antonia outlines circadian protocols and adaptogenic pairings for alpine residencies.",
-                createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 3).toISOString(),
-                status: "published",
-            },
-        ];
+            const posts = [
+                {
+                    id: randomUUID(),
+                    authorEmail: "concierge@tabledadrian.com",
+                    title: "Vault tasting itinerary preview",
+                    body: "Preview the Monaco midnight atelier line-up, including restorative tonics and yacht provisions.",
+                    createdAt: new Date().toISOString(),
+                    status: "published",
+                },
+                {
+                    id: randomUUID(),
+                    authorEmail: "dr.antonia@tabledadrian.com",
+                    title: "Wellness residency briefing",
+                    body: "Dr. Antonia outlines circadian protocols and adaptogenic pairings for alpine residencies.",
+                    createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 3).toISOString(),
+                    status: "published",
+                },
+            ];
 
-        const statement = db.prepare(`
+            const statement = db.prepare(`
             INSERT OR IGNORE INTO forum_posts (id, author_email, title, body, created_at, status)
             VALUES (@id, @authorEmail, @title, @body, @createdAt, @status)
         `);
 
-        posts.forEach((post) => statement.run(post));
-    }
+            posts.forEach((post) => statement.run(post));
+        }
     } catch (error) {
         console.warn("Warning: Could not seed forum:", error);
     }
@@ -468,63 +504,65 @@ function seedForum({ db }: SeedOptions) {
 
 function seedAchievementDefinitions({ db }: SeedOptions) {
     try {
-        const existing = db.prepare("SELECT COUNT(*) as count FROM achievement_definitions").get() as { count: number };
-        if (existing.count === 0) {
-        const achievements = [
-            {
-                id: "first-collectible",
-                title: "First Collectible",
-                description: "Mint your first Alchemy collectible",
-                category: "collectible",
-                rarity: "common",
-                points: 25,
-                requirements: JSON.stringify({ collectible_count: 1 }),
-            },
-            {
-                id: "recipe-explorer",
-                title: "Recipe Explorer",
-                description: "View 10 recipes in the vault",
-                category: "engagement",
-                rarity: "common",
-                points: 15,
-                requirements: JSON.stringify({ recipes_viewed: 10 }),
-            },
-            {
-                id: "forum-champion",
-                title: "Forum Champion",
-                description: "Make 25 posts in the community forum",
-                category: "community",
-                rarity: "rare",
-                points: 40,
-                requirements: JSON.stringify({ forum_posts: 25 }),
-            },
-            {
-                id: "concierge-client",
-                title: "Concierge Client",
-                description: "Submit your first concierge brief",
-                category: "special",
-                rarity: "epic",
-                points: 60,
-                requirements: JSON.stringify({ concierge_briefs: 1 }),
-            },
-            {
-                id: "loyal-member",
-                title: "Loyal Member",
-                description: "Be active for 30 days",
-                category: "milestone",
-                rarity: "rare",
-                points: 35,
-                requirements: JSON.stringify({ days_active: 30 }),
-            },
-        ];
+        const existing = db.prepare("SELECT COUNT(*) as count FROM achievement_definitions").get() as
+            | { count: number }
+            | undefined;
+        if (!existing || existing.count === 0) {
+            const achievements = [
+                {
+                    id: "first-collectible",
+                    title: "First Collectible",
+                    description: "Mint your first Alchemy collectible",
+                    category: "collectible",
+                    rarity: "common",
+                    points: 25,
+                    requirements: JSON.stringify({ collectible_count: 1 }),
+                },
+                {
+                    id: "recipe-explorer",
+                    title: "Recipe Explorer",
+                    description: "View 10 recipes in the vault",
+                    category: "engagement",
+                    rarity: "common",
+                    points: 15,
+                    requirements: JSON.stringify({ recipes_viewed: 10 }),
+                },
+                {
+                    id: "forum-champion",
+                    title: "Forum Champion",
+                    description: "Make 25 posts in the community forum",
+                    category: "community",
+                    rarity: "rare",
+                    points: 40,
+                    requirements: JSON.stringify({ forum_posts: 25 }),
+                },
+                {
+                    id: "concierge-client",
+                    title: "Concierge Client",
+                    description: "Submit your first concierge brief",
+                    category: "special",
+                    rarity: "epic",
+                    points: 60,
+                    requirements: JSON.stringify({ concierge_briefs: 1 }),
+                },
+                {
+                    id: "loyal-member",
+                    title: "Loyal Member",
+                    description: "Be active for 30 days",
+                    category: "milestone",
+                    rarity: "rare",
+                    points: 35,
+                    requirements: JSON.stringify({ days_active: 30 }),
+                },
+            ];
 
-        const statement = db.prepare(`
+            const statement = db.prepare(`
             INSERT OR IGNORE INTO achievement_definitions (id, title, description, category, rarity, points, requirements)
             VALUES (@id, @title, @description, @category, @rarity, @points, @requirements)
         `);
 
-        achievements.forEach((achievement) => statement.run(achievement));
-    }
+            achievements.forEach((achievement) => statement.run(achievement));
+        }
     } catch (error) {
         console.warn("Warning: Could not seed achievement definitions:", error);
     }
@@ -801,4 +839,3 @@ export function closeDatabase(): void {
         databaseInstance = null;
     }
 }
-
