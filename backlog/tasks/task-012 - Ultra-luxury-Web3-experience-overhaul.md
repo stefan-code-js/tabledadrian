@@ -5,7 +5,7 @@ status: Done
 assignee:
   - '@codex'
 created_date: '2025-10-22 17:58'
-updated_date: '2025-10-29 00:11'
+updated_date: '2025-10-29 00:25'
 labels: []
 dependencies: []
 ---
@@ -51,4 +51,6 @@ $- Playwright fallback suite now verifies the luxe hero, CTA wiring, and concier
 $- Upgraded React and React DOM to 19.0.0-rc to match Next 15 internals and eliminate the gallery ReactCurrentBatchConfig crash.\n- Adjusted the template vitest to mock the immersive hero so Three.js scaffolding no longer breaks under React 19.\n- npm run test and npm run build succeed after the upgrade, confirming the concierge/member flows stay green.
 
 $- Memory database now mirrors achievement definition seeding so diagnostic warnings are gone in tests/build.\n- README now ships a comprehensive feature catalogue capturing concierge, Web3, analytics, and storytelling systems.
+
+$- Upgraded @headlessui/react to v2.2.9 and aligned the app to React 19.2 stable so peer dependencies resolve cleanly without legacy flags.
 <!-- SECTION:NOTES:END -->
