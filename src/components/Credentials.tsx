@@ -23,7 +23,7 @@ const Credentials = () => {
   ];
 
   return (
-    <section className="py-20 bg-white border-t border-border-light" ref={ref}>
+    <section className="py-20 bg-bg-primary border-t border-border-light" ref={ref}>
       <div className="container-custom">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

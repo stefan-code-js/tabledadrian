@@ -113,7 +113,7 @@ const Navigation = () => {
               key={item.name}
               href={item.href}
               onClick={(e) => handleNavClick(e, item.href)}
-              className="text-sm font-medium text-text-primary hover:text-accent-primary/50 transition-colors duration-300 uppercase tracking-wide"
+              className="text-sm font-medium text-text-primary hover:text-white/80 transition-colors duration-300 uppercase tracking-wide"
             >
               {item.name}
             </a>
@@ -187,7 +187,7 @@ const Navigation = () => {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: index * 0.1 }}
-                    className="text-3xl font-serif text-text-primary hover:text-accent-primary/50 transition-colors duration-300"
+                    className="text-3xl font-serif text-text-primary hover:text-white/80 transition-colors duration-300"
                   >
                     {item.name}
                   </motion.a>

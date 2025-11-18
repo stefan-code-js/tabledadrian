@@ -31,7 +31,7 @@ const ScrollToTop = () => {
           onClick={scrollToTop}
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
-          className="fixed bottom-8 right-8 z-40 w-14 h-14 bg-accent-primary rounded-full shadow-xl flex items-center justify-center hover:bg-accent-dark transition-colors duration-300"
+          className="fixed bottom-8 right-8 z-40 w-14 h-14 bg-accent-primary rounded-full shadow-xl flex items-center justify-center hover:bg-white/90 hover:text-accent-primary transition-colors duration-300"
           aria-label="Scroll to top"
         >
           <motion.div

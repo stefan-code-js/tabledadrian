@@ -106,7 +106,7 @@
   }
 
   a:hover {
-    @apply text-accent-primary/50;
+    @apply text-text-primary/60;
   }
 
   a::after {
@@ -116,7 +116,7 @@
     left: 0;
     width: 0;
     height: 1px;
-    background-color: rgba(15, 76, 129, 0.3);
+    background-color: rgba(255, 255, 255, 0.6);
     transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
@@ -132,7 +132,7 @@
   }
 
   .card:hover {
-    @apply bg-hover-state border-accent-primary 
+    @apply bg-white/90 border-accent-primary 
     shadow-[0_8px_24px_rgba(15,76,129,0.1)]
     -translate-y-1;
   }

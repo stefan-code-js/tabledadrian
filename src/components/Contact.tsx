@@ -340,7 +340,7 @@ const Contact = () => {
               <div className="space-y-4">
                 <a
                   href="tel:+442012345678"
-                  className="flex items-center gap-4 text-text-primary hover:text-text-secondary/70 transition-colors duration-300"
+                  className="flex items-center gap-4 text-text-primary hover:text-white/80 transition-colors duration-300"
                 >
                   <div className="flex-shrink-0 w-12 h-12 bg-accent-primary/10 border border-accent-primary/20 flex items-center justify-center rounded-md">
                     <Phone size={24} className="text-accent-primary" strokeWidth={1.5} />
@@ -353,7 +353,7 @@ const Contact = () => {
 
                 <a
                   href="mailto:chef@tabledadrian.com"
-                  className="flex items-center gap-4 text-text-primary hover:text-text-secondary/70 transition-colors duration-300"
+                  className="flex items-center gap-4 text-text-primary hover:text-white/80 transition-colors duration-300"
                 >
                   <div className="flex-shrink-0 w-12 h-12 bg-accent-primary/10 border border-accent-primary/20 flex items-center justify-center rounded-md">
                     <Mail size={24} className="text-accent-primary" strokeWidth={1.5} />
@@ -391,7 +391,7 @@ const Contact = () => {
                       href={href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="w-10 h-10 bg-accent-primary/10 border border-accent-primary/20 flex items-center justify-center hover:bg-accent-primary hover:text-bg-primary transition-colors duration-300 rounded-md"
+                      className="w-10 h-10 bg-accent-primary/10 border border-accent-primary/20 flex items-center justify-center hover:bg-white/20 hover:text-white/90 transition-colors duration-300 rounded-md"
                     >
                       <Icon size={20} className="text-accent-primary" strokeWidth={1.5} />
                     </a>
