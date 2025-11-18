@@ -31,7 +31,7 @@ const Credentials = () => {
           transition={{ duration: 0.6, ease: [0.23, 1, 0.32, 1] }}
           className="max-w-4xl mx-auto"
         >
-          <h2 className="text-3xl font-serif text-text-primary mb-12 text-center">
+          <h2 className="text-3xl font-display text-text-primary mb-12 text-center">
             Professional Credentials
           </h2>
           

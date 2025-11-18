@@ -67,7 +67,6 @@ const Navigation = () => {
   const navItems = [
     { name: 'About', href: '#about' },
     { name: 'Services', href: '#services' },
-    { name: 'Gallery', href: '#gallery' },
     { name: 'Contact', href: '#contact' },
   ];
 
@@ -101,7 +100,7 @@ const Navigation = () => {
           whileHover={{ scale: 1.02 }}
           transition={{ duration: 0.2, ease: [0.23, 1, 0.32, 1] }}
         >
-          <h1 className="text-2xl md:text-3xl font-serif font-bold text-text-primary tracking-tight">
+          <h1 className="text-2xl md:text-3xl font-display text-text-primary tracking-tight">
             <AnimatedNavText text="Table d'Adrian" />
           </h1>
         </motion.a>
@@ -165,48 +164,59 @@ const Navigation = () => {
           </motion.div>
         </button>
 
-        {/* Mobile Menu */}
+        {/* Mobile Menu - Fixed to show completely on screen */}
         <AnimatePresence>
           {isMobileMenuOpen && (
-            <motion.div
-              id="mobile-menu-panel"
-              initial={{ opacity: 0, x: '100%' }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: '100%' }}
-              transition={{ type: 'spring', damping: 20 }}
-              className="fixed inset-0 bg-bg-primary z-40 md:hidden"
-              role="dialog"
-              aria-modal="true"
-            >
-              <div className="flex flex-col items-center justify-center h-full space-y-8">
-                {navItems.map((item, index) => (
-                  <motion.a
-                    key={item.name}
-                    href={item.href}
-                    onClick={(e) => handleNavClick(e, item.href)}
+            <>
+              {/* Backdrop */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="fixed inset-0 bg-accent-dark/50 backdrop-blur-sm z-40 md:hidden"
+              />
+              {/* Menu Panel */}
+              <motion.div
+                id="mobile-menu-panel"
+                initial={{ opacity: 0, y: '-100%' }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: '-100%' }}
+                transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+                className="fixed top-0 left-0 right-0 bg-bg-primary z-50 md:hidden shadow-xl overflow-y-auto max-h-screen"
+                role="dialog"
+                aria-modal="true"
+              >
+                <div className="container-custom py-8 min-h-screen flex flex-col items-center justify-center space-y-8">
+                  {navItems.map((item, index) => (
+                    <motion.a
+                      key={item.name}
+                      href={item.href}
+                      onClick={(e) => handleNavClick(e, item.href)}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: index * 0.1 }}
+                      className="text-2xl sm:text-3xl font-display text-text-primary hover:text-white/80 transition-colors duration-300"
+                    >
+                      {item.name}
+                    </motion.a>
+                  ))}
+                  <motion.button
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: index * 0.1 }}
-                    className="text-3xl font-serif text-text-primary hover:text-white/80 transition-colors duration-300"
+                    transition={{ delay: 0.4 }}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      document.querySelector('#contact')?.scrollIntoView({ behavior: 'smooth' });
+                      setIsMobileMenuOpen(false);
+                    }}
+                    className="btn-primary text-lg sm:text-xl px-8 py-4"
                   >
-                    {item.name}
-                  </motion.a>
-                ))}
-                <motion.button
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.4 }}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    document.querySelector('#contact')?.scrollIntoView({ behavior: 'smooth' });
-                    setIsMobileMenuOpen(false);
-                  }}
-                  className="btn-primary text-xl"
-                >
-                  Book Chef
-                </motion.button>
-              </div>
-            </motion.div>
+                    Book Chef
+                  </motion.button>
+                </div>
+              </motion.div>
+            </>
           )}
         </AnimatePresence>
       </div>

@@ -1,7 +1,8 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { useEffect, useRef } from 'react';
 import { useInView } from 'react-intersection-observer';
+import { gsap } from 'gsap';
 import { 
   UtensilsCrossed, 
   Calendar, 
@@ -22,6 +23,46 @@ const Services = () => {
     triggerOnce: true,
     threshold: 0.1,
   });
+  const sectionRef = useRef<HTMLElement>(null);
+  const headerRef = useRef<HTMLDivElement>(null);
+  const servicesGridRef = useRef<HTMLDivElement>(null);
+  const faqRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!inView) return;
+
+    const ctx = gsap.context(() => {
+      const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+
+      if (headerRef.current) {
+        tl.from(headerRef.current.children, {
+          opacity: 0,
+          y: 40,
+          duration: 0.8,
+          stagger: 0.15,
+        });
+      }
+
+      if (servicesGridRef.current) {
+        tl.from(servicesGridRef.current.children, {
+          opacity: 0,
+          y: 40,
+          duration: 0.6,
+          stagger: 0.1,
+        }, '-=0.4');
+      }
+
+      if (faqRef.current) {
+        tl.from(faqRef.current, {
+          opacity: 0,
+          y: 30,
+          duration: 0.6,
+        }, '-=0.2');
+      }
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, [inView]);
 
   const services = [
     {
@@ -54,63 +95,41 @@ const Services = () => {
     },
   ] as const;
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.15,
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 40 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.6,
-        ease: 'easeOut',
-      },
-    },
-  };
 
   return (
-    <section id="services" className="section-padding bg-bg-primary" ref={ref}>
-      <div className="container-custom">
+    <section ref={sectionRef} id="services" className="section-padding bg-bg-primary">
+      <div className="container-custom px-4 sm:px-6">
         {/* Section Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, ease: [0.23, 1, 0.32, 1] }}
-          className="text-center mb-16"
-        >
-          <h2 className="text-4xl md:text-5xl font-serif text-text-primary mb-6">
+        <div ref={headerRef} className="text-center mb-12 sm:mb-16">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-display text-text-primary mb-6">
             What Services Does Our Private Chef Provide?
           </h2>
-          <p className="text-xl text-text-secondary max-w-3xl mx-auto leading-relaxed">
+          <p className="text-base sm:text-lg md:text-xl text-text-secondary max-w-3xl mx-auto leading-relaxed">
             Discover how our professional private chef services can transform your dining experience. 
-            From intimate dinners to corporate events, we deliver culinary excellence tailored to your needs. 
-            <a href="#about" className="text-accent-primary ml-1">Learn more about private chef services</a>.
+            From intimate dinners to corporate events, we deliver culinary excellence tailored to your needs.
+            {' '}
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                document.querySelector('#about')?.scrollIntoView({ behavior: 'smooth' });
+              }}
+              className="text-accent-primary ml-1 underline hover:no-underline transition-all"
+              type="button"
+            >
+              Learn more about private chef services
+            </button>.
           </p>
-        </motion.div>
+        </div>
 
         {/* Services Grid */}
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          animate={inView ? 'visible' : 'hidden'}
-          className="grid md:grid-cols-2 gap-8"
-        >
+        <div ref={servicesGridRef} className="grid md:grid-cols-2 gap-6 sm:gap-8">
           {services.map((service, index) => {
             const color = colorClassByKey[service.color];
             const IconComponent = service.Icon;
             return (
-              <motion.article
+              <article
                 key={index}
-                variants={itemVariants}
-                className="card p-8"
+                className="card p-6 sm:p-8"
                 itemScope
                 itemType="https://schema.org/Service"
               >
@@ -124,7 +143,7 @@ const Services = () => {
                 </div>
 
                 {/* Content */}
-                <h3 className="text-2xl font-serif text-text-primary mb-4" itemProp="name">
+                <h3 className="text-2xl font-display text-text-primary mb-4" itemProp="name">
                   {service.title}
                 </h3>
                 <p className="text-text-secondary mb-6 leading-relaxed" itemProp="description">
@@ -134,57 +153,49 @@ const Services = () => {
                 {/* Features - OPUS style, no bullets */}
                 <div className="space-y-3 mb-6">
                   {service.features.map((feature, featureIndex) => (
-                    <motion.div
+                    <div
                       key={featureIndex}
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={inView ? { opacity: 1, x: 0 } : {}}
-                      transition={{ delay: 0.1 * featureIndex + 0.3, ease: [0.23, 1, 0.32, 1] }}
                       className="flex items-center gap-3"
                     >
                       <div className="w-1 h-1 rounded-full bg-accent-primary flex-shrink-0" />
                       <span className="text-text-secondary">{feature}</span>
-                    </motion.div>
+                    </div>
                   ))}
                 </div>
 
                 {/* CTA */}
-                <motion.button
-                  whileHover={{ x: 4 }}
-                  className="text-accent-primary font-semibold flex items-center gap-2 group"
+                <button
+                  onClick={(e) => {
+                    e.preventDefault();
+                    document.querySelector('#contact')?.scrollIntoView({ behavior: 'smooth' });
+                  }}
+                  className="btn-secondary text-sm"
+                  type="button"
                 >
-                  Learn More
-                  <motion.span
-                    animate={{ x: [0, 4, 0] }}
-                    transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
-                  >
-                    →
-                  </motion.span>
-                </motion.button>
-              </motion.article>
+                  Learn More →
+                </button>
+              </article>
             );
           })}
-        </motion.div>
+        </div>
 
         {/* FAQ Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, delay: 0.4 }}
-          className="mt-20 bg-white border border-border-light p-10 rounded-md"
+        <div
+          ref={faqRef}
+          className="mt-12 sm:mt-20 card p-6 sm:p-10"
           itemScope
           itemType="https://schema.org/FAQPage"
         >
-          <h3 className="text-3xl font-serif text-text-primary mb-8 text-center">
+          <h3 className="text-3xl font-display text-text-primary mb-8 text-center">
             Frequently Asked Questions About Private Chef Services
           </h3>
 
           <div className="grid md:grid-cols-2 gap-8">
-            <motion.div
-              whileHover={{ x: 4 }}
-              transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+            <div
               itemScope
               itemProp="mainEntity"
               itemType="https://schema.org/Question"
+              className="transition-transform duration-300 hover:translate-x-1"
             >
               <h4 className="text-xl font-semibold text-text-primary mb-2" itemProp="name">
                 How much does a private chef cost?
@@ -199,14 +210,13 @@ const Services = () => {
                   personalized attention and custom menus.
                 </p>
               </div>
-            </motion.div>
+            </div>
 
-            <motion.div
-              whileHover={{ x: 4 }}
-              transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+            <div
               itemScope
               itemProp="mainEntity"
               itemType="https://schema.org/Question"
+              className="transition-transform duration-300 hover:translate-x-1"
             >
               <h4 className="text-xl font-semibold text-text-primary mb-2" itemProp="name">
                 Can you accommodate dietary restrictions?
@@ -219,14 +229,13 @@ const Services = () => {
                   dietary requirements and nutritional wellness goals.
                 </p>
               </div>
-            </motion.div>
+            </div>
 
-            <motion.div
-              whileHover={{ x: 4 }}
-              transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+            <div
               itemScope
               itemProp="mainEntity"
               itemType="https://schema.org/Question"
+              className="transition-transform duration-300 hover:translate-x-1"
             >
               <h4 className="text-xl font-semibold text-text-primary mb-2" itemProp="name">
                 How do private chefs plan menus?
@@ -239,14 +248,13 @@ const Services = () => {
                   Menus are refined through collaboration until they perfectly match your vision.
                 </p>
               </div>
-            </motion.div>
+            </div>
 
-            <motion.div
-              whileHover={{ x: 4 }}
-              transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+            <div
               itemScope
               itemProp="mainEntity"
               itemType="https://schema.org/Question"
+              className="transition-transform duration-300 hover:translate-x-1"
             >
               <h4 className="text-xl font-semibold text-text-primary mb-2" itemProp="name">
                 What is the difference between a private chef and a personal chef?
@@ -260,14 +268,13 @@ const Services = () => {
                   individual events and special occasions.
                 </p>
               </div>
-            </motion.div>
+            </div>
 
-            <motion.div
-              whileHover={{ x: 4 }}
-              transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+            <div
               itemScope
               itemProp="mainEntity"
               itemType="https://schema.org/Question"
+              className="transition-transform duration-300 hover:translate-x-1"
             >
               <h4 className="text-xl font-semibold text-text-primary mb-2" itemProp="name">
                 Do private chefs work on weekends?
@@ -279,14 +286,13 @@ const Services = () => {
                   recommend booking 2-4 weeks in advance to secure your preferred date.
                 </p>
               </div>
-            </motion.div>
+            </div>
 
-            <motion.div
-              whileHover={{ x: 4 }}
-              transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+            <div
               itemScope
               itemProp="mainEntity"
               itemType="https://schema.org/Question"
+              className="transition-transform duration-300 hover:translate-x-1"
             >
               <h4 className="text-xl font-semibold text-text-primary mb-2" itemProp="name">
                 What kitchen equipment does a private chef need?
@@ -299,14 +305,13 @@ const Services = () => {
                   consultation and can adapt to any space.
                 </p>
               </div>
-            </motion.div>
+            </div>
 
-            <motion.div
-              whileHover={{ x: 4 }}
-              transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+            <div
               itemScope
               itemProp="mainEntity"
               itemType="https://schema.org/Question"
+              className="transition-transform duration-300 hover:translate-x-1"
             >
               <h4 className="text-xl font-semibold text-text-primary mb-2" itemProp="name">
                 How far in advance should I book?
@@ -318,14 +323,13 @@ const Services = () => {
                   accommodated based on chef availability, especially for smaller events.
                 </p>
               </div>
-            </motion.div>
+            </div>
 
-            <motion.div
-              whileHover={{ x: 4 }}
-              transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+            <div
               itemScope
               itemProp="mainEntity"
               itemType="https://schema.org/Question"
+              className="transition-transform duration-300 hover:translate-x-1"
             >
               <h4 className="text-xl font-semibold text-text-primary mb-2" itemProp="name">
                 What are the benefits of having a private chef?
@@ -338,25 +342,23 @@ const Services = () => {
                   from menu planning to cleanup.
                 </p>
               </div>
-            </motion.div>
+            </div>
           </div>
 
           {/* CTA */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ delay: 0.6 }}
-            className="text-center mt-10"
-          >
-            <motion.button
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
+          <div className="text-center mt-8">
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                document.querySelector('#contact')?.scrollIntoView({ behavior: 'smooth' });
+              }}
               className="btn-primary"
+              type="button"
             >
               Book Your Private Chef Experience
-            </motion.button>
-          </motion.div>
-        </motion.div>
+            </button>
+          </div>
+        </div>
       </div>
     </section>
   );

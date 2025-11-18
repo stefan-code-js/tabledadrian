@@ -14,7 +14,7 @@
     --text-secondary: #6B6560;
     --text-tertiary: #8B8580;
     
-    --font-serif: 'Cormorant Garamond', 'Playfair Display', serif;
+    --font-display: 'Notable', 'Impact', 'Arial Black', sans-serif;
     --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
   }
 
@@ -28,13 +28,14 @@
     color: var(--text-primary);
   }
 
-  /* OPUS Typography Scale */
+  /* OPUS Typography Scale - Notable for titles */
   h1, h2, h3, h4, h5, h6 {
-    font-family: var(--font-serif);
-    font-weight: 700;
+    font-family: var(--font-display);
+    font-weight: 400;
     line-height: 1.2;
-    letter-spacing: -0.02em;
+    letter-spacing: 0.02em;
     color: var(--text-primary);
+    text-transform: uppercase;
   }
 
   h1 {
@@ -69,20 +70,22 @@
 }
 
 @layer components {
-  /* OPUS Button Styles - Authority Elements */
+  /* Glassmorphism CTA Buttons */
   .btn-primary {
     @apply relative inline-flex items-center justify-center px-7 py-3 
-    font-sans text-base font-semibold text-bg-primary bg-accent-primary 
-    border-2 border-accent-primary rounded-md
+    font-sans text-base font-semibold text-text-primary 
+    backdrop-blur-md bg-white/20 border-2 border-white/30 rounded-md
     transition-all duration-300 ease-out
     cursor-pointer
-    shadow-[0_2px_8px_rgba(15,76,129,0.15)];
+    shadow-[0_8px_32px_rgba(15,76,129,0.15)];
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.25), rgba(255, 255, 255, 0.15));
   }
 
   .btn-primary:hover {
-    @apply bg-transparent text-accent-primary 
-    shadow-[0_4px_16px_rgba(15,76,129,0.25)]
-    -translate-y-0.5;
+    @apply bg-white/30 border-white/50 
+    shadow-[0_12px_40px_rgba(15,76,129,0.25)]
+    -translate-y-1;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.35), rgba(255, 255, 255, 0.25));
   }
 
   .btn-primary:active {
@@ -91,13 +94,15 @@
 
   .btn-secondary {
     @apply relative inline-flex items-center justify-center px-7 py-3 
-    font-sans text-base font-semibold text-text-primary bg-hover-state 
-    border-2 border-hover-state rounded-md
+    font-sans text-base font-semibold text-text-primary
+    backdrop-blur-md bg-white/15 border-2 border-white/25 rounded-md
     transition-all duration-300 ease-out;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
   }
 
   .btn-secondary:hover {
-    @apply bg-text-primary text-bg-primary border-text-primary;
+    @apply bg-white/25 border-white/40;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.2));
   }
 
   /* OPUS Link Styles */
@@ -124,27 +129,29 @@
     width: 100%;
   }
 
-  /* OPUS Card Styles */
+  /* Glassmorphism Card Styles */
   .card {
     @apply transition-all duration-300 ease-out
-    bg-white border border-border-light
-    rounded-md;
+    backdrop-blur-md bg-white/20 border border-white/30
+    rounded-md shadow-[0_8px_32px_rgba(15,76,129,0.1)];
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.25), rgba(255, 255, 255, 0.15));
   }
 
   .card:hover {
-    @apply bg-white/90 border-accent-primary 
-    shadow-[0_8px_24px_rgba(15,76,129,0.1)]
+    @apply bg-white/30 border-white/50 
+    shadow-[0_12px_40px_rgba(15,76,129,0.2)]
     -translate-y-1;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.35), rgba(255, 255, 255, 0.25));
   }
 
-  /* Section padding - OPUS spacing system */
+  /* Section padding - Mobile First */
   .section-padding {
-    @apply py-16 md:py-24 lg:py-32;
+    @apply py-12 sm:py-16 md:py-24 lg:py-32;
   }
 
-  /* Container */
+  /* Container - Mobile First */
   .container-custom {
-    @apply max-w-7xl mx-auto px-6 lg:px-8;
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
   }
 
   /* Form styles - OPUS */

@@ -92,7 +92,7 @@ const Contact = () => {
           transition={{ duration: 0.8, ease: [0.23, 1, 0.32, 1] }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl md:text-5xl font-serif text-text-primary mb-6">
+          <h2 className="text-4xl md:text-5xl font-display text-text-primary mb-6">
             Book Your Private Chef Experience
           </h2>
           <p className="text-xl text-text-secondary max-w-3xl mx-auto leading-relaxed">
@@ -111,7 +111,7 @@ const Contact = () => {
           >
             <motion.h3
               variants={itemVariants}
-              className="text-2xl font-serif text-text-primary mb-6"
+              className="text-2xl font-display text-text-primary mb-6"
             >
               How to Book Your Private Chef
             </motion.h3>

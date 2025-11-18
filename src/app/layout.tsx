@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next'
-import { Inter, Cormorant_Garamond } from 'next/font/google'
+import { Inter, Notable } from 'next/font/google'
 import './globals.css'
 import ScrollToTop from '@/components/ScrollToTop'
 import ScrollProgress from '@/components/ScrollProgress'
@@ -12,11 +12,11 @@ const inter = Inter({
   weight: ['400', '500', '600'],
 })
 
-const cormorant = Cormorant_Garamond({ 
+const notable = Notable({ 
   subsets: ['latin'],
-  variable: '--font-serif',
+  variable: '--font-display',
   display: 'swap',
-  weight: ['400', '500', '600', '700'],
+  weight: ['400'],
 })
 
 export const metadata: Metadata = {
@@ -96,7 +96,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className={`${inter.variable} ${cormorant.variable}`}>
+    <html lang="en" className={`${inter.variable} ${notable.variable}`}>
       <body className="font-sans bg-bg-primary text-text-primary antialiased">
         <SkipLink />
         <ScrollProgress />

@@ -32,7 +32,7 @@ const Testimonials = () => {
     <section className="section-padding bg-bg-primary" aria-label="Client testimonials">
       <div className="container-custom">
         <div className="text-center mb-10">
-          <h2 className="text-4xl md:text-5xl font-serif text-text-primary mb-4">What Clients Say</h2>
+          <h2 className="text-4xl md:text-5xl font-display text-text-primary mb-4">What Clients Say</h2>
           <p className="text-text-secondary">Authentic feedback about our private chef experiences</p>
         </div>
 
