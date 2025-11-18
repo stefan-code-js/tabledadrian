@@ -54,7 +54,7 @@ const Hero = () => {
   };
 
   return (
-    <section ref={heroRef} id="hero" className="relative min-h-screen flex items-center justify-center bg-bg-primary">
+    <section ref={heroRef} id="hero" className="relative min-h-screen flex items-center justify-center bg-bg-primary pt-24 md:pt-32">
       <div className="container-custom relative z-10">
         <div className="max-w-5xl mx-auto text-center px-4 sm:px-6">
           {/* Main Heading */}
