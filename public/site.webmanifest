@@ -1,0 +1,17 @@
+{
+  "name": "Table d'Adrian - Luxury Private Chef Services",
+  "short_name": "Table d'Adrian",
+  "description": "Luxury private chef services for exclusive events and personal dining",
+  "start_url": "/",
+  "display": "standalone",
+  "theme_color": "#D4AF37",
+  "background_color": "#FAF8F3",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

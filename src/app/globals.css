@@ -1,0 +1,181 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* OPUS Design System - CSS Variables */
+    --bg-primary: #FAF8F3;
+    --text-primary: #2B2520;
+    --accent-primary: #0F4C81;
+    --hover-state: #D4C5B9;
+    --border-light: #E8E3DC;
+    --accent-dark: #1A2332;
+    --text-secondary: #6B6560;
+    --text-tertiary: #8B8580;
+    
+    --font-serif: 'Cormorant Garamond', 'Playfair Display', serif;
+    --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    overflow-x: hidden;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+  }
+
+  /* OPUS Typography Scale */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-serif);
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    color: var(--text-primary);
+  }
+
+  h1 {
+    font-size: 3rem;
+    margin-bottom: 1.5rem;
+  }
+
+  h2 {
+    font-size: 2.25rem;
+    margin-bottom: 1rem;
+  }
+
+  h3 {
+    font-size: 1.5rem;
+    margin-bottom: 0.75rem;
+  }
+
+  p {
+    font-family: var(--font-sans);
+    font-weight: 400;
+    line-height: 1.65;
+    font-size: 1rem;
+    letter-spacing: 0;
+    margin-bottom: 1rem;
+  }
+
+  /* Custom selection colors */
+  ::selection {
+    background: rgba(15, 76, 129, 0.15);
+    color: var(--text-primary);
+  }
+}
+
+@layer components {
+  /* OPUS Button Styles - Authority Elements */
+  .btn-primary {
+    @apply relative inline-flex items-center justify-center px-7 py-3 
+    font-sans text-base font-semibold text-bg-primary bg-accent-primary 
+    border-2 border-accent-primary rounded-md
+    transition-all duration-300 ease-out
+    cursor-pointer
+    shadow-[0_2px_8px_rgba(15,76,129,0.15)];
+  }
+
+  .btn-primary:hover {
+    @apply bg-transparent text-accent-primary 
+    shadow-[0_4px_16px_rgba(15,76,129,0.25)]
+    -translate-y-0.5;
+  }
+
+  .btn-primary:active {
+    @apply translate-y-0;
+  }
+
+  .btn-secondary {
+    @apply relative inline-flex items-center justify-center px-7 py-3 
+    font-sans text-base font-semibold text-text-primary bg-hover-state 
+    border-2 border-hover-state rounded-md
+    transition-all duration-300 ease-out;
+  }
+
+  .btn-secondary:hover {
+    @apply bg-text-primary text-bg-primary border-text-primary;
+  }
+
+  /* OPUS Link Styles */
+  a {
+    @apply text-accent-primary no-underline relative transition-colors duration-300;
+  }
+
+  a:hover {
+    @apply text-accent-primary/50;
+  }
+
+  a::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background-color: rgba(15, 76, 129, 0.3);
+    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  a:hover::after {
+    width: 100%;
+  }
+
+  /* OPUS Card Styles */
+  .card {
+    @apply transition-all duration-300 ease-out
+    bg-white border border-border-light
+    rounded-md;
+  }
+
+  .card:hover {
+    @apply bg-hover-state border-accent-primary 
+    shadow-[0_8px_24px_rgba(15,76,129,0.1)]
+    -translate-y-1;
+  }
+
+  /* Section padding - OPUS spacing system */
+  .section-padding {
+    @apply py-16 md:py-24 lg:py-32;
+  }
+
+  /* Container */
+  .container-custom {
+    @apply max-w-7xl mx-auto px-6 lg:px-8;
+  }
+
+  /* Form styles - OPUS */
+  .form-input {
+    @apply w-full px-4 py-3 bg-white border border-border-light rounded-md
+    focus:outline-none focus:ring-1 focus:ring-accent-primary/50 focus:border-accent-primary
+    transition-all duration-300 text-text-primary;
+  }
+}
+
+@layer utilities {
+  /* Blur backdrop */
+  .backdrop-blur-soft {
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+  }
+
+  /* Remove list styles - OPUS philosophy */
+  .list-clean {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  /* Reduce motion support */
+  @media (prefers-reduced-motion: reduce) {
+    html:focus-within {
+      scroll-behavior: auto;
+    }
+    .btn-primary, .btn-secondary, .card, a {
+      transition: none !important;
+    }
+  }
+}
