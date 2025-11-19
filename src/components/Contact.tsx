@@ -277,11 +277,12 @@ const Contact = () => {
                 </motion.div>
 
                 <motion.div variants={itemVariants} className="relative">
-                  <label className="block text-sm font-medium text-text-primary mb-2">
+                  <label htmlFor="event-date" className="block text-sm font-medium text-text-primary mb-2">
                     Event Date
                   </label>
                   <div className="relative">
                     <input
+                      id="event-date"
                       type="date"
                       name="date"
                       value={formData.date}
@@ -289,6 +290,7 @@ const Contact = () => {
                       onFocus={() => setFocusedField('date')}
                       onBlur={() => setFocusedField(null)}
                       className="form-input"
+                      aria-label="Event Date"
                     />
                     <motion.div
                       animate={{
@@ -306,15 +308,17 @@ const Contact = () => {
               {/* Service Type & Guests Row */}
               <div className="grid md:grid-cols-2 gap-6">
                 <motion.div variants={itemVariants}>
-                  <label className="block text-sm font-medium text-text-primary mb-2">
+                  <label htmlFor="service-type" className="block text-sm font-medium text-text-primary mb-2">
                     Service Type *
                   </label>
                   <select
+                    id="service-type"
                     name="service"
                     required
                     value={formData.service}
                     onChange={handleChange}
                     className="form-input"
+                    aria-label="Service Type"
                   >
                     <option value="private-event">Private Event / Dinner Party</option>
                     <option value="meal-prep">Weekly Meal Preparation</option>
