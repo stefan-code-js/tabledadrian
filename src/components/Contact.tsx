@@ -13,7 +13,12 @@ import {
   Instagram,
   Twitter,
   Linkedin,
-  Github
+  Github,
+  MessageSquare,
+  Globe,
+  Layers,
+  Sparkles,
+  Shield
 } from 'lucide-react';
 
 const Contact = () => {
@@ -452,15 +457,22 @@ const Contact = () => {
                 <div className="flex gap-4">
                   {[
                     { name: 'instagram', Icon: Instagram, href: 'https://instagram.com/tabledadrian' },
-                    { name: 'twitter', Icon: Twitter, href: 'https://twitter.com/tabledadrian' },
+                    { name: 'x', Icon: Twitter, href: 'https://x.com/tabledadrian?s=21' },
+                    { name: 'threads', Icon: MessageSquare, href: 'https://www.threads.com/@tabledadrian?igshid=NTc4MTIwNjQ2YQ==' },
                     { name: 'linkedin', Icon: Linkedin, href: 'https://www.linkedin.com/in/adrian-stefan-badea-82456131b/' },
-                    { name: 'github', Icon: Github, href: 'https://github.com/tabledadriandev/tabledadrian' }
+                    { name: 'github', Icon: Github, href: 'https://github.com/tabledadriandev' },
+                    { name: 'truth-social', Icon: Shield, href: 'https://truthsocial.com/@tabledadrian' },
+                    { name: 'farcaster', Icon: Globe, href: 'https://farcaster.xyz/adrsteph.base.eth' },
+                    { name: 'base', Icon: Layers, href: 'https://base.app/profile/adrsteph' },
+                    { name: 'zora', Icon: Sparkles, href: 'https://zora.co/@adrianstefan' },
+                    { name: 'gronda', Icon: Globe, href: 'https://chefadrianstefan.gronda.com' }
                   ].map(({ name, Icon, href }) => (
                     <a
                       key={name}
                       href={href}
                       target="_blank"
                       rel="noopener noreferrer"
+                      aria-label={`Follow us on ${name}`}
                       className="w-10 h-10 bg-accent-primary/10 border border-accent-primary/20 flex items-center justify-center hover:bg-white/20 hover:text-white/90 transition-colors duration-300 rounded-md"
                     >
                       <Icon size={20} className="text-accent-primary" strokeWidth={1.5} />

@@ -1,15 +1,31 @@
 'use client';
 
-import { Instagram, Twitter, Linkedin, Github } from 'lucide-react';
+import { 
+  Instagram, 
+  Twitter, 
+  Linkedin, 
+  Github, 
+  MessageSquare,
+  Globe,
+  Layers,
+  Sparkles,
+  Shield
+} from 'lucide-react';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   const socialLinks = [
     { name: 'Instagram', Icon: Instagram, href: 'https://instagram.com/tabledadrian' },
-    { name: 'Twitter', Icon: Twitter, href: 'https://twitter.com/tabledadrian' },
+    { name: 'X', Icon: Twitter, href: 'https://x.com/tabledadrian?s=21' },
+    { name: 'Threads', Icon: MessageSquare, href: 'https://www.threads.com/@tabledadrian?igshid=NTc4MTIwNjQ2YQ==' },
     { name: 'LinkedIn', Icon: Linkedin, href: 'https://www.linkedin.com/in/adrian-stefan-badea-82456131b/' },
-    { name: 'GitHub', Icon: Github, href: 'https://github.com/tabledadriandev/tabledadrian' },
+    { name: 'GitHub', Icon: Github, href: 'https://github.com/tabledadriandev' },
+    { name: 'Truth Social', Icon: Shield, href: 'https://truthsocial.com/@tabledadrian' },
+    { name: 'Farcaster', Icon: Globe, href: 'https://farcaster.xyz/adrsteph.base.eth' },
+    { name: 'Base', Icon: Layers, href: 'https://base.app/profile/adrsteph' },
+    { name: 'Zora', Icon: Sparkles, href: 'https://zora.co/@adrianstefan' },
+    { name: 'Gronda', Icon: Globe, href: 'https://chefadrianstefan.gronda.com' },
   ];
 
   return (
