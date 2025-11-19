@@ -11,15 +11,10 @@ import {
   Calendar, 
   MapPin,
   Instagram,
-  Twitter,
   Linkedin,
-  Github,
-  MessageSquare,
-  Globe,
-  Layers,
-  Sparkles,
-  Shield
+  Github
 } from 'lucide-react';
+import { XIcon, ThreadsIcon, TruthSocialIcon, FarcasterIcon, BaseIcon, ZoraIcon, GrondaIcon } from './SocialIcons';
 
 const Contact = () => {
   const [ref, inView] = useInView({
@@ -457,15 +452,15 @@ const Contact = () => {
                 <div className="flex gap-4">
                   {[
                     { name: 'instagram', Icon: Instagram, href: 'https://instagram.com/tabledadrian' },
-                    { name: 'x', Icon: Twitter, href: 'https://x.com/tabledadrian?s=21' },
-                    { name: 'threads', Icon: MessageSquare, href: 'https://www.threads.com/@tabledadrian?igshid=NTc4MTIwNjQ2YQ==' },
+                    { name: 'x', Icon: XIcon, href: 'https://x.com/tabledadrian?s=21' },
+                    { name: 'threads', Icon: ThreadsIcon, href: 'https://www.threads.com/@tabledadrian?igshid=NTc4MTIwNjQ2YQ==' },
                     { name: 'linkedin', Icon: Linkedin, href: 'https://www.linkedin.com/in/adrian-stefan-badea-82456131b/' },
                     { name: 'github', Icon: Github, href: 'https://github.com/tabledadriandev' },
-                    { name: 'truth-social', Icon: Shield, href: 'https://truthsocial.com/@tabledadrian' },
-                    { name: 'farcaster', Icon: Globe, href: 'https://farcaster.xyz/adrsteph.base.eth' },
-                    { name: 'base', Icon: Layers, href: 'https://base.app/profile/adrsteph' },
-                    { name: 'zora', Icon: Sparkles, href: 'https://zora.co/@adrianstefan' },
-                    { name: 'gronda', Icon: Globe, href: 'https://chefadrianstefan.gronda.com' }
+                    { name: 'truth-social', Icon: TruthSocialIcon, href: 'https://truthsocial.com/@tabledadrian' },
+                    { name: 'farcaster', Icon: FarcasterIcon, href: 'https://farcaster.xyz/adrsteph.base.eth' },
+                    { name: 'base', Icon: BaseIcon, href: 'https://base.app/profile/adrsteph' },
+                    { name: 'zora', Icon: ZoraIcon, href: 'https://zora.co/@adrianstefan' },
+                    { name: 'gronda', Icon: GrondaIcon, href: 'https://chefadrianstefan.gronda.com' }
                   ].map(({ name, Icon, href }) => (
                     <a
                       key={name}
