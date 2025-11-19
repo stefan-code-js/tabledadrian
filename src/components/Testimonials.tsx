@@ -54,7 +54,7 @@ const Testimonials = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.3 }}
                 transition={{ duration: 0.6 }}
-                className="h-full card p-8"
+                className="h-full card p-8 border-0"
               >
                 <p className="text-lg text-text-primary mb-6 leading-relaxed">"{t.quote}"</p>
                 <footer className="text-sm text-text-secondary">

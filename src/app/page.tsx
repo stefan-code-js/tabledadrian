@@ -40,8 +40,8 @@ export default function Home() {
               "name": "London"
             },
             "areaServed": ["UK", "France", "Europe"],
-            "telephone": "+44 20 1234 5678",
-            "email": "chef@tabledadrian.com",
+            "telephone": "+33615963046",
+            "email": "adrian@tabledadrian.com",
             "address": {
               "@type": "PostalAddress",
               "addressCountry": "GB",
@@ -56,7 +56,7 @@ export default function Home() {
             "sameAs": [
               "https://instagram.com/tabledadrian",
               "https://twitter.com/tabledadrian",
-              "https://linkedin.com/company/tabledadrian"
+              "https://www.linkedin.com/in/adrian-stefan-badea-82456131b/"
             ],
             "hasOfferCatalog": {
               "@type": "OfferCatalog",

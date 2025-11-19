@@ -43,11 +43,6 @@ const Hero = () => {
     return () => ctx.revert();
   }, []);
 
-  const handleContactClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    document.querySelector('#contact')?.scrollIntoView({ behavior: 'smooth' });
-  };
-
   const handleServicesClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     document.querySelector('#services')?.scrollIntoView({ behavior: 'smooth' });
@@ -74,13 +69,12 @@ const Hero = () => {
 
           {/* CTA Buttons */}
           <div ref={buttonsRef} className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <button
-              onClick={handleContactClick}
+            <a
+              href="mailto:adrian@tabledadrian.com"
               className="btn-primary"
-              type="button"
             >
               Book Your Private Chef
-            </button>
+            </a>
             <button
               onClick={handleServicesClick}
               className="btn-secondary"

@@ -8,7 +8,7 @@ const Footer = () => {
   const socialLinks = [
     { name: 'Instagram', Icon: Instagram, href: 'https://instagram.com/tabledadrian' },
     { name: 'Twitter', Icon: Twitter, href: 'https://twitter.com/tabledadrian' },
-    { name: 'LinkedIn', Icon: Linkedin, href: 'https://linkedin.com/company/tabledadrian' },
+    { name: 'LinkedIn', Icon: Linkedin, href: 'https://www.linkedin.com/in/adrian-stefan-badea-82456131b/' },
   ];
 
   return (

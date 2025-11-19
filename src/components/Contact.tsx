@@ -196,7 +196,7 @@ const Contact = () => {
                       onFocus={() => setFocusedField('phone')}
                       onBlur={() => setFocusedField(null)}
                       className="form-input"
-                      placeholder="+44 20 1234 5678"
+                      placeholder="+33615963046"
                     />
                     <motion.div
                       animate={{
@@ -339,7 +339,7 @@ const Contact = () => {
               
               <div className="space-y-4">
                 <a
-                  href="tel:+442012345678"
+                  href="tel:+33615963046"
                   className="flex items-center gap-4 text-text-primary hover:text-white/80 transition-colors duration-300"
                 >
                   <div className="flex-shrink-0 w-12 h-12 bg-accent-primary/10 border border-accent-primary/20 flex items-center justify-center rounded-md">
@@ -347,12 +347,12 @@ const Contact = () => {
                   </div>
                   <div>
                     <p className="font-semibold">Call Us</p>
-                    <p className="text-sm text-text-secondary">+44 20 1234 5678</p>
+                    <p className="text-sm text-text-secondary">+33615963046</p>
                   </div>
                 </a>
 
                 <a
-                  href="mailto:chef@tabledadrian.com"
+                  href="mailto:adrian@tabledadrian.com"
                   className="flex items-center gap-4 text-text-primary hover:text-white/80 transition-colors duration-300"
                 >
                   <div className="flex-shrink-0 w-12 h-12 bg-accent-primary/10 border border-accent-primary/20 flex items-center justify-center rounded-md">
@@ -360,7 +360,7 @@ const Contact = () => {
                   </div>
                   <div>
                     <p className="font-semibold">Email Us</p>
-                    <p className="text-sm text-text-secondary">chef@tabledadrian.com</p>
+                    <p className="text-sm text-text-secondary">adrian@tabledadrian.com</p>
                   </div>
                 </a>
 
@@ -384,7 +384,7 @@ const Contact = () => {
                   {[
                     { name: 'instagram', Icon: Instagram, href: 'https://instagram.com/tabledadrian' },
                     { name: 'twitter', Icon: Twitter, href: 'https://twitter.com/tabledadrian' },
-                    { name: 'linkedin', Icon: Linkedin, href: 'https://linkedin.com/company/tabledadrian' }
+                    { name: 'linkedin', Icon: Linkedin, href: 'https://www.linkedin.com/in/adrian-stefan-badea-82456131b/' }
                   ].map(({ name, Icon, href }) => (
                     <a
                       key={name}
