@@ -25,8 +25,8 @@ A modern, animated landing page for Table d'Adrian, featuring sophisticated anim
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/tabledadrian2.0.git
-cd tabledadrian2.0
+git clone https://github.com/tabledadriandev/tabledadrian.git
+cd tabledadrian
 ```
 
 2. Install dependencies:

@@ -1,6 +1,6 @@
 'use client';
 
-import { Instagram, Twitter, Linkedin } from 'lucide-react';
+import { Instagram, Twitter, Linkedin, Github } from 'lucide-react';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -9,6 +9,7 @@ const Footer = () => {
     { name: 'Instagram', Icon: Instagram, href: 'https://instagram.com/tabledadrian' },
     { name: 'Twitter', Icon: Twitter, href: 'https://twitter.com/tabledadrian' },
     { name: 'LinkedIn', Icon: Linkedin, href: 'https://www.linkedin.com/in/adrian-stefan-badea-82456131b/' },
+    { name: 'GitHub', Icon: Github, href: 'https://github.com/tabledadriandev/tabledadrian' },
   ];
 
   return (

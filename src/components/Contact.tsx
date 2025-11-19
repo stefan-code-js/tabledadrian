@@ -12,7 +12,8 @@ import {
   MapPin,
   Instagram,
   Twitter,
-  Linkedin
+  Linkedin,
+  Github
 } from 'lucide-react';
 
 const Contact = () => {
@@ -452,7 +453,8 @@ const Contact = () => {
                   {[
                     { name: 'instagram', Icon: Instagram, href: 'https://instagram.com/tabledadrian' },
                     { name: 'twitter', Icon: Twitter, href: 'https://twitter.com/tabledadrian' },
-                    { name: 'linkedin', Icon: Linkedin, href: 'https://www.linkedin.com/in/adrian-stefan-badea-82456131b/' }
+                    { name: 'linkedin', Icon: Linkedin, href: 'https://www.linkedin.com/in/adrian-stefan-badea-82456131b/' },
+                    { name: 'github', Icon: Github, href: 'https://github.com/tabledadriandev/tabledadrian' }
                   ].map(({ name, Icon, href }) => (
                     <a
                       key={name}
