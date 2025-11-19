@@ -9,12 +9,9 @@ import {
   Mail, 
   Phone, 
   Calendar, 
-  MapPin,
-  Instagram,
-  Linkedin,
-  Github
+  MapPin
 } from 'lucide-react';
-import { XIcon, ThreadsIcon, TruthSocialIcon, FarcasterIcon, BaseIcon, ZoraIcon, GrondaIcon } from './SocialIcons';
+import Image from 'next/image';
 
 const Contact = () => {
   const [ref, inView] = useInView({
@@ -449,19 +446,19 @@ const Contact = () => {
               {/* Social Links */}
               <div className="mt-8 pt-8 border-t border-border-light">
                 <p className="text-sm font-semibold text-text-primary mb-4">Follow Our Culinary Journey</p>
-                <div className="flex gap-4">
+                <div className="flex gap-4 flex-wrap">
                   {[
-                    { name: 'instagram', Icon: Instagram, href: 'https://instagram.com/tabledadrian' },
-                    { name: 'x', Icon: XIcon, href: 'https://x.com/tabledadrian?s=21' },
-                    { name: 'threads', Icon: ThreadsIcon, href: 'https://www.threads.com/@tabledadrian?igshid=NTc4MTIwNjQ2YQ==' },
-                    { name: 'linkedin', Icon: Linkedin, href: 'https://www.linkedin.com/in/adrian-stefan-badea-82456131b/' },
-                    { name: 'github', Icon: Github, href: 'https://github.com/tabledadriandev' },
-                    { name: 'truth-social', Icon: TruthSocialIcon, href: 'https://truthsocial.com/@tabledadrian' },
-                    { name: 'farcaster', Icon: FarcasterIcon, href: 'https://farcaster.xyz/adrsteph.base.eth' },
-                    { name: 'base', Icon: BaseIcon, href: 'https://base.app/profile/adrsteph' },
-                    { name: 'zora', Icon: ZoraIcon, href: 'https://zora.co/@adrianstefan' },
-                    { name: 'gronda', Icon: GrondaIcon, href: 'https://chefadrianstefan.gronda.com' }
-                  ].map(({ name, Icon, href }) => (
+                    { name: 'instagram', icon: '/icons/instagram-icon.svg', href: 'https://instagram.com/tabledadrian' },
+                    { name: 'x', icon: '/icons/x_dark.svg', href: 'https://x.com/tabledadrian?s=21' },
+                    { name: 'threads', icon: '/icons/threads.svg', href: 'https://www.threads.com/@tabledadrian?igshid=NTc4MTIwNjQ2YQ==' },
+                    { name: 'linkedin', icon: '/icons/linkedin.svg', href: 'https://www.linkedin.com/in/adrian-stefan-badea-82456131b/' },
+                    { name: 'github', icon: '/icons/github_dark.svg', href: 'https://github.com/tabledadriandev' },
+                    { name: 'truth-social', icon: '/icons/truthsocial.svg', href: 'https://truthsocial.com/@tabledadrian' },
+                    { name: 'farcaster', icon: '/icons/Farcaster--Streamline-Simple-Icons (1).svg', href: 'https://farcaster.xyz/adrsteph.base.eth' },
+                    { name: 'base', icon: '/icons/coinbase.svg', href: 'https://base.app/profile/adrsteph' },
+                    { name: 'zora', icon: '/icons/zora.svg', href: 'https://zora.co/@adrianstefan' },
+                    { name: 'gronda', icon: '/icons/Gronda.svg', href: 'https://chefadrianstefan.gronda.com' }
+                  ].map(({ name, icon, href }) => (
                     <a
                       key={name}
                       href={href}
@@ -470,7 +467,13 @@ const Contact = () => {
                       aria-label={`Follow us on ${name}`}
                       className="w-10 h-10 bg-accent-primary/10 border border-accent-primary/20 flex items-center justify-center hover:bg-white/20 hover:text-white/90 transition-colors duration-300 rounded-md"
                     >
-                      <Icon size={20} className="text-accent-primary" strokeWidth={1.5} />
+                      <Image
+                        src={icon}
+                        alt={name}
+                        width={20}
+                        height={20}
+                        className="object-contain"
+                      />
                     </a>
                   ))}
                 </div>

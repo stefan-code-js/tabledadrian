@@ -1,26 +1,21 @@
 'use client';
 
-import { 
-  Instagram, 
-  Linkedin, 
-  Github
-} from 'lucide-react';
-import { XIcon, ThreadsIcon, TruthSocialIcon, FarcasterIcon, BaseIcon, ZoraIcon, GrondaIcon } from './SocialIcons';
+import Image from 'next/image';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   const socialLinks = [
-    { name: 'Instagram', Icon: Instagram, href: 'https://instagram.com/tabledadrian' },
-    { name: 'X', Icon: XIcon, href: 'https://x.com/tabledadrian?s=21' },
-    { name: 'Threads', Icon: ThreadsIcon, href: 'https://www.threads.com/@tabledadrian?igshid=NTc4MTIwNjQ2YQ==' },
-    { name: 'LinkedIn', Icon: Linkedin, href: 'https://www.linkedin.com/in/adrian-stefan-badea-82456131b/' },
-    { name: 'GitHub', Icon: Github, href: 'https://github.com/tabledadriandev' },
-    { name: 'Truth Social', Icon: TruthSocialIcon, href: 'https://truthsocial.com/@tabledadrian' },
-    { name: 'Farcaster', Icon: FarcasterIcon, href: 'https://farcaster.xyz/adrsteph.base.eth' },
-    { name: 'Base', Icon: BaseIcon, href: 'https://base.app/profile/adrsteph' },
-    { name: 'Zora', Icon: ZoraIcon, href: 'https://zora.co/@adrianstefan' },
-    { name: 'Gronda', Icon: GrondaIcon, href: 'https://chefadrianstefan.gronda.com' },
+    { name: 'Instagram', icon: '/icons/instagram-icon.svg', href: 'https://instagram.com/tabledadrian' },
+    { name: 'X', icon: '/icons/x_dark.svg', href: 'https://x.com/tabledadrian?s=21' },
+    { name: 'Threads', icon: '/icons/threads.svg', href: 'https://www.threads.com/@tabledadrian?igshid=NTc4MTIwNjQ2YQ==' },
+    { name: 'LinkedIn', icon: '/icons/linkedin.svg', href: 'https://www.linkedin.com/in/adrian-stefan-badea-82456131b/' },
+    { name: 'GitHub', icon: '/icons/github_dark.svg', href: 'https://github.com/tabledadriandev' },
+    { name: 'Truth Social', icon: '/icons/truthsocial.svg', href: 'https://truthsocial.com/@tabledadrian' },
+    { name: 'Farcaster', icon: '/icons/Farcaster--Streamline-Simple-Icons (1).svg', href: 'https://farcaster.xyz/adrsteph.base.eth' },
+    { name: 'Base', icon: '/icons/coinbase.svg', href: 'https://base.app/profile/adrsteph' },
+    { name: 'Zora', icon: '/icons/zora.svg', href: 'https://zora.co/@adrianstefan' },
+    { name: 'Gronda', icon: '/icons/Gronda.svg', href: 'https://chefadrianstefan.gronda.com' },
   ];
 
   return (
@@ -33,10 +28,8 @@ const Footer = () => {
           </p>
 
           {/* Social Links */}
-          <div className="flex justify-center gap-4 mb-10">
-            {socialLinks.map((social) => {
-              const IconComponent = social.Icon;
-              return (
+          <div className="flex justify-center gap-4 mb-10 flex-wrap">
+            {socialLinks.map((social) => (
               <a
                 key={social.name}
                 href={social.href}
@@ -45,14 +38,15 @@ const Footer = () => {
                 aria-label={`Follow us on ${social.name}`}
                 className="w-10 h-10 bg-accent-primary/10 border border-accent-primary/20 flex items-center justify-center hover:bg-white/20 hover:text-white/90 transition-colors duration-300 rounded-md"
               >
-                <IconComponent 
-                  size={20} 
-                  className="text-bg-primary" 
-                  strokeWidth={1.5}
+                <Image
+                  src={social.icon}
+                  alt={social.name}
+                  width={20}
+                  height={20}
+                  className="object-contain"
                 />
               </a>
-              );
-            })}
+            ))}
           </div>
 
           {/* Divider */}
