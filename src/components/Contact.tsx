@@ -2,7 +2,8 @@
 
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import emailjs from '@emailjs/browser';
 import { 
   Check, 
   Mail, 
@@ -35,19 +36,86 @@ const Contact = () => {
   const [submitting, setSubmitting] = useState(false);
   const [statusMessage, setStatusMessage] = useState<string | null>(null);
 
+  // Initialize EmailJS
+  useEffect(() => {
+    const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
+    if (publicKey) {
+      emailjs.init(publicKey);
+    }
+  }, []);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSubmitting(true);
     setStatusMessage('Sending your inquiry...');
+    
     try {
-      // Simulate async submission
-      await new Promise((res) => setTimeout(res, 1000));
-      setStatusMessage('Thank you! Your inquiry has been sent. We will get back to you shortly.');
-      setFormData({
-        name: '', email: '', phone: '', date: '', guests: '', service: 'private-event', dietary: '', message: ''
-      });
-    } catch (err) {
-      setStatusMessage('Sorry, something went wrong. Please try again later.');
+      // Check if EmailJS is configured
+      const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
+      const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID;
+      const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
+
+      if (!serviceId || !templateId || !publicKey) {
+        throw new Error('Email service is not configured. Please set up EmailJS environment variables.');
+      }
+
+      // Format service type for display
+      const serviceTypes: { [key: string]: string } = {
+        'private-event': 'Private Event / Dinner Party',
+        'meal-prep': 'Weekly Meal Preparation',
+        'corporate': 'Corporate Event',
+        'special-occasion': 'Special Occasion',
+      };
+
+      const serviceTypeDisplay = serviceTypes[formData.service] || formData.service;
+
+      // Prepare template parameters
+      // Note: Make sure your EmailJS template has "To Email" set to adrian@tabledadrian.com
+      // OR use a template parameter like {{to_email}} if your template supports it
+      const templateParams = {
+        from_name: formData.name,
+        from_email: formData.email,
+        phone: formData.phone || 'Not provided',
+        event_date: formData.date || 'Not specified',
+        guests: formData.guests || 'Not specified',
+        service_type: serviceTypeDisplay,
+        dietary: formData.dietary || 'None',
+        message: formData.message || 'No additional information',
+        to_email: 'adrian@tabledadrian.com',
+        reply_to: formData.email,
+      };
+
+      // Send email using EmailJS
+      const result = await emailjs.send(
+        serviceId,
+        templateId,
+        templateParams,
+        publicKey
+      );
+
+      if (result.status === 200) {
+        setStatusMessage('Thank you! Your inquiry has been sent. We will get back to you shortly.');
+        setFormData({
+          name: '', email: '', phone: '', date: '', guests: '', service: 'private-event', dietary: '', message: ''
+        });
+      } else {
+        throw new Error('Failed to send email');
+      }
+    } catch (err: any) {
+      console.error('Error sending email:', err);
+      
+      // Provide more specific error messages
+      let errorMessage = 'Sorry, something went wrong. Please try again later.';
+      
+      if (err.message?.includes('not configured')) {
+        errorMessage = 'Email service is not configured. Please contact the website administrator.';
+      } else if (err.text) {
+        errorMessage = `Error: ${err.text}. Please check your EmailJS configuration.`;
+      } else if (err.message) {
+        errorMessage = `Error: ${err.message}`;
+      }
+      
+      setStatusMessage(errorMessage);
     } finally {
       setSubmitting(false);
     }
