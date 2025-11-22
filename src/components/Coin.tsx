@@ -96,7 +96,7 @@ const Coin = () => {
               transition={{ duration: 0.8, delay: 0.4 }}
               className="text-2xl sm:text-3xl text-accent-primary mb-4 font-display"
             >
-              TDA
+              TA
             </motion.p>
             <motion.div
               initial={{ opacity: 0, y: 20 }}
