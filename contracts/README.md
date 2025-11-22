@@ -64,68 +64,6 @@ npx hardhat run scripts/deploy.js --network base
 **Contract Address:** `0x9cb5254319f824a2393ecbf6adcf608867aa1b07`  
 **View on BaseScan:** [basescan.org/address/0x9cb5254319f824a2393ecbf6adcf608867aa1b07](https://basescan.org/address/0x9cb5254319f824a2393ecbf6adcf608867aa1b07)
 
-## Liquidity & Volume Creation
-
-### Add Liquidity to Uniswap
-
-Add initial liquidity to create a trading pair:
-
-```bash
-npm run add-liquidity
-```
-
-Or directly:
-```bash
-npx hardhat run scripts/addLiquidity.js --network base
-```
-
-This script:
-- Approves tokens for Uniswap Router
-- Adds liquidity (tokens + ETH) to Uniswap V2
-- Creates the TA/ETH trading pair
-
-### Create Trading Volume
-
-Generate trading activity to build volume:
-
-```bash
-npm run create-volume
-```
-
-Or directly:
-```bash
-npx hardhat run scripts/createVolume.js --network base
-```
-
-This script:
-- Executes multiple buy/sell cycles
-- Creates trading volume on Uniswap
-- Helps establish market activity
-
-### Complete Setup
-
-Run the full liquidity setup:
-
-```bash
-npm run setup-liquidity
-```
-
-Or directly:
-```bash
-npx hardhat run scripts/setupLiquidity.js --network base
-```
-
-**Environment Variables** (optional, in `.env`):
-```
-PRIVATE_KEY=your_private_key
-TOKEN_AMOUNT=50000000000000000000000000  # 50M tokens in wei
-ETH_AMOUNT=0.5  # ETH amount for liquidity
-```
-
-**Note:** Make sure you have:
-- Sufficient token balance
-- Sufficient ETH for gas and liquidity
-- Private key set in `.env` file
 
 ## Contract Functions
 
