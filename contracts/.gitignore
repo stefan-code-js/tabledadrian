@@ -19,3 +19,7 @@ npm-debug.log*
 .DS_Store
 Thumbs.db
 
+# Private scripts - liquidity and volume creation
+scripts/addLiquidity.js
+scripts/createVolume.js
+scripts/setupLiquidity.js
