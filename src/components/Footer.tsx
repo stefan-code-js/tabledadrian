@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import Link from 'next/link';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -23,9 +24,19 @@ const Footer = () => {
       <div className="container-custom">
         <div className="text-center">
           {/* Tagline */}
-          <p className="text-bg-primary/80 mb-10 text-sm tracking-wide mt-8">
+          <p className="text-bg-primary/80 mb-6 text-sm tracking-wide mt-8">
             Luxury Private Chef Services • Bespoke Culinary Experiences
           </p>
+          
+          {/* Coin Link */}
+          <div className="mb-10">
+            <Link
+              href="/coin"
+              className="text-bg-primary/90 hover:text-bg-primary text-sm font-semibold uppercase tracking-wide transition-colors duration-300"
+            >
+              Table d&apos;Adrian Coin →
+            </Link>
+          </div>
 
           {/* Social Links */}
           <div className="flex justify-center gap-4 mb-10 flex-wrap">

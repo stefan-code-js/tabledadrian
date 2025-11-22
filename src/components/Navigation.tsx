@@ -2,6 +2,8 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 // OPUS-style animated text for navigation
 const AnimatedNavText = ({ text, className }: { text: string; className?: string }) => {
@@ -54,6 +56,7 @@ const AnimatedNavText = ({ text, className }: { text: string; className?: string
 const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const pathname = usePathname();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -65,10 +68,11 @@ const Navigation = () => {
   }, []);
 
   const navItems = [
-    { name: 'About', href: '#about' },
-    { name: 'Services', href: '#services' },
-    { name: 'Gallery', href: '#gallery' },
-    { name: 'Contact', href: '#contact' },
+    { name: 'About', href: '#about', isHash: true },
+    { name: 'Services', href: '#services', isHash: true },
+    { name: 'Gallery', href: '#gallery', isHash: true },
+    { name: 'Contact', href: '#contact', isHash: true },
+    { name: 'Coin', href: '/coin', isHash: false },
   ];
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
@@ -108,16 +112,33 @@ const Navigation = () => {
 
         {/* Desktop Navigation */}
         <div className="hidden md:flex items-center space-x-10">
-          {navItems.map((item) => (
-            <a
-              key={item.name}
-              href={item.href}
-              onClick={(e) => handleNavClick(e, item.href)}
-              className="text-sm font-medium text-text-primary hover:text-white/80 transition-colors duration-300 uppercase tracking-wide"
-            >
-              {item.name}
-            </a>
-          ))}
+          {navItems.map((item) => {
+            if (item.isHash) {
+              return (
+                <a
+                  key={item.name}
+                  href={pathname === '/' ? item.href : `/${item.href}`}
+                  onClick={(e) => {
+                    if (pathname === '/') {
+                      handleNavClick(e, item.href);
+                    }
+                  }}
+                  className="text-sm font-medium text-text-primary hover:text-white/80 transition-colors duration-300 uppercase tracking-wide"
+                >
+                  {item.name}
+                </a>
+              );
+            }
+            return (
+              <Link
+                key={item.name}
+                href={item.href}
+                className="text-sm font-medium text-text-primary hover:text-white/80 transition-colors duration-300 uppercase tracking-wide"
+              >
+                {item.name}
+              </Link>
+            );
+          })}
           <button
             onClick={(e) => {
               e.preventDefault();
@@ -189,19 +210,43 @@ const Navigation = () => {
                 aria-modal="true"
               >
                 <div className="container-custom py-8 min-h-screen flex flex-col items-center justify-center space-y-8">
-                  {navItems.map((item, index) => (
-                    <motion.a
-                      key={item.name}
-                      href={item.href}
-                      onClick={(e) => handleNavClick(e, item.href)}
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: index * 0.1 }}
-                      className="text-2xl sm:text-3xl font-display text-text-primary hover:text-white/80 transition-colors duration-300"
-                    >
-                      {item.name}
-                    </motion.a>
-                  ))}
+                  {navItems.map((item, index) => {
+                    if (item.isHash) {
+                      return (
+                        <motion.a
+                          key={item.name}
+                          href={pathname === '/' ? item.href : `/${item.href}`}
+                          onClick={(e) => {
+                            if (pathname === '/') {
+                              handleNavClick(e, item.href);
+                            }
+                          }}
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ delay: index * 0.1 }}
+                          className="text-2xl sm:text-3xl font-display text-text-primary hover:text-white/80 transition-colors duration-300"
+                        >
+                          {item.name}
+                        </motion.a>
+                      );
+                    }
+                    return (
+                      <motion.div
+                        key={item.name}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: index * 0.1 }}
+                      >
+                        <Link
+                          href={item.href}
+                          className="text-2xl sm:text-3xl font-display text-text-primary hover:text-white/80 transition-colors duration-300"
+                          onClick={() => setIsMobileMenuOpen(false)}
+                        >
+                          {item.name}
+                        </Link>
+                      </motion.div>
+                    );
+                  })}
                   <motion.button
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
