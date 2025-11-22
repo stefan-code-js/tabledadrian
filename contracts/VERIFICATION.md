@@ -1,12 +1,12 @@
 # Contract Verification Guide
 
-This guide explains how to verify the TableDadrian token contract on BaseScan.
+This guide explains how to verify the TableDadrian token contract on BaseScan using alternative methods (no API key required).
 
 ## Prerequisites
 
-1. **BaseScan API Key**: Get your free API key from [BaseScan API Keys](https://basescan.org/myapikey)
-2. **Contract Address**: `0x9cb5254319f824a2393ecbf6adcf608867aa1b07`
-3. **Constructor Arguments**: The exact values used when deploying the contract
+1. **Contract Address**: `0x9cb5254319f824a2393ecbf6adcf608867aa1b07`
+2. **Constructor Arguments**: The exact values used when deploying the contract
+3. **Flattened Contract**: Single file with all imports resolved (generated automatically)
 
 ## Setup
 
@@ -15,36 +15,52 @@ This guide explains how to verify the TableDadrian token contract on BaseScan.
 npm install
 ```
 
-2. Create a `.env` file in the `contracts/` directory:
+2. Generate flattened contract (required for manual verification):
 ```bash
-cp .env.example .env
+npm run flatten
 ```
 
-3. Add your BaseScan API key to `.env`:
-```
-BASESCAN_API_KEY=your_api_key_here
-```
+This creates `flattened/TableDadrian_Flattened.sol` with all imports resolved.
 
-4. Update constructor arguments in `scripts/verify.js` with the actual deployment values:
-   - `initialOwner`: Address that owns the contract
-   - `initialTreasury`: Initial treasury wallet address
-   - `initialBusiness`: Initial business wallet address
-   - `initialSupply`: Initial supply minted (in wei, e.g., "1000000000000000000000" for 1000 tokens)
-
-## Verification Methods
-
-### Method 1: Using Hardhat Verify Plugin (Recommended)
-
+3. Get constructor arguments:
 ```bash
-npx hardhat run scripts/verify.js --network base
+npm run get-args
 ```
 
-Or use the npm script:
+Follow the instructions to find and decode constructor arguments from the deployment transaction.
+
+## Verification Methods (No API Key Required)
+
+### Method 1: Manual Verification via BaseScan Web Interface (Recommended)
+
+**Step 1: Prepare the Contract**
 ```bash
-npm run verify
+npm run flatten
 ```
+This creates a single file with all code in `flattened/TableDadrian_Flattened.sol`
 
-### Method 2: Manual Verification via BaseScan
+**Step 2: Get Constructor Arguments**
+1. Go to your contract on BaseScan: https://basescan.org/address/0x9cb5254319f824a2393ecbf6adcf608867aa1b07
+2. Click on the "Contract Creation" transaction
+3. Scroll to "Input Data" section
+4. Copy the constructor arguments (the part after the function selector)
+5. Use [ABI Decoder](https://abi.hashex.org/) to decode if needed
+
+**Step 3: Verify on BaseScan**
+1. Go to: https://basescan.org/address/0x9cb5254319f824a2393ecbf6adcf608867aa1b07
+2. Click the **"Contract"** tab
+3. Click **"Verify and Publish"** button
+4. Select **"Solidity (Single file)"** as verification type
+5. Fill in the form:
+   - **Compiler Version**: `v0.8.20+commit.a1b79de6` (or latest 0.8.20)
+   - **License**: `MIT`
+   - **Optimization**: `Yes` (200 runs)
+   - **Contract Name**: `TableDadrian`
+   - **Constructor Arguments**: Paste the ABI-encoded constructor arguments
+   - **Source Code**: Open `flattened/TableDadrian_Flattened.sol` and copy the entire contents
+6. Click **"Verify and Publish"**
+
+### Method 2: Sourcify Verification (Decentralized, No API Key)
 
 1. Go to [BaseScan Contract Page](https://basescan.org/address/0x9cb5254319f824a2393ecbf6adcf608867aa1b07)
 2. Click on "Contract" tab
@@ -57,33 +73,72 @@ npm run verify
    - **Constructor Arguments**: ABI-encoded constructor parameters
    - **Source Code**: Paste the entire `TableDadrian.sol` file
 
-### Method 3: Using Hardhat Verify Command Directly
+**Option A: Using Sourcify Web Interface**
+1. Go to: https://sourcify.dev/#/verifier
+2. Select network: **Base (Chain ID: 8453)**
+3. Enter contract address: `0x9cb5254319f824a2393ecbf6adcf608867aa1b07`
+4. Upload contract files:
+   - `contracts/TableDadrian.sol`
+   - All OpenZeppelin contracts from `node_modules/@openzeppelin/contracts/`
+5. Or upload the flattened contract: `flattened/TableDadrian_Flattened.sol`
+6. Click **"Verify"**
+
+**Option B: Using Sourcify CLI**
+```bash
+npm install -g @sourcify/cli
+sourcify verify --chain 8453 0x9cb5254319f824a2393ecbf6adcf608867aa1b07
+```
+
+**Option C: Using Hardhat Script**
+```bash
+npm run verify-sourcify
+```
+
+### Method 3: Using Hardhat Verify (If API Key Available)
+
+If you manage to get a BaseScan API key in the future:
 
 ```bash
-npx hardhat verify \
-  --network base \
-  --constructor-args scripts/constructor-args.js \
-  0x9cb5254319f824a2393ecbf6adcf608867aa1b07
+# Set API key in .env file
+BASESCAN_API_KEY=your_api_key_here
+
+# Run verification
+npm run verify
 ```
 
 ## Getting Constructor Arguments
 
-If you don't have the constructor arguments from deployment, you can:
+**Automated Helper:**
+```bash
+npm run get-args
+```
 
-1. Check the deployment transaction on BaseScan
-2. Decode the constructor arguments from the transaction input data
-3. Use a tool like [ABI Decoder](https://abi.hashex.org/) to decode the parameters
+**Manual Method:**
+1. Go to BaseScan: https://basescan.org/address/0x9cb5254319f824a2393ecbf6adcf608867aa1b07
+2. Click on the "Contract Creation" transaction (the one that created the contract)
+3. Scroll to "Input Data" section
+4. The constructor arguments are in the "Input Data" field (after the function selector)
+5. Use an ABI decoder to decode:
+   - [ABI Decoder](https://abi.hashex.org/)
+   - [4byte.directory](https://www.4byte.directory/)
+   - [MyEtherWallet Decoder](https://www.myetherwallet.com/tools/abi-decoder)
+
+**Constructor Parameters (in order):**
+- `address initialOwner` - Contract owner address
+- `address initialTreasury` - Treasury wallet address
+- `address initialBusiness` - Business wallet address
+- `uint256 initialSupply` - Initial supply minted (in wei)
 
 ## Verification Checklist
 
 Before verifying, ensure:
 
 - [ ] Contract is deployed on Base mainnet
-- [ ] BaseScan API key is set in `.env`
-- [ ] Constructor arguments are correct
+- [ ] Flattened contract is generated (`npm run flatten`)
+- [ ] Constructor arguments are obtained and decoded
 - [ ] Solidity compiler version matches (0.8.20)
 - [ ] Optimization settings match (enabled, 200 runs)
-- [ ] OpenZeppelin contracts are accessible (if using flattened source)
+- [ ] License is set to MIT
 
 ## Troubleshooting
 
@@ -97,10 +152,11 @@ Before verifying, ensure:
 - Verify deployment transaction to get exact values
 
 ### "Unable to verify contract"
-- Check API key is valid
-- Ensure network is correct (Base mainnet)
-- Verify compiler version matches
-- Check that OpenZeppelin contracts can be resolved
+- Ensure network is correct (Base mainnet, Chain ID: 8453)
+- Verify compiler version matches exactly (0.8.20)
+- Check optimization settings (enabled, 200 runs)
+- Ensure flattened contract includes all imports
+- Verify constructor arguments are correctly ABI-encoded
 
 ### "Contract not found"
 - Verify contract address is correct
@@ -115,11 +171,32 @@ Once verified, you can:
 - Share verified contract link
 - Build trust with community
 
+## Quick Start (Recommended Method)
+
+1. **Generate flattened contract:**
+   ```bash
+   npm run flatten
+   ```
+
+2. **Get constructor arguments:**
+   - Visit: https://basescan.org/address/0x9cb5254319f824a2393ecbf6adcf608867aa1b07
+   - Click "Contract Creation" transaction
+   - Copy constructor arguments from "Input Data"
+
+3. **Verify on BaseScan:**
+   - Go to contract page → "Contract" tab → "Verify and Publish"
+   - Select "Solidity (Single file)"
+   - Paste flattened contract code
+   - Enter constructor arguments
+   - Submit
+
 ## Additional Resources
 
-- [BaseScan Documentation](https://docs.basescan.org/)
-- [Hardhat Verify Plugin](https://hardhat.org/hardhat-runner/plugins/nomicfoundation-hardhat-verify)
+- [BaseScan Verification Guide](https://info.basescan.org/how-to-verify-contracts/)
+- [Sourcify Documentation](https://docs.sourcify.dev/)
+- [Hardhat Flatten Command](https://hardhat.org/hardhat-runner/docs/advanced/flattening)
 - [Solidity Documentation](https://docs.soliditylang.org/)
+- [ABI Decoder Tools](https://abi.hashex.org/)
 
 ## Security Note
 
