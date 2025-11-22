@@ -291,7 +291,7 @@ const Coin = () => {
             <div className="space-y-8">
               {[
                 {
-                  quarter: 'Q1 2024',
+                  quarter: 'Q1 2026',
                   title: 'Foundation & Launch',
                   items: [
                     'Token launch on Base network',
@@ -301,7 +301,7 @@ const Coin = () => {
                   ],
                 },
                 {
-                  quarter: 'Q2 2024',
+                  quarter: 'Q2 2026',
                   title: 'Integration & Expansion',
                   items: [
                     'Token integration for booking system',
@@ -311,7 +311,7 @@ const Coin = () => {
                   ],
                 },
                 {
-                  quarter: 'Q3 2024',
+                  quarter: 'Q3 2026',
                   title: 'Digital Assets & Partnerships',
                   items: [
                     'Exclusive NFT collection launch',
@@ -321,7 +321,7 @@ const Coin = () => {
                   ],
                 },
                 {
-                  quarter: 'Q4 2024',
+                  quarter: 'Q4 2026',
                   title: 'Scale & Innovation',
                   items: [
                     'Regulatory compliance framework',
