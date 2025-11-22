@@ -814,9 +814,9 @@ contract TableDadrian is ERC20, ERC20Pausable, Ownable, ReentrancyGuard {
     
     /**
      * @notice Gets contract information
-     * @return name Token name
-     * @return symbol Token symbol
-     * @return totalSupply Current total supply
+     * @return tokenName Token name
+     * @return tokenSymbol Token symbol
+     * @return currentSupply Current total supply
      * @return maxSupply Maximum supply
      * @return treasury Current treasury wallet
      * @return business Current business wallet
@@ -825,9 +825,9 @@ contract TableDadrian is ERC20, ERC20Pausable, Ownable, ReentrancyGuard {
         external 
         view 
         returns (
-            string memory name,
-            string memory symbol,
-            uint256 totalSupply,
+            string memory tokenName,
+            string memory tokenSymbol,
+            uint256 currentSupply,
             uint256 maxSupply,
             address treasury,
             address business

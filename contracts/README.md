@@ -61,6 +61,28 @@ Update deployment parameters in `scripts/deploy.js` and run:
 npx hardhat run scripts/deploy.js --network base
 ```
 
+## Verification
+
+Verify your contract on BaseScan to make the source code publicly viewable and build trust.
+
+### Quick Start
+
+1. Get a BaseScan API key from [basescan.org/myapikey](https://basescan.org/myapikey)
+2. Create `.env` file with your API key:
+   ```
+   BASESCAN_API_KEY=your_api_key_here
+   ```
+3. Update constructor arguments in `scripts/verify.js` with actual deployment values
+4. Run verification:
+   ```bash
+   npm run verify
+   ```
+
+For detailed verification instructions, see [VERIFICATION.md](./VERIFICATION.md).
+
+**Contract Address:** `0x9cb5254319f824a2393ecbf6adcf608867aa1b07`  
+**View on BaseScan:** [basescan.org/address/0x9cb5254319f824a2393ecbf6adcf608867aa1b07](https://basescan.org/address/0x9cb5254319f824a2393ecbf6adcf608867aa1b07)
+
 ## Contract Functions
 
 ### Minting & Burning
