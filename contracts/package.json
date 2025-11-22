@@ -5,11 +5,7 @@
   "scripts": {
     "compile": "hardhat compile",
     "test": "hardhat test",
-    "deploy": "hardhat run scripts/deploy.js",
-    "flatten": "hardhat run scripts/flatten.js",
-    "verify": "hardhat run scripts/verify.js --network base",
-    "verify-sourcify": "hardhat run scripts/verify-sourcify.js --network base",
-    "get-args": "hardhat run scripts/get-constructor-args.js"
+    "deploy": "hardhat run scripts/deploy.js"
   },
   "dependencies": {
     "@openzeppelin/contracts": "^5.0.0"
@@ -19,4 +15,3 @@
     "hardhat": "^2.19.0"
   }
 }
-
